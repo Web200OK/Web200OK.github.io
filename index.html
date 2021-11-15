@@ -64,52 +64,6 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-a" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/11/15/a/" class="article-date">
-  <time datetime="2021-11-15T14:52:20.723Z" itemprop="datePublished">2021-11-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<h2>HTTPS三次握手</h2>
-
-<p>一、客户端与服务端协商加密方式</p>
-<ol>
-<li>客户端发送Client Hello报文开始``SSL<code>通信，报文中包含客户端支持的</code>SSL`版本、加密组件列表以及生成的随机数（这里记为A）</li>
-<li>服务端可进行``SSL<code>通信时以Server Hello报文作为应答，报文中包含支持的</code>SSL`版本以及加密组件（从接收到的客户端加密组件中筛选的）以及生成的随机数（这里记为B）</li>
-<li>服务端发送Server Hello Done报文，报文中包含公开密钥证书CA</li>
-</ol>
-<p>二、客户端与服务端互相确认身份</p>
-<p>客户端通过证书校验服务端身份（在这个阶段，服务端也可以要求验证客户端的身份，即客户端发送其证书，服务端接收并验证）</p>
-<p>三、产生通信密钥</p>
-<ol>
-<li>证书校验通过，客户端生成一个随机数（这里记为C），发送Client Key Exchange报文，报文中包含Pre-master secret随机密码串，是使用服务端下发的证书中的公钥加密随机数C得到的。</li>
-<li>客户端继续发送Change Cipher Spec报文，用于告知服务器客户端已经切换到之前协商好的加密套件的状态，准备使用之前协商的加密套件加密数据并传输</li>
-<li>客户端发送Finished报文，报文中包含连接至今全部报文的整体校验值，用于服务器校验 。</li>
-<li>服务器接收到客户端请求之后，使用私钥解密报文得到随机数C，并使用随机数A、B、C生成Session Key，作为后续传输数据使用的对称密钥。（客户端同样使用这三个随机数生成对称密钥Session Key）</li>
-<li>服务器同样发送Change Cipher Spec报文，用于告知客户端服务器已经切换到之前协商好的加密套件的状态，准备使用之前协商的加密套件加密数据并传输</li>
-<li>服务器发送Finished报文，报文中包含连接至今全部报文的整体校验值，用于客户端校验 ，至此``SSL`连接建立完成。</li>
-</ol>
-<h2 id=""><a href="#" class="headerlink" title=""></a><img src="C:\Users\chenzehong\Desktop\1"></h2>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/11/15/a/" data-id="ckw0se25s000114ug460ih43r" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
     <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/11/15/hello-world/" class="article-date">
@@ -149,7 +103,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/11/15/hello-world/" data-id="ckw0se25i000014ug69yj5n5w" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/11/15/hello-world/" data-id="ckw0sgu330000c8ug5y1o6bjy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -188,10 +142,6 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
-        
-          <li>
-            <a href="/2021/11/15/a/">(no title)</a>
-          </li>
         
           <li>
             <a href="/2021/11/15/hello-world/">Hello World</a>
