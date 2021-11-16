@@ -1016,7 +1016,6 @@ html.show-mobile-nav .navbar-list {
 }
 .content-container.article-list .card-container.article-card {
   padding: var(--content-large-padding);
-  background-img: url("https://qiniu.sukoshi.xyz/src/images/68686407_p0.jpg");
 }
 .content-container.post-container {
   display: flex;
