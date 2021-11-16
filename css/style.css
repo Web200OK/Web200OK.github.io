@@ -696,6 +696,7 @@ html.show-mobile-nav .navbar-list {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+  background-image: url("https://qiniu.sukoshi.xyz/src/images/68686407_p0.jpg");
 }
 .card-container .card-cover::after {
   content: "";
