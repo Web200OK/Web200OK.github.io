@@ -1015,7 +1015,6 @@ html.show-mobile-nav .navbar-list {
   max-width: 100%;
 }
 .content-container.article-list .card-container.article-card {
-  background-image: url("https://qiniu.sukoshi.xyz/src/images/68686407_p0.jpg");
   padding: var(--content-large-padding);
 }
 .content-container.post-container {

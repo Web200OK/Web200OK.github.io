@@ -77,6 +77,15 @@ window.addEventListener("DOMContentLoaded", function() {
 
   /** handle lazy bg iamge */
   handleLazyBG();
+  
+  /**随机选取图片作为背景图片**/
+  const articlePho = document.querySelectorAll(".card-container.article-card");
+  let photosurl = ["https://gss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/f11f3a292df5e0fe8aeec2985b6034a85fdf72b0.jpg","https://tse1-mm.cn.bing.net/th/id/R-C.fcf068a71276f953c95956e4d2cf1ba1?rik=lMAqu2lCHQGI2g&riu=http%3a%2f%2fup.zhuoku.org%2fpic%2f63%2f1a%2fa8%2f631aa8ac703c48df2f4db5f5c5da8159.jpeg&ehk=Q5ov9NQp3NWY7QJwmaJJkN2OAJ9tIgvmw4ylklbmVZI%3d&risl=&pid=ImgRaw&r=0"]
+  for(let i = 0;i < articlePho.length;i++){
+	let num = Math.floor(Math.random()*photosurl.length)
+	articlePho[i].style.backgroundImage.URL = articlePho[num]
+  }
+  
 });
 
 /**
@@ -118,3 +127,5 @@ function handleLazyBG () {
     })
   }
 }
+
+
