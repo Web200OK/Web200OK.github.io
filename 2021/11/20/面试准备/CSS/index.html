@@ -201,6 +201,40 @@
 <li>两个相邻的外边距都是负数时，折叠结果是两者绝对值的较大值。</li>
 <li>两个外边距一正一负时，折叠结果是两者的相加的和。</li>
 </ul>
+<h3 id="8-清除浮动"><a href="#8-清除浮动" class="headerlink" title="8.清除浮动"></a>8.清除浮动</h3><ul>
+<li>给父级div定义<code>height</code>属性 </li>
+<li>最后一个浮动元素之后添加一个空的div标签，并添加<code>clear:both</code>样式 </li>
+<li>包含浮动元素的父级标签添加<code>overflow:hidden</code>或者<code>overflow:auto</code> </li>
+<li>使用 :after 伪元素</li>
+</ul>
+<h3 id="9-offset-scroll-client-各类属性"><a href="#9-offset-scroll-client-各类属性" class="headerlink" title="9.offset/scroll/client 各类属性"></a>9.offset/scroll/client 各类属性</h3><h4 id="clientX-clientY"><a href="#clientX-clientY" class="headerlink" title="clientX clientY"></a>clientX clientY</h4><ul>
+<li>鼠标相对于浏览器窗口可视区域的 X，Y 坐标 </li>
+</ul>
+<h4 id="pageX-pageY"><a href="#pageX-pageY" class="headerlink" title="pageX pageY"></a>pageX pageY</h4><ul>
+<li>类似于 clientX，clientY，但它们使用的是文档坐标而非窗口坐标。具体来说,<strong>pageY = clientY + 页面滚动高度</strong>。 </li>
+</ul>
+<h4 id="offsetX-offsetY"><a href="#offsetX-offsetY" class="headerlink" title="offsetX offsetY"></a>offsetX offsetY</h4><ul>
+<li>鼠标相对于事件源元素（srcElement）的 X，Y 坐标</li>
+</ul>
+<p><img src="D:\个人文件\学习课件\大物\976B9A765990D59544D4B6D6655484F3.png"></p>
+<h3 id="10-选择器上的优先级"><a href="#10-选择器上的优先级" class="headerlink" title="10.选择器上的优先级"></a>10.选择器上的优先级</h3><p>对于选择器的<strong>优先级</strong>： </p>
+<ul>
+<li> 标签选择器、伪元素选择器：1 </li>
+<li> 类选择器、伪类选择器、属性选择器：10 </li>
+<li> id 选择器：100 </li>
+<li> 内联样式：1000 </li>
+</ul>
+<p> <strong>注意事项：</strong> </p>
+<ul>
+<li> !important 声明的样式的优先级最高； </li>
+<li> 如果优先级相同，则最后出现的样式生效； </li>
+<li> 继承得到的样式的优先级最低； </li>
+<li> 通用选择器（*）、子选择器（&gt;）和相邻同胞选择器（+）并不在这四个等级中，所以它们的权值都为 0； </li>
+<li> 样式表的来源不同时，优先级顺序为：内联样式 &gt; 内部样式 &gt; 外部样式 &gt; 浏览器用户自定义样式 &gt; 浏览器默认样式。 </li>
+</ul>
+<blockquote>
+<p> 简单记住结论：!important&gt;行内样式&gt;id 选择器&gt;class 选择器/属性选择器&gt;标签选择器&gt;通配符*</p>
+</blockquote>
 
       </section>
 
@@ -210,6 +244,8 @@
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202105/8cdc6ed3420d690280e291bb30f0adda--2098717666.jpg"></div>
     
     <div class="card-text">
       
