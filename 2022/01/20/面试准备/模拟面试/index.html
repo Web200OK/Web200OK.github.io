@@ -22,7 +22,7 @@
 
   
 
-  <title>数据结构与算法篇 | 寒假加油！</title>
+  <title>模拟面试 | 寒假加油！</title>
 
   
 
@@ -45,7 +45,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202112/a0e5c08bdd6987e177763ce93e29bd51--1248981170.jpg)"></div>
+    <div class="post-image" style="background-image: url(http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202106/87ad8b2009c489546b5d0a9482b5f08a--164538143.jpg)"></div>
   
 
   <!-- navbar -->
@@ -96,11 +96,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">数据结构与算法篇</h1>
+          <h1 class="title-wrap">模拟面试</h1>
           <h2 class="title-sub-wrap">
             <strong>ChenZehong</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2021-11-20T12:43:39.204Z" itemprop="datePublished">2021-11-20</time>
+            <time  class="article-date" datetime="2022-01-20T08:58:37.100Z" itemprop="datePublished">2022-01-20</time>
           </h2>
           <ul class="wrap-list dark">
   
@@ -131,35 +131,53 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        
+        <ul>
+<li>说一说什么是大端、小端，如何判断大端和小端 </li>
+</ul>
+<p>1、字节序</p>
+<p><strong>字节顺序</strong>，又称<strong>端序</strong>或<strong>尾序</strong>（英语：<strong>Endianness</strong>）。在计算机科学计算机科学”)领域中，是跨越多字节的程序对象的存储规则。<br>在几乎所有的机器上，多字节对象都被存储为连续的字节序列。例如在C语言中，一个类型为int的变量x地址为0x100，那么其对应地址表达式&amp;x的值为0x100。且x的四个字节将被存储在存储器的0x100, 0x101, 0x102, 0x103位置。</p>
+<p>2、大小端</p>
+<p>在计算机中一般讲字节序分为两类：Big-Endian（大端字节序） 和Little-Endian。<br>a) Little-Endian 高位字节在前，低位字节在后。<br>b) Big-Endian 低位字节在前，高位字节在后。<br>c) 网络字节序：TCP/IP各层协议将字节序定义为Big-Endian，因此TCP/IP协议中使用的字节序通常称之为网络字节序。</p>
+<ul>
+<li>说一说vue-router 实现懒加载的方法？</li>
+</ul>
+<p>vue-router 实现懒加载的方法有两种：</p>
+<p>ES6的impot方式:</p>
+<blockquote>
+<p>component: () =&gt; import(/* webpackChunkName: “about” */ ‘../views/About.vue’),</p>
+</blockquote>
+<p>VUE中的异步组件进行懒加载方式:</p>
+<blockquote>
+<p>component: resolve=&gt;(require([‘../views/About’],resolve))</p>
+</blockquote>
+<p>加分回答<br>vue-router 实现懒加载的作用：性能优化，不用到该路由，不加载该组件。<br>【延伸阅读】<br>需要路由懒加载的原因<br>Vue是单页面应用，如果没有应用懒加载，运用webpack打包后的文件将会异常的大。造成进入首页时，需要加载的内容过多，时间过长，会出啊先长时间的白屏，即使做了loading也是不利于用户体验。而运用懒加载则可以将页面进行划分，需要的时候加载页面，可以有效的分担首页所承担的加载压力，减少首页加载用时。</p>
+<ul>
+<li>XSS攻击是什么？</li>
+</ul>
+<p>XSS是跨站脚本攻击(Cross Site Scripting)，不写为CSS是为了避免和层叠样式表（Cascading Style Sheets）的缩写混淆，所以将跨站脚本攻击写为XSS。攻击者可以通过向Web页面里面插入script代码，当用户浏览这个页面时，就会运行被插入的script代码，达到攻击者的目的。XSS的危害一般是泄露用户的登录信息cookie，攻击者可以通过cookie绕过登录步骤直接进入站点。XSS的分类分为反射型和存储型。反射型就是临时通过url访问网站，网站服务端将恶意代码从url中取出，拼接在HTML中返回给浏览器，用户就会执行恶意代码。存储型就是将恶意代码以留言的形式保存在服务器数据库，任何访问网站的人都会受到攻击。预防XSS攻击的方案基本是对数据进行严格的输出编码，比如HTML元素的编码，JavaScript编码，css编码，url编码等等。</p>
+<p>加分回答<br>XSS的危害：<br>•  获取cookie：网站中的登录一般都是用cookie作为某个用户的身份证明，这是服务器端返回的一串字符。如果cookie被攻击者拿到，那么就可以绕过密码登录。当空间、论坛如果可以被插入script代码，那么进入空间或者论坛的人的账号就可以轻易被攻击者获取。<br>•  恶意跳转：直接在页面中插入window.location.href进行跳转。<br>XSS的分类：<br>•  反射型XSS（非持久型XSS）：通过URL参数直接注入<br>•  存储型XSS（持久型XSS）：存储到数据库后读取时注入<br>XSS的预防：<br>•  浏览器的防御和“X-XSS-Protection”有关，默认值为1，即默认打开XSS防御，可以防御反射型的XSS，不过作用有限，只能防御注入到HTML的节点内容或属性的XSS，例如URL参数中包含script标签。不建议只依赖此防御手段。<br>•  防御HTML节点内容，通过转义&lt;为&amp;lt以及&gt;为&amp;gt来实现防御HTML节点内容。<br>•  预防HTML属性，通过转义”-&gt;&amp;quto来实现防御，一般不转义空格，但是这要求属性必须带引号。<br>•  预防JavaScript代码，通过将数据进行JSON序列化。<br>•  防御富文本是比较复杂的工程，因为富文本可以包含HTML和script，这些难以预测与防御，建议是通过白名单的方式来过滤允许的HTML标签和标签的属性来进行防御，大概的实现方式是：<br>o  将HTML代码段转成树级结构的数据<br>o  遍历树的每一个节点，过滤节点的类型和属性，或进行特殊处理<br>o  处理完成后，将树级结构转化成HTML代码<br>•  开启浏览器XSS防御：Http Only cookie，禁止 JavaScript 读取某些敏感 Cookie，攻击者完成XSS注入后也无法窃取此 Cookie。</p>
+<ul>
+<li>合法的IPv4 或 IPv6 地址</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1. 合法的IPv4:</span><br><span class="line">1.1 .分割为4组</span><br><span class="line">1.2 每组不为空</span><br><span class="line">1.3 每组长度 &lt;= 3</span><br><span class="line">1.4 每组在0~255之间</span><br><span class="line">1.5 每组不包含前导0, 除非本身为0</span><br><span class="line">/^[1-9]\d&#123;0,2&#125;$/</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">2. 合法的IPv6:</span><br><span class="line">2.1 : 分割为8组</span><br><span class="line">2.2 每组不为空</span><br><span class="line">2.3 每组长度 &lt;=4</span><br><span class="line">2.4 每组为一个16进制数: 即字符范围为: 0~9, a~f, A~F</span><br><span class="line">/^[0-9a-fA-F]&#123;1,4&#125;$/</span><br></pre></td></tr></table></figure>
       </section>
 
       
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-    <div class="card-text">
-      
-        <a href="/2021/11/20/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/Vue/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">Vue篇</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
+      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202112/f2cc6f11765e7a781d280f27b9cfce04--1119317250.jpg"></div>
+    
     <div class="card-text">
       
-        <a href="/2021/11/20/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E8%AE%A1%E7%BD%91/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">计算机网络篇</h2>
+        <a href="/2022/01/13/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">春招加油！</h2>
         </a>
       
       <div class="card-text--row">Older</div>
