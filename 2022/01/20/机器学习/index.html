@@ -22,7 +22,7 @@
 
   
 
-  <title>Vue篇 | 寒假加油！</title>
+  <title>寒假加油！</title>
 
   
 
@@ -96,15 +96,13 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">Vue篇</h1>
+          <h1 class="title-wrap"></h1>
           <h2 class="title-sub-wrap">
             <strong>ChenZehong</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2021-11-20T12:43:46.915Z" itemprop="datePublished">2021-11-20</time>
+            <time  class="article-date" datetime="2022-01-20T14:30:12.238Z" itemprop="datePublished">2022-01-20</time>
           </h2>
           <ul class="wrap-list dark">
-  
-    <li><a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">📒 面试准备</a></li>
   
 </ul>
           <ul class="wrap-list dark">
@@ -131,37 +129,60 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        
+        <ul>
+<li>神经网络的层：</li>
+</ul>
+<p>第一层称为输入层，节点数量取决于数据集中存在的特征数量</p>
+<p>最后一层称为输出层，数量取决于要预测的内容，对于回归和二元分类任务可以使用单个节点；对于多类问题，将使用多个节点，具体取决于类的数量</p>
+<p>中间的层称为隐藏层，隐藏层可以任意深或宽，计算时间会随深入而增加</p>
+<ul>
+<li>权重与偏差：</li>
+</ul>
+<p>权重：衡量某个特征对预测的贡献程度的确定程度</p>
+<p>偏差：预测必须从其开始的基值</p>
+<ul>
+<li>激活函数：</li>
+</ul>
+<p>激活函数由神经网络隐藏层中的每个节点计算</p>
+<p>输出层计算的结果不是通过另一个激活函数传递，而是通过输出函数传递，取决于要预测的内容</p>
+<ul>
+<li>损失函数：</li>
+</ul>
+<p>损失函数是一种衡量模型预测好坏的方法，可以调整权重和偏差</p>
+<p>必须正确设计损失函数，以便可以正确地惩罚错误的模型奖励正确的模型，这意味着希望损失表明所做的预测是远离还是接近真实预测。损失函数取决于任务，对于分类问题可以使用交叉熵损失。</p>
+<ul>
+<li>前进：前向传播</li>
+</ul>
+<p>前向传播是神经网络在做出预测之前执行的一系列计算的名称</p>
+<ul>
+<li>反向传播：</li>
+</ul>
+<p>反向传播是通过更新其权重和偏差来训练神经网络的过程的名称</p>
+<p>神经网络通过不断尝试不同的权重然后比较损失来学习预测正确的值，如果损失函数减少，那么当前的权重比之前的要好，反之亦然。这意味着神经网络必须经过多次训练和更新循环才能获得最佳权重和偏差。这个循环就是训练阶段，寻找合适的权重的过程就是优化。</p>
+<ul>
+<li>训练和测试网络：</li>
+</ul>
+<p>将数据拆分为训练集和测试集</p>
+<p>对其进行标准化</p>
+<p>初始化一个模型</p>
+<p>使用模型进行训练和预测</p>
+
       </section>
 
       
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202106/441605e59eded497543730e17c311cb6--4202900814.jpg"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2021/12/10/%E7%AE%97%E6%B3%95/%E5%9F%BA%E6%9C%AC%E7%AE%97%E6%B3%95/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">基本算法</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
+      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202106/87ad8b2009c489546b5d0a9482b5f08a--164538143.jpg"></div>
+    
     <div class="card-text">
       
-        <a href="/2021/11/20/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">数据结构与算法篇</h2>
+        <a href="/2022/01/20/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E6%A8%A1%E6%8B%9F%E9%9D%A2%E8%AF%95/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">模拟面试</h2>
         </a>
       
       <div class="card-text--row">Older</div>
