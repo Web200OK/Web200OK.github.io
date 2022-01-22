@@ -131,7 +131,16 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        
+        <ul>
+<li>说说路由？</li>
+</ul>
+<p>路由route就是URL到函数的一个映射，router就是管理多个路由的一个容器，当接收到一个URL需要去路由映射表中查找相应的函数。</p>
+<p>服务器端的路由就是当接收到客户端发来的HTTP请求时会根据请求的URL找到相对应的映射函数并执行，然后将返回值发送给客户端。</p>
+<p>客户端路由通常就是进行一些DOM的显示与隐藏，当访问不同的路径时，会显示不同的页面组件，客户端实现路由有两种基本方式：</p>
+<p>基于Hash：就是URL中#及其后面的部分为hash,hash仅仅是客户端的一个状态，当发送请求时hash部分不会发送出去</p>
+<p>基于History API：就是在不刷新页面的情况下，直接改变当前URL，需要后端人员的支持</p>
+<p>在Vue中路由的使用，第一步需要先安装vue-router，第二步就是使用该插件，然后在router配置项里编写路由的相关信息，最后指定路由展示位置实现切换。</p>
+
       </section>
 
       
@@ -256,20 +265,14 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8A%E6%97%A5%E6%8A%A5/">
-            大三上日报 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
             大三寒假日报 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
-            网站介绍 (1)
+          <a href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8A%E6%97%A5%E6%8A%A5/">
+            大三上日报 (1)
           </a>
         </li>
       
@@ -280,14 +283,20 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (1)
+          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
+            网站介绍 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
             面试准备 (7)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (1)
           </a>
         </li>
       

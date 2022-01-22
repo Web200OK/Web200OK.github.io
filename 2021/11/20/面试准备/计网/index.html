@@ -131,7 +131,41 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        
+        <ul>
+<li>知道哪些计算机网络模型？OSI 和 TCP/IP</li>
+</ul>
+<p>OSI模型一共有七层：应用层、表示层、会话层、传输层、网络层、数据链路层、物理层</p>
+<p>TCP/IP模型有五层：应用层、传输层、网络层、数据链路层、物理层</p>
+<ul>
+<li>TCP是怎么判断丢包的？</li>
+</ul>
+<p>TCP通过肯定的确认应答（ACK）来实现可靠的数据传输。当发送端数据发出后会等待对方的确认应答，如果有则说明数据已经成功到达对端，在一定时间内没有等到确认应答就可以认为数据已经丢失并进行重发。</p>
+<ul>
+<li>Cookie Session Token的原理</li>
+</ul>
+<p>cookie的原理：</p>
+<ol>
+<li>客户端第一次发送请求时发送数据到服务器</li>
+<li>服务器返回响应消息的同时传回一个cookie</li>
+<li>客户端接收到服务器的响应后将cookie存放在一个统一的地方</li>
+<li>客户端再次向服务器发送请求时会把cookie写进请求头然后发给服务器</li>
+</ol>
+<p>session的原理：</p>
+<ol>
+<li>服务器在处理客户端请求过程中会创建session，并为session生成一个唯一的ID</li>
+<li>服务器将sessionID发送给客户端</li>
+<li>当客户端再次发送请求时会带上这个sessionID</li>
+<li>服务器接收到请求之后会根据ID找到相对应的session，完成请求</li>
+</ol>
+<p>token的原理：</p>
+<ol>
+<li>客户端第一次请求时，发送用户信息到服务器，服务器对用户信息使用加密算法和密钥进行签名，再将这个签名和数据一起作为token返回给客户端</li>
+<li>服务端不再保存token，客户端保存token</li>
+<li>当客户端再次发送请求时在请求信息中将token一起发送给服务器</li>
+<li>服务器使用相同的加密算法和密钥对数据再进行一次签名，和token的签名作比较</li>
+<li>如果相同则知道客户端登录过</li>
+</ol>
+
       </section>
 
       
@@ -256,20 +290,14 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8A%E6%97%A5%E6%8A%A5/">
-            大三上日报 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
             大三寒假日报 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
-            网站介绍 (1)
+          <a href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8A%E6%97%A5%E6%8A%A5/">
+            大三上日报 (1)
           </a>
         </li>
       
@@ -280,14 +308,20 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (1)
+          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
+            网站介绍 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
             面试准备 (7)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (1)
           </a>
         </li>
       
