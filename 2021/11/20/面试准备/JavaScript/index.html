@@ -246,6 +246,22 @@
 </ul>
 <p>当我们声明一个函数的时候，会在函数内部自动创建一个原型对象，就是prototype，它是一个空的Object对象，我们可以在这个对象中添加属性，当我们使用new关键字创建一个新的对象时，会自动创建一个<code>__proto__</code>，它会指向构造函数的原型对象，这就是原型链。</p>
 <p>当我们在这个对象中查找一个属性或方法时，会先在自己的私有属性中进行查找，如果找不到会顺着<code>__proto__</code>原型链进行查找，直到null都没有找到则报错。</p>
+<ul>
+<li>实现一个bind函数</li>
+</ul>
+<p>原理：通过apply或call方法实现</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//由于在new一个bind过生成的新函数时，必须的条件就是要继承原函数的原型</span></span><br><span class="line"><span class="built_in">Function</span>.prototype.bind = <span class="function"><span class="keyword">function</span>(<span class="params">obj,arg</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">const</span> arg = <span class="built_in">Array</span>.prototype.slice.call(arg,<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">const</span> context = <span class="built_in">this</span></span><br><span class="line">    <span class="keyword">let</span> bound = <span class="function"><span class="keyword">function</span>(<span class="params">newArg</span>)</span>&#123;</span><br><span class="line">        arg = arg.concat.call(<span class="built_in">Array</span>.prototype.slice.(newArg))</span><br><span class="line">        <span class="keyword">return</span> context.apply(obj,arg)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> F = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">    F.prototype = context.prototype</span><br><span class="line">    bound.prototype = <span class="keyword">new</span> F()</span><br><span class="line">    <span class="keyword">return</span> bound</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>用setTimeout实心setInterval：</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mySetTimeout</span>(<span class="params">fn,millisec</span>)</span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">interval</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">setTimeout</span>(interval,millisec)</span><br><span class="line">        fn()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">setTimeout</span>(interval,millisec)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>JS怎么控制一次加载一张图片，加载完再加载下一张？</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type = <span class="string">&quot;text/javascript&quot;</span>&gt;</span><br><span class="line">	<span class="keyword">var</span> obj = <span class="keyword">new</span> Image()</span><br><span class="line">	obj.src = <span class="string">&quot;网址&quot;</span></span><br><span class="line">	obj.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">document</span>.getElementById(<span class="string">&quot;id&quot;</span>).innerHTML = <span class="string">&quot;&lt;img src = &#x27;+this.src&#x27; /&gt;&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span> = <span class="string">&quot;&quot;</span>&gt;</span>onLoading...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">也可以用obj.onreadyStatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">this</span>.readState == <span class="string">&quot;complete&quot;</span>)&#123;</span><br><span class="line">    	<span class="built_in">document</span>.getElementById(<span class="string">&quot;id&quot;</span>).innerHTML = <span class="string">&quot;&lt;img src = &#x27;+this.src&#x27; /&gt;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;代替</span></span><br></pre></td></tr></table></figure>
+
 
       </section>
 
@@ -371,20 +387,14 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8A%E6%97%A5%E6%8A%A5/">
-            大三上日报 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
             大三寒假日报 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
-            网站介绍 (1)
+          <a href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8A%E6%97%A5%E6%8A%A5/">
+            大三上日报 (1)
           </a>
         </li>
       
@@ -395,14 +405,20 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (1)
+          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
+            网站介绍 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
             面试准备 (7)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (1)
           </a>
         </li>
       
