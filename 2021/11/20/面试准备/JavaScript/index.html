@@ -262,6 +262,35 @@
 </ul>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type = <span class="string">&quot;text/javascript&quot;</span>&gt;</span><br><span class="line">	<span class="keyword">var</span> obj = <span class="keyword">new</span> Image()</span><br><span class="line">	obj.src = <span class="string">&quot;网址&quot;</span></span><br><span class="line">	obj.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">document</span>.getElementById(<span class="string">&quot;id&quot;</span>).innerHTML = <span class="string">&quot;&lt;img src = &#x27;+this.src&#x27; /&gt;&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span> = <span class="string">&quot;&quot;</span>&gt;</span>onLoading...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">也可以用obj.onreadyStatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">this</span>.readState == <span class="string">&quot;complete&quot;</span>)&#123;</span><br><span class="line">    	<span class="built_in">document</span>.getElementById(<span class="string">&quot;id&quot;</span>).innerHTML = <span class="string">&quot;&lt;img src = &#x27;+this.src&#x27; /&gt;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;代替</span></span><br></pre></td></tr></table></figure>
 
+<ul>
+<li>使用Promise.all实现限制并发请求函数：</li>
+</ul>
+<p>所谓并发请求，即有待请求接口100个，限制每次只能发出10个。即同一时刻最多有10个正在发送的请求。</p>
+<p>每当10个之中有一个请求完成，则从待请求的接口中再取出一个发出。保证当前并发度仍旧为10。</p>
+<p>直至最终请求完成。</p>
+<p>设计思路：</p>
+<p>简单思路如下：（假设并发请求函数名字为limitedRequest）</p>
+<ol>
+<li>设定一个数组（命名为：pool），用于后续Promise.all的使用</li>
+<li>当limitedRequest被调用的时候，首先一次性发出10个请求，并放入到pool中</li>
+<li>每一个请求完成后的回调函数中继续触发下一个请求，而下一个请求返回Promise，他的回调函数继续绑定同样的回调函数，即循环调用。（看不懂就直接看代码更易懂）</li>
+<li>直到全部请求完成，停止。</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mockFetch</span>(<span class="params">param</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">            resolve(param)</span><br><span class="line">        &#125;,<span class="number">2000</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">limitedRequest</span>(<span class="params">url,maxnum</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">const</span> pool = []</span><br><span class="line">    <span class="keyword">const</span> initSize = <span class="built_in">Math</span>.min(urls.length,maxNum)</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt; initSize,i++)&#123;</span><br><span class="line">        pool.push(run(urls.splice(<span class="number">0</span>,<span class="number">1</span>)))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">r</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">&quot;当前并发度为：&quot;</span>，pool.length)</span><br><span class="line">        <span class="keyword">if</span>(urls.length === <span class="number">0</span>)&#123;</span><br><span class="line">        	<span class="built_in">console</span>.log(<span class="string">&quot;并发请求已经全部发起&quot;</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">Promise</span>.resolve()</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> run(urls.splice(<span class="number">0</span>,<span class="number">1</span>))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">run</span>(<span class="params">url</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mockFetch(url).then(r)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">Promise</span>.all(pool).then(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&quot;请求已经全部结束&quot;</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line">limitRequest([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>],<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>讲一下数组的方法，哪些会改变原数组哪些不会？</li>
+</ul>
+<p>fill方法：用一个固定值填充一个数组中从起始索引到终止索引的全部元素，不包括最终索引，会改变原数组。</p>
+<p>filter方法：创建一个新的数组，其包含通过所提供函数实现的测试的所有元素，不会改变原数组。</p>
+<p>find方法：返回数组中满足提供的测试函数的第一个元素的值，不会改变原数组。</p>
+<p>flat方法：按照一个深度递归遍历数组，并将所有元素与遍历到的子数组中的元素合并为一个新数组返回，不会改变原数组。</p>
+<p>forEach方法：对数组中的每个元素执行一次给定的函数，会改变原数组</p>
+<p>map方法：创建一个新数组，其结果是该数组中的每个元素是调用一个提供的函数后的返回值，不会改变原数组。</p>
+<p>reduce方法：对数中的每个元素执行一个提供的reduce函数，将其结果汇总为单个返回，不会改变原数组。</p>
+<p>some方法：测试数组中是不是至少有一个元素通过了被提供的函数，返回一个布尔值，不会改变原数组。</p>
+<p>sort方法：对数组元素进行排序，并返回数组，默认排序时将元素转换为字符串，比较他们的UTF-16代码单元值，会改变原数组。</p>
+<p>splice方法：通过删除或替换现有元素或者原地添加新的元素来修改数组，并以数组的形式返回被修改的内容，会改变原数组。</p>
 
       </section>
 
@@ -354,7 +383,7 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>12</span>
+        <span>13</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -387,14 +416,14 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
-            大三寒假日报 (1)
+          <a href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8A%E6%97%A5%E6%8A%A5/">
+            大三上日报 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8A%E6%97%A5%E6%8A%A5/">
-            大三上日报 (1)
+          <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
+            大三寒假日报 (1)
           </a>
         </li>
       
@@ -411,14 +440,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
-            面试准备 (7)
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (1)
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+            面试准备 (7)
           </a>
         </li>
       
