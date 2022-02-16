@@ -276,7 +276,7 @@
 <li>每一个请求完成后的回调函数中继续触发下一个请求，而下一个请求返回Promise，他的回调函数继续绑定同样的回调函数，即循环调用。（看不懂就直接看代码更易懂）</li>
 <li>直到全部请求完成，停止。</li>
 </ol>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mockFetch</span>(<span class="params">param</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">            resolve(param)</span><br><span class="line">        &#125;,<span class="number">2000</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">limitedRequest</span>(<span class="params">url,maxnum</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">const</span> pool = []</span><br><span class="line">    <span class="keyword">const</span> initSize = <span class="built_in">Math</span>.min(urls.length,maxNum)</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt; initSize,i++)&#123;</span><br><span class="line">        pool.push(run(urls.splice(<span class="number">0</span>,<span class="number">1</span>)))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">r</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">&quot;当前并发度为：&quot;</span>，pool.length)</span><br><span class="line">        <span class="keyword">if</span>(urls.length === <span class="number">0</span>)&#123;</span><br><span class="line">        	<span class="built_in">console</span>.log(<span class="string">&quot;并发请求已经全部发起&quot;</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">Promise</span>.resolve()</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> run(urls.splice(<span class="number">0</span>,<span class="number">1</span>))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">run</span>(<span class="params">url</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mockFetch(url).then(r)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">Promise</span>.all(pool).then(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&quot;请求已经全部结束&quot;</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line">limitRequest([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>],<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//用promise实现并发发送多个请求</span></span><br><span class="line">        <span class="comment">//发送请求函数</span></span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">send</span>(<span class="params">param</span>)</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">                resolve(param)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">request</span>(<span class="params">urls,max</span>)</span>&#123;</span><br><span class="line">            <span class="comment">//存放请求的结果</span></span><br><span class="line">            <span class="keyword">let</span> pool = []</span><br><span class="line">            <span class="keyword">let</span> Max = <span class="built_in">Math</span>.min(urls.length,max)</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt; Max;i++)&#123;</span><br><span class="line">                pool.push(send(urls.splice(<span class="number">0</span>,<span class="number">1</span>)).then(resolve))</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//调度函数</span></span><br><span class="line">            <span class="function"><span class="keyword">function</span> <span class="title">resolve</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">&quot;当前并发度为：&quot;</span>,pool.length)</span><br><span class="line">                <span class="keyword">if</span>(urls.length === <span class="number">0</span>)&#123;</span><br><span class="line">                    <span class="built_in">console</span>.log(<span class="string">&quot;请求全部发送成功&quot;</span>)</span><br><span class="line">                    <span class="keyword">return</span> <span class="built_in">Promise</span>.resolve()</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> send(urls.splice(<span class="number">0</span>,<span class="number">1</span>)).then(resolve)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">Promise</span>.all(pool).then(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">&quot;请求结束&quot;</span>)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        request([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>],<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>讲一下数组的方法，哪些会改变原数组哪些不会？</li>
@@ -291,6 +291,15 @@
 <p>some方法：测试数组中是不是至少有一个元素通过了被提供的函数，返回一个布尔值，不会改变原数组。</p>
 <p>sort方法：对数组元素进行排序，并返回数组，默认排序时将元素转换为字符串，比较他们的UTF-16代码单元值，会改变原数组。</p>
 <p>splice方法：通过删除或替换现有元素或者原地添加新的元素来修改数组，并以数组的形式返回被修改的内容，会改变原数组。</p>
+<ul>
+<li>手写原生AJAX：</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> AJAX = &#123;</span><br><span class="line">	<span class="attr">get</span> : <span class="function"><span class="keyword">function</span>(<span class="params">url,callback</span>)</span>&#123;</span><br><span class="line">		<span class="comment">//1、创建一个XMLHttpRequest对象，即异步请求对象</span></span><br><span class="line">		<span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequst()</span><br><span class="line">		<span class="comment">//2、创建一个HTTP请求并配置请求方法，url和验证方法</span></span><br><span class="line">		xhr.open(<span class="string">&quot;GET&quot;</span>,url,<span class="literal">false</span>)</span><br><span class="line">		<span class="comment">//3、设置http响应状态改变的函数</span></span><br><span class="line">		xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">			<span class="keyword">if</span>(xhr.readyState == <span class="number">4</span>)&#123;</span><br><span class="line">				<span class="keyword">if</span>(xhr.status === <span class="number">200</span>)&#123;</span><br><span class="line">					<span class="comment">//5、拿到请求的数据	</span></span><br><span class="line">					<span class="built_in">console</span>.log(responseText)</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//4、发送http请求</span></span><br><span class="line">		xhr.send()	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如何实现 ajax 请求，假如我有多个请求，我需要让这些 ajax 请求按照某种顺序一次执行，有什么办法呢？如何处理 ajax 跨域</li>
+</ul>
+<p>我们可以将多个ajax请求封装进一个数组中，然后使用jQeury的deferred对象，它有一个done和fail函数分别接收的是请求成功执行与失败的回调，当成功执行时我们可以将数组的第一个元素弹出，然后递归执行发送函数，失败的话可以设置重新发送或者将数组第一个元素弹出继续发送下一个请求，最后返回一个promise对象。</p>
 
       </section>
 
@@ -416,20 +425,14 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8A%E6%97%A5%E6%8A%A5/">
-            大三上日报 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
             大三寒假日报 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/TensorFlow-js/">
-            TensorFlow.js (1)
+          <a href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8A%E6%97%A5%E6%8A%A5/">
+            大三上日报 (1)
           </a>
         </li>
       
@@ -440,14 +443,20 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (1)
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
             面试准备 (7)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (1)
           </a>
         </li>
       

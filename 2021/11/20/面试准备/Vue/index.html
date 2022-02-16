@@ -145,7 +145,7 @@
 </ul>
 <p>vue2采用数据劫持结合发布订阅模式，通过Object.defineproperty来劫持各个属性的setter和getter,在数据变动时发布消息给订阅者，触发响应的监听回调。</p>
 <p>当创建Vue实例时，vue会遍历data的所有选项的属性，利用Object,defineproperty为属性添加getter和setter对数据的读取进行劫持，并且在内部追踪依赖，在属性被访问和修改时通知变化。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//订阅器模型</span></span><br><span class="line"><span class="keyword">let</span> dingyue = &#123;</span><br><span class="line">	<span class="keyword">let</span> container = [] <span class="comment">//容器</span></span><br><span class="line">	<span class="comment">//订阅函数</span></span><br><span class="line">	<span class="attr">listen</span> : <span class="function"><span class="keyword">function</span>(<span class="params">key,fn</span>)</span>&#123;</span><br><span class="line">		(container[key] || (container[key] = [])).push(fn) </span><br><span class="line">	&#125; </span><br><span class="line">	<span class="comment">//发布函数</span></span><br><span class="line">	<span class="attr">trigger</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!container[key])&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span> </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">let</span> fns = container[key]</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;fn;fn = fns[i++])&#123;</span><br><span class="line">            fn.apply(<span class="built_in">this</span>,<span class="built_in">arguments</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//数据劫持</span></span><br><span class="line"><span class="comment">//data是一个对象,datakey是键值，tag是标记</span></span><br><span class="line"><span class="keyword">let</span> dataHi = <span class="function"><span class="keyword">function</span>(<span class="params">&#123;data,tag,datakey,selector&#125;</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> value = <span class="string">&quot;&quot;</span></span><br><span class="line">    el = <span class="built_in">document</span>.queryselector(selector)</span><br><span class="line">    <span class="built_in">Object</span>.defineproperty(data,datakey,&#123;</span><br><span class="line">        <span class="attr">get</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(“赋值”)</span><br><span class="line">            <span class="keyword">return</span> value</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="attr">setter</span> : <span class="function"><span class="keyword">function</span>(<span class="params">val</span>)</span>&#123;</span><br><span class="line">        	value = val</span><br><span class="line">        	<span class="built_in">console</span>.log(<span class="string">&quot;改值&quot;</span>)</span><br><span class="line">        	dingyue.trigger(tag,val)</span><br><span class="line">    	&#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    dingyue.listen(tag,fn)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//订阅器模型</span></span><br><span class="line"><span class="keyword">let</span> dingyue = &#123;</span><br><span class="line">	<span class="attr">container</span>: &#123;&#125;</span><br><span class="line">	<span class="comment">//订阅函数</span></span><br><span class="line">	<span class="attr">listen</span> : <span class="function"><span class="keyword">function</span>(<span class="params">key,fn</span>)</span>&#123;</span><br><span class="line">		(container[key] || (container[key] = [])).push(fn) </span><br><span class="line">	&#125; </span><br><span class="line">	<span class="comment">//发布函数</span></span><br><span class="line">	<span class="attr">trigger</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!container[key])&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span> </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">let</span> fns = container[key]</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;fn;fn = fns[i++])&#123;</span><br><span class="line">            fn.apply(<span class="built_in">this</span>,<span class="built_in">arguments</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//数据劫持</span></span><br><span class="line"><span class="comment">//data是一个对象,datakey是键值，tag是标记</span></span><br><span class="line"><span class="keyword">let</span> dataHi = <span class="function"><span class="keyword">function</span>(<span class="params">&#123;data,tag,datakey,selector&#125;</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> value = <span class="string">&quot;&quot;</span></span><br><span class="line">    el = <span class="built_in">document</span>.queryselector(selector)</span><br><span class="line">    <span class="built_in">Object</span>.defineproperty(data,datakey,&#123;</span><br><span class="line">        <span class="attr">get</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(“赋值”)</span><br><span class="line">            <span class="keyword">return</span> value</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="attr">setter</span> : <span class="function"><span class="keyword">function</span>(<span class="params">val</span>)</span>&#123;</span><br><span class="line">        	value = val</span><br><span class="line">        	<span class="built_in">console</span>.log(<span class="string">&quot;改值&quot;</span>)</span><br><span class="line">        	dingyue.trigger(tag,val)</span><br><span class="line">    	&#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    dingyue.listen(tag,fn)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>说说对Vue的理解：</li>
@@ -172,6 +172,27 @@
 <li>简要概述Vue的生命周期：</li>
 </ul>
 <p>生命周期就是Vue从创建到销毁的过程，分为四大步，分别是创建、挂载、更新和销毁。每一步又分为两小步，beforeCreate就是new Vue的时候会初始化事件和生命周期，beforeCreate和crated之间会挂载data，绑定事件；接下来会根据el挂载页面元素。el挂载结束后，根据template或outerHTML渲染页面；beforeMount前虚拟DOM已经创建完成，之后在mounted前，将vm.$el替换掉页面元素el，mounted将虚拟DOM挂载到真实页面，此时页面已经全部渲染完成，之后发生数据变化时触发beforeUpdate和updated进行进行一些操作；最后主动调用销毁函数或者组件自动销毁时beforeDestory，手动撤销监听事件，计时器等；destoryed时仅存在DOM节点，其他所有东西已经自动销毁。</p>
+<ul>
+<li>删除数组成员用delete和Vue.delete的区别：</li>
+</ul>
+<p>delete删除数组成员只是被删除的元素变为empty/undefined，其他元素键值不变</p>
+<p>Vue.delete是直接删除数组元素，改变了数组的键值</p>
+<ul>
+<li>vue的nexttick：</li>
+</ul>
+<p>vue实现响应式并不是在数据变化之后DOM立即变化，而是等同一事件循环中的所有数据变化完成之后再同一进行视图更新。</p>
+<p>vue的nexttick是在下次DOM更新循环结束之后执行延迟回调，在修改数据之后立即使用这个方法，可以获取更新后的DOM。</p>
+<ul>
+<li>vue和react的区别：</li>
+</ul>
+<p>原理上：vue是通过发布订阅模式加数据劫持监听值的变化，从而实现响应式的，vue是双向数据流，使用v-model这一语法糖即可轻松实现数据的双向绑定。react是需要依赖”onchange/serState”模式来实现数据的双向绑定，因为他是单向数据流。</p>
+<p>模板渲染：react在JSX中使用原生的js语法实现插值，条件渲染，循环等。vue则需要依赖指令进行更容易上手，但封装程度更高，调试成本更大。</p>
+<ul>
+<li>计算属性（computed）和监听器（watch）的区别：</li>
+</ul>
+<p>计算属性：计算属性是一个函数，最后函数返回的结果就是计算属性得到的结果，当我们第一次使用计算属性时会执行计算属性并进行计算然后将结果缓存起来，当第二次使用插值表达式或其他方式使用该计算属性时，就会检查计算属性中用到的数据是否发生了变化，如果没有则在直接获取缓存中的值，有则重新计算然后进行缓存。计算属性的应用场景是计算的内容需要依赖多个属性的情况。</p>
+<p>监听器：一个监听器对应data中的一个属性，当属性发生变化时触发监听器的执行。监听器的应用场景是计算的内容依赖一个属性的情况。</p>
+<p>如果数据反复发生变化计算很多次的情况下使用计算属性的开销更大，适合使用监听器；当一个数据反复使用但是它依赖的内容很少发生变化时由于计算属性会缓存计算结果所以更加合适。</p>
 
       </section>
 
@@ -297,20 +318,14 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8A%E6%97%A5%E6%8A%A5/">
-            大三上日报 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
             大三寒假日报 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/TensorFlow-js/">
-            TensorFlow.js (1)
+          <a href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8A%E6%97%A5%E6%8A%A5/">
+            大三上日报 (1)
           </a>
         </li>
       
@@ -321,14 +336,20 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (1)
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
             面试准备 (7)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (1)
           </a>
         </li>
       

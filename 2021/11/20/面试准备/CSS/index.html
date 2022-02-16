@@ -247,6 +247,11 @@
 <li>margin和padding的区别：</li>
 </ul>
 <p>padding是作用于自身，margin是作用于外部对象。</p>
+<ul>
+<li>实现一个渐变色动画：</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#jianbian</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">1000px</span>;</span><br><span class="line">    <span class="attribute">background</span>:<span class="built_in">linear-gradient</span>(<span class="number">45deg</span>,<span class="number">#aabbcc</span>,pink,yellow);</span><br><span class="line">    <span class="attribute">animation</span>:name <span class="number">10s</span> infinite alternate</span><br><span class="line">        (infinite是循环，alternate是轮流反向播放)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@keyframes</span> name &#123;</span><br><span class="line">	<span class="number">100%</span> : &#123;</span><br><span class="line">        filter:<span class="built_in">hue-rotate</span>(<span class="number">360deg</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
       </section>
 
@@ -372,20 +377,14 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8A%E6%97%A5%E6%8A%A5/">
-            大三上日报 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
             大三寒假日报 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/TensorFlow-js/">
-            TensorFlow.js (1)
+          <a href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8A%E6%97%A5%E6%8A%A5/">
+            大三上日报 (1)
           </a>
         </li>
       
@@ -396,14 +395,20 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (1)
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
             面试准备 (7)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (1)
           </a>
         </li>
       

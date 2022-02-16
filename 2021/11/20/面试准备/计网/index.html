@@ -180,6 +180,18 @@
 <p>允许来自不同源的脚本采用异步方式进行有限的通信</p>
 <p>5、基于HTML5的websocket协议</p>
 <p>基于该协议可以做到浏览器与服务器全双工通信，允许跨域请求</p>
+<ul>
+<li>HTTP缓存：</li>
+</ul>
+<p>有效减少网络请求的体积和数量</p>
+<p>强缓存：在第一次请求返回的响应头中添加cache-control，设置max-age有效时间，这样当发送下一次请求时如果在有效期内则直接在缓存中获取资源。</p>
+<p>协商缓存：服务器端缓存策略，在第一次发送请求的响应头中加入资源标识，如果第二次请求发现资源并没有修改过则返回304状态码直接从缓存中获取资源。如果资源已经修改则返回200状态码和最新的资源以及最新的资源标识。资源标识有last-modified和etag，last-modified对应需要在第二次请求的请求中中添加if-modified-since；etag对应需要在第二次请求的请求中中添加if-none-match。</p>
+<p>etag优先级更高，因为last-modified只能精确到秒，而且文件如果隔一段时间重复生成即使内容相同last-modified会每次返回资源文件，而etag可以判断内容相同则返回304从缓存中获取资源。</p>
+<ul>
+<li>js事件循环：</li>
+</ul>
+<p>浏览器由很多模块组成，有解析html和css的模块，有解析js的模块，有定时器模块，有ajax模块。<br>其中v8引擎就是用来解析js的，js是单线程是因为v8引擎是单线程，当v8引擎解析到异步代码时，比如定时器，就会把异步代码交给相关的模块处理，处理完之后，再交给事件队列中排队，当执行栈有空时，消息队列就把事件交给调用栈执行。拿定时器来说，当v8引擎从上往下执行代码，读到定时器的时候。就会把定时器交给定时器模块处理，然后v8引擎继续执行代码，定时器模块会计时，当时间到了，就会把任务交给事件队列，当执行栈有空闲时，事件队列就会把任务推给执行栈，执行栈执行完毕之后将其弹出。如果是promise回调函数则是添加进微任务队列中，当执行栈为空时将任务推给执行栈执行。</p>
+<p>优先级是执行栈&gt;微任务队列&gt;事件队列</p>
 
       </section>
 
@@ -305,20 +317,14 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8A%E6%97%A5%E6%8A%A5/">
-            大三上日报 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
             大三寒假日报 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/TensorFlow-js/">
-            TensorFlow.js (1)
+          <a href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8A%E6%97%A5%E6%8A%A5/">
+            大三上日报 (1)
           </a>
         </li>
       
@@ -329,14 +335,20 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (1)
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
             面试准备 (7)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (1)
           </a>
         </li>
       
