@@ -192,6 +192,14 @@
 </ul>
 <p>浏览器由很多模块组成，有解析html和css的模块，有解析js的模块，有定时器模块，有ajax模块。<br>其中v8引擎就是用来解析js的，js是单线程是因为v8引擎是单线程，当v8引擎解析到异步代码时，比如定时器，就会把异步代码交给相关的模块处理，处理完之后，再交给事件队列中排队，当执行栈有空时，消息队列就把事件交给调用栈执行。拿定时器来说，当v8引擎从上往下执行代码，读到定时器的时候。就会把定时器交给定时器模块处理，然后v8引擎继续执行代码，定时器模块会计时，当时间到了，就会把任务交给事件队列，当执行栈有空闲时，事件队列就会把任务推给执行栈，执行栈执行完毕之后将其弹出。如果是promise回调函数则是添加进微任务队列中，当执行栈为空时将任务推给执行栈执行。</p>
 <p>优先级是执行栈&gt;微任务队列&gt;事件队列</p>
+<ul>
+<li>GET 和 POST 的区别：</li>
+</ul>
+<p>GET是通过URl传递参数，post是通过请求体传递参数</p>
+<p>GET请求在url中是有长度限制的，而post没有</p>
+<p>get比post不安全，因为参数是直接暴露在url中的，所以不能传递敏感信息</p>
+<p>get请求只是读取服务器的数据，不会对服务器中的数据进行修改，而post一般是对数据进行修改</p>
+<p>get请求参数会被完整地保留在浏览器的历史记录里，而post不会</p>
 
       </section>
 
@@ -317,20 +325,8 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
-            大三寒假日报 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8A%E6%97%A5%E6%8A%A5/">
             大三上日报 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
-            网站介绍 (1)
           </a>
         </li>
       
@@ -341,14 +337,26 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
-            面试准备 (7)
+          <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
+            大三寒假日报 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
+            网站介绍 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/%E7%AE%97%E6%B3%95/">
             算法 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+            面试准备 (7)
           </a>
         </li>
       

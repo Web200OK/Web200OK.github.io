@@ -252,6 +252,15 @@
 </ul>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#jianbian</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">1000px</span>;</span><br><span class="line">    <span class="attribute">background</span>:<span class="built_in">linear-gradient</span>(<span class="number">45deg</span>,<span class="number">#aabbcc</span>,pink,yellow);</span><br><span class="line">    <span class="attribute">animation</span>:name <span class="number">10s</span> infinite alternate</span><br><span class="line">        (infinite是循环，alternate是轮流反向播放)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@keyframes</span> name &#123;</span><br><span class="line">	<span class="number">100%</span> : &#123;</span><br><span class="line">        filter:<span class="built_in">hue-rotate</span>(<span class="number">360deg</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<ul>
+<li>给五个div实现以下布局：</li>
+</ul>
+<p>1                1                1</p>
+<p>1                1</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span> = <span class="string">“a”</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span>1<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span>1<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span>1<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span>1<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span>1<span class="tag">&lt;/<span class="name">div</span>&gt;</span>   </span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">第一种：<span class="attribute">flex</span>布局</span><br><span class="line"><span class="selector-id">#a</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">900px</span>;</span><br><span class="line">    <span class="attribute">display</span>:flex;</span><br><span class="line">    <span class="attribute">justify-content</span>:flex-start;</span><br><span class="line">    <span class="attribute">flex-wrap</span>:wrap;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-id">#a</span> &gt; <span class="selector-tag">div</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">300px</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">300px</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">第二种：grid布局</span><br><span class="line"><span class="selector-id">#a</span>&#123;</span><br><span class="line">	<span class="attribute">width</span>: <span class="number">900px</span>;</span><br><span class="line">	<span class="attribute">display</span>: grid;</span><br><span class="line">	grid-template-<span class="attribute">columns</span>: <span class="number">300px</span> <span class="number">300px</span> <span class="number">300px</span>;</span><br><span class="line">    //（也可以用fr作为单位，则是按元素宽度比例）</span><br><span class="line">    //（也可以使用repeat（<span class="number">3</span>,<span class="number">300px</span>）实现重复的单元格）</span><br><span class="line">	grid-template-rows:<span class="number">300px</span> <span class="number">300px</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
 
       </section>
 
@@ -377,20 +386,8 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
-            大三寒假日报 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8A%E6%97%A5%E6%8A%A5/">
             大三上日报 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
-            网站介绍 (1)
           </a>
         </li>
       
@@ -401,14 +398,26 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
-            面试准备 (7)
+          <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
+            大三寒假日报 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
+            网站介绍 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/%E7%AE%97%E6%B3%95/">
             算法 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+            面试准备 (7)
           </a>
         </li>
       
