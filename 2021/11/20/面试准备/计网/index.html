@@ -198,8 +198,83 @@
 <p>GET是通过URl传递参数，post是通过请求体传递参数</p>
 <p>GET请求在url中是有长度限制的，而post没有</p>
 <p>get比post不安全，因为参数是直接暴露在url中的，所以不能传递敏感信息</p>
-<p>get请求只是读取服务器的数据，不会对服务器中的数据进行修改，而post一般是对数据进行修改</p>
+<p>get是一个幂等的请求不会产生对服务器资源产生影响，post不是一个幂等的请求一般用以对服务器资源产生影响的情景，如注册用户</p>
 <p>get请求参数会被完整地保留在浏览器的历史记录里，而post不会</p>
+<ul>
+<li>postq请求与put请求的区别：</li>
+</ul>
+<p>put请求是向服务器端发送数据，从而修改数据的内容，但是不会更新数据的种类，可以理解为更新数据</p>
+<p>post请求是向服务器发送数据，该请求会改变数据的种类等资源，它会创建新的内容。</p>
+<ul>
+<li>常见http请求头：</li>
+</ul>
+<p>Accept：浏览器可处理的内容类型</p>
+<p>Accept-Charset：浏览器能够显示的字符集</p>
+<p>Accept-Encoding：浏览器能够处理的压缩编码</p>
+<p>Connection：浏览器与服务器之间连接的类型</p>
+<p>Cookie：当前页面设置的任何Cookie</p>
+<p>Host：发出请求页面所在的域</p>
+<p>Referer：发出请求的页面的URL</p>
+<p>User-Agent：浏览器的用户代理字符串</p>
+<ul>
+<li>常见http响应头：</li>
+</ul>
+<p>Date：发送消息的时间</p>
+<p>server：服务器名称</p>
+<p>Cache-Control：控制http缓存</p>
+<p>content-type：表示后面的文档属于什么MIME类型</p>
+<ul>
+<li>http码是304多好还是不好？</li>
+</ul>
+<p>304是协商缓存中服务器向客户端返回，允许客户端调用缓存内容的状态码，它不是一种错误。</p>
+<p>但是当304状态码多了之后，搜 索引擎蜘蛛可能会降低对网站的抓取次数，相反如果每次抓取都能获取新内容，回访率也会增加。</p>
+<ul>
+<li>options的主要用途：</li>
+</ul>
+<p>获取服务器支持的所有http请求方法</p>
+<p>用来检查访问权限，例如在进行CORS进行跨域资源共享时，对于复杂请求就是使用options方法发送嗅探请求，以判断是否有对指定资源的访问权限</p>
+<ul>
+<li>http1.0与http1.1之间的区别：</li>
+</ul>
+<p>连接方面：1.0使用非持久连接，1.1使用持久长连接，支持多个http请求使用同一个tcp连接</p>
+<p>资源请求方面：1.0中当客户端需要某个对象的一部分，服务器只能一整个对象，而1.1中引入range允许只请求资源的某个部分，返回码是206</p>
+<p>缓存方面：1.0主要使用If-Modified-Since、Expries来作为缓存判断的标准，1.1则引入了Etag、if-Undified-Since、If-Match、If-None-Match等更多缓存头来控制缓存策略</p>
+<p>1.1新增了host字用来指定服务器的域名，同时新增了许多请求方法，如PUT、HEAD等</p>
+<ul>
+<li>1.1与2.0的区别：</li>
+</ul>
+<p>2.0使用了多路复用，允许在一个tcp连接里客户端与服务器都可以同时发送多个请求或回应，而且不用按照顺序一一发送，避免队头堵塞</p>
+<p>2.0使用了二进制协议，规定头信息和数据体都是二进制</p>
+<p>2.0使用了数据流的概念，它将每个情感求或回应的所有数据包称为一个数据流</p>
+<p>2.0使用了头信息压缩，由于1.1协议不带状态，每次请求都必须附上全部信息，所以请求的很多字段都是重复的，这既浪费带款也影响速度</p>
+<p>2.0允许服务器端主动向客户端推送必要的资源，这样可以减少延迟时间，推送的是静态资源</p>
+<ul>
+<li>对keep-alive的理解：</li>
+</ul>
+<p>keep-alive功能使客户端到服务器端的连接持续有效，当出现对服务器的后续请求时，可以避免建立或者重新建立连接，这就会长连接</p>
+<p>1.0默认是没有keep-alive的要想连接得到保持需要手动配置connection:keep-allive字段，关闭则发送connection:close字段</p>
+<p>1.1规定了默认保持长连接</p>
+<ul>
+<li>keep-alive的建立过程：</li>
+</ul>
+<ol>
+<li>客户端向服务器在发送请求报文同时在首部添加connection字段</li>
+<li>服务器收到请求并处理connection字段</li>
+<li>服务器回送connection:keep-alive字段给客户端</li>
+<li>客户端收到connection字段</li>
+<li>keep-alive建立成功 </li>
+</ol>
+<ul>
+<li>开启keep-alive的优点：</li>
+</ul>
+<p>较少的CPU和内存的使用（由于同时打开的连接少了）</p>
+<p>允许请求和应答的http管线化</p>
+<p>降低拥塞控制（tcp连接少了）</p>
+<p>减少了后续请求的延迟（无需再进行握手）</p>
+<ul>
+<li>缺点：</li>
+</ul>
+<p>长时间的连接容易导致系统资源无效占用，浪费系统资源</p>
 
       </section>
 
@@ -331,14 +406,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/TensorFlow-js/">
-            TensorFlow.js (1)
+          <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
+            大三寒假日报 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
-            大三寒假日报 (1)
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
           </a>
         </li>
       
@@ -349,14 +424,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (1)
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+            面试准备 (7)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
-            面试准备 (7)
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (1)
           </a>
         </li>
       
