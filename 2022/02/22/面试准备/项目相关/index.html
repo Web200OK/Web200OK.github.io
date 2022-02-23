@@ -139,10 +139,14 @@
 <li>项目性能优化：</li>
 </ul>
 <ol>
-<li>为项目的开发环境和生产环境配置不同的入口文件：在vue.config.js中配置chainWebpack，config.when为两个环境指定两个不同的入口文件</li>
-<li>路由懒加载：由于在vue中打包时会将所有的组件都打包在一个文件中，会出现单文件体积过大的情况，导致首屏加载时间变长，影响用户体验。首先下载一个关于路由懒加载的插件然后在main.js中引入，最后在路由配置中使用import将路由更改为按需加载的方式，就可以在需要组件的时候再进行加载，减少首屏渲染时间</li>
-<li>通过webpack的externals加载外部CDN资源：CDN是内容分发网络，网络请求所需要的时间会受到客户端与服务器距离的影响，CDN就是将资源部署在全国各地，类似于缓存服务器，当请求资源时，会向离客户端最近的CDN服务器请求资源，这样就大大减少了请求所需要的时间，同时vue在打包时会将项目中import的资源都打包进一个包，在vue.config.js中配置externals中声明的资源不会被打包，也会减少包的体积。</li>
-<li>开启gzip资源压缩：使用express的compression实例对文本内容进行压缩。 compression 是 一个express的中间件，主要用于进行gzip 压缩。通常用于web性能优化的，主要是能对你的文本内容进行压缩。一般用于html的文件。</li>
+<li><p>为项目的开发环境和生产环境配置不同的入口文件：在vue.config.js中配置chainWebpack，config.when为两个环境指定两个不同的入口文件</p>
+</li>
+<li><p>路由懒加载：将路由相关的组件不再直接导入而是改成异步组件的写法，只有函数被调用时才去加载对应的组件，可以指定webpackChunkName来规定哪些组件打包为一个js文件，如果没有指定则各自打包为一个js文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">//传统写法：</span><br><span class="line">import Vue from &#x27;vue&#x27;</span><br><span class="line">import VueRouter from &#x27;vue-router&#x27;</span><br><span class="line">import Login from &#x27;@/views/login/index.vue&#x27;</span><br><span class="line">import Home from &#x27;@/views/home/home.vue&#x27;</span><br><span class="line">Vue.use(VueRouter)</span><br><span class="line">const router = new VueRouter(&#123;</span><br><span class="line"> routes: [</span><br><span class="line">    &#123; path: &#x27;/login&#x27;, component: Login &#125;,</span><br><span class="line">    &#123; path: &#x27;/home&#x27;, component: Home &#125;</span><br><span class="line">  ]</span><br><span class="line"> </span><br><span class="line">export default router</span><br><span class="line"></span><br><span class="line">//路由懒加载</span><br><span class="line">import Vue from &#x27;vue&#x27;</span><br><span class="line">import VueRouter from &#x27;vue-router&#x27;</span><br><span class="line"> </span><br><span class="line">//const  Login = ()=&gt; &#123;</span><br><span class="line">//    return  import(&#x27;@/views/login/index.vue&#x27;)</span><br><span class="line">//&#125;</span><br><span class="line">//const  Home = ()=&gt; &#123;</span><br><span class="line">//    return  import(&#x27;@/views/home/home.vue&#x27;)</span><br><span class="line">//&#125;</span><br><span class="line">//有return且函数体只有一行，所以省略后为</span><br><span class="line">const  Login = ()=&gt; import(&#x27;@/views/login/index.vue&#x27;) </span><br><span class="line"> </span><br><span class="line">const  Home = ()=&gt;  import(&#x27;@/views/home/home.vue&#x27;)</span><br><span class="line"> </span><br><span class="line">Vue.use(VueRouter)</span><br><span class="line">const router = new VueRouter(&#123;</span><br><span class="line"> routes: [</span><br><span class="line">    &#123; path: &#x27;/login&#x27;, component: Login &#125;,</span><br><span class="line">    &#123; path: &#x27;/home&#x27;, component: Home &#125;</span><br><span class="line">  ]</span><br><span class="line"> </span><br><span class="line">export default router</span><br></pre></td></tr></table></figure></li>
+<li><p>通过webpack的externals加载外部CDN资源：CDN是内容分发网络，网络请求所需要的时间会受到客户端与服务器距离的影响，CDN就是将资源部署在全国各地，类似于缓存服务器，当请求资源时，会向离客户端最近的CDN服务器请求资源，这样就大大减少了请求所需要的时间，同时vue在打包时会将项目中import的资源都打包进一个包，在vue.config.js中配置externals中声明的资源不会被打包，也会减少包的体积。</p>
+</li>
+<li><p>开启gzip资源压缩：使用express的compression实例对文本内容进行压缩。 compression 是 一个express的中间件，主要用于进行gzip 压缩。通常用于web性能优化的，主要是能对你的文本内容进行压缩。一般用于html的文件。</p>
+</li>
 </ol>
 <ul>
 <li>echarts：</li>
@@ -281,12 +285,6 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/TensorFlow-js/">
-            TensorFlow.js (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
             大三寒假日报 (1)
           </a>
@@ -295,6 +293,12 @@
         <li class="categorys-list-item">
           <a href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8A%E6%97%A5%E6%8A%A5/">
             大三上日报 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
           </a>
         </li>
       
