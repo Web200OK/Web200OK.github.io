@@ -300,6 +300,32 @@
 <li>如何实现 ajax 请求，假如我有多个请求，我需要让这些 ajax 请求按照某种顺序一次执行，有什么办法呢？如何处理 ajax 跨域</li>
 </ul>
 <p>我们可以将多个ajax请求封装进一个数组中，然后使用jQeury的deferred对象，它有一个done和fail函数分别接收的是请求成功执行与失败的回调，当成功执行时我们可以将数组的第一个元素弹出，然后递归执行发送函数，失败的话可以设置重新发送或者将数组第一个元素弹出继续发送下一个请求，最后返回一个promise对象。</p>
+<ul>
+<li>说一下promise：</li>
+</ul>
+<p>promise是es6用来进行异步编程，解决回调地狱的新技术，本质上promise是一个构造函数，初始状态pending。我们可以通过指定执行器函数来改变promise的状态，resolve就是改为resolved状态，reject就是改为rejected状态。我们可以在then函数中指定成功或失败的回调函数来获取成功的value或失败的reason，这就是promise的基本使用流程。</p>
+<p>promise可以用于封装基于定时器的异步，也可以封装ajax异步请求。由于promise.then会返回一个promise对象所以可以实现链式调用，有效解决回调地狱问题。</p>
+<p>关于事件循环：promise的执行器函数会在promise内部同步执行，回调函数是异步执行，会被放在微任务队列中。</p>
+<p>关于API：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">promise.prototype.catch()：是then的语法糖，相当于then(<span class="literal">undefined</span>,onrejected)</span><br><span class="line"><span class="built_in">Promise</span>.resolve(<span class="function">(<span class="params">value</span>) =&gt;</span>&#123;&#125;)：返回一个成功/失败的promise对象</span><br><span class="line"><span class="built_in">Promise</span>.reject(<span class="function">(<span class="params">reason</span>) =&gt;</span>&#123;&#125;)：返回一个失败的promise对象</span><br><span class="line"><span class="built_in">Promise</span>.all(<span class="function">(<span class="params">promises</span>) =&gt;</span> &#123;&#125;)：返回一个新的promise,只有数组中所有的promise都成功才成功，只要有一个失败了直接失败</span><br><span class="line"><span class="built_in">Promise</span>.race(<span class="function">(<span class="params">promises</span>) =&gt;</span> &#123;&#125;)：返回一个新的promise，第一个完成的promise结果状态就是最终的结果状态</span><br></pre></td></tr></table></figure>
+
+<p>关于then返回的promise状态：</p>
+<p>如果抛出异常，新promise对象状态变为rejected，reason为抛出的异常</p>
+<p>如果返回的是非promise值，新promise对象变为resolved，value为返回的值</p>
+<p>如果返回的是一个promise，则新的promise结果是此promise的结果</p>
+<p>关于中断promise链：</p>
+<p>当使用promise的then链式调用时，在中间中断，不再调用后面的回调函数，可以在回调函数中返回一个pending状态的promise对象。</p>
+<ul>
+<li>实现动画有哪些方法:</li>
+</ul>
+<p>1、使用transition</p>
+<p>2、使用animation和@keyframes</p>
+<p>3、使用js定时器加css改变</p>
+<p>4、使用js定时器加canvas</p>
+<ul>
+<li>使用过eslint好处：</li>
+</ul>
+<p>eslint是js检查代码的工具，由于js语言是弱类型的所以有时候在开发过程中会有一些坑出现，比如==会涉及到弱类型转换，而eslint中是禁止使用==的。使用eslint虽然限制了语言的灵活性但是可以避免低级bug，提示删除多余代码、形成统一的团队代码风格。</p>
 
       </section>
 
@@ -392,13 +418,13 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>13</span>
+        <span>15</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
 </svg>
-        6
+        7
       </div>
       <div class="count-box--item">
         <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -425,8 +451,8 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8A%E6%97%A5%E6%8A%A5/">
-            大三上日报 (1)
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
           </a>
         </li>
       
@@ -437,8 +463,8 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/TensorFlow-js/">
-            TensorFlow.js (1)
+          <a href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8A%E6%97%A5%E6%8A%A5/">
+            大三上日报 (1)
           </a>
         </li>
       
@@ -450,7 +476,13 @@
       
         <li class="categorys-list-item">
           <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
-            面试准备 (7)
+            面试准备 (8)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3/">
+            项目相关 (1)
           </a>
         </li>
       
