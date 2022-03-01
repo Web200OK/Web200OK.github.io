@@ -247,10 +247,24 @@
 <p>当我们声明一个函数的时候，会在函数内部自动创建一个原型对象，就是prototype，它是一个空的Object对象，我们可以在这个对象中添加属性，当我们使用new关键字创建一个新的对象时，会自动创建一个<code>__proto__</code>，它会指向构造函数的原型对象，这就是原型链。</p>
 <p>当我们在这个对象中查找一个属性或方法时，会先在自己的私有属性中进行查找，如果找不到会顺着<code>__proto__</code>原型链进行查找，直到null都没有找到则报错。</p>
 <ul>
+<li>apply、call、bind三个方法的区别：</li>
+</ul>
+<p>这三个方法都可以显式指定调用函数的this指向，其中apply方法接收两个参数：一个是this绑定的对象，一个是参数数组。call方法接收的参数一个是this绑定的对象，后面的其余参数是传入函数执行的参数，参数是以列举的形式传进去的；bind方法通过传入一个对象返回一个this绑定了传入对象的新函数，这个函数的this指向除了使用new时会被改变，其他情况下都不会改变。</p>
+<ul>
+<li>实现一个apply函数：</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myApply</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(<span class="keyword">typeof</span> !== <span class="string">&quot;function&quot;</span>) <span class="keyword">return</span> <span class="built_in">console</span>.log(<span class="string">&quot;type error&quot;</span>)</span><br><span class="line">    <span class="keyword">let</span> t = argements[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">let</span> self = <span class="built_in">this</span></span><br><span class="line">    t.fn = self</span><br><span class="line">    <span class="comment">//因为传入的第二个参数是数组，所以直接用扩展运算符生成参数序列即可</span></span><br><span class="line"> 	t.fn(...arguments[<span class="number">1</span>])</span><br><span class="line">    <span class="keyword">delete</span> t.fn</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>实现一个call函数：</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">functinon <span class="function"><span class="title">myCall</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> <span class="built_in">this</span> !== <span class="string">&quot;function) return console.log(&quot;</span>type error<span class="string">&quot;)</span></span><br><span class="line"><span class="string">    const args = Array.prototype.slice.call(auguments)</span></span><br><span class="line"><span class="string">    //新this的值</span></span><br><span class="line"><span class="string">    let t = args.shift()</span></span><br><span class="line"><span class="string">    //旧this就是要执行的函数</span></span><br><span class="line"><span class="string">    let self = this</span></span><br><span class="line"><span class="string">    //把函数作为新this的方法，这样调用时this默认指向新this</span></span><br><span class="line"><span class="string">    t.fn = self</span></span><br><span class="line"><span class="string">    t.fn(...args)</span></span><br><span class="line"><span class="string">    //函数执行完毕后删除新this中的fn方法</span></span><br><span class="line"><span class="string">    delete t.fn</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
 <li>实现一个bind函数</li>
 </ul>
 <p>原理：通过apply或call方法实现</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//由于在new一个bind过生成的新函数时，必须的条件就是要继承原函数的原型</span></span><br><span class="line"><span class="built_in">Function</span>.prototype.bind = <span class="function"><span class="keyword">function</span>(<span class="params">obj,arg</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">const</span> arg = <span class="built_in">Array</span>.prototype.slice.call(arg,<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">const</span> context = <span class="built_in">this</span></span><br><span class="line">    <span class="keyword">let</span> bound = <span class="function"><span class="keyword">function</span>(<span class="params">newArg</span>)</span>&#123;</span><br><span class="line">        arg = arg.concat.call(<span class="built_in">Array</span>.prototype.slice.(newArg))</span><br><span class="line">        <span class="keyword">return</span> context.apply(obj,arg)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> F = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">    F.prototype = context.prototype</span><br><span class="line">    bound.prototype = <span class="keyword">new</span> F()</span><br><span class="line">    <span class="keyword">return</span> bound</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//由于在new一个bind过生成的新函数时，必须的条件就是要继承原函数的原型</span></span><br><span class="line"><span class="built_in">Function</span>.prototype.bind = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">//将类数组参数转换为数组</span></span><br><span class="line">	<span class="keyword">const</span> arg = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>)</span><br><span class="line">    <span class="comment">//获取传进的新对象，新的this</span></span><br><span class="line">    <span class="keyword">const</span> t = arg.shift()</span><br><span class="line">    <span class="comment">//获取旧的this，一个函数</span></span><br><span class="line">    <span class="keyword">const</span> self = <span class="built_in">this</span></span><br><span class="line">    <span class="comment">//定义返回的函数</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">newArg</span>)</span>&#123;</span><br><span class="line">        <span class="comment">//新函数可能传入新的参数，需要与旧参数进行拼接</span></span><br><span class="line">        arg = arg.concat.calll(<span class="built_in">Array</span>.prototype.slice.call(newArg))</span><br><span class="line">        <span class="comment">//新函数里需要保持跟旧函数一样的返回值,所以需要执行旧函数，使用apply改变this的值</span></span><br><span class="line">        <span class="keyword">return</span> self.apply(t,arg)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>用setTimeout实心setInterval：</li>
@@ -294,7 +308,7 @@
 <ul>
 <li>手写原生AJAX：</li>
 </ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> AJAX = &#123;</span><br><span class="line">	<span class="attr">get</span> : <span class="function"><span class="keyword">function</span>(<span class="params">url,callback</span>)</span>&#123;</span><br><span class="line">		<span class="comment">//1、创建一个XMLHttpRequest对象，即异步请求对象</span></span><br><span class="line">		<span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequst()</span><br><span class="line">		<span class="comment">//2、创建一个HTTP请求并配置请求方法，url和验证方法</span></span><br><span class="line">		xhr.open(<span class="string">&quot;GET&quot;</span>,url,<span class="literal">false</span>)</span><br><span class="line">		<span class="comment">//3、设置http响应状态改变的函数</span></span><br><span class="line">		xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="comment">//readyState:0(还没有调用open()) 1（请求已经建立，但是没有发送，即没有调用send()） 2（请求已发送，正在处理中） 3（请求在处理中，但是服务器还没有完成响应的生成） 4（响应已完成，可以获取并使用服务器的响应）</span></span><br><span class="line">			<span class="keyword">if</span>(xhr.readyState == <span class="number">4</span>)&#123;</span><br><span class="line">				<span class="keyword">if</span>(xhr.status === <span class="number">200</span>)&#123;</span><br><span class="line">					<span class="comment">//5、拿到请求的数据	</span></span><br><span class="line">					<span class="built_in">console</span>.log(responseText)</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//4、发送http请求</span></span><br><span class="line">		xhr.send()	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> AJAX = &#123;</span><br><span class="line">	<span class="attr">get</span> : <span class="function"><span class="keyword">function</span>(<span class="params">url,callback</span>)</span>&#123;</span><br><span class="line">		<span class="comment">//1、创建一个XMLHttpRequest对象，即异步请求对象</span></span><br><span class="line">		<span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequst()</span><br><span class="line">		<span class="comment">//2、创建一个HTTP请求并配置请求方法，url和验证方法</span></span><br><span class="line">		xhr.open(<span class="string">&quot;GET&quot;</span>,url,<span class="literal">false</span>)</span><br><span class="line">		<span class="comment">//3、设置http响应状态改变的函数</span></span><br><span class="line">		xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="comment">//readyState:0(还没有调用open()) 1（请求已经建立，但是没有发送，即没有调用send()） 2（请求已发送，正在处理中） 3（请求在处理中，但是服务器还没有完成响应的生成） 4（响应已完成，可以获取并使用服务器的响应）</span></span><br><span class="line">			<span class="keyword">if</span>(xhr.readyState == <span class="number">4</span>)&#123;</span><br><span class="line">				<span class="keyword">if</span>(xhr.status === <span class="number">200</span>)&#123;</span><br><span class="line">					<span class="comment">//5、拿到请求的数据	</span></span><br><span class="line">					<span class="built_in">console</span>.log(responseText)</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		<span class="comment">// 设置请求失败时的监听函数</span></span><br><span class="line">        xhr.onerror = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">          <span class="built_in">console</span>.error(<span class="built_in">this</span>.statusText);</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="comment">// 设置请求头信息</span></span><br><span class="line">        xhr.responseType = <span class="string">&quot;json&quot;</span>;</span><br><span class="line">        xhr.setRequestHeader(<span class="string">&quot;Accept&quot;</span>, <span class="string">&quot;application/json&quot;</span>);</span><br><span class="line">            </span><br><span class="line">		<span class="comment">//4、发送http请求</span></span><br><span class="line">		xhr.send()	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>如何实现 ajax 请求，假如我有多个请求，我需要让这些 ajax 请求按照某种顺序一次执行，有什么办法呢？如何处理 ajax 跨域</li>
@@ -333,6 +347,145 @@
 <p>使用class类声明一个全新的类，在类中有一个constructor函数，定义在这个函数里面的属性和方法，会在用new创建一个对象的时候赋值给对象。在类的其他地方声明的属性和方法会被声明在构造函数的原型对象上，供所有实例对象共同使用。</p>
 <p>在类中可以用static声明静态方法，静态方法可以不需要通过实例对象直接通过构造函数就可以使用。</p>
 <p>类的继承：使用extends关键字实现子类对父类的继承，可以通过super方法访问调用父类上的函数，也可以在子类中对父类的函数进行重写。</p>
+<ul>
+<li>数据类型检测方式有哪些：</li>
+</ul>
+<p>typeof：其中数组、对象和null会被判断为object</p>
+<p>instanceof：正确判断对象的类型，依据是在其原型链中能否找到该类型的原型</p>
+<p>constructor：</p>
+<p>1、判断数据的类型    2、判断对象实例通过constructor对象访问它的构造函数，如果创建一个对象来改变他的原型则不能用来判断数据类型</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">true</span>.constructor === <span class="built_in">Boolean</span> <span class="comment">//true</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">FN</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">FN.prototype = <span class="keyword">new</span> <span class="built_in">Array</span>()</span><br><span class="line"><span class="keyword">const</span> f = <span class="keyword">new</span> FN()</span><br><span class="line"><span class="built_in">console</span>.log(f.constructor === FN) <span class="comment">//false</span></span><br><span class="line"><span class="built_in">console</span>.log(f.constructor === <span class="built_in">Array</span>) <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<p>Object.prototype.toString.call()：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.prototype.toString.call([]))  <span class="comment">//[Object Array]</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.prototype.toString.call(<span class="number">2</span>)) <span class="comment">//[Object Number]</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>为什么0.1+0.2  !==  0.3：</p>
+</li>
+<li><p>计算机是通过二进制存储数据的所以计算机计算的实际上是两个数的二进制的和，但是0.1和0.2的二进制数都是循环数，在JS中只有number一种数据类型，使用64位固定长度来表示，就是标准的双精度浮点数，在二进制科学表示法中小数部分最多只能保存52位，再加上表示符号的数，其实就是保留53位有效数字，剩余的舍去，得到的数转换为十进制就是0.30000000000000004</p>
+</li>
+<li><p>typeof NaN的结果是什么：</p>
+</li>
+</ul>
+<p>是number，NaN是一个特殊值，指不是一个数字</p>
+<ul>
+<li>||和&amp;&amp;操作符返回值：</li>
+</ul>
+<p>对于||来说如果条件是true会返回第一个操作数的值，如果是false就返回第二个的值</p>
+<p>对于&amp;&amp;来说如果条件是true就返回第二个操作数的值，如果是false就返回第一个操作数的值</p>
+<ul>
+<li>什么是JS中的包装类型：</li>
+</ul>
+<p>在JS中基本数据类型是没有属性和方法的，但是为了便于操作基本类型的值在调用基本类型的属性或者方法时JS会在后台隐式的将基本类型的值转换为对象</p>
+<ul>
+<li>如何提取高度嵌套的对象中的指定属性：</li>
+</ul>
+<p>逐层结构</p>
+<p>在解构出来的变量右侧通过冒号+{目标属性名}这种形式来进一步解构它：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> school = &#123;</span><br><span class="line">   <span class="attr">classes</span>: &#123;</span><br><span class="line">      <span class="attr">stu</span>: &#123;</span><br><span class="line">         <span class="attr">name</span>: <span class="string">&#x27;Bob&#x27;</span>,</span><br><span class="line">         <span class="attr">age</span>: <span class="number">24</span>,</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> &#123;<span class="attr">class</span>:&#123;<span class="attr">stu</span>:&#123;name&#125;&#125;&#125; = school</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>rest参数的理解：</li>
+</ul>
+<p>扩展运算符被用在函数形参上可以把一个分离的参数序列整合成一个数组：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mutiple</span>(<span class="params">...args</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(args)</span><br><span class="line">&#125;</span><br><span class="line">mutiple(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>) <span class="comment">// [1, 2, 3, 4]</span></span><br></pre></td></tr></table></figure>
+
+<p>用于获取函数的多余参数或者处理函数参数个数不确定的情况。</p>
+<ul>
+<li>map与object的区别：</li>
+</ul>
+<p>意外的键：map默认情况下不包含任何键，只包含显式插入的键；object有一个原型，原型链上的键名可能与自己在对象上设置的键名起冲突</p>
+<p>键的类型：map的键可以是任意值；object的键必须是string或者symbol</p>
+<p>键的顺序：map的key是有序的，因此在迭代时可以以插入的顺序返回键值；object的键是无序的</p>
+<p>size：map上的键值对个数可以通过size轻松获取，object只能手动计算</p>
+<p>迭代：map可以直接迭代；但是object需要以某个方式获取它的键然后才能够 迭代</p>
+<p>性能：map在频繁增删键值对的场景下表现更好。</p>
+<ul>
+<li>对JSON的理解：</li>
+</ul>
+<p>JSON是一种基于文本的轻量级的数据交换格式，它可以被任何编程语言读取和作为数据格式来传递</p>
+<p>在项目开发中使用JSON作为前后端数据交换的方式，在前端将一个符合JSON格式的数据结构序列化为JSON字符串，然后将它传递到后端，后端通过JSON格式的字符串解析后生成对应的数据结构。</p>
+<p>JSON是基于JS的，JSON中属性值不能为函数，不能出现NaN这样的属性。</p>
+<p>JSON.stringfy：传入一个JSON格式的数据结构将其转换为一个JSON字符串。</p>
+<p>JSON.parse：将JSON格式的字符串转换为一个js数据结构</p>
+<ul>
+<li>JS中类数组对象的理解：</li>
+</ul>
+<p>一个拥有length属性和若干索引属性的对象就可以称为类数组对象。类数组对象不能调用数组的方法。</p>
+<p>常见的将类数组对象转换为数组的方法:</p>
+<p>1、通过call调用数组的slice方法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>)</span><br></pre></td></tr></table></figure>
+
+<p>2、通过call调用数组的splice方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Array.prototype.splice.call(arguments,0)</span><br></pre></td></tr></table></figure>
+
+<p>3、通过apply调用数组的concat方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Array.prototype.concat.apply([],arguments)</span><br></pre></td></tr></table></figure>
+
+<p>4、通过Array.from来实现</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Array.from(arguments)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>常见的位运算符，其计算规则是什么：</li>
+</ul>
+<p>&amp;：与：两个位都为1时结果才为1</p>
+<p>​    用途：判断奇偶；清零</p>
+<p>|：或：只要有一个数是1结果就是1</p>
+<p>^：异或：两个位相同为0，相异为1</p>
+<p>~：取反：0变1,1变0</p>
+<p>&lt;&lt;：左移</p>
+<p><code>&gt;&gt;</code>：右移</p>
+<p>原码：一个数的二进制数</p>
+<p>反码：正数反码与原码相同，负数反码除符号位，按位取反</p>
+<p>补码：正数补码与原码相同，负数反码除符号位，按位取反最后加1</p>
+<ul>
+<li>JS为什么要进行变量提升：</li>
+</ul>
+<p>JS在拿到一个函数或者变量的时候会有两步操作，即解析和执行：</p>
+<p>在解析阶段，JS会检查语法并对函数进行预编译。解析的时候会创建一个全局执行上下文环境，先把代码中即将执行的变量、函数声明都拿出来，变量赋值为undefined，函数先声明好可使用。在一个函数执行之前也会创建一个函数执行上下文环境与全局执行上下文类似但是多出this、arguments和函数的参数。</p>
+<p>在执行阶段，按照代码的顺序依次执行。</p>
+<p>原因：</p>
+<p>1、提高性能：在JS代码执行之前语法检查与预编译只进行一次，否则每次执行代码前都需要重新解析一遍该变量或函数。</p>
+<p>2、容错性更好</p>
+<ul>
+<li>ES6模块与CommonJS模块有什么异同：</li>
+</ul>
+<p>区别：</p>
+<p>CommonJS是对模块的浅拷贝，ES6模块时对模块的引用，即ES6模块只存只读，不能改变其值，也就是指针指向不变，类似于const</p>
+<p>import的接口时read-only，不能修改其变量值，即不能修改其变量的指针指向，但可以改变变量内部的指针指向；CommonJS可以重新重新赋值（改变指针指向），但是对ES6模块赋值会编译错误</p>
+<p>共同点：</p>
+<p>两者都可以对引入的对象内部属性进行改变</p>
+<ul>
+<li>常见的DOM操作：</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//DOM节点的获取：</span></span><br><span class="line"><span class="built_in">document</span>.getElementById <span class="comment">//按照id查询</span></span><br><span class="line"><span class="built_in">document</span>.getElementByTagNme <span class="comment">//按照标签名查询</span></span><br><span class="line"><span class="built_in">document</span>.getElementsByClassName <span class="comment">// 按照类名查询</span></span><br><span class="line"><span class="built_in">document</span>.querySelectorAll <span class="comment">// 按照 css 选择器查询</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//DOM节点的创建</span></span><br><span class="line"><span class="built_in">document</span>.creatElement() <span class="comment">//创建一个DOM节点</span></span><br><span class="line"><span class="built_in">document</span>.appendChild() <span class="comment">//将DOM添加到页面中</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//DOM节点的删除</span></span><br><span class="line">父元素.removeChild(子元素)</span><br><span class="line"></span><br><span class="line"><span class="comment">//修改DOM元素</span></span><br><span class="line">父元素.insertBefore(两个子元素)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>use strict是什么意思，使用它有什么区别：</li>
+</ul>
+<p>严格模式，使JS在更严格的条件下运行，目的如下：</p>
+<p>消除JS语法的的不合理不严谨之处；</p>
+<p>消除代码运行的不安全之处，保证代码运行的安全；</p>
+<p>提高编译效率，增加运行速度；</p>
+<p>区别：</p>
+<p>禁止使用with语句；禁止this关键字指向全局对象；对象不能有重名的属性</p>
+<ul>
+<li>强类型语言与弱类型原因的区别：</li>
+</ul>
+<p>强类型语言：要求变量的使用要严格符合定义，所有变量必须先定义再使用，一旦被指定为某个数据类型如果不经过强制转换就永远是这个数据类型。</p>
+<p>弱类型语言：可以理解为变变量类型是可以被忽略的语言。</p>
+<ul>
+<li>解释性语言与编译型语言的区别：</li>
+</ul>
+<p>解释性语言：每次运行都需要将源代码解析成机器码并执行，效率低；只要平台提供相应的解释器就可以运行源代码，方便源程序移植；如JS和python</p>
+<p>编译型语言：一次性编译成平台相关的机器语言文件，所以只需编译一次，运行时脱离开发环境，运行效率高；与特定平台相关，一般无法移植到其他平台，如C++</p>
+<ul>
+<li>ajax和axios和fetch的区别：</li>
+</ul>
+<p>Ajax是一种在无需加载整个页面的情况下能够更新部分页面的技术。通过在后台与服务器进行少量数据交换，ajax可以使网页实现异步更新。缺点是本身是针对MVC编程，不符合前端MVVN浪潮；基于原生XHR开发，配置和调用的方式非常混乱，而且基于事件的异步模型不友好；</p>
+<p>Fetch是基于promise设计的，不是ajax的进一步封装，而是原生JS，没有使用XMLHttpRequest对象。优点：基于标准promise实现，支持async/await，更加底层，提供的API丰富（request，response）；缺点是只对网络请求报错，对于400/500都当做成功的请求，不会reject，只有网络请求不能完成时fetch才会被reject；fetch默认不会带cookie，需要添加配置项（fetch(url,{credentials:”include”]})）;fetch不支持abort与超时控制，使用setTimeout与promise.reject实现超时控制并不能阻止请求过程继续在后台运行造成流量的浪费；fetch没有办法原生监控请求的进度，而XHR可以；</p>
+<p>Axios是一种基于promise封装的http客户端，特点是浏览器发起XMLHttpRequest请求；node端发起http请求，支持promiseAPI，对请求和返回进行转换；自动转换json数据；客户端支持抵御XSRF攻击。</p>
+<p>promise.all与promise.race的使用场景：</p>
 
       </section>
 
@@ -458,14 +611,14 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8A%E6%97%A5%E6%8A%A5/">
-            大三上日报 (1)
+          <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
+            大三寒假日报 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
-            大三寒假日报 (1)
+          <a href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8A%E6%97%A5%E6%8A%A5/">
+            大三上日报 (1)
           </a>
         </li>
       
@@ -488,14 +641,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3/">
-            项目相关 (1)
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
+          <a href="/categories/%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3/">
+            项目相关 (1)
           </a>
         </li>
       

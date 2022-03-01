@@ -186,6 +186,21 @@
 <p>可以在视频页渲染的时候使用posterAPI让图片代替视频，只有当点击观看视频时才加载视频，这样就不用在视频页一开始就把所有视频加载好，加快页面渲染时间。</p>
 <p>由于项目中的搜索框是在输入之后自动发送请求获取相对应的歌曲名，为了避免短时间内修改搜索框内容多次发起请求，可以使用防抖函数进行优化。</p>
 <p>由于视频页的视频数据一次请求是有限的，当视频看完之后如果想要继续更新视频数据，由于后端接口设置是隔一段时间才会更新数据，所以不能实现立即下滑刷新的效果。</p>
+<ul>
+<li>使用vue的element实现大文件的断点续传：</li>
+</ul>
+<p>1、使用element自带的upload组件，关闭文件加载自动上传（auto-upload），然后自己封装网络请求</p>
+<p>2、使用组件的@change监听文件加载，在响应函数参数中file可以得到关于文件的信息，可以进行文件校验（指定提交文件的格式）</p>
+<p>3、定义一个文件解析函数fileparse，使用内置函数FileReader构造一个实例对象来解析转换用户存储在计算机上的文件为指定的数据格式，用一个变量result进行接收</p>
+<p>用到的事件处理：FileReader.onload：该事件在读取操作完成时触发</p>
+<p>用到的方法：</p>
+<p>FileReader.readAsArrayBuffer()：将文件对象转换为ArrayBuffer数据对象</p>
+<p>FileReader.readAsDataURL()：将文件对象转换为base64的数据对象</p>
+<p>4、发送axios请求，将数据对象进行序列化之后再进行传输，服务器接收之后重新转换为数据对象，然后再转换为buffer</p>
+<p>5、使用spark-md5插件根据buffer生成hash值作为文件名，这样可以避免重复提交相同文件</p>
+<p>6、使用fs.writeFileSync将文件写进服务器路径中，给客户端返回响应信息</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//服务器</span></span><br><span class="line"><span class="comment">// 上传BASE64</span></span><br><span class="line">app.post(<span class="string">&#x27;/single2&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> &#123;</span><br><span class="line">        chunk,</span><br><span class="line">        filename</span><br><span class="line">    &#125; = req.body;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// chunk的处理：转换为buffer</span></span><br><span class="line">    chunk = <span class="built_in">decodeURIComponent</span>(chunk);</span><br><span class="line">    chunk = chunk.replace(<span class="regexp">/^data:image\/\w+;base64,/</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">    chunk = Buffer.from(chunk, <span class="string">&#x27;base64&#x27;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 存储文件到服务器</span></span><br><span class="line">    <span class="keyword">let</span> spark = <span class="keyword">new</span> SparkMD5.ArrayBuffer(),</span><br><span class="line">        suffix = <span class="regexp">/\.([0-9a-zA-Z]+)$/</span>.exec(filename)[<span class="number">1</span>],</span><br><span class="line">        path;</span><br><span class="line">    spark.append(chunk);</span><br><span class="line">    path = <span class="string">`<span class="subst">$&#123;uploadDir&#125;</span>/<span class="subst">$&#123;spark.end()&#125;</span>.<span class="subst">$&#123;suffix&#125;</span>`</span>;</span><br><span class="line">    fs.writeFileSync(path, chunk);</span><br><span class="line">    res.send(&#123;</span><br><span class="line">        <span class="attr">code</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">originalFilename</span>: filename,</span><br><span class="line">        <span class="attr">path</span>: path.replace(__dirname, <span class="string">`http://127.0.0.1:<span class="subst">$&#123;PORT&#125;</span>`</span>)</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//客户端</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="title">changeFile</span>(<span class="params">file</span>)</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (!file) <span class="keyword">return</span>;</span><br><span class="line">      file = file.raw;</span><br><span class="line">      <span class="comment">// 继续做格式校验</span></span><br><span class="line">      <span class="comment">/*</span></span><br><span class="line"><span class="comment">       * 把上传的文件先进行解析（FileReader）</span></span><br><span class="line"><span class="comment">       * 把其转换base64编码格式</span></span><br><span class="line"><span class="comment">       * 自己基于axios把信息传递给服务器</span></span><br><span class="line"><span class="comment">       * ...</span></span><br><span class="line"><span class="comment">       */</span></span><br><span class="line">      <span class="keyword">let</span> result = <span class="keyword">await</span> fileParse(file, <span class="string">&quot;base64&quot;</span>);</span><br><span class="line">      result = <span class="keyword">await</span> axios.post(</span><br><span class="line">        <span class="string">&quot;/single2&quot;</span>,</span><br><span class="line">        qs.stringify(&#123;</span><br><span class="line">          <span class="attr">chunk</span>: <span class="built_in">encodeURIComponent</span>(result),</span><br><span class="line">          <span class="attr">filename</span>: file.name,</span><br><span class="line">        &#125;),</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">headers</span>: &#123;</span><br><span class="line">            <span class="string">&quot;Content-Type&quot;</span>: <span class="string">&quot;application/x-www-form-urlencoded&quot;</span>,</span><br><span class="line">          &#125;,</span><br><span class="line">        &#125;</span><br><span class="line">      );</span><br><span class="line">      result = result.data;</span><br><span class="line">      <span class="keyword">if</span> (result.code == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">this</span>.img = result.path;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fileParse</span>(<span class="params">file, type = <span class="string">&quot;base64&quot;</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> fileRead = <span class="keyword">new</span> FileReader();</span><br><span class="line">        <span class="keyword">if</span> (type === <span class="string">&quot;base64&quot;</span>) &#123;</span><br><span class="line">            fileRead.readAsDataURL(file);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type === <span class="string">&quot;buffer&quot;</span>) &#123;</span><br><span class="line">            fileRead.readAsArrayBuffer(file);</span><br><span class="line">        &#125;</span><br><span class="line">        fileRead.onload = <span class="function">(<span class="params">ev</span>) =&gt;</span> &#123;</span><br><span class="line">            resolve(ev.target.result);</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
 
       </section>
 
@@ -311,14 +326,14 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8A%E6%97%A5%E6%8A%A5/">
-            大三上日报 (1)
+          <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
+            大三寒假日报 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
-            大三寒假日报 (1)
+          <a href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8A%E6%97%A5%E6%8A%A5/">
+            大三上日报 (1)
           </a>
         </li>
       
@@ -341,14 +356,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3/">
-            项目相关 (1)
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
+          <a href="/categories/%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3/">
+            项目相关 (1)
           </a>
         </li>
       
