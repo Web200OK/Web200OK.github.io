@@ -336,6 +336,7 @@
 <p>2、使用animation和@keyframes</p>
 <p>3、使用js定时器加css改变</p>
 <p>4、使用js定时器加canvas</p>
+<p>5、使用requestAnimationFrame</p>
 <ul>
 <li>使用过eslint好处：</li>
 </ul>
@@ -485,7 +486,48 @@
 <p>Ajax是一种在无需加载整个页面的情况下能够更新部分页面的技术。通过在后台与服务器进行少量数据交换，ajax可以使网页实现异步更新。缺点是本身是针对MVC编程，不符合前端MVVN浪潮；基于原生XHR开发，配置和调用的方式非常混乱，而且基于事件的异步模型不友好；</p>
 <p>Fetch是基于promise设计的，不是ajax的进一步封装，而是原生JS，没有使用XMLHttpRequest对象。优点：基于标准promise实现，支持async/await，更加底层，提供的API丰富（request，response）；缺点是只对网络请求报错，对于400/500都当做成功的请求，不会reject，只有网络请求不能完成时fetch才会被reject；fetch默认不会带cookie，需要添加配置项（fetch(url,{credentials:”include”]})）;fetch不支持abort与超时控制，使用setTimeout与promise.reject实现超时控制并不能阻止请求过程继续在后台运行造成流量的浪费；fetch没有办法原生监控请求的进度，而XHR可以；</p>
 <p>Axios是一种基于promise封装的http客户端，特点是浏览器发起XMLHttpRequest请求；node端发起http请求，支持promiseAPI，对请求和返回进行转换；自动转换json数据；客户端支持抵御XSRF攻击。</p>
-<p>promise.all与promise.race的使用场景：</p>
+<ul>
+<li>async与await原理：</li>
+</ul>
+<p>async与await其实是generator函数的语法糖，并对generator函数进行了改进。相比生成器函数，async自带执行器，不需要手动执行next方法；async函数的await命令后面，既可以是promise对象也可以是原始数据类型，它都会自动转成成功状态的promise对象。而且async函数的返回值是promise对象，可以使用then方法进行调用。</p>
+<p>由于async隐式返回promise作为结果，那么可以理解为在await命令之后，await会产生一个微任务，相当于是promise.then()，但还是这个微任务产生的时机是在await执行之后，直接跳出async函数执行其他代码，这就是协程的运作。其他代码执行完毕后在回到async函数执行剩下的代码，注册到微任务队列中。</p>
+<ul>
+<li>commonjs与es6模块的区别：</li>
+</ul>
+<p>commonjs模块加载过程是同步阻塞性加载，在缓存方面，commonjs在模块代码被运行前就已经以模块绝对路径为key，module对象为value写入cache，同一个模块被多次require时只会执行一次，重复的require得到的是相同的exports引用。</p>
+<p>ES6模块时为了不再使用闭包与函数封装的方式进行模块化提供的模块化功能，使用export暴露、import引入。在node使用es6模块需要将js文件后缀改成mjs，或者配置package.json的type为module，告诉node以esmodule的形式加载模块。</p>
+<p>es6模块加载过程：</p>
+<p>1、es6模块会在程序开始前先根据模块的关系查找到所有的模块生成一个无环关系图然后将所有模块实例创建好</p>
+<p>2、在内存中腾出空间给即将使用export暴露的内容，然后使import和export指向内存中的这些空间（连接）</p>
+<p>3、基于第一步生成的无环图进行深度优先后遍历填值，如果此时访问到了尚未初始化完成的空间会抛出异常。</p>
+<p>commonjs可以在运行时使用变量进行require但是import不可以因为es6模块会先解析所有模块在执行代码；</p>
+<p>require会将完成的exports对象引入，但是import可以只引入部分必要的内容，这就是为什么使用tree-shaking时必须使用es6模块写法；</p>
+<p>import另一个模块没有export的变量会在代码执行前报错，但是使用commonjs是在模块运行时才报错。</p>
+<ul>
+<li>为什么浏览器端不建议使用commonjs：</li>
+</ul>
+<p>因为在浏览器端我们如果封装一个模块来发送网络请求，由于网络请求会消耗一定时间所以一般使用异步加载的方式发送网络请求。但是当使用commonjs，由于commonjs加载模块是同步执行代码的，此时请求的等待时间可能随着网速快慢以及请求数据大小的影响，会使浏览器处于假死状态。</p>
+<ul>
+<li>documentfragment（文档片段接口）：</li>
+</ul>
+<p>documentfragment是一个类似于document的文档对象，它可以向document一样存储由节点组成的文档结构，但是它最大的特点就是它的变化不会触发dom树的重新渲染，所以我们可以把添加删除节点的所有操作使用documentfragment 保存起来，最后一次性插入到文档中，这样文档只会发生一次重新渲染。</p>
+<p>使用：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建一个frame对象</span></span><br><span class="line"><span class="built_in">document</span>.createDocumentFragment()</span><br><span class="line"><span class="comment">//可以跟document一样获取元素节点，也可以使用appendChild和removeChild来添加删除节点</span></span><br><span class="line"><span class="comment">//最后只需要将frame对象添加到document中即可</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>MutationObserver：</li>
+</ul>
+<p>MutationObserver的出现是为了取代废弃的MutationEvent,因为后者有严重的性能问题。MutationObserver可以用于观察指定dom元素的属性、子节点以及文本的变化，并且可以在dom元素被修改时异步执行回调。</p>
+<p>我们可以通过创建一个MutationObserver实例，然后使用它的方法来指定对哪些元素以及元素哪些属性进行观察，通过mutationRecord和mutationObserve参数可以获取到观察的配置。每一个MutationObserver实例对象会把每一次变化的信息保存在MutationRecord实例中，然后添加到记录队列，通过数组进行保存，注册的回调函数只会执行一次。</p>
+<p>MutationObserver对象有三个方法可以调用：</p>
+<p>observer（）：通过该方法可以传入要观察的dom元素以及对目标节点的观察范围。该方法可以关联MutationObserver对象与dom元素，可以重复使用来复用一个MutationObserver对象观察多个不同的目标节点。</p>
+<p>disconnect（）：使用该方法可以提前终止执行回调函数。</p>
+<p>takeRecords（）：可以清空记录队列，取出并返回包含其中的所有MutationRecord实例的数组。</p>
+<p>vue的响应式原理（数组）<br>dep watcher互相收集<br>diff算法<br>promise allsettled<br>图片懒加载</p>
+<p>node与浏览器事件循环区别</p>
+<p>v-router传参方式</p>
+<p>vuex的使用</p>
+<p>vuex中mutations与actions的区别</p>
 
       </section>
 
@@ -578,13 +620,13 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>15</span>
+        <span>14</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
 </svg>
-        7
+        6
       </div>
       <div class="count-box--item">
         <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -623,14 +665,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/TensorFlow-js/">
-            TensorFlow.js (1)
+          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
+            网站介绍 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
-            网站介绍 (1)
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
           </a>
         </li>
       
@@ -643,12 +685,6 @@
         <li class="categorys-list-item">
           <a href="/categories/%E7%AE%97%E6%B3%95/">
             算法 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3/">
-            项目相关 (1)
           </a>
         </li>
       

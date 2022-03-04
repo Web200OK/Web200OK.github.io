@@ -137,7 +137,7 @@
 <p><strong>（3）em和rem</strong>相对于px更具灵活性，它们都是相对长度单位，它们之间的区别：<strong>em相对于父元素，rem相对于根元素。</strong></p>
 <ul>
 <li><strong>em：</strong> 文本相对长度单位。相对于当前对象内文本的字体尺寸。如果当前行内文本的字体尺寸未被人为设置，则相对于浏览器的默认字体尺寸(默认16px)。(相对父元素的字体大小倍数)。 </li>
-<li><strong>rem：</strong> rem是CSS3新增的一个相对单位，相对于根元素（html元素）的font-size的倍数。<strong>作用</strong>：利用rem可以实现简单的响应式布局，可以利用html元素中字体的大小与屏幕间的比值来设置font-size的值，以此实现当屏幕分辨率变化时让元素也随之变化。 </li>
+<li><strong>rem：</strong> rem是CSS3新增的一个相对单位，相对于根元素（html元素）的font-size的倍数。<strong>作用</strong>：利用rem可以实现简单的响应式布局，可以利用html元素中字体的大小与屏幕分辨率间的比值来设置font-size的值，以此实现当屏幕分辨率变化时让元素也随之变化。 </li>
 </ul>
 <p><strong>（4）vw/vh</strong>是与视图窗口有关的单位，vw表示相对于视图窗口的宽度，vh表示相对于视图窗口高度，除了vw和vh外，还有vmin和vmax两个相关的单位。</p>
 <ul>
@@ -151,11 +151,19 @@
 <li>百分比（<code>%</code>）：大部分相对于祖先元素，也有相对于自身的情况比如（border-radius、translate等) </li>
 <li>vw/vm：相对于视窗的尺寸 </li>
 </ul>
+<ul>
+<li>怎么判断元素在页面中的可视范围内：</li>
+</ul>
+<p>1、offsetTo：表示元素的上边框至包含元素的上内边框的距离</p>
+<p>scrollTop：表示这个元素的<strong>内容顶部</strong>（卷起来的）到它的视口可见内容（的顶部）的距离</p>
+<p>使用offsetTo-scrollTop是否小于等于视窗高度来判断</p>
+<p>2、使用getBoundingClientRect来获取元素的信息，包括大小与相对于视窗的位置</p>
+<p>3、使用IntersectionObserver来判断两个元素是否重叠，因为不会触发回流重绘所以性能比上一个好；主要分为创建观察者与传入观察者。</p>
 <h3 id="2-link与-import标签的区别"><a href="#2-link与-import标签的区别" class="headerlink" title="2.link与@import标签的区别"></a>2.link与@import标签的区别</h3><p>link属于html标签，而@import是css提供的</p>
 <p>页面被加载时，link会同时被加载，而@import引用的css会等到页面加载结束后加载。</p>
 <p>link是html标签，因此没有兼容性，而@import只有IE5以上才能识别。</p>
 <p>link方式样式的权重高于@import的。</p>
-<h3 id="3-什么是BFC"><a href="#3-什么是BFC" class="headerlink" title="3.什么是BFC"></a>3.什么是BFC</h3><p>BFC(Block formatting context)直译为”块级格式化上下文”。BFC是一个独立的布局环境，其中的元素布局是不受外界的影响，并且在一个BFC中，块盒与行盒（行盒由一行中所有的内联元素所组成）都会垂直的沿着其父元素的边框排列。</p>
+<h3 id="3-什么是BFC"><a href="#3-什么是BFC" class="headerlink" title="3.什么是BFC"></a>3.什么是BFC</h3><p>BFC就是块级格式化上下文，可以理解为时一个独立的块，在这个块中浮动元素会被计算高度，所有元素垂直沿着父元素边框排列。</p>
 <p>BFC布局规则：</p>
 <ul>
 <li><p>内部的Box会在垂直方向，一个接一个地放置。</p>
@@ -291,7 +299,55 @@
 <p>会导致回流的操作有：添加删除可见的DOM元素、元素位置尺寸发生变化、激活CSS伪类、查询一些属性或者调用某些方法（clentWidth,offsetWidth）</p>
 <p>如何避免回流：</p>
 <p>CSS：避免设置多层内联样式、将动画效果应用在position设置为absolute或者fixed的元素上（脱离文档流），避免使用css表达式（calc()）</p>
-<p>JS：避免频繁操作样式、避免频繁操作DOM、避免频繁读取会引发重绘/回流的属性</p>
+<p>JS：避免频繁操作样式、避免频繁操作DOM、避免频繁读取会引发重绘/回流的属性，使用documentfragment</p>
+<ul>
+<li>高度塌陷及其解决：</li>
+</ul>
+<p>当一个元素设置浮动之后会脱离文档流，如果父元素没有设置高度，下面的元素会上移，浮动元素会覆盖下边的元素内容，这就是高度塌陷。</p>
+<p>解决方法：</p>
+<p>1、给父元素指定高度</p>
+<p>2、给父元素开启BFC：设置定位为绝对定位或开启overflow为非visible属性</p>
+<p>3、给父元素添加一个伪元素::after，然后该元素设置清除浮动：clear:both</p>
+<p>4、给浮动元素下面一个元素然后该元素设置清除浮动</p>
+<ul>
+<li>实现一个三角形：</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//向上</span><br><span class="line"><span class="selector-class">.anjiaoxing</span>&#123;</span><br><span class="line">	<span class="attribute">width</span>:<span class="number">0</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">0</span>;</span><br><span class="line">    <span class="attribute">border-right</span>:<span class="number">10px</span> solid transparent;</span><br><span class="line">    <span class="attribute">border-left</span>:<span class="number">10px</span> solid transparent;</span><br><span class="line">	<span class="attribute">border-bottom</span>:<span class="number">10px</span> solid red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>实现毛玻璃效果：</li>
+</ul>
+<p>使用backdrop-filter属性的blur方法为一个元素后面区域添加模糊效果，filter则是作用于整个元素</p>
+<p>如果为了兼容，可以使用background-attachment:fixed在元素背后叠加一张同样的图片，然后使用filter:blur对其进行模糊处理即可。</p>
+<ul>
+<li>gpu加速：</li>
+</ul>
+<p>当我们在css中做一些对CPU负荷较大的事情，比如css动画、变形和渐变时，可以使用GPU加速的方法来获取更高的渲染性能，同时减少cpu资源的争用。</p>
+<p>1、在二维空间中使用translateZ或者translate3d方法来骗取浏览器触发硬件加速。但是这样做使用代价的，就是会占用RAM与GPU存储空间，考虑到移动设备的存储容量有限，所以需要谨慎使用。</p>
+<p>2、will-change属性：提前通知浏览器我们要对元素进行什么操作，让浏览器可提前准备合适的优化设置，这样元素就可以更快的改变与渲染，达到页面快速更新，表现更加流畅的效果。但是对太多属性设置will-change会占用太多的资源甚至导致页面奔溃，可以通过js对will-change进行释放。</p>
+<ul>
+<li>css解析是否阻塞html解析与渲染：</li>
+</ul>
+<p>由于在浏览器渲染过程中，html需要解析成dom树，css需要解析成stylesheet，所以html解析与css解析时两个并行的进程，css解析不会影响html解析；由于渲染树是依赖于dom树与stylesheet的，所以所以必须等到stylesheet构建完成才开始渲染，所以css解析会影响html渲染。</p>
+<p>由于js可能会操作之前的dom节点与css样式，所以样式表会在js执行前先加载执行完毕，所以css会阻塞后面js的执行。</p>
+<ul>
+<li>requestAnimationFrame：window.requestAnimationFrame()</li>
+</ul>
+<p>当使用定时器setTimeout实现动画时，由于定时器的回调函数时异步执行的，所以实际执行时间与设置的延迟时间会存在差异。屏幕的刷新频率一般是60hz，所以我们一般设置动画执行间隔为16.7ms，但是由于定时器的特点可能出现动画出现闪烁的效果，引起用户眼睛疲劳。</p>
+<p>使用requestAnimationFrame可以由系统函数来决定回调函数执行的时机，它是跟着屏幕刷新频率走的所以不会出现丢帧的现象。而且相比于定时器开启后即使页面被隐藏或者最小化，只要不清除定时器都是一直在后台执行，完全浪费CPU资源；但是requestAnimationFrame任务在被系统暂停后会停止渲染，节省CPU资源。而且使用requestAnimationFrame可以保证回调函数在页面刷新间隔只执行一次，起到函数节流的效果。唯一的缺点就是浏览器对requestAnimationFrame的兼容性较差，所以可以通过优雅降级的方式根据不同浏览器实现动画效果。</p>
+<ul>
+<li>CSS3新特性：</li>
+</ul>
+<p>1、新增了一些选择器：:nth-child、:first-of-type、:last-child</p>
+<p>2、新样式：</p>
+<p>边框新增了border-radius、box-shadow、border-image属性</p>
+<p>背景新增了background-origin等属性</p>
+<p>文字，颜色也有</p>
+<p>3、transition过渡</p>
+<p>4、transform转换：包括translate位移、scale缩放、rotate旋转、skew倾斜</p>
+<p>5、animation动画</p>
+<p>6、渐变：线性渐变linear-gradient与径向渐变radial-gradient</p>
+<p>。。。。</p>
 
       </section>
 
@@ -384,13 +440,13 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>15</span>
+        <span>14</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
 </svg>
-        7
+        6
       </div>
       <div class="count-box--item">
         <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -429,14 +485,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/TensorFlow-js/">
-            TensorFlow.js (1)
+          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
+            网站介绍 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
-            网站介绍 (1)
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
           </a>
         </li>
       
@@ -449,12 +505,6 @@
         <li class="categorys-list-item">
           <a href="/categories/%E7%AE%97%E6%B3%95/">
             算法 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3/">
-            项目相关 (1)
           </a>
         </li>
       

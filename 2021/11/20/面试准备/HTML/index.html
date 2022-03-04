@@ -164,14 +164,22 @@
 <p>在 IE Standards Mode 下，non-replaced inline 元素无法自定义大小，而在 IE Quirks Mode 下，定义这些元素的<code>width</code>和<code>height</code> 属性，能够影响该元素显示的大小尺寸。</p>
 <p>⑤元素溢出的处理</p>
 <p>在 IE Standard Mode 下，<code>overflow</code>取默认值 <code>visible</code>，即溢出可见，这种情况下，溢出内容不会被裁剪，呈现在元素框外。而在 Quirks Mode 下，该溢出被当做扩展<code>box</code>来对待，即元素的大小由其内容决定，溢出不会被裁剪，元素框自动调整，包含溢出内容。</p>
-<h3 id="4-script标签中defer和async的区别"><a href="#4-script标签中defer和async的区别" class="headerlink" title="4. script标签中defer和async的区别"></a>4. script标签中defer和async的区别</h3><p>如果没有defer或async属性，浏览器会立即加载并执行相应的脚本。也就是说在渲染script标签之后的文档之前，不等待后续加载的文档元素，读到就开始加载和执行，这样就会阻塞后续文档的加载。</p>
-<p>下图可以直观的看出三者之间的区别:</p>
-<p>其中蓝色代表js脚本网络加载时间，红色代表js脚本执行时间，绿色代表html解析。</p>
-<p><strong>defer 和 async属性都是去异步加载外部的JS脚本文件，它们都不会阻塞页面的解析</strong>，其区别如下：</p>
 <ul>
-<li><strong>执行顺序：</strong>多个带async属性的标签，不能保证加载的顺序；多个带defer属性的标签，按照加载顺序执行。 </li>
-<li><strong>脚本是否并行执行：</strong>async属性，表示后续文档的加载和渲染与js脚本的加载和执行是并行进行的，即异步执行；有了defer属性，加载后续文档的过程和js脚本的加载(此时仅加载不执行)是并行进行的(异步)，js脚本的执行需要等到文档所有元素解析完成之后，DOMContentLoaded事件触发执行之前。</li>
+<li>box-sizing是什么：</li>
 </ul>
+<p>box-sizing属性定义了应该如何计算一个元素的总宽度与总高度</p>
+<p>属性值：</p>
+<p>content-box：默认值，如果设置一个元素宽为100px,那么这个元素内容区有100px宽，并且任何边框和内边距的宽度都会增加到最后绘制出来的元素宽度中。</p>
+<p>border-box：告诉浏览器设置的边框和内边距的值是包含在width中的，不包括margin</p>
+<h3 id="4-script标签中defer和async的区别"><a href="#4-script标签中defer和async的区别" class="headerlink" title="4. script标签中defer和async的区别"></a>4. script标签中defer和async的区别</h3><p>如果没有defer或async属性，浏览器会立即加载并执行相应的脚本。也就是说在渲染script标签之后的文档之前，不等待后续加载的文档元素，读到就开始加载和执行，这样就会阻塞后续文档的加载。</p>
+<p>defer属性：当html解析遇到带有defer属性的script标签，不会阻塞html文件的解析，而是异步加载js脚本，直到html文件解析完成，再去执行js文件，执行顺序是按照js脚本在文档中的声明顺序，执行完毕后触发DOMContentLoaded事件。</p>
+<p>async属性：当html解析遇到带有async属性的script标签，不会阻塞html文件的解析，而是异步加载js脚本，当js脚本加载完成后如果html还没解析完成会阻塞html文件解析，执行加载好的js文件，执行完继续解析html文件。执行顺序是按照先加载完成的js脚本先执行，DOMContentLoaded事件发生在js脚本执行之前或之后，取决于js文件加载完成在html解析完成前还是后。</p>
+<p>两个属性都是用于外联js脚本。 </p>
+<ul>
+<li>DOMContentLoaded和load事件的区别：</li>
+</ul>
+<p>DOMContentLoaded：当初始的HTML文档完全加载和解析完成之后，DOMContentLoaded事件被触发，则无需等待样式表，图像和子框架的完全加载。可以理解为页面DOM加载完成后触发。</p>
+<p>load：当整个页面及所有依赖资源都已经加载完成时触发。</p>
 <h3 id="5-常⽤的meta标签有哪些"><a href="#5-常⽤的meta标签有哪些" class="headerlink" title="5. 常⽤的meta标签有哪些"></a>5. 常⽤的meta标签有哪些</h3><p><code>meta</code> 标签由 <code>name</code> 和 <code>content</code> 属性定义，<strong>用来描述网页文档的属性</strong>，比如网页的作者，网页描述，关键词等，除了HTTP标准固定了一些<code>name</code>作为大家使用的共识，开发者还可以自定义name。</p>
 <p>常用的meta标签：<br>（1）<code>charset</code>，用来描述HTML文档的编码类型：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span> = <span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
@@ -301,6 +309,17 @@
 <li>纯表现的元素：basefont，big，center，font, s，strike，tt，u; </li>
 <li>对可用性产生负面影响的元素：frame，frameset，noframes；</li>
 </ul>
+<ul>
+<li>说说Web Workers：</li>
+</ul>
+<p>Web Workers就是在JS创建多线程环境，允许主线程创建Worker线程将任务分配给这些线程运行，这样在主线程运行的同时就会在后台并行运行worker线程，互不干扰。</p>
+<p>使用：使用new命令调用Worker构造函数新建一个线程，主线程使用worker.postMessage方法向worker发送消息，通过worker.onmessage指定监听函数接收子线程发回来的消息。</p>
+<p>注意点：</p>
+<p>1、分配给worker线程的脚本文件必须与主线程脚本文件同源</p>
+<p>2、worker线程无法读取主线程所在页面的DOM对象，也无法使用document、window、parent对象，可以使用navigator与location对象。</p>
+<p>3、子线程和主线程不在同一个上下文环境不能直接通信，必须通过消息完成</p>
+<p>4、子线程不能执行alert方法与confirm方法，但可以通过XMLHttpRequest对象发送AJAX请求</p>
+<p>5、子线程无法读取本地文件，所加载的脚本必须来自网络</p>
 <h3 id="7-img的srcset属性的作⽤？"><a href="#7-img的srcset属性的作⽤？" class="headerlink" title="7. img的srcset属性的作⽤？"></a>7. img的srcset属性的作⽤？</h3><p>响应式页面中经常用到根据屏幕密度设置不同的图片。这时会用到image标签的srcset属性。srcset属性用于设置不同屏幕密度下，image会自动加载不同的图片。用法如下：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span> = <span class="string">&quot;image-128.png&quot;</span> <span class="attr">srcset</span> = <span class="string">&quot;image-256.png 2x&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
 
@@ -555,13 +574,13 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>15</span>
+        <span>14</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
 </svg>
-        7
+        6
       </div>
       <div class="count-box--item">
         <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -600,14 +619,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/TensorFlow-js/">
-            TensorFlow.js (1)
+          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
+            网站介绍 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
-            网站介绍 (1)
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
           </a>
         </li>
       
@@ -620,12 +639,6 @@
         <li class="categorys-list-item">
           <a href="/categories/%E7%AE%97%E6%B3%95/">
             算法 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3/">
-            项目相关 (1)
           </a>
         </li>
       

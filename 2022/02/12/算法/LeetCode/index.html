@@ -151,6 +151,38 @@
 <p>浅拷贝数组然后进行比较，从左往右第一个就是最短无序连续子数组的第一个数，从右往左第一个就是子数组的最后一个数</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> findUnsortedSubarray = <span class="function"><span class="keyword">function</span>(<span class="params">nums</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (isSorted(nums)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> numsSorted = [...nums].sort(<span class="function">(<span class="params">a, b</span>) =&gt;</span> a - b);</span><br><span class="line">    <span class="keyword">let</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (nums[left] === numsSorted[left]) &#123;</span><br><span class="line">        left++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> right = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (nums[right] == numsSorted[right]) &#123;</span><br><span class="line">        right--;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> right - left + <span class="number">1</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> isSorted = <span class="function">(<span class="params">nums</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (nums[i] &lt; nums[i - <span class="number">1</span>]) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
+<ul>
+<li>冒泡排序（空间复杂度O(1)，时间复杂度O(n平方)）：</li>
+</ul>
+<p>冒泡排序就是从数组头开始比较两个相邻的数，如果前面的数大于后面的数就将两个数交换，然后开始下一对数字的比较，直到数组最后的数字比较完。</p>
+<p>然后继续重复刚刚的步骤，除了最后一个数字不用，因为它已经是最大的。</p>
+<p>这样一步步重复，直到没有数字需要交换位置。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bubbleSort</span>(<span class="params">arr</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt; arr.length - <span class="number">1</span>;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> j = <span class="number">0</span>;j &lt; arr.length - <span class="number">1</span> - i;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(arr[j] &gt; arr[j + <span class="number">1</span>])&#123;</span><br><span class="line">                <span class="keyword">let</span> temp = arr[j]</span><br><span class="line">                arr[j] = arr[j + <span class="number">1</span>]</span><br><span class="line">                arr[j + <span class="number">1</span>] = temp</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>选择排序（空间复杂度O(1)，时间复杂度O(n平方)）：</li>
+</ul>
+<p>选择排序就是从未排序的数组中找到最小的那一个数放到数组最前面，再从剩余未排序的数组中继续找到最小的数放到已排序的数后面，这样不断的重复直到数组排序完毕。</p>
+<ul>
+<li>快速排序<strong>（O (n*log n)）</strong>：</li>
+</ul>
+<p>1、将问题分解成一个个子问题：先把数组按照中点分为两组，对两个数组内的数字按照下标从小到大与中点分别进行比较，如果左边的数组数值比中点小则下标加1更新，右边的比中点大则下标减1，不满足条件则暂停下标更新。</p>
+<p>2、当左边或者右边的数组值都暂停更新时，将左右数组两个数互换，这一步的目标是将比中点大的换到数组右边，小的放到左边。</p>
+<p>3、每个子问题通过递归完成，由于都是在原数组中进行操作，所以最后数组就是排序好的数组。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">quickSort</span>(<span class="params">arr</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(l &gt;= r) <span class="keyword">return</span></span><br><span class="line">	<span class="keyword">let</span> i = l - <span class="number">1</span></span><br><span class="line">	<span class="keyword">let</span> j = r + <span class="number">1</span></span><br><span class="line">	<span class="keyword">let</span> t = arr[r + l &gt;&gt; <span class="number">1</span>]</span><br><span class="line">	<span class="keyword">while</span>(i &lt; j)&#123;</span><br><span class="line">		<span class="keyword">do</span> &#123;i++&#125; <span class="keyword">while</span>(arr[i] &lt; t)</span><br><span class="line">		<span class="keyword">do</span> &#123;j--&#125; <span class="keyword">while</span>(arr[j] &gt; t)</span><br><span class="line">		<span class="keyword">if</span>(i &lt; j)&#123;</span><br><span class="line">			<span class="keyword">let</span> temp = arr[i]</span><br><span class="line">			arr[i] = arr[j]</span><br><span class="line">			arr[j] = arr[i]</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	quickSort(arr,l,j)</span><br><span class="line">	quickSort(arr,j + <span class="number">1</span>,r)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>归并排序（O (n*log n)：</li>
+</ul>
+<p>归并与快排的基本思想都是分治，但是归并是一上来就递归。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mergeSort</span>(<span class="params">arr,l,r</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l &gt;= r) <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">let</span> mid = r + l &gt;&gt; <span class="number">1</span></span><br><span class="line">    mergeSort(arr,l,mid)</span><br><span class="line">    meergeSort(arr,mid + <span class="number">1</span>,r)</span><br><span class="line">    <span class="keyword">let</span> t = <span class="number">0</span></span><br><span class="line">    <span class="keyword">let</span> i = l</span><br><span class="line">    <span class="keyword">let</span> j = mid + <span class="number">1</span></span><br><span class="line">    <span class="keyword">let</span> temp = <span class="keyword">new</span> <span class="built_in">Array</span>(r - l + <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">while</span>(i &lt;= mid &amp;&amp; j &lt;= r)&#123;</span><br><span class="line">        <span class="keyword">if</span>(arr[i] &lt;= arr[j]) temp[t++] = arr[i++]</span><br><span class="line">        <span class="keyword">else</span> temp[t++] = arr[j++]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(i &lt;= mid) temp[t++] = arr[i++]</span><br><span class="line">    <span class="keyword">while</span>(j &lt;= r) temp[t++] = arr[j++]</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = l,t = <span class="number">0</span>;i &lt;= r;i++,t++)&#123;</span><br><span class="line">        arr[i] = temp[t]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>斐波拉契数列：</li>
+</ul>
+<p><em>F</em>(<em>n</em>)=<em>F</em>(<em>n</em>−1)+<em>F</em>(<em>n</em>−2)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">n</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(n &lt; <span class="number">2</span>) <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">	<span class="keyword">let</span> p = <span class="number">0</span>,q = <span class="number">0</span>,r = <span class="number">1</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">2</span>;i &lt;= n;i++)&#123;</span><br><span class="line">		p = q</span><br><span class="line">		q = r</span><br><span class="line">		r = (p + q) % <span class="number">1000000007</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> r</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
       </section>
 
@@ -166,7 +198,7 @@
     <div class="card-text">
       
         <a href="/2022/02/22/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">后台管理项目</h2>
+          <h2 class="card-text--title text-ellipsis">项目相关</h2>
         </a>
       
       <div class="card-text--row">Newer</div>
@@ -243,13 +275,13 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>15</span>
+        <span>14</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
 </svg>
-        7
+        6
       </div>
       <div class="count-box--item">
         <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -288,14 +320,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/TensorFlow-js/">
-            TensorFlow.js (1)
+          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
+            网站介绍 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
-            网站介绍 (1)
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
           </a>
         </li>
       
@@ -308,12 +340,6 @@
         <li class="categorys-list-item">
           <a href="/categories/%E7%AE%97%E6%B3%95/">
             算法 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3/">
-            项目相关 (1)
           </a>
         </li>
       
