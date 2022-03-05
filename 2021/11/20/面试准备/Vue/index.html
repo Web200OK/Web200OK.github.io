@@ -268,6 +268,14 @@
 <li>说说vue的mixin：</li>
 </ul>
 <p>mixin本质是一个js对象，他可以包含我们组件中任意功能选项，比如data，methods等，组件可以使用mixins对象将mixin选项混入到该组件本身的选项中，实现代码复用。当组件选项与mixin对象发生冲突时会覆盖mixin选项，如果相同 选项为生命周期函数时会合并为一个数组，先执行mixin的函数再执行组件的。</p>
+<ul>
+<li>详细说说vue2的响应式原理：</li>
+</ul>
+<p>当执行new Vue时，vue就进入了初始化阶段，vue会对指令进行解析（初始化视图，增加订阅者、绑定更新函数），同时通过Observe遍历数据，对每一个属性是对象的添加<code>__ob__</code>，它是一个observer类，通过递归以及Object.defineProperty的getter与setter实现对多层数据，包括数组的监听。在observer实例中，都会有一个dep实例对象，它使用发布订阅的模式。当数据发生变化时，Observer中的setter方法会被触发，会调用Dep.notify()，循环依赖列表通知所有的watcher，并调用watcher的update方法，通过回调函数通知视图进行更新。（多看源码）</p>
+<p>对于数组的监听，vue是对数组的七个方法，即push/pop/shift/unshift/splice/reverse/sort进行了改写，通过在observer实例对象与Array.prototype之间的原型链上添加了一个新的对象，然后在该对象中对数组方法进行了改写，让数组通过这七个方法的增删后的数组也可以被监听到。</p>
+<ul>
+<li>理清Vue响应式系统中的Watcher和Dep的关系：</li>
+</ul>
 
       </section>
 
@@ -399,6 +407,12 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
             大三寒假日报 (1)
           </a>
@@ -407,12 +421,6 @@
         <li class="categorys-list-item">
           <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
             网站介绍 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/TensorFlow-js/">
-            TensorFlow.js (1)
           </a>
         </li>
       

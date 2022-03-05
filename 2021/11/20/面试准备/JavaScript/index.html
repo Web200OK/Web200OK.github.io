@@ -523,11 +523,21 @@
 <p>observer（）：通过该方法可以传入要观察的dom元素以及对目标节点的观察范围。该方法可以关联MutationObserver对象与dom元素，可以重复使用来复用一个MutationObserver对象观察多个不同的目标节点。</p>
 <p>disconnect（）：使用该方法可以提前终止执行回调函数。</p>
 <p>takeRecords（）：可以清空记录队列，取出并返回包含其中的所有MutationRecord实例的数组。</p>
-<p>vue的响应式原理（数组）<br>dep watcher互相收集<br>diff算法<br>promise allsettled<br>图片懒加载</p>
+<ul>
+<li>使用promise需要执行并行和独立的异步操作并收集所有结果（包括成功与失败）怎么办：</li>
+</ul>
+<p>使用Promise.allSettled()方法可以并行执行独立的异步操作，并将异步操作的结果以一个数组返回，如果成功则是{status:”fulfilled”,value:value}，失败则是{status:”rejected”,reason:reason}。可以使用then方法，也可以使用async/await提取所有的promise状态。</p>
+<ul>
+<li>说说图片懒加载：</li>
+</ul>
+<p>dep watcher互相收集<br>diff算法</p>
 <p>node与浏览器事件循环区别</p>
 <p>v-router传参方式</p>
 <p>vuex的使用</p>
 <p>vuex中mutations与actions的区别</p>
+<p>水印</p>
+<p>BoundingClientRect</p>
+<p>数组方法</p>
 
       </section>
 
@@ -659,6 +669,12 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
             大三寒假日报 (1)
           </a>
@@ -667,12 +683,6 @@
         <li class="categorys-list-item">
           <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
             网站介绍 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/TensorFlow-js/">
-            TensorFlow.js (1)
           </a>
         </li>
       
