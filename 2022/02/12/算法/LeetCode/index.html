@@ -183,6 +183,15 @@
 <p><em>F</em>(<em>n</em>)=<em>F</em>(<em>n</em>−1)+<em>F</em>(<em>n</em>−2)</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">n</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(n &lt; <span class="number">2</span>) <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">	<span class="keyword">let</span> p = <span class="number">0</span>,q = <span class="number">0</span>,r = <span class="number">1</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">2</span>;i &lt;= n;i++)&#123;</span><br><span class="line">		p = q</span><br><span class="line">		q = r</span><br><span class="line">		r = (p + q) % <span class="number">1000000007</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> r</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/daily-temperatures/">739. 每日温度 - 力扣（LeetCode） (leetcode-cn.com)</a></li>
+</ul>
+<p>暴力算法：直接遍历两次数组，用一个新数组保存更高温度天数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> dailyTemperatures = <span class="function"><span class="keyword">function</span>(<span class="params">temperatures</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> arr = []</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt; temperatures.length;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> j = i + <span class="number">1</span>;j &lt; temperatures.length;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(temperatures[i] &lt; temperatures[j])&#123;</span><br><span class="line">                arr.push(j - i)</span><br><span class="line">                j = temperatures.length</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(j === temperatures.length - <span class="number">1</span>)&#123;</span><br><span class="line">                arr.push(<span class="number">0</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    arr.push(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> arr</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>单调栈算法：只需要遍历一次数组，从后往前遍历温度数组，新建一个栈，遍历数组同时将元素索引放入栈中，当下一个元素比栈中元素大时，将小项元素索引弹出，让大项元素索引入栈，最后直接让索引相减就是当前元素的结果，再用一个数组保存起来。当下一个元素比栈顶元素小时，直接让其索引入栈即可。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> dailyT = <span class="function">(<span class="params">T</span>) =&gt;</span> &#123;</span><br><span class="line">	<span class="keyword">const</span> res = <span class="keyword">new</span> <span class="built_in">Array</span>(T.length).fill(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">const</span> stack = []</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = T.length - <span class="number">1</span>;i &gt;= <span class="number">0</span>;i--)&#123;</span><br><span class="line">        <span class="keyword">while</span>(stack.length &amp;&amp; T[i] &gt;= T[stack[stack.length - <span class="number">1</span>]])&#123;</span><br><span class="line">            stack.pop()</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(stack.length)&#123;</span><br><span class="line">            res[i] = stack[stack.length - <span class="number">1</span>] - i</span><br><span class="line">        &#125;</span><br><span class="line">        stack.push(i)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
       </section>
 
@@ -314,12 +323,6 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/TensorFlow-js/">
-            TensorFlow.js (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
             大三寒假日报 (1)
           </a>
@@ -332,14 +335,20 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
-            面试准备 (8)
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/%E7%AE%97%E6%B3%95/">
             算法 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+            面试准备 (8)
           </a>
         </li>
       

@@ -276,6 +276,45 @@
 <ul>
 <li>理清Vue响应式系统中的Watcher和Dep的关系：</li>
 </ul>
+<p>Dep何时创建：初始化时给data的属性进行数据劫持时创建的</p>
+<p>Dep有几个：与data中的属性一一对应</p>
+<p>Dep结构是什么：id标识、subs存放watcher的容器</p>
+<p>Watcher何时创建：初始化解析大括号表达式/一般指令时创建</p>
+<p>Watcher有几个：与模板表达式一一对应</p>
+<p><strong>Dep与watcher是多对多的关系</strong>：</p>
+<p>一个data属性对应一个Dep，一个Dep可能对应n个watcher（属性多次在模板中被使用）</p>
+<p>一个表达式对应一个Watcher，一个watcher可能对应n个Dep（多层表达式，如a.b.c）</p>
+<ul>
+<li>v-router传参方式:</li>
+</ul>
+<p>1、使用router的name属性也就是params来传递参数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//首先在router的index.js中配置每个路由的路径，name属性</span></span><br><span class="line"><span class="keyword">export</span> router = <span class="keyword">new</span> routerMap (&#123;</span><br><span class="line">    <span class="attr">routes</span>:[&#123;</span><br><span class="line">        <span class="attr">path</span>:<span class="string">&quot;./about&quot;</span>,</span><br><span class="line">        <span class="attr">component</span>:About,</span><br><span class="line">        <span class="attr">name</span>:<span class="string">&quot;about&quot;</span></span><br><span class="line">    &#125;]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//在传值页面写法：</span></span><br><span class="line"><span class="built_in">this</span>.$router.push(&#123;</span><br><span class="line">    <span class="attr">name</span>:<span class="string">&quot;about&quot;</span>,</span><br><span class="line">    <span class="attr">params</span>:&#123;</span><br><span class="line">        <span class="attr">userId</span>:<span class="string">&quot;110&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//在取值页面写法：</span></span><br><span class="line"><span class="built_in">this</span>.$route.params.userId</span><br></pre></td></tr></table></figure>
+
+<p>2、通过query传参</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在传值页面写法：</span></span><br><span class="line"><span class="built_in">this</span>.$router.push(&#123;</span><br><span class="line">    <span class="attr">name</span>:<span class="string">&quot;about&quot;</span>,</span><br><span class="line">    <span class="attr">query</span>:&#123;</span><br><span class="line">        <span class="attr">userId</span>:<span class="string">&quot;110&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">//在取值页面的写法：</span></span><br><span class="line"><span class="comment">//第一种</span></span><br><span class="line"><span class="built_in">this</span>.router.currentRoute.query.userId</span><br><span class="line"><span class="comment">//第二种</span></span><br><span class="line"><span class="built_in">this</span>.route.query.userId</span><br></pre></td></tr></table></figure>
+
+<p>3、使用vue里的<code>&lt;router-link&gt;</code>标签来传参</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//在传值页面呢</span><br><span class="line">&lt;router-link target=&quot;about&quot; :to=&quot;&#123;path:&#x27;/about&#x27;,query:&#123;userId:&#x27;33333&#x27;&#125;&#125;&quot;&gt;&lt;/router-link&gt;</span><br><span class="line">//在取值页面与第二种方法一样</span><br><span class="line">//当路由携带params参数时，若使用to的对象写法必须使用name配置项</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>说说路由守卫：</li>
+</ul>
+<p>路由守卫主要用来通过跳转或取消的方式对路由进行权限控制</p>
+<p>全局守卫：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//全局前置守卫，初始化执行，每次路由切换执行</span><br><span class="line">//使用router.beforeEach注册一个全局前置守卫</span><br><span class="line">router.beforeEach((to,from,next) =&gt; &#123;</span><br><span class="line">	//to是即将进入的目标，from是当前导航要离开的路由，next是放行</span><br><span class="line">&#125;)</span><br><span class="line">//全局后置守卫，初始化执行，每次路由切换后执行</span><br><span class="line">//使用router.afterEach注册一个全局后置守卫</span><br></pre></td></tr></table></figure>
+
+<p>独享守卫（只对特定的路由起作用）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//直接在路由配置上定义beforeEnter守卫</span><br><span class="line">const routes = [&#123;</span><br><span class="line">	path:...,</span><br><span class="line">	component:...,</span><br><span class="line">	beforeEnter:(to,from,next) =&gt; &#123;</span><br><span class="line">		...</span><br><span class="line">	&#125;</span><br><span class="line">&#125;]</span><br></pre></td></tr></table></figure>
+
+<p>组件内守卫：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//进入守卫：在渲染该组件的对应路由时被调用</span><br><span class="line">//不能获取到组件实例this，因为在守卫执行之前组件实例还没有被创建</span><br><span class="line">//可以通过next获取data中的数据</span><br><span class="line">beforeRouteEnter(to,from,next)&#123;</span><br><span class="line">&#125;</span><br><span class="line">//离开守卫：通过路由规则，离开该组件时被调用,通常用来预防用户在还没保存修改前突然离开，可以通过next(false)来取消</span><br><span class="line">//可以访问组件实例this</span><br><span class="line">beforeRouteLeave(to,from,next)&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>说说vue的diff算法：</p>
+</li>
+<li><p>vuex中mutations与actions的区别：</p>
+</li>
+</ul>
 
       </section>
 
@@ -407,12 +446,6 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/TensorFlow-js/">
-            TensorFlow.js (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
             大三寒假日报 (1)
           </a>
@@ -425,14 +458,20 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
-            面试准备 (8)
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/%E7%AE%97%E6%B3%95/">
             算法 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+            面试准备 (8)
           </a>
         </li>
       
