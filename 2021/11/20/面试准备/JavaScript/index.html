@@ -283,13 +283,11 @@
 <p>每当10个之中有一个请求完成，则从待请求的接口中再取出一个发出。保证当前并发度仍旧为10。</p>
 <p>直至最终请求完成。</p>
 <p>设计思路：</p>
-<p>简单思路如下：（假设并发请求函数名字为limitedRequest）</p>
-<ol>
-<li>设定一个数组（命名为：pool），用于后续Promise.all的使用</li>
-<li>当limitedRequest被调用的时候，首先一次性发出10个请求，并放入到pool中</li>
-<li>每一个请求完成后的回调函数中继续触发下一个请求，而下一个请求返回Promise，他的回调函数继续绑定同样的回调函数，即循环调用。（看不懂就直接看代码更易懂）</li>
-<li>直到全部请求完成，停止。</li>
-</ol>
+<p>简单思路如下：</p>
+<p>1、创建发送请求函数，然后返回一个promise对象，通过改变该promise状态来调用then函数发送网络请求</p>
+<p>2、根据最大并发数通过for循环发送网络请求，使用一个数组来接收请求结果</p>
+<p>3、由于发送请求函数返回的是promise，所以我么可以创建一个调度函数，在请求完成后的回调函数中继续触发下一个请求，实现链式调用</p>
+<p>4、在调度函数里面进行判断，当请求全部执行完毕后，停止发送请求，最后使用Promise.all，将保存结果的数组作为参数传入，此时请求结束。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//用promise实现并发发送多个请求</span></span><br><span class="line">        <span class="comment">//发送请求函数</span></span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">send</span>(<span class="params">param</span>)</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">                resolve(param)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">request</span>(<span class="params">urls,max</span>)</span>&#123;</span><br><span class="line">            <span class="comment">//存放请求的结果</span></span><br><span class="line">            <span class="keyword">let</span> pool = []</span><br><span class="line">            <span class="keyword">let</span> Max = <span class="built_in">Math</span>.min(urls.length,max)</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt; Max;i++)&#123;</span><br><span class="line">                pool.push(send(urls.splice(<span class="number">0</span>,<span class="number">1</span>)).then(resolve))</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//调度函数</span></span><br><span class="line">            <span class="function"><span class="keyword">function</span> <span class="title">resolve</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">&quot;当前并发度为：&quot;</span>,pool.length)</span><br><span class="line">                <span class="keyword">if</span>(urls.length === <span class="number">0</span>)&#123;</span><br><span class="line">                    <span class="built_in">console</span>.log(<span class="string">&quot;请求全部发送成功&quot;</span>)</span><br><span class="line">                    <span class="keyword">return</span> <span class="built_in">Promise</span>.resolve()</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> send(urls.splice(<span class="number">0</span>,<span class="number">1</span>)).then(resolve)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">Promise</span>.all(pool).then(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">&quot;请求结束&quot;</span>)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        request([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>],<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
 
 <ul>
@@ -548,7 +546,22 @@
 
 <ul>
 <li>node与浏览器事件循环区别：</li>
+<li>map与set的区别：</li>
 </ul>
+<p>map是一个存储键值对的集合，与Object对象不同的是map存储的键可以是任意数据类型，而object对象的键只能是字符串或者是symbol，map对象可以通过set、get、delete等方法对键值对进行增删改查。</p>
+<p>set是一个存储元素的集合，它只能存储不重复的值，与map不同的是它没有get方法，因为它存储的不是键值对，也可以使用set对数组去重，将数组作为参数新建一个set对象，然后对set对象使用扩展运算符即可。</p>
+<ul>
+<li>说说js垃圾回收机制：</li>
+</ul>
+<p>标记清除法：当代码执行在一个环境中时（比如一个函数的时候），每声明一个变量就会对变量做一个标记，当离开当前执行环境进入另一执行环境的时候，这时会对上一个环境的变量做一个标记，等到垃圾回收执行时，会根据标记来决定清除哪些变量。</p>
+<p>引用计数法：用一个值跟踪记录每个值被使用的次数，当声明一个变量并将一个引用类型赋值给该变量时，该值加1（指的是引用数据类型），当该变量被重新赋值时该值减1，当该值为0的时候说明没有变量在使用，会在垃圾回收的时候尽心回收。</p>
+<ul>
+<li>常见的内存泄露场景：</li>
+</ul>
+<p>意外的全局变量：当我们在全局对象中window声明一个变量使用完毕后没有使用null进行处理或者重新定义的时候，会出现内存泄露。</p>
+<p>闭包：使用闭包我们可以从外部访问到内部函数的属性，会产生一个独立的作用域，过度使用闭包会导致内存占用过多。</p>
+<p>计时器：使用完计时器完后需要手动清除计时器，否则可能由于其中引用的变量或函数被认为是需要的而不进行回收，出现内存泄露。</p>
+<p>脱离DOM的使用 ：当我们在js中操作使用一个变量来操作DOM的时候，如果在后面代码中删除DOM的时候没有对该变量进行清除的话会产生内存泄露。</p>
 <p>diff算法</p>
 <p>vuex的使用</p>
 <p>vuex中mutations与actions的区别</p>
@@ -647,7 +660,7 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>14</span>
+        <span>15</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -686,6 +699,12 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
             大三寒假日报 (1)
           </a>
@@ -698,12 +717,6 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/TensorFlow-js/">
-            TensorFlow.js (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E7%AE%97%E6%B3%95/">
             算法 (2)
           </a>
@@ -711,7 +724,7 @@
       
         <li class="categorys-list-item">
           <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
-            面试准备 (8)
+            面试准备 (9)
           </a>
         </li>
       
