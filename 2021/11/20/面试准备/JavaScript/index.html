@@ -562,12 +562,12 @@
 <p>闭包：使用闭包我们可以从外部访问到内部函数的属性，会产生一个独立的作用域，过度使用闭包会导致内存占用过多。</p>
 <p>计时器：使用完计时器完后需要手动清除计时器，否则可能由于其中引用的变量或函数被认为是需要的而不进行回收，出现内存泄露。</p>
 <p>脱离DOM的使用 ：当我们在js中操作使用一个变量来操作DOM的时候，如果在后面代码中删除DOM的时候没有对该变量进行清除的话会产生内存泄露。</p>
-<p>diff算法</p>
-<p>vuex的使用</p>
-<p>vuex中mutations与actions的区别</p>
-<p>水印</p>
-<p>数组方法</p>
-<p>全局事件总线原理</p>
+<ul>
+<li>实现水印（场景题）：</li>
+</ul>
+<p>1、使用js在页面上充满透明度较低的信息盒子。在一个大盒子中循环生成小的水印，为每一个水印展示要显示的信息。</p>
+<p>2、在页面上覆盖一个固定定位的盒子，然后创建一个canvas画布，绘制出一个水印区域，将画布通过toDataUrl方法输出为一个图片，将这个图片设置为盒子的背景图，通过background-repeat:repeat实现充满屏幕的效果。也可以使用svg。</p>
+<p>为了避免水印被恶意删除，可以通过MutationObserver观察节点变化，因为该API只能监听子节点的变化，所以可以通过监听水印的父节点，当有人对水印进行删除操作时，调用方法重新添加水印。</p>
 
       </section>
 
@@ -699,26 +699,26 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/TensorFlow-js/">
-            TensorFlow.js (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
             大三寒假日报 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
-            网站介绍 (1)
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/%E7%AE%97%E6%B3%95/">
             算法 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
+            网站介绍 (1)
           </a>
         </li>
       
