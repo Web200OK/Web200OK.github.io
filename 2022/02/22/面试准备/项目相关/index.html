@@ -205,6 +205,11 @@
 <p>3、将切片存放在一个数组中然后遍历数组发送上传请求，用一个变量记录上传切片的数量，一个变量记录上传状态，每上传成功一次变量加1，然后移除数组中已上传的切片。</p>
 <p>4、可以设置一个暂停上传按钮，当用户点击暂停时更改上传状态停止上传，如果点击继续上传按钮则根据记录上传切片数量的变量继续发送未发送的文件。</p>
 <p>5、后端接收到切片文件之后，将切片文件数据统一存放在一个服务器路径中，然后当所有切片上传完毕之后，按照序列号对切片进行拼接成原来的文件。</p>
+<ul>
+<li>有在项目中封装过axios吗：</li>
+</ul>
+<p>有，在项目中需要多次向后端接口发起http请求，如果不对axios进行封装，每一次都需要设置请求头、错误处理、请求路径，会让代码冗杂且浪费时间，所以在项目中对axios进行了封装。</p>
+<p>在main.js文件中，安装引入axios，我将axios添加为vue实例方法，即用Vue.prototype将axios设置为所有组件共享的方法，然后在main.js中配置基本路径baseURL，以及因为在每次发送请求都需要携带登录成功后端返回的token，所以通过请求拦截器在每次请求之前在请求头添加上token。因为想要实现网络请求进度条的效果，我使用一个NProgress插件，然后分别在请求时开启进度条，在拦截请求器中结束进度条实现想要的效果。</p>
 
       </section>
 
@@ -237,7 +242,7 @@
     <div class="card-text">
       
         <a href="/2022/02/12/%E7%AE%97%E6%B3%95/LeetCode/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">leet</h2>
+          <h2 class="card-text--title text-ellipsis">leetcode</h2>
         </a>
       
       <div class="card-text--row">Older</div>
@@ -348,12 +353,6 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
             网站介绍 (1)
           </a>
@@ -362,6 +361,12 @@
         <li class="categorys-list-item">
           <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
             面试准备 (9)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
           </a>
         </li>
       
