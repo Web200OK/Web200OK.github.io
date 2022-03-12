@@ -22,7 +22,7 @@
 
   
 
-  <title>node.js | 大三下</title>
+  <title>数据库 | 大三下</title>
 
   
 
@@ -45,7 +45,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202202/2c1fcb88de7ea4a1f12d4f23f3142056--1023256475.jpg)"></div>
+    <div class="post-image" style="background-image: url(http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202106/87ad8b2009c489546b5d0a9482b5f08a--164538143.jpg)"></div>
   
 
   <!-- navbar -->
@@ -96,11 +96,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">node.js</h1>
+          <h1 class="title-wrap">数据库</h1>
           <h2 class="title-sub-wrap">
             <strong>ChenZehong</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2022-03-08T00:56:35.313Z" itemprop="datePublished">2022-03-08</time>
+            <time  class="article-date" datetime="2022-03-12T08:48:54.049Z" itemprop="datePublished">2022-03-12</time>
           </h2>
           <ul class="wrap-list dark">
   
@@ -132,9 +132,19 @@
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
         <ul>
-<li>在node中使用axios：</li>
+<li>介绍一下SQL中的聚合函数 </li>
 </ul>
-<p>axios是基于promise的http请求库，可以用在浏览器和node.js中，一般使用node.js来开发接口，但是当我们需要对第三方的接口进行测试时，除了可以使用一些app比如postman进行测试之外，还可以在node中使用axios向第三方接口发送请求。</p>
+<ol>
+<li>COUNT()函数：统计数据表中包含的记录行的总数，或者根据查询结果返回列中包含的数据行数。<ul>
+<li>COUNT(*)计算表中总的行数，不管某列是否有数值或者为空值。</li>
+<li>COUNT(字段名)计算指定列下总的行数，计算时将忽略空值的行。</li>
+</ul>
+</li>
+<li>AVG()函数：通过计算返回的行数和每一行数据的和，求得指定列数据的平均值。</li>
+<li>SUM()函数：是一个求总和的函数，返回指定列值的总和。</li>
+<li>MAX()函数：返回指定列中的最大值，不仅适用于查找数值类型，也可应用于字符类型。</li>
+<li>MIN()函数：返回查询列中的最小值，不仅适用于查找数值类型，也可应用于字符类型。</li>
+</ol>
 
       </section>
 
@@ -142,32 +152,16 @@
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202106/87ad8b2009c489546b5d0a9482b5f08a--164538143.jpg"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2022/03/12/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">数据库</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202202/a369311326142d610c24c4bf7501ec5d--1143487034.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202202/2c1fcb88de7ea4a1f12d4f23f3142056--1023256475.jpg"></div>
     
     <div class="card-text">
       
-        <a href="/2022/02/23/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/webpack%E5%9F%BA%E7%A1%80/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">webpack基础</h2>
+        <a href="/2022/03/08/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/nodeJS/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">node.js</h2>
         </a>
       
       <div class="card-text--row">Older</div>
