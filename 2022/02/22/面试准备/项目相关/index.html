@@ -210,6 +210,47 @@
 </ul>
 <p>有，在项目中需要多次向后端接口发起http请求，如果不对axios进行封装，每一次都需要设置请求头、错误处理、请求路径，会让代码冗杂且浪费时间，所以在项目中对axios进行了封装。</p>
 <p>在main.js文件中，安装引入axios，我将axios添加为vue实例方法，即用Vue.prototype将axios设置为所有组件共享的方法，然后在main.js中配置基本路径baseURL，以及因为在每次发送请求都需要携带登录成功后端返回的token，所以通过请求拦截器在每次请求之前在请求头添加上token。因为想要实现网络请求进度条的效果，我使用一个NProgress插件，然后分别在请求时开启进度条，在拦截请求器中结束进度条实现想要的效果。</p>
+<ul>
+<li>前端怎么做权限管理：</li>
+</ul>
+<p><strong>接口权限</strong>：采用jwt形式验证，没有通过则跳转到登录页，通过则拿到token保存起来，通过axios请求拦截器在每次请求时在请求头加上token</p>
+<p><strong>路由权限</strong>：</p>
+<p>1、把所有的页面都放在路由表中，只要在访问的时候判断一下角色权限即可。vue-router在构建路由的时候提供了元信息meta，将能访问到该路由的角色添加到roles中，添加路由守卫，在访问路由前将meta属性与用户角色进行对比，如果用户角色出现在路由中就是可以访问。</p>
+<p>缺点：</p>
+<p>需要加载所有的路由，如果路由很多对性能有影响；是在全局路由守卫进行配置每次路由跳转都要做权限判断；菜单信息写在前端，任何更改都需要重新编译。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">routes:[</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="attr">path</span>:<span class="string">&quot;./login&quot;</span>,</span><br><span class="line">		<span class="attr">name</span>:<span class="string">&quot;login&quot;</span>,</span><br><span class="line">		<span class="attr">meta</span>:&#123;</span><br><span class="line">			<span class="attr">roles</span>:[<span class="string">&quot;admin&quot;</span>,<span class="string">&quot;user&quot;</span>]</span><br><span class="line">		&#125;,</span><br><span class="line">		<span class="attr">component</span>:<span class="function">() =&gt;</span> <span class="keyword">import</span>(<span class="string">&quot;../component/Login.vue&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>2、初始化时先挂载不需要权限控制的路由，比如登录页，404错误页等，如果用户强制进行访问则直接进入404。在vuex中添加获取用户权限信息的方法以及根据权限信息生成可访问路由表的方法，最后在全局路由守卫里调用vue-router的addRoutes方法添加路由。</p>
+<p>缺点：在全局路由守卫中配置，每次路由跳转都需要做判断，菜单信息写在前端，更改需要重新编译。</p>
+<p><strong>菜单权限</strong>：</p>
+<p>1、菜单与路由分离，菜单由后端返回，前端定义路由信息。前端在路由配置时添加name字段，用于与后端返回的菜单信息进行比较。每次路由跳转时都要判断权限，即判断菜单的name与路由的name，如果根据路由name找不到对应的菜单就表示用户没有权限访问。</p>
+<p>缺点：菜单与路由需要做一一对应；全局路由守卫，每次路由跳转都需要判断</p>
+<p>2、菜单与路由都由后端返回。在前端定义路由组件，后端返回以下格式的路由组件，通过vue-router的addRoutes动态挂载路由。需要前后端配合度更高。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&quot;home&quot;</span>,</span><br><span class="line">        <span class="attr">path</span>: <span class="string">&quot;/&quot;</span>,</span><br><span class="line">        <span class="attr">component</span>: <span class="string">&quot;home&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&quot;home&quot;</span>,</span><br><span class="line">        <span class="attr">path</span>: <span class="string">&quot;/userinfo&quot;</span>,</span><br><span class="line">        <span class="attr">component</span>: <span class="string">&quot;userInfo&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p><strong>按钮权限</strong>：</p>
+<p>1、用v-if进行判断用户权限role与路由表中的metabtnPermissions</p>
+<p>2、通过自定义指令进行按钮权限的判断</p>
+<ul>
+<li>使用代理服务器解决跨域问题：</li>
+</ul>
+<p>1、通过vue-cli搭建的项目可以通过webpack起一个本地服务器作为请求的代理对象，通过该服务器转发请求至目标服务器，得到结果再转发给前端，但是最终发布上线时如果web应用和接口服务器不再一起仍会跨域。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//vue.config.js</span></span><br><span class="line">amodule.exports = &#123;</span><br><span class="line">    <span class="attr">devServer</span>: &#123;</span><br><span class="line">        <span class="attr">host</span>: <span class="string">&#x27;127.0.0.1&#x27;</span>,</span><br><span class="line">        <span class="attr">port</span>: <span class="number">8084</span>,</span><br><span class="line">        <span class="attr">open</span>: <span class="literal">true</span>,<span class="comment">// vue项目启动时自动打开浏览器</span></span><br><span class="line">        <span class="attr">proxy</span>: &#123;</span><br><span class="line">            <span class="string">&#x27;/api&#x27;</span>: &#123; <span class="comment">// &#x27;/api&#x27;是代理标识，用于告诉node，url前面是/api的就是使用代理的</span></span><br><span class="line">                <span class="attr">target</span>: <span class="string">&quot;http://xxx.xxx.xx.xx:8080&quot;</span>, <span class="comment">//目标地址，一般是指后台服务器地址</span></span><br><span class="line">                <span class="attr">changeOrigin</span>: <span class="literal">true</span>, <span class="comment">//是否跨域</span></span><br><span class="line">                <span class="attr">pathRewrite</span>: &#123; <span class="comment">// pathRewrite 的作用是把实际Request Url中的&#x27;/api&#x27;用&quot;&quot;代替</span></span><br><span class="line">                    <span class="string">&#x27;^/api&#x27;</span>: <span class="string">&quot;&quot;</span> </span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//最后通过axios发送请求中配置请求根路径</span></span><br><span class="line">axios.defaults.baseURL = <span class="string">&quot;/api&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>2、通过服务端实现代理请求转发</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//以express为例</span></span><br><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> proxy = <span class="built_in">require</span>(<span class="string">&#x27;http-proxy-middleware&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> app = express()</span><br><span class="line">app.use(express.static(__dirname + <span class="string">&#x27;/&#x27;</span>))</span><br><span class="line">app.use(<span class="string">&#x27;/api&#x27;</span>, proxy(&#123; <span class="attr">target</span>: <span class="string">&#x27;http://localhost:4000&#x27;</span>, <span class="attr">changeOrigin</span>: <span class="literal">false</span></span><br><span class="line">                      &#125;));</span><br><span class="line"><span class="built_in">module</span>.exports = app</span><br></pre></td></tr></table></figure>
+
+<p>3、配置nginx实现代理</p>
+<ul>
+<li>怎么处理项目中的错误：</li>
+</ul>
+<p><strong>后端接口错误</strong>：使用axios的响应拦截器先进行一层拦截，如果如果出错则直接报错。</p>
+<p><strong>代码逻辑错误</strong>：</p>
+<p>1、全局设置错误处理：</p>
+<p>errorHandle：这个处理函数被调用时可获取错误信息与vue实例。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Vue.config.errorHandler = function(err,vm,info)&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2、生命周期函数errorCaptured：捕获来自后代组件的错误时被调用，此钩子会受到三个参数：错误对象、发生错误的组件实例以及一个包含错误来源信息的字符串，此构子可以返回false来阻止该错误继续向上传。</p>
 
       </section>
 
