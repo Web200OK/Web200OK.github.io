@@ -368,6 +368,15 @@
 <li>用的比较多的element 组件：</li>
 </ul>
 <p>el-button按钮、el-input输入框、el-upload上传、el-form表单、el-breadcrumb面包屑</p>
+<ul>
+<li>说说vue的模板引擎：</li>
+</ul>
+<p>模板引擎就是让数据变为视图的解决方案。vue在实现模板引擎中引入了mustache库，在这之前实现数据变为视图的方法有：纯DOM（手动根据data创建dom节点和对应赋值）、join方法（将模板HTML字符串每一行都写在数组中，数据进行相对应的填充，最后利用join方法生成HTML）、es6模板字符串（join的升级版，由于可以换行直接写在反引号中，用$填充数据最后遍历生成HTML）。</p>
+<p>mustache库使用render函数根据模板字符串和数据生成相对应的HTML，实现的原来是将传入的模板字符串转成tokens，结合传入的data生成填充数据渲染后的HTML字符串。tokens是反映模板字符串结构和内容的数组，它的分割是基于双大括号，里面的内容为name类型，值为key，外面的字符串内容都为text，值就是字符串；当双大括号里面是#array数组时，会被解析成#类型，这时候会开辟索引2，存放tokens数组，知道遇到双大括号里面是<code>/array</code>会被解析成/类型，值为数组索引。</p>
+<p>具体实现步骤：</p>
+<p>1、Scanner类：一个扫描器类，用于扫描将指定字符串，最后生成tokens</p>
+<p>2、tokens数组的折叠：使用到栈结构sections以及收集器collector，对token类型是#的token进行折叠。</p>
+<p>3、tokens与data结合生成HTML：对tokens数组的每一项类型检查，如果为text则直接加进HTMLStr中，如果为name类型将数据值加进HTMLStr中，如果是#类型，则使用递归思想将这一项的子项tokens和封装了<code>.</code>属性的子对象传入参数中，最后返回整个HTMLStr。</p>
 
       </section>
 
@@ -505,14 +514,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/TensorFlow-js/">
-            TensorFlow.js (1)
+          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
+            网站介绍 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
-            网站介绍 (1)
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
           </a>
         </li>
       

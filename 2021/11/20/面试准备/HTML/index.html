@@ -418,29 +418,6 @@
 <h3 id="18-使用XHTML有什么局限"><a href="#18-使用XHTML有什么局限" class="headerlink" title="18.使用XHTML有什么局限"></a>18.使用XHTML有什么局限</h3><p><code>xhtml</code>语法要求严格，必须有<code>head、body</code>,每个DOM必须闭合，空标签也必须闭合，另外要在属性值上使用双引号，一旦遇到错误就会停止解析，并显示错误信息。</p>
 <h3 id="19-data-属性的作用是什么"><a href="#19-data-属性的作用是什么" class="headerlink" title="19.data-属性的作用是什么"></a>19.data-属性的作用是什么</h3><p><code>data-</code>为开发者提供自定义的属性，这些属性集可以通过对象的<code>dataset</code>属性获取，不支持该属性的浏览器可以通过<code>getAttribute</code>方法获取，<code>data-</code>后面的以连字符分隔的多个单词获取使用驼峰风格。</p>
 <p>当没有合适的属性与元素时，自定义的<code>data</code>属性是能够存储页面或<code>APP</code>的私有的自定义数据</p>
-<h3 id="20-请描述一下cookies-sessionStorage和localStorage的区别"><a href="#20-请描述一下cookies-sessionStorage和localStorage的区别" class="headerlink" title="20.请描述一下cookies,sessionStorage和localStorage的区别"></a>20.请描述一下cookies,sessionStorage和localStorage的区别</h3><p>sessionStorage 和 localStorage 是HTML5 Web Storage API 提供的，可以方便的在web请求之间保存数据。有了本地数据，就可以避免数据在浏览器和服务器间不必要地来回传递。</p>
-<p>sessionStorage、localStorage、cookie都是在浏览器端存储的数据，sessionStorage 是在同源的同窗口（或tab）中，始终存在的数据。也就是说只要这个浏览器窗口没有关闭，即使刷新页面或进入同源另一页面，数据仍然存在。关闭窗口后，sessionStorage 即被销毁。同时“独立”打开的不同窗口，即使是同一页面，sessionStorage 对象也是不同的</p>
-<p>cookies会发送到服务器端。其余两个不会。</p>
-<ul>
-<li>Cookie<ul>
-<li>每个域名存储量比较小（各浏览器不同，大致4K）</li>
-<li>所有域名的存储量有限制（各浏览器不同，大致4K）</li>
-<li>有个数限制（各浏览器不同）</li>
-<li>会随请求发送到服务器</li>
-</ul>
-</li>
-<li>LocalStorage<ul>
-<li>永久存储</li>
-<li>单个域名存储量比较大（推荐5MB，各浏览器不同）</li>
-<li>总体数量无限制</li>
-</ul>
-</li>
-<li>SessionStorage<ul>
-<li>只在 Session 内有效</li>
-<li>存储量更大（推荐没有限制，但是实际上各浏览器也不同）</li>
-</ul>
-</li>
-</ul>
 <h3 id="21-网站SEO怎么处理"><a href="#21-网站SEO怎么处理" class="headerlink" title="21.网站SEO怎么处理"></a>21.网站SEO怎么处理</h3><p>①网站结构布局优化：</p>
 <ul>
 <li>网站结构层次越少，越容易被抓取，也就容易被收录。</li>
@@ -470,7 +447,7 @@
 <h3 id="一次性给你大量的-dom-怎么优化？"><a href="#一次性给你大量的-dom-怎么优化？" class="headerlink" title="一次性给你大量的 dom 怎么优化？"></a>一次性给你大量的 dom 怎么优化？</h3><ul>
 <li>缓存DOM对象：</li>
 </ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> rootElem = <span class="built_in">document</span>.querySelector（<span class="string">&#x27;#app&#x27;</span>）;</span><br><span class="line"><span class="keyword">let</span> childList = rootElem.child; <span class="comment">//假设全是dom节点</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i =<span class="number">0</span>; i&lt;childList.lenght; i++)&#123;</span><br><span class="line">       <span class="comment">/**</span></span><br><span class="line"><span class="comment">       *根据条件对应操作</span></span><br><span class="line"><span class="comment">   &#125;</span></span><br><span class="line"><span class="comment"></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//不缓存DOM查询结果</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>; i &lt; <span class="built_in">document</span>.getElementsByTagName(<span class="string">&#x27;p&#x27;</span>).length; i++) &#123;</span><br><span class="line">	<span class="comment">//每次循环都会计算length，频繁进行DOM查询</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//缓存DOM查询结果</span></span><br><span class="line"><span class="keyword">const</span> length = <span class="built_in">document</span>.getElementsByTagName(<span class="string">&#x27;p&#x27;</span>).length;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>; i&lt;length; i++) &#123;</span><br><span class="line">	<span class="comment">//缓存length，只进行一次DOM查询</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>文档片段：</li>
@@ -619,14 +596,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/TensorFlow-js/">
-            TensorFlow.js (1)
+          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
+            网站介绍 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
-            网站介绍 (1)
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
           </a>
         </li>
       
