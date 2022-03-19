@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Category: 面试准备 | 大三下</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="项目难点：  在添加商品模块上传图片的时候，因为在elementUi中并没有声明上传图片并不是使用axios请求，所以在将图片发送给服务端的时候失败了，原因是因为axios有在请求拦截器中为每个请求添加服务器返回的token，所以需要手动给图片上传的请求头中添加token ，可以存在cookie，同时在后端开启http only，这样通过document.cookie就读取不到了。  项目性能优">
+<meta property="og:type" content="website">
+<meta property="og:title" content="项目相关">
+<meta property="og:url" content="http://example.com/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3.html">
+<meta property="og:site_name" content="大三下">
+<meta property="og:description" content="项目难点：  在添加商品模块上传图片的时候，因为在elementUi中并没有声明上传图片并不是使用axios请求，所以在将图片发送给服务端的时候失败了，原因是因为axios有在请求拦截器中为每个请求添加服务器返回的token，所以需要手动给图片上传的请求头中添加token ，可以存在cookie，同时在后端开启http only，这样通过document.cookie就读取不到了。  项目性能优">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-03-15T09:19:26.055Z">
+<meta property="article:modified_time" content="2022-03-15T09:19:26.055Z">
+<meta property="article:author" content="ChenZehong">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="大三下" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">大三下</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="page-" class="article article-type-page" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3.html" class="article-date">
+  <time datetime="2022-03-15T09:19:26.055Z" itemprop="datePublished">2022-03-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      项目相关
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>项目难点：</li>
+</ul>
+<p>在添加商品模块上传图片的时候，因为在elementUi中并没有声明上传图片并不是使用axios请求，所以在将图片发送给服务端的时候失败了，原因是因为axios有在请求拦截器中为每个请求添加服务器返回的token，所以需要手动给图片上传的请求头中添加token ，可以存在cookie，同时在后端开启http only，这样通过document.cookie就读取不到了。</p>
+<ul>
+<li>项目性能优化：</li>
+</ul>
+<ol>
+<li><p>为项目的开发环境和生产环境配置不同的入口文件：在vue.config.js中配置chainWebpack，config.when为两个环境指定两个不同的入口文件</p>
+</li>
+<li><p>路由懒加载：将路由相关的组件不再直接导入而是改成异步组件的写法，只有函数被调用时才去加载对应的组件，可以指定webpackChunkName来规定哪些组件打包为一个js文件，如果没有指定则各自打包为一个js文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">//传统写法：</span><br><span class="line">import Vue from &#x27;vue&#x27;</span><br><span class="line">import VueRouter from &#x27;vue-router&#x27;</span><br><span class="line">import Login from &#x27;@/views/login/index.vue&#x27;</span><br><span class="line">import Home from &#x27;@/views/home/home.vue&#x27;</span><br><span class="line">Vue.use(VueRouter)</span><br><span class="line">const router = new VueRouter(&#123;</span><br><span class="line"> routes: [</span><br><span class="line">    &#123; path: &#x27;/login&#x27;, component: Login &#125;,</span><br><span class="line">    &#123; path: &#x27;/home&#x27;, component: Home &#125;</span><br><span class="line">  ]</span><br><span class="line"> </span><br><span class="line">export default router</span><br><span class="line"></span><br><span class="line">//路由懒加载</span><br><span class="line">import Vue from &#x27;vue&#x27;</span><br><span class="line">import VueRouter from &#x27;vue-router&#x27;</span><br><span class="line"> </span><br><span class="line">//const  Login = ()=&gt; &#123;</span><br><span class="line">//    return  import(&#x27;@/views/login/index.vue&#x27;)</span><br><span class="line">//&#125;</span><br><span class="line">//const  Home = ()=&gt; &#123;</span><br><span class="line">//    return  import(&#x27;@/views/home/home.vue&#x27;)</span><br><span class="line">//&#125;</span><br><span class="line">//有return且函数体只有一行，所以省略后为</span><br><span class="line">const  Login = ()=&gt; import(&#x27;@/views/login/index.vue&#x27;) </span><br><span class="line"> </span><br><span class="line">const  Home = ()=&gt;  import(&#x27;@/views/home/home.vue&#x27;)</span><br><span class="line"> </span><br><span class="line">Vue.use(VueRouter)</span><br><span class="line">const router = new VueRouter(&#123;</span><br><span class="line"> routes: [</span><br><span class="line">    &#123; path: &#x27;/login&#x27;, component: Login &#125;,</span><br><span class="line">    &#123; path: &#x27;/home&#x27;, component: Home &#125;</span><br><span class="line">  ]</span><br><span class="line"> </span><br><span class="line">export default router</span><br></pre></td></tr></table></figure></li>
+<li><p>通过webpack的externals加载外部CDN资源：CDN是内容分发网络，网络请求所需要的时间会受到客户端与服务器距离的影响，CDN就是将资源部署在全国各地，类似于缓存服务器，当请求资源时，会向离客户端最近的CDN服务器请求资源，这样就大大减少了请求所需要的时间，同时vue在打包时会将项目中import的资源都打包进一个包，在vue.config.js中配置externals中声明的资源不会被打包，也会减少包的体积。向CDN请求的资源会在第一次获取到之后缓存在本地，刷新页面会从本地直接读取这些资源，因此第二次打开网页用时更短。</p>
+</li>
+<li><p>开启gzip资源压缩：使用express的compression实例对文本内容进行压缩。 compression 是 一个express的中间件，主要用于进行gzip 压缩。通常用于web性能优化的，主要是能对你的文本内容进行压缩。一般用于html的文件。</p>
+</li>
+</ol>
+<ul>
+<li>echarts：</li>
+</ul>
+<p>基于一个元素，使用echarts.init来初始化一个实例，然后配置options,使用setOption来使用指定的配置项和数据显示图表。</p>
+<ul>
+<li>开发git的工作流程：</li>
+</ul>
+<p>1、新建一个Git仓库，此时默认创建master分支，由于master是用于生产环境的所以必须保证master分支上代码的稳定性，所以要基于master分支创建一个develop分支</p>
+<p>2、当需要进行开发时从develop分支中创建新的开发分支，然后编写代码，开发完成后合并到develop分支上</p>
+<p>3、新功能合并到develop分支上后如果想要发布到生产环境中需要在develop分支上创建release分支进行测试，测试完成后将该分支分别合并到master分支和develop分支上</p>
+<p>4、release分支合并到master分支后需要打上便签用于发布</p>
+<p>5、如果在生产环境中出现bug此时需要基于master分支创建一个hotfix分支用于修改bug，bug改完之后在将hotfix分支分别合并到master分支和develop分支上</p>
+<ul>
+<li>项目还有哪些可以优化的地方：</li>
+</ul>
+<p><em>优化搜索：</em></p>
+<p>由于项目中很多地方出现了搜索框，每一次搜索都需要点击，可以取消点击按钮，在输入之后自动发起请求进行搜索，为了避免短时间内修改搜索框内容多次发起请求，可以使用防抖函数进行优化。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> submit = <span class="built_in">document</span>.getElementById(<span class="string">&quot;input&quot;</span>)</span><br><span class="line">      submit.addEventListener(<span class="string">&quot;click&quot;</span>,jieliu(fn))</span><br><span class="line">      <span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">          <span class="built_in">console</span>.log(e)</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">//防抖函数</span></span><br><span class="line">      <span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">fn</span>)</span>&#123;</span><br><span class="line">          <span class="keyword">let</span> t = <span class="literal">null</span></span><br><span class="line">          <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">              <span class="keyword">if</span>(t !== <span class="literal">null</span>) <span class="built_in">clearTimeout</span>(t)</span><br><span class="line">              t = <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                  fn.apply(<span class="built_in">this</span>,<span class="built_in">arguments</span>)</span><br><span class="line">              &#125;,<span class="number">1000</span>)</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">//节流函数</span></span><br><span class="line">      <span class="function"><span class="keyword">function</span> <span class="title">jieliu</span>(<span class="params">fn</span>)</span>&#123;</span><br><span class="line">          <span class="keyword">let</span> begin = <span class="number">0</span></span><br><span class="line">          <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">              <span class="keyword">let</span> cur = <span class="keyword">new</span> <span class="built_in">Date</span>().getTime()</span><br><span class="line">              <span class="keyword">if</span>(cur - begin &gt; <span class="number">1000</span>)&#123;</span><br><span class="line">                  fn.apply(<span class="built_in">this</span>,<span class="built_in">arguments</span>)</span><br><span class="line">                  begin = cur</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>优化token安全性：</em></p>
+<p>在项目中只是单纯的将token存放在sessionStorage中，由于sessionStorage很容易拿到所以存在安全隐患。</p>
+<ol>
+<li>客户端通过用户名密码登录服务器并获取token</li>
+<li>客户端生成时间戳并将时间戳作为下次请求的其中一个参数</li>
+<li>客户端将所有参数包括token、时间戳按照自己的算法进行排序加密得到签名</li>
+<li>将token、时间戳和签名作为请求时必须携带的参数发送给服务器，只有在token有效，时间戳与当前时间戳间隔不超过固定时间段、服务器中不存在签名三种情况同时满足才请求有效</li>
+</ol>
+<p>使用路由守卫对路由进行优化：</p>
+<p>当用户直接跳过登录页面进入网页时，通过在路由守卫中判断是否可以获取到用户的token，如果获取到则允许访问，否则则重定向到登录页。</p>
+<h3 id="小程序："><a href="#小程序：" class="headerlink" title="小程序："></a>小程序：</h3><p>项目难点：</p>
+<p>视频页实现视频进度的保存：通过一个数组，以每个视频的独有的id作为键，播放时间作为值，当播放一个视频暂停时将当前视频播放时间存进数组中，当重新点击时，通过视频id获取到播放时间，用视频上下文的API实现自动跳转播放。</p>
+<p>实现在每日推荐页面听歌实现歌曲切换：用到了两个消息订阅发布，第一个是当切换歌曲时将切换类型，就是歌曲的下一曲或上一曲，通过消息发布给每日推荐页面，然后在每日推荐页面获取到该歌曲的id，然后再通过消息发布给歌曲播放页面。另一种做法可以是在歌曲播放页面直接发送请求获得每日推荐的数据，然后切换歌曲时在数据中查找对应的歌曲然后进行播放。</p>
+<p>项目优化：</p>
+<p>可以在视频页渲染的时候使用posterAPI让图片代替视频，只有当点击观看视频时才加载视频，这样就不用在视频页一开始就把所有视频加载好，加快页面渲染时间。</p>
+<p>由于项目中的搜索框是在输入之后自动发送请求获取相对应的歌曲名，为了避免短时间内修改搜索框内容多次发起请求，可以使用防抖函数进行优化。</p>
+<p>由于视频页的视频数据一次请求是有限的，当视频看完之后如果想要继续更新视频数据，由于后端接口设置是隔一段时间才会更新数据，所以不能实现立即下滑刷新的效果。</p>
+<ul>
+<li>使用vue的element实现大文件的断点续传：</li>
+</ul>
+<p>1、使用element自带的upload组件，关闭文件加载自动上传（auto-upload），然后自己封装网络请求</p>
+<p>2、使用组件的@change监听文件加载，在响应函数参数中file可以得到关于文件的信息，可以进行文件校验（指定提交文件的格式）</p>
+<p>3、定义一个文件解析函数fileparse，使用内置函数FileReader构造一个实例对象来解析转换用户存储在计算机上的文件为指定的数据格式，用一个变量result进行接收</p>
+<p>用到的事件处理：FileReader.onload：该事件在读取操作完成时触发</p>
+<p>用到的方法：</p>
+<p>FileReader.readAsArrayBuffer()：将文件对象转换为ArrayBuffer数据对象</p>
+<p>FileReader.readAsDataURL()：将文件对象转换为base64的数据对象</p>
+<p>4、发送axios请求，将数据对象进行JSON序列化之后再进行传输，服务器接收之后重新转换为数据对象，然后再转换为buffer，最后再转换为文件数据</p>
+<p>5、使用spark-md5插件根据buffer生成hash值作为文件名，这样可以避免重复提交相同文件</p>
+<p>6、使用fs.writeFileSync将文件写进服务器路径中，给客户端返回响应信息</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//服务器</span></span><br><span class="line"><span class="comment">// 上传BASE64</span></span><br><span class="line">app.post(<span class="string">&#x27;/single2&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> &#123;</span><br><span class="line">        chunk,</span><br><span class="line">        filename</span><br><span class="line">    &#125; = req.body;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// chunk的处理：转换为buffer</span></span><br><span class="line">    chunk = <span class="built_in">decodeURIComponent</span>(chunk);</span><br><span class="line">    chunk = chunk.replace(<span class="regexp">/^data:image\/\w+;base64,/</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">    chunk = Buffer.from(chunk, <span class="string">&#x27;base64&#x27;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 存储文件到服务器</span></span><br><span class="line">    <span class="keyword">let</span> spark = <span class="keyword">new</span> SparkMD5.ArrayBuffer(),</span><br><span class="line">        suffix = <span class="regexp">/\.([0-9a-zA-Z]+)$/</span>.exec(filename)[<span class="number">1</span>],</span><br><span class="line">        path;</span><br><span class="line">    spark.append(chunk);</span><br><span class="line">    path = <span class="string">`<span class="subst">$&#123;uploadDir&#125;</span>/<span class="subst">$&#123;spark.end()&#125;</span>.<span class="subst">$&#123;suffix&#125;</span>`</span>;</span><br><span class="line">    fs.writeFileSync(path, chunk);</span><br><span class="line">    res.send(&#123;</span><br><span class="line">        <span class="attr">code</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">originalFilename</span>: filename,</span><br><span class="line">        <span class="attr">path</span>: path.replace(__dirname, <span class="string">`http://127.0.0.1:<span class="subst">$&#123;PORT&#125;</span>`</span>)</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//客户端</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="title">changeFile</span>(<span class="params">file</span>)</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (!file) <span class="keyword">return</span>;</span><br><span class="line">      file = file.raw;</span><br><span class="line">      <span class="comment">// 继续做格式校验</span></span><br><span class="line">      <span class="comment">/*</span></span><br><span class="line"><span class="comment">       * 把上传的文件先进行解析（FileReader）</span></span><br><span class="line"><span class="comment">       * 把其转换base64编码格式</span></span><br><span class="line"><span class="comment">       * 自己基于axios把信息传递给服务器</span></span><br><span class="line"><span class="comment">       * ...</span></span><br><span class="line"><span class="comment">       */</span></span><br><span class="line">      <span class="keyword">let</span> result = <span class="keyword">await</span> fileParse(file, <span class="string">&quot;base64&quot;</span>);</span><br><span class="line">      result = <span class="keyword">await</span> axios.post(</span><br><span class="line">        <span class="string">&quot;/single2&quot;</span>,</span><br><span class="line">        qs.stringify(&#123;</span><br><span class="line">          <span class="attr">chunk</span>: <span class="built_in">encodeURIComponent</span>(result),</span><br><span class="line">          <span class="attr">filename</span>: file.name,</span><br><span class="line">        &#125;),</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">headers</span>: &#123;</span><br><span class="line">            <span class="string">&quot;Content-Type&quot;</span>: <span class="string">&quot;application/x-www-form-urlencoded&quot;</span>,</span><br><span class="line">          &#125;,</span><br><span class="line">        &#125;</span><br><span class="line">      );</span><br><span class="line">      result = result.data;</span><br><span class="line">      <span class="keyword">if</span> (result.code == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">this</span>.img = result.path;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fileParse</span>(<span class="params">file, type = <span class="string">&quot;base64&quot;</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> fileRead = <span class="keyword">new</span> FileReader();</span><br><span class="line">        <span class="keyword">if</span> (type === <span class="string">&quot;base64&quot;</span>) &#123;</span><br><span class="line">            fileRead.readAsDataURL(file);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type === <span class="string">&quot;buffer&quot;</span>) &#123;</span><br><span class="line">            fileRead.readAsArrayBuffer(file);</span><br><span class="line">        &#125;</span><br><span class="line">        fileRead.onload = <span class="function">(<span class="params">ev</span>) =&gt;</span> &#123;</span><br><span class="line">            resolve(ev.target.result);</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>断点续传：</p>
+<p>1、先把文件解析成buffer数据后，根据切片大小或者是切片数量进行分割</p>
+<p>2、对切片命名，可以根据文件生成统一的hash值然后再加上一个序号对切片进行命名</p>
+<p>3、将切片存放在一个数组中然后遍历数组发送上传请求，用一个变量记录上传切片的数量，一个变量记录上传状态，每上传成功一次变量加1，然后移除数组中已上传的切片。</p>
+<p>4、可以设置一个暂停上传按钮，当用户点击暂停时更改上传状态停止上传，如果点击继续上传按钮则根据记录上传切片数量的变量继续发送未发送的文件。</p>
+<p>5、后端接收到切片文件之后，将切片文件数据统一存放在一个服务器路径中，然后当所有切片上传完毕之后，按照序列号对切片进行拼接成原来的文件。</p>
+<ul>
+<li>有在项目中封装过axios吗：</li>
+</ul>
+<p>有，在项目中需要多次向后端接口发起http请求，如果不对axios进行封装，每一次都需要设置请求头、错误处理、请求路径，会让代码冗杂且浪费时间，所以在项目中对axios进行了封装。</p>
+<p>在main.js文件中，安装引入axios，我将axios添加为vue实例方法，即用Vue.prototype将axios设置为所有组件共享的方法，然后在main.js中配置基本路径baseURL，以及因为在每次发送请求都需要携带登录成功后端返回的token，所以通过请求拦截器在每次请求之前在请求头添加上token。因为想要实现网络请求进度条的效果，我使用一个NProgress插件，然后分别在请求时开启进度条，在拦截请求器中结束进度条实现想要的效果。</p>
+<ul>
+<li>前端怎么做权限管理：</li>
+</ul>
+<p><strong>接口权限</strong>：采用jwt形式验证，没有通过则跳转到登录页，通过则拿到token保存起来，通过axios请求拦截器在每次请求时在请求头加上token</p>
+<p><strong>路由权限</strong>：</p>
+<p>1、把所有的页面都放在路由表中，只要在访问的时候判断一下角色权限即可。vue-router在构建路由的时候提供了元信息meta，将能访问到该路由的角色添加到roles中，添加路由守卫，在访问路由前将meta属性与用户角色进行对比，如果用户角色出现在路由中就是可以访问。</p>
+<p>缺点：</p>
+<p>需要加载所有的路由，如果路由很多对性能有影响；是在全局路由守卫进行配置每次路由跳转都要做权限判断；菜单信息写在前端，任何更改都需要重新编译。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">routes:[</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="attr">path</span>:<span class="string">&quot;./login&quot;</span>,</span><br><span class="line">		<span class="attr">name</span>:<span class="string">&quot;login&quot;</span>,</span><br><span class="line">		<span class="attr">meta</span>:&#123;</span><br><span class="line">			<span class="attr">roles</span>:[<span class="string">&quot;admin&quot;</span>,<span class="string">&quot;user&quot;</span>]</span><br><span class="line">		&#125;,</span><br><span class="line">		<span class="attr">component</span>:<span class="function">() =&gt;</span> <span class="keyword">import</span>(<span class="string">&quot;../component/Login.vue&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>2、初始化时先挂载不需要权限控制的路由，比如登录页，404错误页等，如果用户强制进行访问则直接进入404。在vuex中添加获取用户权限信息的方法以及根据权限信息生成可访问路由表的方法，最后在全局路由守卫里调用vue-router的addRoutes方法添加路由。</p>
+<p>缺点：在全局路由守卫中配置，每次路由跳转都需要做判断，菜单信息写在前端，更改需要重新编译。</p>
+<p><strong>菜单权限</strong>：</p>
+<p>1、菜单与路由分离，菜单由后端返回，前端定义路由信息。前端在路由配置时添加name字段，用于与后端返回的菜单信息进行比较。每次路由跳转时都要判断权限，即判断菜单的name与路由的name，如果根据路由name找不到对应的菜单就表示用户没有权限访问。</p>
+<p>缺点：菜单与路由需要做一一对应；全局路由守卫，每次路由跳转都需要判断</p>
+<p>2、菜单与路由都由后端返回。在前端定义路由组件，后端返回以下格式的路由组件，通过vue-router的addRoutes动态挂载路由。需要前后端配合度更高。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&quot;home&quot;</span>,</span><br><span class="line">        <span class="attr">path</span>: <span class="string">&quot;/&quot;</span>,</span><br><span class="line">        <span class="attr">component</span>: <span class="string">&quot;home&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&quot;home&quot;</span>,</span><br><span class="line">        <span class="attr">path</span>: <span class="string">&quot;/userinfo&quot;</span>,</span><br><span class="line">        <span class="attr">component</span>: <span class="string">&quot;userInfo&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p><strong>按钮权限</strong>：</p>
+<p>1、用v-if进行判断用户权限role与路由表中的metabtnPermissions</p>
+<p>2、通过自定义指令进行按钮权限的判断</p>
+<ul>
+<li>使用代理服务器解决跨域问题：</li>
+</ul>
+<p>1、通过vue-cli搭建的项目可以通过webpack起一个本地服务器作为请求的代理对象，通过该服务器转发请求至目标服务器，得到结果再转发给前端，但是最终发布上线时如果web应用和接口服务器不再一起仍会跨域。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//vue.config.js</span></span><br><span class="line">amodule.exports = &#123;</span><br><span class="line">    <span class="attr">devServer</span>: &#123;</span><br><span class="line">        <span class="attr">host</span>: <span class="string">&#x27;127.0.0.1&#x27;</span>,</span><br><span class="line">        <span class="attr">port</span>: <span class="number">8084</span>,</span><br><span class="line">        <span class="attr">open</span>: <span class="literal">true</span>,<span class="comment">// vue项目启动时自动打开浏览器</span></span><br><span class="line">        <span class="attr">proxy</span>: &#123;</span><br><span class="line">            <span class="string">&#x27;/api&#x27;</span>: &#123; <span class="comment">// &#x27;/api&#x27;是代理标识，用于告诉node，url前面是/api的就是使用代理的</span></span><br><span class="line">                <span class="attr">target</span>: <span class="string">&quot;http://xxx.xxx.xx.xx:8080&quot;</span>, <span class="comment">//目标地址，一般是指后台服务器地址</span></span><br><span class="line">                <span class="attr">changeOrigin</span>: <span class="literal">true</span>, <span class="comment">//是否跨域</span></span><br><span class="line">                <span class="attr">pathRewrite</span>: &#123; <span class="comment">// pathRewrite 的作用是把实际Request Url中的&#x27;/api&#x27;用&quot;&quot;代替</span></span><br><span class="line">                    <span class="string">&#x27;^/api&#x27;</span>: <span class="string">&quot;&quot;</span> </span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//最后通过axios发送请求中配置请求根路径</span></span><br><span class="line">axios.defaults.baseURL = <span class="string">&quot;/api&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>2、通过服务端实现代理请求转发</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//以express为例</span></span><br><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> proxy = <span class="built_in">require</span>(<span class="string">&#x27;http-proxy-middleware&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> app = express()</span><br><span class="line">app.use(express.static(__dirname + <span class="string">&#x27;/&#x27;</span>))</span><br><span class="line">app.use(<span class="string">&#x27;/api&#x27;</span>, proxy(&#123; <span class="attr">target</span>: <span class="string">&#x27;http://localhost:4000&#x27;</span>, <span class="attr">changeOrigin</span>: <span class="literal">false</span></span><br><span class="line">                      &#125;));</span><br><span class="line"><span class="built_in">module</span>.exports = app</span><br></pre></td></tr></table></figure>
+
+<p>3、配置nginx实现代理</p>
+<ul>
+<li>怎么处理项目中的错误：</li>
+</ul>
+<p><strong>后端接口错误</strong>：使用axios的响应拦截器先进行一层拦截，如果如果出错则直接报错。</p>
+<p><strong>代码逻辑错误</strong>：</p>
+<p>1、全局设置错误处理：</p>
+<p>errorHandle：这个处理函数被调用时可获取错误信息与vue实例。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Vue.config.errorHandler = function(err,vm,info)&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2、生命周期函数errorCaptured：捕获来自后代组件的错误时被调用，此钩子会受到三个参数：错误对象、发生错误的组件实例以及一个包含错误来源信息的字符串，此构子可以返回false来阻止该错误继续向上传。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3.html" data-id="cl0x9xz4e0012tsug5ojodieu" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/TensorFlow-js/">TensorFlow.js</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8A%E6%97%A5%E6%8A%A5/">大三上日报</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">大三寒假日报</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">网站介绍</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">面试准备</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%8B%E7%BB%8D/" rel="tag">介绍</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/%E4%BB%8B%E7%BB%8D/" style="font-size: 10px;">介绍</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/03/18/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E6%89%8B%E5%86%99%E7%B3%BB%E5%88%97/">手写系列</a>
+          </li>
+        
+          <li>
+            <a href="/2022/03/12/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+          </li>
+        
+          <li>
+            <a href="/2022/03/08/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/nodeJS/">node.js</a>
+          </li>
+        
+          <li>
+            <a href="/2022/02/23/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/webpack%E5%9F%BA%E7%A1%80/">webpack基础</a>
+          </li>
+        
+          <li>
+            <a href="/2022/02/22/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3/">项目相关</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 ChenZehong<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

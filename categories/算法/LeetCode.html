@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Category: 算法 | 大三下</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="冒泡排序（空间复杂度O(1)，时间复杂度O(n平方)）：  冒泡排序就是从数组头开始比较两个相邻的数，如果前面的数大于后面的数就将两个数交换，然后开始下一对数字的比较，直到数组最后的数字比较完。 然后继续重复刚刚的步骤，除了最后一个数字不用，因为它已经是最大的。 这样一步步重复，直到没有数字需要交换位置。 123456789101112function bubbleSort(arr)&amp;#123;">
+<meta property="og:type" content="website">
+<meta property="og:title" content="leetcode">
+<meta property="og:url" content="http://example.com/categories/%E7%AE%97%E6%B3%95/LeetCode.html">
+<meta property="og:site_name" content="大三下">
+<meta property="og:description" content="冒泡排序（空间复杂度O(1)，时间复杂度O(n平方)）：  冒泡排序就是从数组头开始比较两个相邻的数，如果前面的数大于后面的数就将两个数交换，然后开始下一对数字的比较，直到数组最后的数字比较完。 然后继续重复刚刚的步骤，除了最后一个数字不用，因为它已经是最大的。 这样一步步重复，直到没有数字需要交换位置。 123456789101112function bubbleSort(arr)&amp;#123;">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-03-19T02:53:40.989Z">
+<meta property="article:modified_time" content="2022-03-19T02:53:40.989Z">
+<meta property="article:author" content="ChenZehong">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="大三下" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">大三下</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="page-" class="article article-type-page" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/categories/%E7%AE%97%E6%B3%95/LeetCode.html" class="article-date">
+  <time datetime="2022-03-19T02:53:40.989Z" itemprop="datePublished">2022-03-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      leetcode
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>冒泡排序（空间复杂度O(1)，时间复杂度O(n平方)）：</li>
+</ul>
+<p>冒泡排序就是从数组头开始比较两个相邻的数，如果前面的数大于后面的数就将两个数交换，然后开始下一对数字的比较，直到数组最后的数字比较完。</p>
+<p>然后继续重复刚刚的步骤，除了最后一个数字不用，因为它已经是最大的。</p>
+<p>这样一步步重复，直到没有数字需要交换位置。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bubbleSort</span>(<span class="params">arr</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt; arr.length - <span class="number">1</span>;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> j = <span class="number">0</span>;j &lt; arr.length - <span class="number">1</span> - i;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(arr[j] &gt; arr[j + <span class="number">1</span>])&#123;</span><br><span class="line">                <span class="keyword">let</span> temp = arr[j]</span><br><span class="line">                arr[j] = arr[j + <span class="number">1</span>]</span><br><span class="line">                arr[j + <span class="number">1</span>] = temp</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>选择排序（空间复杂度O(1)，时间复杂度O(n平方)）：</li>
+</ul>
+<p>选择排序就是从未排序的数组中找到最小的那一个数放到数组最前面，再从剩余未排序的数组中继续找到最小的数放到已排序的数后面，这样不断的重复直到数组排序完毕。</p>
+<ul>
+<li>快速排序<strong>（O (n*log n)）</strong>：</li>
+</ul>
+<p>1、将问题分解成一个个子问题：先把数组按照中点分为两组，对两个数组内的数字按照下标从小到大与中点分别进行比较，如果左边的数组数值比中点小则下标加1更新，右边的比中点大则下标减1，不满足条件则暂停下标更新。</p>
+<p>2、当左边或者右边的数组值都暂停更新时，将左右数组两个数互换，这一步的目标是将比中点大的换到数组右边，小的放到左边。</p>
+<p>3、每个子问题通过递归完成，由于都是在原数组中进行操作，所以最后数组就是排序好的数组。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">quickSort</span>(<span class="params">arr</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(l &gt;= r) <span class="keyword">return</span></span><br><span class="line">	<span class="keyword">let</span> i = l - <span class="number">1</span></span><br><span class="line">	<span class="keyword">let</span> j = r + <span class="number">1</span></span><br><span class="line">	<span class="keyword">let</span> t = arr[r + l &gt;&gt; <span class="number">1</span>]</span><br><span class="line">	<span class="keyword">while</span>(i &lt; j)&#123;</span><br><span class="line">		<span class="keyword">do</span> &#123;i++&#125; <span class="keyword">while</span>(arr[i] &lt; t)</span><br><span class="line">		<span class="keyword">do</span> &#123;j--&#125; <span class="keyword">while</span>(arr[j] &gt; t)</span><br><span class="line">		<span class="keyword">if</span>(i &lt; j)&#123;</span><br><span class="line">			<span class="keyword">let</span> temp = arr[i]</span><br><span class="line">			arr[i] = arr[j]</span><br><span class="line">			arr[j] = arr[i]</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	quickSort(arr,l,j)</span><br><span class="line">	quickSort(arr,j + <span class="number">1</span>,r)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>归并排序（O (n*log n)：</li>
+</ul>
+<p>归并与快排的基本思想都是分治，但是归并是一上来就递归。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mergeSort</span>(<span class="params">arr,l,r</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l &gt;= r) <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">let</span> mid = r + l &gt;&gt; <span class="number">1</span></span><br><span class="line">    mergeSort(arr,l,mid)</span><br><span class="line">    meergeSort(arr,mid + <span class="number">1</span>,r)</span><br><span class="line">    <span class="keyword">let</span> t = <span class="number">0</span></span><br><span class="line">    <span class="keyword">let</span> i = l</span><br><span class="line">    <span class="keyword">let</span> j = mid + <span class="number">1</span></span><br><span class="line">    <span class="keyword">let</span> temp = <span class="keyword">new</span> <span class="built_in">Array</span>(r - l + <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">while</span>(i &lt;= mid &amp;&amp; j &lt;= r)&#123;</span><br><span class="line">        <span class="keyword">if</span>(arr[i] &lt;= arr[j]) temp[t++] = arr[i++]</span><br><span class="line">        <span class="keyword">else</span> temp[t++] = arr[j++]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(i &lt;= mid) temp[t++] = arr[i++]</span><br><span class="line">    <span class="keyword">while</span>(j &lt;= r) temp[t++] = arr[j++]</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = l,t = <span class="number">0</span>;i &lt;= r;i++,t++)&#123;</span><br><span class="line">        arr[i] = temp[t]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>斐波拉契数列：</li>
+</ul>
+<p><em>F</em>(<em>n</em>)=<em>F</em>(<em>n</em>−1)+<em>F</em>(<em>n</em>−2)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">n</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(n &lt; <span class="number">2</span>) <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">	<span class="keyword">let</span> p = <span class="number">0</span>,q = <span class="number">0</span>,r = <span class="number">1</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">2</span>;i &lt;= n;i++)&#123;</span><br><span class="line">		p = q</span><br><span class="line">		q = r</span><br><span class="line">		r = (p + q) % <span class="number">1000000007</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> r</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>1、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/valid-parentheses/">有效的括号</a></p>
+<p>使用栈，将左边括号存储进数组中，当出现右括号时，弹出最顶层元素与之比较。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> isValid = <span class="function"><span class="keyword">function</span>(<span class="params">s</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!s) <span class="keyword">return</span> </span><br><span class="line">    <span class="keyword">let</span> arr = s.split(<span class="string">&quot;&quot;</span>)</span><br><span class="line">    <span class="keyword">let</span> stack = []</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt; arr.length;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(arr[i] == <span class="string">&quot;(&quot;</span> || arr[i] == <span class="string">&quot;[&quot;</span> || arr[i] == <span class="string">&quot;&#123;&quot;</span>) stack.push(arr[i])</span><br><span class="line">        <span class="keyword">switch</span>(arr[i])&#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;)&quot;</span> : &#123;</span><br><span class="line">                <span class="keyword">if</span>(stack.pop() == <span class="string">&quot;(&quot;</span>) <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">            &#125; </span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;]&quot;</span> : &#123;</span><br><span class="line">                <span class="keyword">if</span>(stack.pop() == <span class="string">&quot;[&quot;</span>) <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">            &#125; </span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;&#125;&quot;</span> : &#123;</span><br><span class="line">                <span class="keyword">if</span>(stack.pop() == <span class="string">&quot;&#123;&quot;</span>) <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">            &#125; </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(stack.length === <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>2、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/min-stack/">最小栈</a></p>
+<p>用一个栈存储数，一个栈存储所有数中的最小数，每一次push和pop两个栈都需要添加渔删除</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> MinStack = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.stack = []</span><br><span class="line">    <span class="built_in">this</span>.minStack = []</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;number&#125;</span> <span class="variable">val</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;void&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">MinStack.prototype.push = <span class="function"><span class="keyword">function</span>(<span class="params">val</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.stack.push(val)</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">this</span>.minStack.length == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">this</span>.minStack.push(val)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.minStack.push(<span class="built_in">this</span>.minStack[<span class="built_in">this</span>.minStack.length - <span class="number">1</span>] &lt;= val ? <span class="built_in">this</span>.minStack[<span class="built_in">this</span>.minStack.length - <span class="number">1</span>] : val)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;void&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">MinStack.prototype.pop = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.stack.pop()</span><br><span class="line">    <span class="built_in">this</span>.minStack.pop()</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;number&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">MinStack.prototype.top = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.stack[<span class="built_in">this</span>.stack.length - <span class="number">1</span>]</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;number&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">MinStack.prototype.getMin = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.minStack[<span class="built_in">this</span>.minStack.length - <span class="number">1</span>]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>3、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/palindrome-linked-list/">回文链表</a></p>
+<p>先用数组存储链表中所有元素，然后用双指针比较左半边与右半边的元素是否相等</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> isPalindrome = <span class="function"><span class="keyword">function</span>(<span class="params">head</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> arr= []</span><br><span class="line">    <span class="keyword">while</span>(head !== <span class="literal">null</span>)&#123;</span><br><span class="line">        arr.push(head.val)</span><br><span class="line">        head = head.next</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt; <span class="built_in">Math</span>.ceil(arr.length);i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(arr[i] !== arr[arr.length - <span class="number">1</span> - i]) <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>4、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/decode-string/">字符串解码</a></p>
+<p>用栈存储每一个字符，当遇到”]”时将前面的字母弹出，并弹出次数然后重复之后重新压入栈中，最后将栈返回</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;string&#125;</span> <span class="variable">s</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;string&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> decodeString = <span class="function"><span class="keyword">function</span>(<span class="params">s</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> stack = []</span><br><span class="line">    <span class="keyword">let</span> arr = s.split(<span class="string">&quot;&quot;</span>)</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt; arr.length;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(arr[i] !== <span class="string">&quot;]&quot;</span>) &#123;</span><br><span class="line">            stack.push(arr[i]) <span class="comment">//将&quot;]&quot;左边的元素压栈</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">let</span> str = <span class="string">&quot;&quot;</span></span><br><span class="line">            <span class="keyword">let</span> cur = <span class="string">&quot;&quot;</span></span><br><span class="line">            <span class="keyword">while</span>(stack[stack.length - <span class="number">1</span>] !== <span class="string">&quot;[&quot;</span>)&#123;</span><br><span class="line">                str = str + stack.pop() <span class="comment">//弹出字母并拼接成串</span></span><br><span class="line">            &#125;</span><br><span class="line">            stack.pop() <span class="comment">//弹出&quot;[&quot;</span></span><br><span class="line">            <span class="keyword">let</span> num = <span class="string">&quot;&quot;</span></span><br><span class="line">            cur = stack.pop() </span><br><span class="line">            <span class="keyword">while</span>(!<span class="built_in">isNaN</span>(num))&#123;</span><br><span class="line">                num = cur + num <span class="comment">//记录重复次数</span></span><br><span class="line">                cur = stack.pop()</span><br><span class="line">            &#125;</span><br><span class="line">            stack.push(cur) <span class="comment">//因为上面的while最后多弹出了一个元素，所以重新压栈</span></span><br><span class="line">            stack.push(str.repeat(num)) <span class="comment">//将重复好的字符串继续压进栈中</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> stack.join(<span class="string">&quot;&quot;</span>) <span class="comment">//将栈数组返回为字符串</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>5、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/shortest-unsorted-continuous-subarray/"> 最短无序连续子数组</a></p>
+<p>浅拷贝数组然后进行比较，从左往右第一个就是最短无序连续子数组的第一个数，从右往左第一个就是子数组的最后一个数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> findUnsortedSubarray = <span class="function"><span class="keyword">function</span>(<span class="params">nums</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (isSorted(nums)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> numsSorted = [...nums].sort(<span class="function">(<span class="params">a, b</span>) =&gt;</span> a - b);</span><br><span class="line">    <span class="keyword">let</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (nums[left] === numsSorted[left]) &#123;</span><br><span class="line">        left++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> right = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (nums[right] == numsSorted[right]) &#123;</span><br><span class="line">        right--;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> right - left + <span class="number">1</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> isSorted = <span class="function">(<span class="params">nums</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (nums[i] &lt; nums[i - <span class="number">1</span>]) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/daily-temperatures/">每日温度 - 力扣（LeetCode） (leetcode-cn.com)</a></li>
+</ul>
+<p>暴力算法：直接遍历两次数组，用一个新数组保存更高温度天数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> dailyTemperatures = <span class="function"><span class="keyword">function</span>(<span class="params">temperatures</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> arr = []</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt; temperatures.length;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> j = i + <span class="number">1</span>;j &lt; temperatures.length;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(temperatures[i] &lt; temperatures[j])&#123;</span><br><span class="line">                arr.push(j - i)</span><br><span class="line">                j = temperatures.length</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(j === temperatures.length - <span class="number">1</span>)&#123;</span><br><span class="line">                arr.push(<span class="number">0</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    arr.push(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> arr</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>单调栈算法：只需要遍历一次数组，从后往前遍历温度数组，新建一个栈，遍历数组同时将元素索引放入栈中，当下一个元素比栈中元素大时，将小项元素索引弹出，让大项元素索引入栈，最后直接让索引相减就是当前元素的结果，再用一个数组保存起来。当下一个元素比栈顶元素小时，直接让其索引入栈即可。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> dailyT = <span class="function">(<span class="params">T</span>) =&gt;</span> &#123;</span><br><span class="line">	<span class="keyword">const</span> res = <span class="keyword">new</span> <span class="built_in">Array</span>(T.length).fill(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">const</span> stack = []</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = T.length - <span class="number">1</span>;i &gt;= <span class="number">0</span>;i--)&#123;</span><br><span class="line">        <span class="keyword">while</span>(stack.length &amp;&amp; T[i] &gt;= T[stack[stack.length - <span class="number">1</span>]])&#123;</span><br><span class="line">            stack.pop()</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(stack.length)&#123;</span><br><span class="line">            res[i] = stack[stack.length - <span class="number">1</span>] - i</span><br><span class="line">        &#125;</span><br><span class="line">        stack.push(i)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/flatten-binary-tree-to-linked-list/">二叉树展开为链表</a>:</li>
+</ul>
+<p>使用二叉树的前序遍历，用一个数组保存遍历的节点，由于左子节点需要是null，所以使用for循环对数组节点左子节点赋值为null，然后右子节点设置为下一个索引值。</p>
+<p>也可以将for循环改为while循环，优化了空间存储。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> flatten = <span class="function"><span class="keyword">function</span>(<span class="params">root</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> list= []</span><br><span class="line">    a(root,list)</span><br><span class="line">    <span class="keyword">let</span> i = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span>(i &lt; list.length - <span class="number">1</span>)&#123;</span><br><span class="line">        list[i].left = <span class="literal">null</span></span><br><span class="line">        list[i].right = list[++i]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> list</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//前序遍历函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params">node,list</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node !== <span class="literal">null</span>)&#123;</span><br><span class="line">        list.push(node)</span><br><span class="line">        a(node.left,list)</span><br><span class="line">        a(node.right,list)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/longest-valid-parentheses/">最长有效括号</a></li>
+</ul>
+<p>从左到右遍历字符串数组，创建一个栈，如果出现左括号则让该位置的索引入栈，如果栈中有元素且扫描到右括号则进行出栈操作，让max长度为当前索引减去栈顶元素。为了避免一组括号出现之后继续出现括号，max无法计算到前面的一对括号长度，所以在初始化栈的时候将-1压入栈中，如果-1被出栈，那么需要有一个新的参照数进栈，则就是匹配到右括号时且栈长度为0时将当前索引进栈作为参照数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> longestValidParentheses = <span class="function"><span class="keyword">function</span>(<span class="params">s</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> arr = s.split(<span class="string">&quot;&quot;</span>)</span><br><span class="line">    <span class="keyword">let</span> stack = []</span><br><span class="line">    stack.push(-<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">let</span> max = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt; arr.length;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(arr[i] === <span class="string">&quot;(&quot;</span>)&#123; <span class="comment">//左括号的索引进栈</span></span><br><span class="line">            stack.push(i)</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123; <span class="comment">//遍历到右括号</span></span><br><span class="line">            stack.pop()</span><br><span class="line">            <span class="keyword">if</span>(stack.length)&#123;</span><br><span class="line">                max = <span class="built_in">Math</span>.max((i - stack[stack.length -<span class="number">1</span>]),max)</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123; <span class="comment">//栈空了</span></span><br><span class="line">                stack.push(i) <span class="comment">//入栈当参照物</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> max</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/symmetric-tree/">对称二叉树</a></li>
+</ul>
+<p>方法一：使用递归对左右子树的子节点进行比较，对称需要满足：</p>
+<ol>
+<li>它们的两个根结点具有相同的值</li>
+<li>每个树的右子树都与另一个树的左子树镜像对称</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//递归版本</span></span><br><span class="line"><span class="keyword">var</span> isSymmetric = <span class="function"><span class="keyword">function</span>(<span class="params">root</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> check(root,root)</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check</span>(<span class="params">node1,node2</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//!node1 &amp;&amp; !node2这个判断需要放在第一个，这样当两个元素都是null的时候就会直接返回true，如果让!node1 || !node2判断放在第一会返回false</span></span><br><span class="line">    <span class="keyword">if</span>(!node1 &amp;&amp; !node2) <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    <span class="keyword">if</span>(!node1 || !node2) <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    <span class="keyword">return</span> node1.val === node2.val &amp;&amp; check(node1.left,node2.right) &amp;&amp; check(node1.right,node2.left)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>方法二：使用队列，每一次比较弹出队首两个元素进行比较，使用while循环迭代</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//迭代版本</span></span><br><span class="line"><span class="keyword">var</span> isSymmetric = <span class="function"><span class="keyword">function</span>(<span class="params">root</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> check(root,root)</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check</span>(<span class="params">node1,node2</span>)</span>&#123;</span><br><span class="line">   <span class="keyword">let</span> queue = []</span><br><span class="line">   queue.push(node1)</span><br><span class="line">   queue.push(node2)</span><br><span class="line">   <span class="keyword">while</span>(queue.length)&#123;</span><br><span class="line">       <span class="keyword">let</span> p = queue.shift()</span><br><span class="line">       <span class="keyword">let</span> q = queue.shift()</span><br><span class="line">       <span class="comment">//!node1 &amp;&amp; !node2这个判断还是需要放在第一，但是不是返回true而是直接跳出本次循环</span></span><br><span class="line">       <span class="keyword">if</span>(!p &amp;&amp; !q) <span class="keyword">continue</span></span><br><span class="line">       <span class="keyword">if</span>(!p || !q) <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">       <span class="keyword">if</span>(p.val === q.val)&#123;</span><br><span class="line">            queue.push(p.left)</span><br><span class="line">            queue.push(q.right)</span><br><span class="line">            queue.push(p.right)</span><br><span class="line">            queue.push(q.left)</span><br><span class="line">       &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">           <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/">二叉树的最大深度</a></li>
+</ul>
+<p>方法一：深度搜索。节点为空时说明高度为 0，所以返回 0；节点不为空时则分别求左右子树的高度的最大值，同时加1表示当前节点的高度，返回该数值。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> maxDepth = <span class="function"><span class="keyword">function</span>(<span class="params">root</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!root) <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">let</span> f = maxDepth(root.left)</span><br><span class="line">    <span class="keyword">let</span> r = maxDepth(root.right)</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Math</span>.max(f,r) + <span class="number">1</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>方法二：广度搜索</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> maxDepth = <span class="function"><span class="keyword">function</span>(<span class="params">root</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> ans = <span class="number">0</span></span><br><span class="line">    <span class="keyword">if</span>(!root) <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">let</span> queue = []</span><br><span class="line">    queue.push(root)</span><br><span class="line">    <span class="keyword">while</span>(queue.length !== <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="comment">//需要使用一个变量保存队列长度，不然下面的循环如果加入新节点会改变队列长度</span></span><br><span class="line">        <span class="keyword">let</span> size = queue.length</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt; size;i++)&#123;</span><br><span class="line">            <span class="keyword">let</span> node = queue.shift()</span><br><span class="line">            <span class="keyword">if</span>(node.left) queue.push(node.left)</span><br><span class="line">            <span class="keyword">if</span>(node.right) queue.push(node.right)</span><br><span class="line">        &#125;</span><br><span class="line">        ans += <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/invert-binary-tree/">翻转二叉树</a></li>
+</ul>
+<p>使用递归从叶子节点开始翻转，最后回溯到根节点</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> invertTree = <span class="function"><span class="keyword">function</span>(<span class="params">root</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!root) <span class="keyword">return</span> <span class="literal">null</span> </span><br><span class="line">    <span class="keyword">let</span> l =invertTree(root.left)</span><br><span class="line">    <span class="keyword">let</span> r = invertTree(root.right)</span><br><span class="line">    root.left = r</span><br><span class="line">    root.right = l</span><br><span class="line">    <span class="keyword">return</span> root </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/diameter-of-binary-tree/"> 二叉树的直径</a></li>
+</ul>
+<p>使用递归从叶子节点开始回溯，返回值是当前节点的深度，树的直径用max接收，每回溯一次就更新一次，它相当于所有节点的最大左子树深度+所有节点的最大右子树深度。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">var</span> diameterOfBinaryTree = <span class="function"><span class="keyword">function</span>(<span class="params">root</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> max = <span class="number">0</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">check</span>(<span class="params">node</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(node == <span class="literal">null</span>) <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">let</span> l = check(node.left)</span><br><span class="line">        <span class="keyword">let</span> r = check(node.right)</span><br><span class="line">        max = <span class="built_in">Math</span>.max(max,l + r)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Math</span>.max(l,r) + <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">    check(root)</span><br><span class="line">    <span class="keyword">return</span> max</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/merge-two-binary-trees/">合并二叉树</a></li>
+</ul>
+<p>使用dfs深度遍历，每一次递归返回一个节点，回溯的时候将返回的节点作为新节点的左节点或者右节点，最终回溯到根节点</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> mergeTrees = <span class="function"><span class="keyword">function</span>(<span class="params">root1, root2</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//当一个节点为null时，返回另一个节点</span></span><br><span class="line">    <span class="keyword">if</span>(!root1) <span class="keyword">return</span> root2</span><br><span class="line">    <span class="keyword">if</span>(!root2) <span class="keyword">return</span> root1</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> TreeNode(</span><br><span class="line">        root1.val + root2.val,</span><br><span class="line">        mergeTrees(root1.left,root2.left),</span><br><span class="line">        mergeTrees(root1.right,root2.right)</span><br><span class="line">    )</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/categories/%E7%AE%97%E6%B3%95/LeetCode.html" data-id="cl0x9xz370009tsug2v0ncpta" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/TensorFlow-js/">TensorFlow.js</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E4%B8%89%E4%B8%8A%E6%97%A5%E6%8A%A5/">大三上日报</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">大三寒假日报</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">网站介绍</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">面试准备</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%8B%E7%BB%8D/" rel="tag">介绍</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/%E4%BB%8B%E7%BB%8D/" style="font-size: 10px;">介绍</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/03/18/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E6%89%8B%E5%86%99%E7%B3%BB%E5%88%97/">手写系列</a>
+          </li>
+        
+          <li>
+            <a href="/2022/03/12/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+          </li>
+        
+          <li>
+            <a href="/2022/03/08/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/nodeJS/">node.js</a>
+          </li>
+        
+          <li>
+            <a href="/2022/02/23/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/webpack%E5%9F%BA%E7%A1%80/">webpack基础</a>
+          </li>
+        
+          <li>
+            <a href="/2022/02/22/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3/">项目相关</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 ChenZehong<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
