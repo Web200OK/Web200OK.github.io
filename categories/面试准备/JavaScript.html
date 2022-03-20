@@ -22,7 +22,7 @@
 
   
 
-  <title>JavaScript篇 | 大三下</title>
+  <title>Category: 面试准备 | 大三下</title>
 
   
 
@@ -43,7 +43,7 @@
   <div class="root-container">
     
 <!-- header container -->
-<header class="header-container post">
+<header class="header-container">
   
     <div class="post-image" style="background-image: url(http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202105/8cdc6ed3420d690280e291bb30f0adda--2098717666.jpg)"></div>
   
@@ -87,6 +87,17 @@
 
   
   
+    
+    <div class="header-content">
+      <div class="post-text layout-block layout-padding">
+        <h1 class="title-wrap">面试准备</h1>
+        <h2 class="title-sub-wrap">当前分类下共有10篇文章</h2>
+      </div>
+    </div>
+  
+
+  
+  
 
   
   
@@ -94,41 +105,22 @@
   
   
     <div class="header-content">
-      <div class="post-text layout-block">
-        <div class="layout-margin">
-          <h1 class="title-wrap">JavaScript篇</h1>
-          <h2 class="title-sub-wrap">
-            <strong>ChenZehong</strong>
-            <span>发布于</span>
-            <time  class="article-date" datetime="2021-11-20T12:43:23.515Z" itemprop="datePublished">2021-11-20</time>
-          </h2>
-          <ul class="wrap-list dark">
-  
-    <li><a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">📒 面试准备</a></li>
-  
-</ul>
-          <ul class="wrap-list dark">
-  
-</ul>
-        </div>
+      <div class="post-text layout-block layout-padding">
+        <h1 class="title-wrap">JavaScript篇</h1>
+        
       </div>
     </div>
-  
-
-  
   
   
 </header>
 
-    <!-- 文章 -->
+    <!-- 分页(其他自定义页面) -->
 
-<!-- 文章内容 -->
+<!-- 自定义页面 -->
+
 <div class="body-container">
   <article class="content-container layout-block post-container">
     <div class="article-info">
-      
-      
-      
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
         <ul>
@@ -268,7 +260,7 @@
 <p>2、根据最大并发数通过for循环发送网络请求，使用一个数组来接收请求结果</p>
 <p>3、由于发送请求函数返回的是promise，所以我么可以创建一个调度函数，在请求完成后的回调函数中继续触发下一个请求，实现链式调用</p>
 <p>4、在调度函数里面进行判断，当请求全部执行完毕后，停止发送请求，最后使用Promise.all，将保存结果的数组作为参数传入，此时请求结束。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//用promise实现并发发送多个请求</span></span><br><span class="line">        <span class="comment">//发送请求函数</span></span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">send</span>(<span class="params">param</span>)</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">                <span class="comment">//在这里可以使用param发送网络请求获取数据，例如get请求</span></span><br><span class="line">                axios(&#123;</span><br><span class="line">                  <span class="attr">method</span>: <span class="string">&#x27;get&#x27;</span>,</span><br><span class="line">                  <span class="attr">url</span>: param,</span><br><span class="line">                &#125;).then(<span class="function"><span class="params">v</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="comment">//可以使用then方法，也可以使用async/await</span></span><br><span class="line">                    <span class="comment">//如果是请求被成功处理则改变返回的promise状态为成功，以便后续链式调用</span></span><br><span class="line">                    resolve()</span><br><span class="line">                &#125;,<span class="function"><span class="params">r</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="comment">//如果请求失败则返回promise状态为失败，则最终的Promise.all会失败</span></span><br><span class="line">                    reject()</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">request</span>(<span class="params">urls,max</span>)</span>&#123;</span><br><span class="line">            <span class="comment">//存放请求的结果</span></span><br><span class="line">            <span class="keyword">let</span> pool = []</span><br><span class="line">            <span class="keyword">let</span> Max = <span class="built_in">Math</span>.min(urls.length,max)</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt; Max;i++)&#123;</span><br><span class="line">                pool.push(send(urls.splice(<span class="number">0</span>,<span class="number">1</span>)).then(resolve))</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//调度函数</span></span><br><span class="line">            <span class="function"><span class="keyword">function</span> <span class="title">resolve</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">&quot;当前并发度为：&quot;</span>,pool.length)</span><br><span class="line">                <span class="keyword">if</span>(urls.length === <span class="number">0</span>)&#123;</span><br><span class="line">                    <span class="built_in">console</span>.log(<span class="string">&quot;请求全部发送成功&quot;</span>)</span><br><span class="line">                    <span class="keyword">return</span> <span class="built_in">Promise</span>.resolve()</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> send(urls.splice(<span class="number">0</span>,<span class="number">1</span>)).then(resolve)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//可以新增一个reject函数来返回一个pending状态的promise终止链式调用，这里只声明resolv</span></span><br><span class="line">            <span class="built_in">Promise</span>.all(pool).then(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">&quot;请求结束&quot;</span>)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        request([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>],<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//用promise实现并发发送多个请求</span></span><br><span class="line">        <span class="comment">//发送请求函数</span></span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">send</span>(<span class="params">param</span>)</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">                resolve(param)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">request</span>(<span class="params">urls,max</span>)</span>&#123;</span><br><span class="line">            <span class="comment">//存放请求的结果</span></span><br><span class="line">            <span class="keyword">let</span> pool = []</span><br><span class="line">            <span class="keyword">let</span> Max = <span class="built_in">Math</span>.min(urls.length,max)</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt; Max;i++)&#123;</span><br><span class="line">                pool.push(send(urls.splice(<span class="number">0</span>,<span class="number">1</span>)).then(resolve))</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//调度函数</span></span><br><span class="line">            <span class="function"><span class="keyword">function</span> <span class="title">resolve</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">&quot;当前并发度为：&quot;</span>,pool.length)</span><br><span class="line">                <span class="keyword">if</span>(urls.length === <span class="number">0</span>)&#123;</span><br><span class="line">                    <span class="built_in">console</span>.log(<span class="string">&quot;请求全部发送成功&quot;</span>)</span><br><span class="line">                    <span class="keyword">return</span> <span class="built_in">Promise</span>.resolve()</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> send(urls.splice(<span class="number">0</span>,<span class="number">1</span>)).then(resolve)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">Promise</span>.all(pool).then(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">&quot;请求结束&quot;</span>)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        request([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>],<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>讲一下数组的方法，哪些会改变原数组哪些不会？</li>
@@ -282,7 +274,7 @@
 <p>reduce方法：对数中的每个元素执行一个提供的reduce函数，将其结果汇总为单个返回，不会改变原数组。</p>
 <p>some方法：测试数组中是不是至少有一个元素通过了被提供的函数，返回一个布尔值，不会改变原数组。</p>
 <p>sort方法：对数组元素进行排序，并返回数组，默认排序时将元素转换为字符串，比较他们的UTF-16代码单元值，会改变原数组。</p>
-<p>splice方法：通过删除或替换现有元素或者原地添加新的元素来修改数组，并以数组的形式返回被修改的内容，会改变原数组。第一个参数是指定修改的位置，第二个参数是要移除的参数个数，第三以及以后的参数是要添加进数组中的元素。</p>
+<p>splice方法：通过删除或替换现有元素或者原地添加新的元素来修改数组，并以数组的形式返回被修改的内容，会改变原数组。</p>
 <ul>
 <li>手写原生AJAX：</li>
 </ul>
@@ -324,7 +316,7 @@
 </ul>
 <p>es6中的类是构造函数的另一种写法，它使对象原型的写法更加清晰，更像面向对象编程的写法。</p>
 <p>使用class类声明一个全新的类，在类中有一个constructor函数，定义在这个函数里面的属性和方法，会在用new创建一个对象的时候赋值给对象。在类的其他地方声明的属性和方法会被声明在构造函数的原型对象上，供所有实例对象共同使用。</p>
-<p>在类中可以用static声明静态方法，静态方法直接通过构造函数就可以使用，不能通过实例对象调用，否则会报错。</p>
+<p>在类中可以用static声明静态方法，静态方法可以不需要通过实例对象直接通过构造函数就可以使用。</p>
 <p>类的继承：使用extends关键字实现子类对父类的继承，可以通过super方法访问调用父类上的函数，也可以在子类中对父类的函数进行重写。</p>
 <ul>
 <li>数据类型检测方式有哪些：</li>
@@ -359,7 +351,7 @@
 <ul>
 <li>如何提取高度嵌套的对象中的指定属性：</li>
 </ul>
-<p>逐层解构</p>
+<p>逐层结构</p>
 <p>在解构出来的变量右侧通过冒号+{目标属性名}这种形式来进一步解构它：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> school = &#123;</span><br><span class="line">   <span class="attr">classes</span>: &#123;</span><br><span class="line">      <span class="attr">stu</span>: &#123;</span><br><span class="line">         <span class="attr">name</span>: <span class="string">&#x27;Bob&#x27;</span>,</span><br><span class="line">         <span class="attr">age</span>: <span class="number">24</span>,</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> &#123;<span class="attr">class</span>:&#123;<span class="attr">stu</span>:&#123;name&#125;&#125;&#125; = school</span><br></pre></td></tr></table></figure>
 
@@ -373,12 +365,11 @@
 <ul>
 <li>map与object的区别：</li>
 </ul>
-<p>map和object对象都是用来保存键值对的，区别如下：</p>
-<p>map默认情况下不包含任何键，只包含显式插入的键，即用set方法插入；object有一个原型，原型链上的键名可能与自己在对象上设置的键名起冲突</p>
+<p>意外的键：map默认情况下不包含任何键，只包含显式插入的键；object有一个原型，原型链上的键名可能与自己在对象上设置的键名起冲突</p>
 <p>键的类型：map的键可以是任意值；object的键必须是string或者symbol</p>
 <p>键的顺序：map的key是有序的，因此在迭代时可以以插入的顺序返回键值；object的键是无序的</p>
 <p>size：map上的键值对个数可以通过size轻松获取，object只能手动计算</p>
-<p>迭代：map可以直接迭代；但是object需要以某个方式获取它的键然后才能够迭代</p>
+<p>迭代：map可以直接迭代；但是object需要以某个方式获取它的键然后才能够 迭代</p>
 <p>性能：map在频繁增删键值对的场景下表现更好。</p>
 <ul>
 <li>对JSON的理解：</li>
@@ -435,6 +426,14 @@
 <p>1、提高性能：在JS代码执行之前语法检查与预编译只进行一次，否则每次执行代码前都需要重新解析一遍该变量或函数。</p>
 <p>2、容错性更好</p>
 <ul>
+<li>ES6模块与CommonJS模块有什么异同：</li>
+</ul>
+<p>区别：</p>
+<p>CommonJS是对模块的浅拷贝，ES6模块时对模块的引用，即ES6模块只存只读，不能改变其值，也就是指针指向不变，类似于const</p>
+<p>import的接口时read-only，不能修改其变量值，即不能修改其变量的指针指向，但可以改变变量内部的指针指向；CommonJS可以重新重新赋值（改变指针指向），但是对ES6模块赋值会编译错误</p>
+<p>共同点：</p>
+<p>两者都可以对引入的对象内部属性进行改变</p>
+<ul>
 <li>常见的DOM操作：</li>
 </ul>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//DOM节点的获取：</span></span><br><span class="line"><span class="built_in">document</span>.getElementById <span class="comment">//按照id查询</span></span><br><span class="line"><span class="built_in">document</span>.getElementByTagNme <span class="comment">//按照标签名查询</span></span><br><span class="line"><span class="built_in">document</span>.getElementsByClassName <span class="comment">// 按照类名查询</span></span><br><span class="line"><span class="built_in">document</span>.querySelectorAll <span class="comment">// 按照 css 选择器查询</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//DOM节点的创建</span></span><br><span class="line"><span class="built_in">document</span>.creatElement() <span class="comment">//创建一个DOM节点</span></span><br><span class="line"><span class="built_in">document</span>.appendChild() <span class="comment">//将DOM添加到页面中</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//DOM节点的删除</span></span><br><span class="line">父元素.removeChild(子元素)</span><br><span class="line"></span><br><span class="line"><span class="comment">//修改DOM元素</span></span><br><span class="line">父元素.insertBefore(两个子元素)</span><br></pre></td></tr></table></figure>
@@ -442,16 +441,12 @@
 <ul>
 <li>use strict是什么意思，使用它有什么区别：</li>
 </ul>
-<p>表示使用严格模式，使JS在更严格的条件下运行，目的如下：</p>
-<p>消除JS语法的的不合理不严谨之处；消除代码运行的不安全之处，保证代码运行的安全；提高编译效率，增加运行速度。</p>
-<p>严格模式的限制：</p>
-<p>1、变量必须声明后再使用</p>
-<p>2、禁止this指向全局对象</p>
-<p>3、不能对只读属性赋值，否则报错</p>
-<p>4、不能删除不可删除的属性，否则报错</p>
-<p>5、不能使用with语句（with语句用于扩展一个语句的作用域链，将某个对象添加到作用域链的顶部，该对象会在代码执行后移除，存在语义不明以及一些兼容性问题的弊端）</p>
-<p>6、eval不会在它的外层作用域引入变量（eval语句会将传入的字符串当做 JavaScript 代码进行执行。）</p>
-<p>………</p>
+<p>严格模式，使JS在更严格的条件下运行，目的如下：</p>
+<p>消除JS语法的的不合理不严谨之处；</p>
+<p>消除代码运行的不安全之处，保证代码运行的安全；</p>
+<p>提高编译效率，增加运行速度；</p>
+<p>区别：</p>
+<p>禁止使用with语句；禁止this关键字指向全局对象；对象不能有重名的属性</p>
 <ul>
 <li>强类型语言与弱类型原因的区别：</li>
 </ul>
@@ -465,16 +460,13 @@
 <ul>
 <li>ajax和axios和fetch的区别：</li>
 </ul>
-<p>Ajax是一种在无需加载整个页面的情况下能够更新部分页面的技术。通过在后台与服务器进行少量数据交换，ajax可以使网页实现异步更新。AJAX的运行时基于浏览器的ajax引擎，使用xmlhttp协议完成的。AJAX的缺陷是对浏览器后退机制的破坏（更新数据后不能通过后退按钮取消前一次操作）；存在安全问题，暴露比以前更多的数据与服务器逻辑；对搜索引擎的支持比较弱；一些手持设备还不能很好的支持AJAX。</p>
-<p>Fetch是一种http数请求的方式，是基于promise设计的，不是ajax的进一步封装，而是原生JS，没有使用XMLHttpRequest对象。优点：基于标准promise实现，支持async/await，更加底层，提供的API丰富（request，response）；缺点是只对网络请求报错，对于400/500都当做成功的请求，不会reject，只有网络请求不能完成时fetch才会被reject；fetch默认不会带cookie，需要添加配置项（fetch(url,{credentials:”include”]})）;fetch不支持abort与超时控制，使用setTimeout与promise.reject实现超时控制并不能阻止请求过程继续在后台运行造成流量的浪费；fetch没有办法原生监控请求的进度，而XHR可以；</p>
-<p>Axios是一个基于promise的网络请求库，浏览器发起XMLHttpRequest请求；node端发起http请求，支持promiseAPI，对请求和返回进行转换；自动转换json数据；客户端支持抵御XSRF攻击。</p>
+<p>Ajax是一种在无需加载整个页面的情况下能够更新部分页面的技术。通过在后台与服务器进行少量数据交换，ajax可以使网页实现异步更新。缺点是本身是针对MVC编程，不符合前端MVVN浪潮；基于原生XHR开发，配置和调用的方式非常混乱，而且基于事件的异步模型不友好；</p>
+<p>Fetch是基于promise设计的，不是ajax的进一步封装，而是原生JS，没有使用XMLHttpRequest对象。优点：基于标准promise实现，支持async/await，更加底层，提供的API丰富（request，response）；缺点是只对网络请求报错，对于400/500都当做成功的请求，不会reject，只有网络请求不能完成时fetch才会被reject；fetch默认不会带cookie，需要添加配置项（fetch(url,{credentials:”include”]})）;fetch不支持abort与超时控制，使用setTimeout与promise.reject实现超时控制并不能阻止请求过程继续在后台运行造成流量的浪费；fetch没有办法原生监控请求的进度，而XHR可以；</p>
+<p>Axios是一种基于promise封装的http客户端，特点是浏览器发起XMLHttpRequest请求；node端发起http请求，支持promiseAPI，对请求和返回进行转换；自动转换json数据；客户端支持抵御XSRF攻击。</p>
 <ul>
 <li>async与await原理：</li>
 </ul>
-<p>async/await的用户就是用同步方式执行异步操作。</p>
 <p>async与await其实是generator函数的语法糖，并对generator函数进行了改进。相比生成器函数，async自带执行器，不需要手动执行next方法；async函数的await命令后面，既可以是promise对象也可以是原始数据类型，它都会自动转成成功状态的promise对象。而且async函数的返回值是promise对象，可以使用then方法进行调用。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//先请求完接口1后用接口1返回的数据当做接口2的请求参数</span></span><br><span class="line"><span class="comment">//promise版本</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">request</span>(<span class="params">num</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">		resolve(num * <span class="number">2</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line">request(<span class="number">1</span>).then(<span class="function"><span class="params">res1</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(res1) <span class="comment">//2</span></span><br><span class="line">    request(res1).then(<span class="function"><span class="params">res2</span> =&gt;</span> &#123;</span><br><span class="line">		<span class="built_in">console</span>.log(res2) <span class="comment">// 4</span></span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">//async/await版本</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">const</span> res1 = <span class="keyword">await</span> request(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">const</span> res2 = <span class="keyword">await</span> request(res1)</span><br><span class="line">    <span class="built_in">console</span>.log(res2)</span><br><span class="line">&#125;</span><br><span class="line">fn()</span><br></pre></td></tr></table></figure>
-
 <p>由于async隐式返回promise作为结果，那么可以理解为在await命令之后，await会产生一个微任务，相当于是promise.then()，但还是这个微任务产生的时机是在await执行之后，直接跳出async函数执行其他代码，这就是协程的运作。其他代码执行完毕后在回到async函数执行剩下的代码，注册到微任务队列中。</p>
 <ul>
 <li>commonjs与es6模块的区别：</li>
@@ -512,7 +504,6 @@
 <li>使用promise需要执行并行和独立的异步操作并收集所有结果（包括成功与失败）怎么办：</li>
 </ul>
 <p>使用Promise.allSettled()方法可以并行执行独立的异步操作，并将异步操作的结果以一个数组返回，如果成功则是{status:”fulfilled”,value:value}，失败则是{status:”rejected”,reason:reason}。可以使用then方法，也可以使用async/await提取所有的promise状态。</p>
-<p>Promise.allSettled()<code>的返回值</code>allSettledPromise<code>，状态只可能变成</code>fulfilled<code>。它的监听函数接收到的参数是数组</code>results。</p>
 <ul>
 <li>说说图片懒加载：</li>
 </ul>
@@ -536,8 +527,8 @@
 <li>node与浏览器事件循环区别：</li>
 <li>map与set的区别：</li>
 </ul>
-<p>map是一个存储键值对的集合，与Object对象不同的是map存储的键可以是任意数据类型，而object对象的键只能是字符串或者是symbol，map对象可以通过set、get、delete等方法对键值对进行增删改查。（set,size,get方法等）</p>
-<p>set是一个存储元素的集合，它只能存储不重复的值，与map不同的是它没有get方法，因为它存储的不是键值对，也可以使用set对数组去重，将数组作为参数新建一个set对象，然后对set对象使用扩展运算符即可。(add,has,delete方法等)</p>
+<p>map是一个存储键值对的集合，与Object对象不同的是map存储的键可以是任意数据类型，而object对象的键只能是字符串或者是symbol，map对象可以通过set、get、delete等方法对键值对进行增删改查。</p>
+<p>set是一个存储元素的集合，它只能存储不重复的值，与map不同的是它没有get方法，因为它存储的不是键值对，也可以使用set对数组去重，将数组作为参数新建一个set对象，然后对set对象使用扩展运算符即可。</p>
 <ul>
 <li>说说js垃圾回收机制：</li>
 </ul>
@@ -612,74 +603,9 @@
 
       
       
-        <nav class="article-nav">
-          
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202111/19a1b73a4f201a00a3da538a73add9bd--2226138859.jpg"></div>
-    
-    <div class="card-text">
+
       
-        <a href="/2021/11/20/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E8%AE%A1%E7%BD%91/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">计算机网络篇</h2>
-        </a>
       
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
-          
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202107/67d0a51a4d9d115f9f102afda5379b39--4083803831.jpg"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2021/11/20/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/CSS/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">CSS篇</h2>
-        </a>
-      
-      <div class="card-text--row">Older</div>
-    </div>
-  </article>
-</div>
-          
-        </nav>
-      
-
-      <section class="page-message-container layout-padding">
-        
-
-
-  
-  
-    <div class="valine-container comments-container content-padding--primary soft-size--large soft-style--box">
-      <div id="valine_thread" class="valine-thread"></div>
-    </div>
-    <script type="text/javascript" src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-    <script type="text/javascript" src='//unpkg.com/valine/dist/Valine.min.js'></script>
-    <script type="text/javascript">
-      new Valine({
-        el: "#valine_thread",
-        appId: "zPxT1BH5qC6JYqXmizvClRGk-gzGzoHsz",
-        appKey: "kU1QKKjUJco1Gyjj0Usl4bwM",
-        avatar: "ChenZehong",
-        placeholder: "随便说点什么叭～",
-        notify: true,
-        visitor: true,
-        pageSize: 10,
-      });
-    </script>
-  
-
-  
-  
-
-
-      </section>
     </div>
     <div class="widget-info">
       <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -716,8 +642,6 @@
     </div>
   </div>
 </section>
-
-      
 
       
 
@@ -787,6 +711,7 @@
     </div>
   </article>
 </div>
+
 
     <!-- footer container -->
 <footer id="footer" class="footer">
