@@ -377,6 +377,30 @@
 <p>1、Scanner类：一个扫描器类，用于扫描将指定字符串，最后生成tokens</p>
 <p>2、tokens数组的折叠：使用到栈结构sections以及收集器collector，对token类型是#的token进行折叠。</p>
 <p>3、tokens与data结合生成HTML：对tokens数组的每一项类型检查，如果为text则直接加进HTMLStr中，如果为name类型将数据值加进HTMLStr中，如果是#类型，则使用递归思想将这一项的子项tokens和封装了<code>.</code>属性的子对象传入参数中，最后返回整个HTMLStr。</p>
+<ul>
+<li>vue3实现响应式相比2有什么改进：</li>
+</ul>
+<p>vue2是通过在new一个vue实例对象的时候对data选项中的数据通过Object.defineProperty进行数据劫持，对于对象，如果在后续添加删除属性无法进行劫持，可以使用vue.$set解决；同时对于数组的api也无法监听实现响应式，通过重写数组七个方法解决。但是如果存在深层次的嵌套对象关系，需要进行深层的监听造成极大的性能问题。</p>
+<p>vue3的proxy直接劫持整个对象，相当于在对象外层添加了一层拦截，对对象属性的读取与修改都能被拦截到，不需要对对象的每个属性进行劫持。并且proxy返回一个新对象，可以只操作新对象达到响应式的目的，proxy也可以直接监听数组的变化，proxy本身也有多种拦截方法是Object.defineProperty不具备的。</p>
+<ul>
+<li>vue3的componentAPI与vue2的optionsAPI有什么区别：</li>
+</ul>
+<p>在vue2中，是将data数据、method方法以及生命周期函数分开进行声明，当组件变得复杂的时候，导致对应属性的列表增长，会让组件难以阅读和理解。在vue3的componentAPI将一个功能所定义的所有API放在一起，更加的高内聚低耦合。</p>
+<p>在vue2中使用多个mixin混入时，可能会存在命名冲突的问题，在vue3的componentAPI中可以避免这一点。</p>
+<ul>
+<li>说说vue3的tree-shaking：</li>
+</ul>
+<p>在vue2中，无论在项目中是否使用到一些功能，都会将所有功能代码进行打包进生产代码中。vue3的tree-shaking特性基于es6语法（import与export），借助es6模块化在编译时可以确定模块之间的依赖关系以及输入输出的变量，判断哪些模块与变量未被使用，进而删除相对应的代码。</p>
+<ul>
+<li>vue-router生命周期：</li>
+</ul>
+<p>beforeRouteEnter：在渲染该组件路由前被调用，不能通过this获取组件实例</p>
+<p>beforeRouteLeave：导航离开该组件路由时调用</p>
+<p>beforeRouteUpdate：在当前路由改变但是该组件被复用时调用</p>
+<ul>
+<li>父子组件中生命周期执行顺序：</li>
+</ul>
+<p>父beforeCreate -&gt; 父created -&gt; 父beforeMount -&gt; 子beforeCreate -&gt; 子created -&gt; 子beforeMount -&gt; 子mounted -&gt; 父mounted-&gt;父beforeUpdate-&gt;子beforeUpdate-&gt;子updated-&gt;父updated-&gt;父beforeDestroy-&gt;子beforeDestroy-&gt;子destroyed-&gt;父destroyed</p>
 
       </section>
 
@@ -508,14 +532,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/TensorFlow-js/">
-            TensorFlow.js (1)
+          <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
+            大三寒假日报 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
-            大三寒假日报 (1)
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
           </a>
         </li>
       

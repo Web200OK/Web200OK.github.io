@@ -607,6 +607,13 @@
 </ul>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//递归版本</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">breadFirstSearch</span>(<span class="params">node</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> nodes = []</span><br><span class="line">    <span class="keyword">var</span> i = <span class="number">0</span></span><br><span class="line">    <span class="keyword">if</span>(!(node == <span class="literal">null</span>))&#123;</span><br><span class="line">        nodes.push(node)</span><br><span class="line">        breadFirstSearch(node.nextElementSibling)</span><br><span class="line">        node = nodes[i++]</span><br><span class="line">        breadFirstSearch(node.firstElementChild)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nodes</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//非递归版本</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">breadFirstSearch</span>(<span class="params">node</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> nodes = []</span><br><span class="line">    <span class="keyword">if</span>(node !== <span class="literal">null</span>)&#123;</span><br><span class="line">        <span class="keyword">var</span> queue = []</span><br><span class="line">        queue.unshift(node)</span><br><span class="line">        <span class="keyword">while</span>(queue.length !== <span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">var</span> item = queue.shift()</span><br><span class="line">            nodes.push(item)</span><br><span class="line">            <span class="keyword">var</span> children = item.children</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>;i &lt; children.length;i++)&#123;</span><br><span class="line">                queue.push(children[i])</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nodes</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<ul>
+<li>for跟forEach循环的区别：</li>
+</ul>
+<p>1、for循环支持break跳出循环但是forEach不允许</p>
+<p>2、for循环可以控制循环起点，但是forEach默认从0开始</p>
+<p>3、for循环中支持修改索引，但是forEach做不到</p>
+<p>3、forEach删除自身元素index不会被重置</p>
 
       </section>
 
@@ -738,14 +745,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/TensorFlow-js/">
-            TensorFlow.js (1)
+          <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
+            大三寒假日报 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%A4%A7%E4%B8%89%E5%AF%92%E5%81%87%E6%97%A5%E6%8A%A5/">
-            大三寒假日报 (1)
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
           </a>
         </li>
       
