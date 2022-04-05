@@ -22,7 +22,7 @@
 
   
 
-  <title>Category: 面试准备 | 大三下</title>
+  <title>什么是前端测试 | 大三下</title>
 
   
 
@@ -43,9 +43,9 @@
   <div class="root-container">
     
 <!-- header container -->
-<header class="header-container">
+<header class="header-container post">
   
-    <div class="post-image" style="background-image: url(http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202106/87ad8b2009c489546b5d0a9482b5f08a--164538143.jpg)"></div>
+    <div class="post-image" style="background-image: url(http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202109/a31e61a8d55d87b5a729d8643ef60929--4198607505.jpg)"></div>
   
 
   <!-- navbar -->
@@ -87,17 +87,6 @@
 
   
   
-    
-    <div class="header-content">
-      <div class="post-text layout-block layout-padding">
-        <h1 class="title-wrap">面试准备</h1>
-        <h2 class="title-sub-wrap">当前分类下共有10篇文章</h2>
-      </div>
-    </div>
-  
-
-  
-  
 
   
   
@@ -105,46 +94,109 @@
   
   
     <div class="header-content">
-      <div class="post-text layout-block layout-padding">
-        <h1 class="title-wrap">数据库</h1>
-        
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">什么是前端测试</h1>
+          <h2 class="title-sub-wrap">
+            <strong>ChenZehong</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2022-04-05T22:51:10.285Z" itemprop="datePublished">2022-04-06</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">📒 实习相关</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+</ul>
+        </div>
       </div>
     </div>
+  
+
+  
   
   
 </header>
 
-    <!-- 分页(其他自定义页面) -->
+    <!-- 文章 -->
 
-<!-- 自定义页面 -->
-
+<!-- 文章内容 -->
 <div class="body-container">
   <article class="content-container layout-block post-container">
     <div class="article-info">
       
+      
+      
+      
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <ul>
-<li>介绍一下SQL中的聚合函数 </li>
-</ul>
-<ol>
-<li>COUNT()函数：统计数据表中包含的记录行的总数，或者根据查询结果返回列中包含的数据行数。<ul>
-<li>COUNT(*)计算表中总的行数，不管某列是否有数值或者为空值。</li>
-<li>COUNT(字段名)计算指定列下总的行数，计算时将忽略空值的行。</li>
-</ul>
-</li>
-<li>AVG()函数：通过计算返回的行数和每一行数据的和，求得指定列数据的平均值。</li>
-<li>SUM()函数：是一个求总和的函数，返回指定列值的总和。</li>
-<li>MAX()函数：返回指定列中的最大值，不仅适用于查找数值类型，也可应用于字符类型。</li>
-<li>MIN()函数：返回查询列中的最小值，不仅适用于查找数值类型，也可应用于字符类型。</li>
-</ol>
+        <h2 id="前端测试"><a href="#前端测试" class="headerlink" title="前端测试"></a>前端测试</h2><h3 id="什么是测试："><a href="#什么是测试：" class="headerlink" title="什么是测试："></a>什么是测试：</h3><p>前端测试种类主要分为三种：</p>
+<p><strong>单元测试</strong>：对代码中的公共函数/组件进行测试，保证代码可以正常工作。可以进行单元测试的函数/组件必须低耦合的，可以保证代码质量。</p>
+<p><strong>集成测试</strong>：对耦合度较高的函数/组件、经过二次封装的函数/组件、多个函数/组件组个而成的函数/组件进行测试，验证经过单元测试后的各个模块是否可以正常工作，很大程度保证产品符合预期。</p>
+<p><strong>UI测试</strong>：对于前端的测试，脱离后端环境，仅仅只是在模拟真实环境情况下进行测试；还有端对端测试则是整个应用放到真实环境中运行，相比之下UI测试更加贴近开发流程。</p>
+<h3 id="前端测试实战的做法有以下几种："><a href="#前端测试实战的做法有以下几种：" class="headerlink" title="前端测试实战的做法有以下几种："></a>前端测试实战的做法有以下几种：</h3><p>1、ESLint测试：使用ts编写项目通过ESLint进行类型校验，格式校验。</p>
+<p>2、工具类测试：则需要使用单元测试，有Jest、vue-test-util等</p>
+<p>3、组件测试：在测试沙盒环境中生成一个虚拟的DOM环境然后调用组件进行HTML节点渲染，也可以接收点击事件，根据渲染结果判断是否正确。有testing-library（偏向于用户最终结果）、Enzyme（偏向于内部程序结构）</p>
+<p>4、页面测试：对产品最终操作逻辑进行测试，使用集成测试，有Cypress</p>
+<p>在实际项目开发中，并不是所有种类的测试都需要进行，一般是根据实际项目进行选择。</p>
 
       </section>
 
       
       
+        <nav class="article-nav">
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202110/48361a546d400feaf5017938c7d8917b--8563423.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2022/04/05/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">vue3学习笔记</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
 
-      
-      
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+    <div class="valine-container comments-container content-padding--primary soft-size--large soft-style--box">
+      <div id="valine_thread" class="valine-thread"></div>
+    </div>
+    <script type="text/javascript" src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script type="text/javascript" src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <script type="text/javascript">
+      new Valine({
+        el: "#valine_thread",
+        appId: "zPxT1BH5qC6JYqXmizvClRGk-gzGzoHsz",
+        appKey: "kU1QKKjUJco1Gyjj0Usl4bwM",
+        avatar: "ChenZehong",
+        placeholder: "随便说点什么叭～",
+        notify: true,
+        visitor: true,
+        pageSize: 10,
+      });
+    </script>
+  
+
+  
+  
+
+
+      </section>
     </div>
     <div class="widget-info">
       <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -181,6 +233,8 @@
     </div>
   </div>
 </section>
+
+      
 
       
 
@@ -256,7 +310,6 @@
     </div>
   </article>
 </div>
-
 
     <!-- footer container -->
 <footer id="footer" class="footer">
