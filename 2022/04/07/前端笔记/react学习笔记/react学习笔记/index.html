@@ -152,7 +152,14 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const ele = &lt;h1 class=&quot;ele&quot;&gt;&lt;/h1&gt;</span><br><span class="line">ReactDOM.render(ele,document.getElementById(&#x27;root&#x27;))</span><br></pre></td></tr></table></figure>
 
 <p>由于react元素时不可变的，所以元素被创建之后更新页面的唯一办法就是创建一个新的元素然后传入ReactDOM.render()中替换掉之前的元素。</p>
-<h3 id="组件："><a href="#组件：" class="headerlink" title="组件："></a>组件：</h3>
+<h3 id="组件："><a href="#组件：" class="headerlink" title="组件："></a>组件：</h3><h4 id="函数式组件："><a href="#函数式组件：" class="headerlink" title="函数式组件："></a>函数式组件：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//1、创建函数式组件</span><br><span class="line">function MyComponent()&#123;</span><br><span class="line">    console.log(this) //此处的this是undefined，因为babel编译后开启了严格模式</span><br><span class="line">    return &lt;h1&gt;我是用函数定义的组件&lt;/h1&gt;</span><br><span class="line">&#125;</span><br><span class="line">//2、渲染组件到页面</span><br><span class="line">ReactDOM.render(&lt;MyComponent/&gt;,document.getElementById(&quot;#root&quot;))</span><br></pre></td></tr></table></figure>
+
+<p>执行了render函数之后，react会解析组件标签，发现组件时使用函数定义的，随后调用该函数，将返回的虚拟DOM转为真实DOM，最后呈现在页面中。</p>
+<p><strong>注意</strong>：组件的返回值只能有一个根元素，组件名称必须以大写字母开头，同时标签必须闭合。</p>
+<h4 id="类定义组件："><a href="#类定义组件：" class="headerlink" title="类定义组件："></a>类定义组件：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//1、创建类式组件</span><br><span class="line">class MyComponent extends React.Component &#123;</span><br><span class="line">    render()&#123;</span><br><span class="line">		//render是放在MyComponent的原型对象上，供实例使用的</span><br><span class="line">        //render中的this是M有Component的实例对象</span><br><span class="line">        return &lt;h1&gt;我是用类定义的组件&lt;/h1&gt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//2、渲染组件到页面</span><br><span class="line">ReactDOM.render(&lt;MyComponent/&gt;,document.getElementById(&quot;#root&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>执行了ReactDOM.render之后，发现组件时类定义的，react会new出来这个类的实例，并通过该实例调用到原型上的render方法，最后将render返回的虚拟DOM转为真实DOM，随后呈现在页面上。</p>
+
       </section>
 
       
@@ -295,26 +302,26 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
-            实习相关 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E6%97%A5%E6%8A%A5/">
             日报 (2)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
+          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
+            实习相关 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
             面试准备 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
           </a>
         </li>
       
