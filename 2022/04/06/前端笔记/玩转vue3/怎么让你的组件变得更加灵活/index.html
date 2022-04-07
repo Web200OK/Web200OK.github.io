@@ -131,7 +131,24 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h2 id="怎么使组件变得更加灵活"><a href="#怎么使组件变得更加灵活" class="headerlink" title="怎么使组件变得更加灵活"></a>怎么使组件变得更加灵活</h2><h3 id="全局组件注册："><a href="#全局组件注册：" class="headerlink" title="全局组件注册："></a>全局组件注册：</h3><h3 id="函数式组件："><a href="#函数式组件：" class="headerlink" title="函数式组件："></a>函数式组件：</h3><h3 id="自定义组件："><a href="#自定义组件：" class="headerlink" title="自定义组件："></a>自定义组件：</h3>
+        <h2 id="怎么使组件变得更加灵活"><a href="#怎么使组件变得更加灵活" class="headerlink" title="怎么使组件变得更加灵活"></a>怎么使组件变得更加灵活</h2><h3 id="全局组件注册："><a href="#全局组件注册：" class="headerlink" title="全局组件注册："></a>全局组件注册：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import 组件名 from &quot;组件位置&quot;</span><br><span class="line">const app = createApp(App)</span><br><span class="line">app.component(组件名,组件)</span><br><span class="line">app.use(router).mount(&quot;#app&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>vue3相对于vue2，在全局注册组件时不再是将组件挂载到Vue对象上，而是挂载到createApp生成的实例上，多个app实例相互之间不会受到影响。</p>
+<h3 id="函数式组件："><a href="#函数式组件：" class="headerlink" title="函数式组件："></a>函数式组件：</h3><p>函数式组件可以在调用的时候将组件绑定到body元素下，避免组件的样式被其他地方所覆盖，从而可能导致组件展示错乱。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">import &#123;createApp&#125; from &quot;vue&quot;</span><br><span class="line">import a from &quot;组件位置&quot;</span><br><span class="line">//函数式组件</span><br><span class="line">function fn(options)&#123;</span><br><span class="line">	//1、创建弹框组件实例</span><br><span class="line">	const b = createApp(&#x27;a&#x27;,&#123;</span><br><span class="line">		//需要传递的属性</span><br><span class="line">		title:options.title</span><br><span class="line">	&#125;)</span><br><span class="line">	//2、创建渲染节点</span><br><span class="line">	const dom = document.createElement(&quot;div&quot;)</span><br><span class="line">	document.body.appendChild(dom)</span><br><span class="line">	//3、将实例挂载到页面节点上</span><br><span class="line">	b.mount(dom)</span><br><span class="line">&#125;</span><br><span class="line">//注册函数</span><br><span class="line">function fnInstall()&#123;</span><br><span class="line">	app.provide(&quot;fn&quot;,fn)</span><br><span class="line">&#125;</span><br><span class="line">export default fn </span><br></pre></td></tr></table></figure>
+
+<p>当调用fn函数时，我们可以传入options参数，携带我们需要传入给组件的信息，来赋值给组件的props属性。</p>
+<p>use方法就是vue提供给我们注册插件的，use方法会首先判断插件有没有被注册，如果没有则调用插件的install方法，如果插件不是对象，本身就是一个方法，那么就执行这个方法。所以我们可添加一个fnInstall方法，在use执行的时候将fn函数注册到全局中。如上所示，然后在main.js中引入fnInstall方法并注册执行，然后在其他组件中使用inject获取就可以了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//main.js</span><br><span class="line">import &#123;fnInstall&#125; from &quot;位置&quot;</span><br><span class="line">app.use(fnInstall).user(router).mount(&quot;#app&quot;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="自定义指令："><a href="#自定义指令：" class="headerlink" title="自定义指令："></a>自定义指令：</h3><p>一般使用自定义指令来完成一些特殊的需求或者是丰富组件的功能，在vue3中注册自定义指令也需要在app实例上进行，注册一个v-focus指令，使用以及在main.js中配置如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">v-focus:</span>[&#x27;<span class="attr">top</span>&#x27;]=<span class="string">&quot;200&quot;</span>&gt;</span></span><br><span class="line">...</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">app.directive(<span class="string">&quot;focus&quot;</span>,&#123;</span><br><span class="line">    <span class="comment">//在自定义指令中也支持构子函数的调用</span></span><br><span class="line">    <span class="function"><span class="title">mounted</span>(<span class="params">el,bingding</span>)</span>&#123;</span><br><span class="line">        <span class="comment">//el为指令绑定的页面元素</span></span><br><span class="line">        el.focus()</span><br><span class="line">        <span class="comment">//binding是指令的一些参数信息，同时如果在使用指令的时候传入参数，那么会被binding接收保存在value属性中</span></span><br><span class="line">        el.style.[binding.arg] = binding.value + <span class="string">&quot;px&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
       </section>
 
       
@@ -274,14 +291,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (2)
+          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
+            实习相关 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
-            实习相关 (1)
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
           </a>
         </li>
       
