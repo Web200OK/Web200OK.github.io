@@ -22,7 +22,7 @@
 
   
 
-  <title>Category: TensorFlow.js | 大三下</title>
+  <title>git基本用法 | 大三下</title>
 
   
 
@@ -43,9 +43,9 @@
   <div class="root-container">
     
 <!-- header container -->
-<header class="header-container">
+<header class="header-container post">
   
-    <div class="post-image" style="background-image: url(http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202201/ada8fcccb0152cbfb2452be8d9fb8ce1--576553505.jpg)"></div>
+    <div class="post-image" style="background-image: url(http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202112/180de74451d1b5d0947407a31931a986--326110675.jpg)"></div>
   
 
   <!-- navbar -->
@@ -87,17 +87,6 @@
 
   
   
-    
-    <div class="header-content">
-      <div class="post-text layout-block layout-padding">
-        <h1 class="title-wrap">TensorFlow.js</h1>
-        <h2 class="title-sub-wrap">当前分类下共有1篇文章</h2>
-      </div>
-    </div>
-  
-
-  
-  
 
   
   
@@ -105,145 +94,112 @@
   
   
     <div class="header-content">
-      <div class="post-text layout-block layout-padding">
-        <h1 class="title-wrap">神经网络</h1>
-        
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">git基本用法</h1>
+          <h2 class="title-sub-wrap">
+            <strong>ChenZehong</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2022-04-08T03:26:22.108Z" itemprop="datePublished">2022-04-08</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">📒 实习相关</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+</ul>
+        </div>
       </div>
     </div>
+  
+
+  
   
   
 </header>
 
-    <!-- 分页(其他自定义页面) -->
+    <!-- 文章 -->
 
-<!-- 自定义页面 -->
-
+<!-- 文章内容 -->
 <div class="body-container">
   <article class="content-container layout-block post-container">
     <div class="article-info">
       
+      
+      
+      
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <ul>
-<li>神经网络的层：</li>
-</ul>
-<p>第一层称为输入层，节点数量取决于数据集中存在的特征数量</p>
-<p>最后一层称为输出层，数量取决于要预测的内容，对于回归和二元分类任务可以使用单个节点；对于多类问题，将使用多个节点，具体取决于类的数量</p>
-<p>中间的层称为隐藏层，隐藏层可以任意深或宽，计算时间会随深入而增加</p>
-<ul>
-<li>权重与偏差：</li>
-</ul>
-<p>权重：衡量某个特征对预测的贡献程度的确定程度</p>
-<p>偏差：预测必须从其开始的基值</p>
-<ul>
-<li>激活函数：</li>
-</ul>
-<p>激活函数由神经网络隐藏层中的每个节点计算</p>
-<p>输出层计算的结果不是通过另一个激活函数传递，而是通过输出函数传递，取决于要预测的内容</p>
-<ul>
-<li>损失函数：</li>
-</ul>
-<p>损失函数是一种衡量模型预测好坏的方法，可以调整权重和偏差</p>
-<p>必须正确设计损失函数，以便可以正确地惩罚错误的模型奖励正确的模型，这意味着希望损失表明所做的预测是远离还是接近真实预测。损失函数取决于任务，对于分类问题可以使用交叉熵损失。</p>
-<ul>
-<li>前进：前向传播</li>
-</ul>
-<p>前向传播是神经网络在做出预测之前执行的一系列计算的名称</p>
-<ul>
-<li>反向传播：</li>
-</ul>
-<p>反向传播是通过更新其权重和偏差来训练神经网络的过程的名称</p>
-<p>神经网络通过不断尝试不同的权重然后比较损失来学习预测正确的值，如果损失函数减少，那么当前的权重比之前的要好，反之亦然。这意味着神经网络必须经过多次训练和更新循环才能获得最佳权重和偏差。这个循环就是训练阶段，寻找合适的权重的过程就是优化。</p>
-<ul>
-<li>训练和测试网络：</li>
-</ul>
-<p>将数据拆分为训练集和测试集</p>
-<p>对其进行标准化</p>
-<p>初始化一个模型</p>
-<p>使用模型进行训练和预测</p>
-<h3>卷积神经网络（CNN）</h3>
-
-<ul>
-<li>CNN是如何工作的？</li>
-</ul>
-<p>1、图像由像素组成，每个像素由0~255之间的数字表示，这是计算机处理图像的方式。</p>
-<p>卷积过程中需要三个重要的项目：输入图像、特征检测器和特征图。输入图像是被检测的图像，特征检测器是一个矩阵，也称为内核或过滤器。直观地说，输入图像的矩阵表示与特征检测器逐元素相乘以产生特征图，也称为卷积特征或激活图。此步骤目的是为了减少图像大小并处理更快、更容易，在此步骤中丢失了图像的一些特征。</p>
-<p>2、在此步骤中应用整流函数（Relu）来增加CNN中的非线性，图像由彼此非线性的不同对象组成。</p>
-<p>3、池化</p>
-<p>由于物体的空间不变性，即一个物体在图像中的位置不会影响神经网络检测其特定特征的能力。池化使CNN能够检测各种图像中的特征，而不考虑图像中的照明差异和图像的不同角度。</p>
-<p>由不同类型的池化：如最小池化和最大池化。最大池化的工作原理是在特征图上放置一个2*2矩阵，并在该框中挑选最大的值，然后从左向右移动，穿过整个特征图，每次挑选最大的值。</p>
-<p>这些值最后形成一个新的矩阵，成为池化特征图，作用是保留主要特征，同时减少图像大小，这有助于减少过度拟合。</p>
-<p>4、展平</p>
-<p>将整个池化特征图矩阵转换为单个列，然后将其馈送到神经网络中进行处理。</p>
-<p>5、全连接</p>
-<p>这一步由输入层、全连接层和输出层组成，全连接层相当于人工神经网络中的隐藏层，但它是全连接的。</p>
-<ul>
-<li>使用TensorFlow的Keras库实现卷积神经网络</li>
-</ul>
-<p>1、导入需要的包：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from keras.models import Sequential</span><br><span class="line">from keras.layers import Convolution2D</span><br><span class="line">from keras.layers import MaxPooling2D</span><br><span class="line">from keras.layers import Flatten</span><br><span class="line">from keras.layers import Dense</span><br></pre></td></tr></table></figure>
-
-<p>Sequential：初始化神经网络</p>
-<p>Convolution2D：用于制作处理图像的卷积网络</p>
-<p>MaxPooling2D：用于添加池化层</p>
-<p>Flatten：将池化特征图转换为单个列并传递给全连接层的函数</p>
-<p>Dense：将全连接层添加到神经网络</p>
-<p>2、初始化神经网络</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">classifier = Sequential()</span><br></pre></td></tr></table></figure>
-
-<p>3、卷积</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">classifier.add(Convolution2D(32, 3, 3, input_shape = (256, 256, 3), activation=’relu’))</span><br></pre></td></tr></table></figure>
-
-<p>添加卷积层，第一个参数是想要创建的特征检测器的数量，通常是以32个开始，第二和第三个参数是特征检测器矩阵的尺寸。input_shape是输入图形的形状，黑白图像转换为二维数组，彩色转换为三维数组。最后一个参数是激活函数，图像分类是一个非线性问题，使用relu函数可以确保在计算过程中没有负数像素值。</p>
-<p>4、池化</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">classifier.add(MaxPooling2D(pool_size=(2,2)))</span><br></pre></td></tr></table></figure>
-
-<p>通常创建一个2*2的池大小。</p>
-<p>5、展平</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">classifier.add(Flatten())</span><br></pre></td></tr></table></figure>
-
-<p>6、全连接</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">classifier.add(Dense(output_dim = 128, activation=’relu’))</span><br></pre></td></tr></table></figure>
-
-<p>通过使用Dense函数将上面得到的向量作为神经网络的输入，第一个参数是全连接层的节点数，维数越多，拟合模型所需要的计算资源越多，一般选择2的幂。第二个函数时激活函数。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">classifier.add(Dense(output_dim=1, activation=’sigmoid’))</span><br></pre></td></tr></table></figure>
-
-<p>添加输出层。期望得到二元结果使用sigmoid函数，期望得到两个以上结果，使用softmax函数。</p>
-<p>7、编译CNN</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">classifier.compile(optimizer=’adam’, loss=’binary_crossentropy’,metrics=[‘accuracy’])</span><br></pre></td></tr></table></figure>
-
-<p>使用编译函数编译CNN，需要三个参数：优化器、损失函数和性能指标。</p>
-<p>8、拟合CNN</p>
-<p>进行图像增强处理防止过度拟合，是通过翻转、重新缩放、缩放和裁剪图像来进行工作的。第一个参数是确保图像被重新缩放后值介于0~1之间，</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from keras.preprocessing.image import ImageDataGenerator</span><br><span class="line">train_datagen = ImageDataGenerator(rescale=1./255, shear_range=0.2, zoom_range=0.2, horizontal_flip=True)</span><br><span class="line">test_datagen = ImageDataGenerator(rescale=1./255)</span><br></pre></td></tr></table></figure>
-
-<p>测试数据不需要跟训练数据一样采用图像增强。接下来是创建训练集和测试集：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">training_set = train_datagen.flow_from_directory(‘training_set’, target_size=(256, 256), batch_size=32, class_mode=’binary’)</span><br><span class="line">test_set = test_datagen.flow_from_directory(‘test_set’, target_size=(64, 64), batch_size=32, class_mode=’binary’)</span><br></pre></td></tr></table></figure>
-
-<p>第一个参数是训练集的路径，第二个参数是CNN期望的图像大小。btach_size是在权重更新之前通过网路的图像数量，class_mode指示分类是否是二进制。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">classifier.fit_generator(training_set, steps_per_epoch=5000, epochs=25, validation_data=test_set, nb_val_samples=1000)</span><br></pre></td></tr></table></figure>
-
-<p>最后调用拟合函数并使用测试集测试其性能，第一个参数是训练集，第二个参数是训练集中的参数数量，第三个参数是训练的次数，第四个参数是测试集，最后一个参数是测试集的参数数量。</p>
-<p>9、进行单一预测</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np </span><br><span class="line">from keras.preprocessing import image</span><br></pre></td></tr></table></figure>
-
-<p>使用预测函数使用新图像进行预测，在这之前需要对其进行预处理。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">test_image = image.load_img(‘brain_image1.jpg’, target_size=(256, 256))</span><br></pre></td></tr></table></figure>
-
-<p>加载想要预测的图像，第一个参数是图像的路径，第二个参数是图像的大小，应与训练过程中的大小相同。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">test_image = image.img_to_array(test_image)</span><br></pre></td></tr></table></figure>
-
-<p>使用彩色图像则将图像转换为一个三维数组。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">test_image = np.expand_dims(test_image, axis=0)</span><br><span class="line">prediction = classifier.predict(test_image)</span><br></pre></td></tr></table></figure>
-
-<p>预测需要四个维度，第四个维度对应批量大小，这是因为在神经网络中要预测的数据通常作为批次传入。使用np.expand_dims函数添加这个维度，最后使用predict预测图像。</p>
+        <h2 id="git基本使用："><a href="#git基本使用：" class="headerlink" title="git基本使用："></a>git基本使用：</h2><h3 id="git-commit："><a href="#git-commit：" class="headerlink" title="git commit："></a>git commit：</h3><p>通过git commit命令向仓库中提交当前版本记录，git仓库的提交记录保存的是目录下所有文件的快照，但是它不会盲目赋值整个目录，而是将当前版本与上一个版本进行对比，并将所有差异打包到一起作为一个提交记录。</p>
+<h3 id="git-branch："><a href="#git-branch：" class="headerlink" title="git branch："></a>git branch：</h3><p>通过git branch newBranch命令可以新建一个名为newBranch的分支，分支名字是由自己取的，没有强制要求。当我们建立分支之后，如果我们需要提交记录，我们需要先使用git checkout newBranch切换到新的分支上，再进行提交。使用git checkout -b newBranch可以将新建分支与切换分支在一个命令里面完成。</p>
+<h2 id="合并分支的两种方法："><a href="#合并分支的两种方法：" class="headerlink" title="合并分支的两种方法："></a>合并分支的两种方法：</h2><h3 id="git-merge："><a href="#git-merge：" class="headerlink" title="git merge："></a>git merge：</h3><p>通过git merge命令来将两个分支合并在一起，比如我们新建一个新的分支开发某个功能，开发完成之后再合并到主线上。</p>
+<h3 id="git-rebase："><a href="#git-rebase：" class="headerlink" title="git rebase："></a>git rebase：</h3><p>git rebase命令实际上就是取出当前分支一系列的提交记录，复制它们然后在指定分支逐个放下去。比如当在bugFix分支使用git rebase main就是将bugFix分支的提交记录复制然后放在main分支下面，接下来还需要更新main分支，就是切换到main分支，然后使用git rebase bugFix命令即可。</p>
+<h2 id="git的HEAD："><a href="#git的HEAD：" class="headerlink" title="git的HEAD："></a>git的HEAD：</h2><p>git的HEAD就是对当前检出记录的符号引用，它总是指向正在其基础上进行工作的最近一次提交记录，大多数修改提交树的git指令都是从改变HEAD的指向开始的。</p>
+<p>查看HEAD指向可以通过<code>cat.git/HEAD</code>查看，如果HEAD指向的是一个引用，还可以使用<code>git symbolic-ref HEAD</code>查看它的指向。</p>
+<p>通过git checkout 提交记录哈希值来改变HEAD的指向，通过git log可以查看提交记录的哈希值，在git中只需要提供能够唯一标识记录的前几个字符即可。也可以通过相对引用来改变HEAD的指向。</p>
+<p>使用<code>^</code>操作符是寻找提交记录的父提交，比如 git checkout main^。也可以使用HEAD作为相对引用的参照，比如git checkout HEAD^就是在提交树上移动一次。</p>
+<p>使用<code>~</code>操作符可以在提交树上一次性移动多步，在后面加一个数字指定移动的次数。</p>
+<p>使用git branch -f main HEAD~3可以强制让main分支指向HEAD的第三级提交。</p>
+<h2 id="git撤销变更："><a href="#git撤销变更：" class="headerlink" title="git撤销变更："></a>git撤销变更：</h2><h3 id="git-reset："><a href="#git-reset：" class="headerlink" title="git reset："></a>git reset：</h3><p>通过git reset 命令可以把分支回退几个提交记录来实现撤销功能，撤销后原来所做的变更还在，知识处于未加入暂存区的状态。</p>
+<h3 id="git-revert："><a href="#git-revert：" class="headerlink" title="git revert："></a>git revert：</h3><p>在本地分支使用git reset来撤销变更，但在远程分支上需要使用git revert，它可以把你的更改推送到远程仓库与别人分享。</p>
 
       </section>
 
       
       
+        <nav class="article-nav">
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202108/252f597136bf552b865b717067c415c4--3941478634.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2022/04/07/%E8%BF%9B%E7%AB%99%E5%BF%85%E8%AF%BB/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">进站必读</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
 
-      
-      
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+    <div class="valine-container comments-container content-padding--primary soft-size--large soft-style--box">
+      <div id="valine_thread" class="valine-thread"></div>
+    </div>
+    <script type="text/javascript" src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script type="text/javascript" src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <script type="text/javascript">
+      new Valine({
+        el: "#valine_thread",
+        appId: "zPxT1BH5qC6JYqXmizvClRGk-gzGzoHsz",
+        appKey: "kU1QKKjUJco1Gyjj0Usl4bwM",
+        avatar: "ChenZehong",
+        placeholder: "随便说点什么叭～",
+        notify: true,
+        visitor: true,
+        pageSize: 10,
+      });
+    </script>
+  
+
+  
+  
+
+
+      </section>
     </div>
     <div class="widget-info">
       <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -280,6 +236,8 @@
     </div>
   </div>
 </section>
+
+      
 
       
 
@@ -367,7 +325,6 @@
     </div>
   </article>
 </div>
-
 
     <!-- footer container -->
 <footer id="footer" class="footer">
