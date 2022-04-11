@@ -22,7 +22,7 @@
 
   
 
-  <title>react的基本使用 | 大三下</title>
+  <title>vue3中的过渡与动画 | 大三下</title>
 
   
 
@@ -45,7 +45,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202201/f7cef4e7fa001fd3bd654b87084230a9--1925026217.jpg)"></div>
+    <div class="post-image" style="background-image: url(http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202110/a604d8c868f55ab1b38ac10f6eace137--3896894952.jpg)"></div>
   
 
   <!-- navbar -->
@@ -96,15 +96,15 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">react的基本使用</h1>
+          <h1 class="title-wrap">vue3中的过渡与动画</h1>
           <h2 class="title-sub-wrap">
             <strong>ChenZehong</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2022-04-06T22:38:28.209Z" itemprop="datePublished">2022-04-07</time>
+            <time  class="article-date" datetime="2022-04-11T03:11:43.562Z" itemprop="datePublished">2022-04-11</time>
           </h2>
           <ul class="wrap-list dark">
   
-    <li><a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">📒 react学习笔记</a></li>
+    <li><a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">📒 Vue3学习笔记</a></li>
   
 </ul>
           <ul class="wrap-list dark">
@@ -131,34 +131,27 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h3 id="react的特点："><a href="#react的特点：" class="headerlink" title="react的特点："></a>react的特点：</h3><p>1、声明式编码</p>
-<p>2、组件化编码</p>
-<p>3、React Native编写原生应用</p>
-<p>4、高效（优秀的diff算法）</p>
-<h3 id="react高效的原因："><a href="#react高效的原因：" class="headerlink" title="react高效的原因："></a>react高效的原因：</h3><p>1、使用虚拟DOM，不总是直接操作页面真实DOM</p>
-<p>2、使用DOM diff算法最小化页面重绘</p>
-<h2 id="react的基本使用"><a href="#react的基本使用" class="headerlink" title="react的基本使用"></a>react的基本使用</h2><h3 id="使用脚手架安装react项目："><a href="#使用脚手架安装react项目：" class="headerlink" title="使用脚手架安装react项目："></a>使用脚手架安装react项目：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install -g create-react-app</span><br><span class="line">create-react-app my-app</span><br></pre></td></tr></table></figure>
+        <h2 id="vue3中的过渡与动画"><a href="#vue3中的过渡与动画" class="headerlink" title="vue3中的过渡与动画"></a>vue3中的过渡与动画</h2><h3 id="transition组件："><a href="#transition组件：" class="headerlink" title="transition组件："></a>transition组件：</h3><p>在vue3中通过transition组件来给过程添加动画，将要增加过渡动画的元素放到transition组件内。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;transition name=&quot;exam&quot;&gt;</span><br><span class="line">	&lt;div&gt;你好&lt;/div&gt;</span><br><span class="line">&lt;/transition&gt;</span><br></pre></td></tr></table></figure>
 
-<p>使用脚手架创建的react项目默认是不显示配置文件的，可以使用npm run eject 命令将配置文件显示出来，该命令一旦运行则无法再将配置文件隐藏。</p>
-<h3 id="jsx语法："><a href="#jsx语法：" class="headerlink" title="jsx语法："></a>jsx语法：</h3><p>jsx语法是react定义的一种类似于XML的JS扩展语法，用来简化创建虚拟DOM，JS+XML本质是React.createElement(component,props,…children)方法的语法糖。可以在jsx中任意使用JavaScript表达式，不过需要包含在大括号中。</p>
-<p>基本使用：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//jsx语法</span><br><span class="line">const element = &lt;h1&gt;Hello,world!&lt;/h1&gt;</span><br><span class="line">      </span><br><span class="line">function formatName(user)&#123;</span><br><span class="line">    return user.firstName + &quot;&quot; + user.lastName</span><br><span class="line">&#125;</span><br><span class="line">      </span><br><span class="line">//jsx中使用表达式</span><br><span class="line">const element = (</span><br><span class="line">    &lt;h1&gt;hello,&#123;formatName(user)&#125;&lt;/h1&gt;</span><br><span class="line">)</span><br><span class="line">//JSX其实就是一个JS对象，你可以把它复制给变量，或者当做参数传入，作为返回值都可以。</span><br></pre></td></tr></table></figure>
+<p>transition组件有6个过渡的class（v-指代的就是transition中定义的name属性，默认为v-，我们只需要在对应状态的类中规定该状态的样式就可以实现过渡效果了）</p>
+<p>以上面的transition组件为例：</p>
+<ul>
+<li>exam-enter-from/exam-leave-from：对应过渡进入/离开的开始状态</li>
+<li>exam-enter-active/exam-leave-active：对应过渡进入/离开生效时的状态</li>
+<li>exam-enter-to/exam-leave-to：对应过渡进入/离开的结束状态</li>
+</ul>
+<p>使用transition-property可以同时设置多个属性。</p>
+<h3 id="transition-group："><a href="#transition-group：" class="headerlink" title="transition-group："></a>transition-group：</h3><p>在transition组件中只能对每次渲染一个节点的情况生效，如果想对一个列表的内容进行动画渲染，可以使用transition-group。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;transition-group tag=&quot;ul&quot; name&quot;list&quot;&gt;</span><br><span class="line">	&lt;li v-for=&quot;item in array&quot; :key=&quot;item&quot;&gt;&#123;&#123;item&#125;&#125;&lt;/li&gt;</span><br><span class="line">&lt;/transition-group&gt;</span><br></pre></td></tr></table></figure>
 
-<p>在代码编译之后可以看到JSX会被转化为普通的JS对象，所以实际上jsx语法返回的是一个JS对象，也称为React元素。在jsx中由于react DOM 在渲染之前默认会过滤掉所有传入的值，所有的内容在渲染之前都被转换为字符串，所以可以有效防止XSS（跨站脚本）攻击。</p>
-<h3 id="JSX的属性："><a href="#JSX的属性：" class="headerlink" title="JSX的属性："></a>JSX的属性：</h3><p>在jsx中可以使用引号来定义字符串属性，也可以使用大括号来定义JS表达式属性，如下所示：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const ele = &lt;h1 class=&quot;ele&quot;&gt;&lt;/h1&gt;</span><br><span class="line">      或</span><br><span class="line">const ele = &lt;img src=&#123;user.avatarUrl&#125;&gt;&lt;/img&gt;</span><br></pre></td></tr></table></figure>
+<p>使用tag可以指定transition-group渲染成一个页面元素，这里我们将其渲染为一个ul标签。</p>
+<p>当我们使用transition-group对列表进行增删元素的时候，在操作这些元素的位置变化时，由于DOM文档流的变化，会同时引起其他邻近节点元素的位置变化。我们可以使用transition-group提供的v-move类，在元素定位被改变时使用，对于这些“被动移动”的元素也可以实现过渡。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.exam-move</span>&#123;</span><br><span class="line">	<span class="attribute">transition</span>:transform <span class="number">0.5s</span> linear</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="更新元素渲染："><a href="#更新元素渲染：" class="headerlink" title="更新元素渲染："></a>更新元素渲染：</h4><p>jsx语法返回的react元素时构成react应用的最小单位，在页面进行渲染，需要将react元素渲染到根DOM节点中，通过把它们传递给<code>ReactDOM.render()</code>方法来将其渲染到页面中。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const ele = &lt;h1 class=&quot;ele&quot;&gt;&lt;/h1&gt;</span><br><span class="line">ReactDOM.render(ele,document.getElementById(&#x27;root&#x27;))</span><br></pre></td></tr></table></figure>
 
-<p>由于react元素时不可变的，所以元素被创建之后更新页面的唯一办法就是创建一个新的元素然后传入ReactDOM.render()中替换掉之前的元素。</p>
-<h3 id="组件："><a href="#组件：" class="headerlink" title="组件："></a>组件：</h3><h4 id="函数式组件："><a href="#函数式组件：" class="headerlink" title="函数式组件："></a>函数式组件：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//1、创建函数式组件</span><br><span class="line">function MyComponent()&#123;</span><br><span class="line">    console.log(this) //此处的this是undefined，因为babel编译后开启了严格模式</span><br><span class="line">    return &lt;h1&gt;我是用函数定义的组件&lt;/h1&gt;</span><br><span class="line">&#125;</span><br><span class="line">//2、渲染组件到页面</span><br><span class="line">ReactDOM.render(&lt;MyComponent/&gt;,document.getElementById(&quot;#root&quot;))</span><br></pre></td></tr></table></figure>
 
-<p>执行了render函数之后，react会解析组件标签，发现组件时使用函数定义的，随后调用该函数，将返回的虚拟DOM转为真实DOM，最后呈现在页面中。</p>
-<p><strong>注意</strong>：组件的返回值只能有一个根元素，组件名称必须以大写字母开头，同时标签必须闭合。</p>
-<h4 id="类定义组件："><a href="#类定义组件：" class="headerlink" title="类定义组件："></a>类定义组件：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//1、创建类式组件</span><br><span class="line">class MyComponent extends React.Component &#123;</span><br><span class="line">    render()&#123;</span><br><span class="line">		//render是放在MyComponent的原型对象上，供实例使用的</span><br><span class="line">        //render中的this是M有Component的实例对象</span><br><span class="line">        return &lt;h1&gt;我是用类定义的组件&lt;/h1&gt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//2、渲染组件到页面</span><br><span class="line">ReactDOM.render(&lt;MyComponent/&gt;,document.getElementById(&quot;#root&quot;)</span><br></pre></td></tr></table></figure>
-
-<p>执行了ReactDOM.render之后，发现组件时类定义的，react会new出来这个类的实例，并通过该实例调用到原型上的render方法，最后将render返回的虚拟DOM转为真实DOM，随后呈现在页面上。</p>
+<h3 id="组件之间的过渡："><a href="#组件之间的过渡：" class="headerlink" title="组件之间的过渡："></a>组件之间的过渡：</h3><p>组件过渡的方法与transition的使用方法完全一样，只需要将需要过渡的组件包裹到transition组件下进行渲染就可以。</p>
 
       </section>
 
@@ -166,32 +159,16 @@
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202108/252f597136bf552b865b717067c415c4--3941478634.jpg"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2022/04/07/%E8%BF%9B%E7%AB%99%E5%BF%85%E8%AF%BB/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">进站必读</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202203/48c1f07327e74ccf5b9e83b7bf70b4a4--2164203721.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202112/180de74451d1b5d0947407a31931a986--326110675.jpg"></div>
     
     <div class="card-text">
       
-        <a href="/2022/04/06/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/%E7%8E%A9%E8%BD%ACvue3/%E6%80%8E%E4%B9%88%E8%AE%A9%E4%BD%A0%E7%9A%84%E7%BB%84%E4%BB%B6%E5%8F%98%E5%BE%97%E6%9B%B4%E5%8A%A0%E7%81%B5%E6%B4%BB/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">怎么使组件变得更加灵活</h2>
+        <a href="/2022/04/08/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/%E5%AE%9E%E4%B9%A0%E5%BF%85%E5%A4%87%E4%B9%8Bgit%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">git基本用法</h2>
         </a>
       
       <div class="card-text--row">Older</div>
