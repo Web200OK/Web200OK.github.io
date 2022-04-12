@@ -143,6 +143,9 @@
 <p>使用git branch -f main HEAD~3可以强制让main分支指向HEAD的第三级提交。</p>
 <h2 id="git撤销变更："><a href="#git撤销变更：" class="headerlink" title="git撤销变更："></a>git撤销变更：</h2><h3 id="git-reset："><a href="#git-reset：" class="headerlink" title="git reset："></a>git reset：</h3><p>通过git reset 命令可以把分支回退几个提交记录来实现撤销功能，撤销后原来所做的变更还在，知识处于未加入暂存区的状态。</p>
 <h3 id="git-revert："><a href="#git-revert：" class="headerlink" title="git revert："></a>git revert：</h3><p>在本地分支使用git reset来撤销变更，但在远程分支上需要使用git revert，它可以把你的更改推送到远程仓库与别人分享。</p>
+<h2 id="git常见场景命令："><a href="#git常见场景命令：" class="headerlink" title="git常见场景命令："></a>git常见场景命令：</h2><p>1、当我们在本地仓库中进行开发，已经修改代码，然后被通知远程仓库代码已更新，需要拉取代码，为了不让拉取后的代码覆盖我们已修改的代码，我们可以使用git stash命令将本地修改暂存起来：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//暂存代码</span><br><span class="line">git stash save &quot;注释&quot;</span><br><span class="line">//拉取远程仓库代码</span><br><span class="line">git pull</span><br><span class="line">//将暂存区代码取出</span><br><span class="line">git stash pop</span><br></pre></td></tr></table></figure>
+
 
       </section>
 
@@ -268,20 +271,14 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
-            网站介绍 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/TensorFlow-js/">
             TensorFlow.js (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
+          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
+            网站介绍 (1)
           </a>
         </li>
       
@@ -300,6 +297,12 @@
         <li class="categorys-list-item">
           <a href="/categories/%E6%97%A5%E6%8A%A5/">
             日报 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
           </a>
         </li>
       

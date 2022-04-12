@@ -152,13 +152,25 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const ele = &lt;h1 class=&quot;ele&quot;&gt;&lt;/h1&gt;</span><br><span class="line">ReactDOM.render(ele,document.getElementById(&#x27;root&#x27;))</span><br></pre></td></tr></table></figure>
 
 <p>由于react元素时不可变的，所以元素被创建之后更新页面的唯一办法就是创建一个新的元素然后传入ReactDOM.render()中替换掉之前的元素。</p>
-<h3 id="组件："><a href="#组件：" class="headerlink" title="组件："></a>组件：</h3><h4 id="函数式组件："><a href="#函数式组件：" class="headerlink" title="函数式组件："></a>函数式组件：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//1、创建函数式组件</span><br><span class="line">function MyComponent()&#123;</span><br><span class="line">    console.log(this) //此处的this是undefined，因为babel编译后开启了严格模式</span><br><span class="line">    return &lt;h1&gt;我是用函数定义的组件&lt;/h1&gt;</span><br><span class="line">&#125;</span><br><span class="line">//2、渲染组件到页面</span><br><span class="line">ReactDOM.render(&lt;MyComponent/&gt;,document.getElementById(&quot;#root&quot;))</span><br></pre></td></tr></table></figure>
+<h3 id="组件："><a href="#组件：" class="headerlink" title="组件："></a>组件：</h3><h4 id="函数式组件："><a href="#函数式组件：" class="headerlink" title="函数式组件："></a>函数式组件：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//1、创建函数式组件</span><br><span class="line">function MyComponent(props)&#123;</span><br><span class="line">    console.log(this) //此处的this是undefined，因为babel编译后开启了严格模式</span><br><span class="line">    console.log(props.name) //对应下面讲解组件props传值</span><br><span class="line">    return &lt;h1&gt;我是用函数定义的组件&lt;/h1&gt;</span><br><span class="line">&#125;</span><br><span class="line">//2、渲染组件到页面</span><br><span class="line">ReactDOM.render(&lt;MyComponent/&gt;,document.getElementById(&quot;#root&quot;))</span><br></pre></td></tr></table></figure>
 
 <p>执行了render函数之后，react会解析组件标签，发现组件时使用函数定义的，随后调用该函数，将返回的虚拟DOM转为真实DOM，最后呈现在页面中。</p>
 <p><strong>注意</strong>：组件的返回值只能有一个根元素，组件名称必须以大写字母开头，同时标签必须闭合。</p>
 <h4 id="类定义组件："><a href="#类定义组件：" class="headerlink" title="类定义组件："></a>类定义组件：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//1、创建类式组件</span><br><span class="line">class MyComponent extends React.Component &#123;</span><br><span class="line">    render()&#123;</span><br><span class="line">		//render是放在MyComponent的原型对象上，供实例使用的</span><br><span class="line">        //render中的this是M有Component的实例对象</span><br><span class="line">        return &lt;h1&gt;我是用类定义的组件&lt;/h1&gt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//2、渲染组件到页面</span><br><span class="line">ReactDOM.render(&lt;MyComponent/&gt;,document.getElementById(&quot;#root&quot;)</span><br></pre></td></tr></table></figure>
 
 <p>执行了ReactDOM.render之后，发现组件时类定义的，react会new出来这个类的实例，并通过该实例调用到原型上的render方法，最后将render返回的虚拟DOM转为真实DOM，随后呈现在页面上。</p>
+<h3 id="组件传入值props："><a href="#组件传入值props：" class="headerlink" title="组件传入值props："></a>组件传入值props：</h3><p>当react元素时用户自定义的组件时，它会将JSX属性作为单个对象传递给组件，这个对象就是props，props的值只可以读取，不允许修改。如下图所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//用户自定义的组件</span><br><span class="line">const element = &lt;Welcome name=&quot;CZH&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="组件局部状态state："><a href="#组件局部状态state：" class="headerlink" title="组件局部状态state："></a>组件局部状态state：</h3><p>局部状态state用来维护内部数据，可以通过this.state.ropName来获取数据，构造函数是唯一可以初始化state的地方。</p>
+<p>组件可以将它的状态作为属性传递给子组件，但是除了拥有并设置它的组件之外，其他组件不可以访问其他组件的状态，这也是为什么叫做局部状态的原因。在修改局部状态时不要直接修改应该使用setState方法，否则react不会重新渲染组件。</p>
+<p>setState方法只是将你的返回的对象合并到局部状态state中，并且是浅合并，即返回的对象中提及到的属性会被完全替换，没有涉及到的属性不受影响。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">this.setState(&#123;comment:&quot;hello&quot;&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>在利用当前状态和props的值来修改下一状态时，应该用一个函数来作为setState的参数，否则如果直接修改的话，有可能会没有效果，因为这两种值是异步更新的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//错误做法</span><br><span class="line">this.setState(&#123;</span><br><span class="line">    counter:this.state.a + this.props.b</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">//正确做法</span><br><span class="line">this.setState((prevState,props) =&gt; &#123;</span><br><span class="line">    //接收一个函数，第一个参数是先前的状态，将props作为第二个参数</span><br><span class="line">	counter:prevState.a + props.b</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="组价标签标识ref："><a href="#组价标签标识ref：" class="headerlink" title="组价标签标识ref："></a>组价标签标识ref：</h3><p>组件内的标签可以定义ref属性来表示自己。</p>
 
       </section>
 
@@ -284,20 +296,14 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
-            网站介绍 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/TensorFlow-js/">
             TensorFlow.js (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
+          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
+            网站介绍 (1)
           </a>
         </li>
       
@@ -316,6 +322,12 @@
         <li class="categorys-list-item">
           <a href="/categories/%E6%97%A5%E6%8A%A5/">
             日报 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
           </a>
         </li>
       
