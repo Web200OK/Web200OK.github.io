@@ -330,6 +330,18 @@
 <p>使用前缀和数组保存数组每一个索引的前缀和，每一次给定一个区间时，只需要计算sumArr[right + 1] - sumArr[left]即可</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sumArr = []</span><br><span class="line"><span class="keyword">var</span> NumArray = <span class="function"><span class="keyword">function</span>(<span class="params">nums</span>) </span>&#123;</span><br><span class="line">    sumArr[<span class="number">0</span>] = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">1</span>;i &lt;= nums.length;i++)&#123;</span><br><span class="line">        sumArr[i] = sumArr[i - <span class="number">1</span>] + nums[i - <span class="number">1</span>]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">NumArray.prototype.sumRange = <span class="function"><span class="keyword">function</span>(<span class="params">left, right</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> sumArr[right + <span class="number">1</span>] - sumArr[left] </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/range-sum-query-2d-immutable/">二维区域和检索 - 矩阵不可变</a></li>
+</ul>
+<p>使用二维前缀和数组保存每一个坐标的前缀和，每次给定左上角坐标与右下角坐标时，只需要计算preSum<code>[x2 + 1]``[y2 + 1]</code> - preSum<code>[x1][y2 + 1]</code> - preSum<code>[x2 + 1][y1]</code> + preSum<code>[x1][y1]</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> preSum = []</span><br><span class="line"><span class="keyword">var</span> NumMatrix = <span class="function"><span class="keyword">function</span>(<span class="params">matrix</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> m = matrix.length,n = matrix[<span class="number">0</span>].length</span><br><span class="line">    <span class="keyword">if</span>(m === <span class="number">0</span> || n === <span class="number">0</span>) <span class="keyword">return</span> </span><br><span class="line">    preSum = <span class="keyword">new</span> <span class="built_in">Array</span>(m + <span class="number">1</span>).fill(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt;= m;i++) preSum[i] = <span class="keyword">new</span> <span class="built_in">Array</span>(n + <span class="number">1</span>).fill(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">1</span>;i &lt;= m;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> j = <span class="number">1</span>;j &lt;= n;j++)&#123;</span><br><span class="line">            preSum[i][j] = preSum[i - <span class="number">1</span>][j] + preSum[i][j - <span class="number">1</span>] + matrix[i - <span class="number">1</span>][j - <span class="number">1</span>] - preSum[i - <span class="number">1</span>][j - <span class="number">1</span>]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">NumMatrix.prototype.sumRegion = <span class="function"><span class="keyword">function</span>(<span class="params">x1, y1, x2, y2</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> preSum[x2 + <span class="number">1</span>][y2 + <span class="number">1</span>] - preSum[x1][y2 + <span class="number">1</span>] - preSum[x2 + <span class="number">1</span>][y1] + preSum[x1][y1]</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/subarray-sum-equals-k/">和为 K 的子数组</a></li>
+</ul>
+<p>使用<strong>前缀和 + 哈希表优化</strong>的方法，只需要一次for循环。在记录前缀和的时候，<strong>直接记录下有几个 <code>preSum[j]</code> 和 <code>preSum[i] - k</code> 相等，直接更新结果，就避免了内层的 for 循环</strong>。我们可以用哈希表（js中是用map），在记录前缀和的同时记录该前缀和出现的次数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> subarraySum = <span class="function"><span class="keyword">function</span>(<span class="params">nums, k</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> map = <span class="keyword">new</span> <span class="built_in">Map</span>()</span><br><span class="line">    <span class="keyword">let</span> pre = <span class="number">0</span>,num = <span class="number">0</span></span><br><span class="line">    <span class="comment">//关于mp.put(0, 1); 这一行的作用就是为了应对 nums[0] +nums[1] + ... + nums[i] == k 的情况的, 也就是从下标 0 累加到下标 i</span></span><br><span class="line">    map.set(<span class="number">0</span>,<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt; nums.length;i++)&#123;</span><br><span class="line">        pre += nums[i]</span><br><span class="line">        <span class="keyword">let</span> res = pre - k</span><br><span class="line">        <span class="keyword">if</span>(map.has(res))&#123;</span><br><span class="line">            num += map.get(res)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(map.has(pre))&#123;</span><br><span class="line">            map.set(pre,map.get(pre)+<span class="number">1</span>)</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            map.set(pre,<span class="number">1</span>)</span><br><span class="line">        &#125; </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> num</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
 
       </section>
 
@@ -422,7 +434,7 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>24</span>
+        <span>25</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -455,14 +467,26 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
+          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
+            网站介绍 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/TensorFlow-js/">
             TensorFlow.js (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
-            网站介绍 (1)
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
           </a>
         </li>
       
@@ -474,19 +498,7 @@
       
         <li class="categorys-list-item">
           <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
-            实习相关 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
+            实习相关 (3)
           </a>
         </li>
       
