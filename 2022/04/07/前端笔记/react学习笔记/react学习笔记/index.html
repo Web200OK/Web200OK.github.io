@@ -170,6 +170,8 @@
 <p>在利用当前状态和props的值来修改下一状态时，应该用一个函数来作为setState的参数，否则如果直接修改的话，有可能会没有效果，因为这两种值是异步更新的。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//错误做法</span><br><span class="line">this.setState(&#123;</span><br><span class="line">    counter:this.state.a + this.props.b</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">//正确做法</span><br><span class="line">this.setState((prevState,props) =&gt; &#123;</span><br><span class="line">    //接收一个函数，第一个参数是先前的状态，将props作为第二个参数</span><br><span class="line">	counter:prevState.a + props.b</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
+<p>在实例对象中添加响应函数作为响应函数，响应函数会被放在实例的原型对象上供实例使用。比如当我们在jsx语法中为一个标签添加点击事件响应函数handleClick，该函数是作为OnClick的回调。所以不是通过实例调用的，是直接调用，由于类中的方法默认开启了局部的严格模式，所以handleClick中的this是undefined，无法获取到实例的state属性。</p>
+<p>可以在类中使用<code>this.handleClick = this.handleClick.bind(this)</code>将this绑定为实例后放到实例对象身上，这样当点击时响应函数就是实例上的handleClick函数，而不是原型对象上的handleClick函数。</p>
 <h3 id="组价标签标识ref："><a href="#组价标签标识ref：" class="headerlink" title="组价标签标识ref："></a>组价标签标识ref：</h3><p>组件内的标签可以定义ref属性来表示自己。使用this.$refs.refName可以获取到真实的DOM节点，必须等到虚拟DOM插入到文档之后才能使用这个属性。</p>
 <h3 id="react的生命周期："><a href="#react的生命周期：" class="headerlink" title="react的生命周期："></a>react的生命周期：</h3><p>组件的生命周期分为三种状态，分别是：</p>
 <ul>
@@ -282,7 +284,7 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>25</span>
+        <span>26</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -315,20 +317,26 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
-            网站介绍 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/TensorFlow-js/">
             TensorFlow.js (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
+          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
+            网站介绍 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            前端学习笔记 (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
+            实习相关 (3)
           </a>
         </li>
       
@@ -339,14 +347,8 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            前端学习笔记 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
-            实习相关 (3)
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
           </a>
         </li>
       
