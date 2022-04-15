@@ -162,7 +162,7 @@
 <h3 id="组件传入值props："><a href="#组件传入值props：" class="headerlink" title="组件传入值props："></a>组件传入值props：</h3><p>当react元素时用户自定义的组件时，它会将JSX属性作为单个对象传递给组件，这个对象就是props，props的值只可以读取，不允许修改。如下图所示：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//用户自定义的组件</span><br><span class="line">const element = &lt;Welcome name=&quot;CZH&quot; /&gt;</span><br></pre></td></tr></table></figure>
 
-<h3 id="组件局部状态state："><a href="#组件局部状态state：" class="headerlink" title="组件局部状态state："></a>组件局部状态state：</h3><p>局部状态state用来维护内部数据，可以通过this.state.ropName来获取数据，构造函数是唯一可以初始化state的地方。</p>
+<h3 id="组件局部状态state："><a href="#组件局部状态state：" class="headerlink" title="组件局部状态state："></a>组件局部状态state：</h3><p>局部状态state用来维护内部数据，可以通过this.state.propName来获取数据。</p>
 <p>组件可以将它的状态作为属性传递给子组件，但是除了拥有并设置它的组件之外，其他组件不可以访问其他组件的状态，这也是为什么叫做局部状态的原因。在修改局部状态时不要直接修改应该使用setState方法，否则react不会重新渲染组件。</p>
 <p>setState方法只是将你的返回的对象合并到局部状态state中，并且是浅合并，即返回的对象中提及到的属性会被完全替换，没有涉及到的属性不受影响。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">this.setState(&#123;comment:&quot;hello&quot;&#125;)</span><br></pre></td></tr></table></figure>
@@ -171,7 +171,10 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//错误做法</span><br><span class="line">this.setState(&#123;</span><br><span class="line">    counter:this.state.a + this.props.b</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">//正确做法</span><br><span class="line">this.setState((prevState,props) =&gt; &#123;</span><br><span class="line">    //接收一个函数，第一个参数是先前的状态，将props作为第二个参数</span><br><span class="line">	counter:prevState.a + props.b</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
 <p>在实例对象中添加响应函数作为响应函数，响应函数会被放在实例的原型对象上供实例使用。比如当我们在jsx语法中为一个标签添加点击事件响应函数handleClick，该函数是作为OnClick的回调。所以不是通过实例调用的，是直接调用，由于类中的方法默认开启了局部的严格模式，所以handleClick中的this是undefined，无法获取到实例的state属性。</p>
-<p>可以在类中使用<code>this.handleClick = this.handleClick.bind(this)</code>将this绑定为实例后放到实例对象身上，这样当点击时响应函数就是实例上的handleClick函数，而不是原型对象上的handleClick函数。</p>
+<p>可以在类构造器中使用<code>this.handleClick = this.handleClick.bind(this)</code>将this绑定为实例后放到实例对象身上，这样当点击时响应函数就是实例上的handleClick函数，而不是原型对象上的handleClick函数。</p>
+<h3 id="state的简写方式："><a href="#state的简写方式：" class="headerlink" title="state的简写方式："></a>state的简写方式：</h3><p>可以不需要在类的构造器中，而是直接在类中初始化state，自定义方法也可以不需要在构造器中手动绑定this，而是将自定义方法在类中用赋值语句+箭头函数的形式声明即可，此时this指向的就是类的实例。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class Weather extends React.Component &#123;</span><br><span class="line">    //不通过构造器直接在类中初始化</span><br><span class="line">	state = &#123;&#125;</span><br><span class="line">    render()&#123;</span><br><span class="line">        return &lt;h1 onClick=&#123;this.handleClick&#125;&gt;你好&lt;/h1&gt;</span><br><span class="line">    &#125;</span><br><span class="line">    //自定义方法</span><br><span class="line">    handleClick = () =&gt; &#123;</span><br><span class="line">        this.setState(&#123;name:&quot;CZH&quot;&#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="组价标签标识ref："><a href="#组价标签标识ref：" class="headerlink" title="组价标签标识ref："></a>组价标签标识ref：</h3><p>组件内的标签可以定义ref属性来表示自己。使用this.$refs.refName可以获取到真实的DOM节点，必须等到虚拟DOM插入到文档之后才能使用这个属性。</p>
 <h3 id="react的生命周期："><a href="#react的生命周期：" class="headerlink" title="react的生命周期："></a>react的生命周期：</h3><p>组件的生命周期分为三种状态，分别是：</p>
 <ul>
@@ -359,14 +362,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            react学习笔记 (1)
+          <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            Vue3学习笔记 (3)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            Vue3学习笔记 (3)
+          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            react学习笔记 (1)
           </a>
         </li>
       

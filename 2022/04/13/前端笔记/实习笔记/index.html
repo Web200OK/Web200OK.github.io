@@ -136,8 +136,9 @@
 
 
 
-
-
+<h3 id="组件封装："><a href="#组件封装：" class="headerlink" title="组件封装："></a>组件封装：</h3><p><strong>踩雷</strong>：在封装组件的时候把父组件的一整个对象作为参数传递，并且在封装的组件中对对象属性进行了修改，虽然代码跑得动，但是组件的复用性低！</p>
+<p>对于页面中需要重复使用的功能代码可以进行封装复用，再使用时将需要的参数通过父子组件间通信（比如props）传输然后在封装组件中使用，这样可以保证封装的组件复用性高。切记在封装组件中对传输进来的props数据进行修改，而应该把需要修改的数据用$emit重新传回父组件中，触发父组件的函数并进行修改。组件接收的参数应该尽量简单，这样才可以适用于大多数应用场景~~~</p>
+<p>在填写信息的表单中，无论是选择器还是输入框，v-model双向绑定的值最多层数是两层最好，尽量不要出现a.b.c.xxx的情况。层数多的情况下可以将数据单独拆分出来，在提交表单的时候再拼接上去即可。</p>
 
       </section>
 
@@ -305,14 +306,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            react学习笔记 (1)
+          <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            Vue3学习笔记 (3)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            Vue3学习笔记 (3)
+          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            react学习笔记 (1)
           </a>
         </li>
       
