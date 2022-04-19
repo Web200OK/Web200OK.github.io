@@ -22,7 +22,7 @@
 
   
 
-  <title>大三上日报 | 好好学习，天天向上</title>
+  <title>vue3中的过渡与动画 | 好好学习，天天向上</title>
 
   
 
@@ -45,7 +45,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202111/df0b540599219c3fdefaa142d0b07c37--1114161947.jpg)"></div>
+    <div class="post-image" style="background-image: url(http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202110/9da80970396542f9ffaf13ddd01f5067--304154848.jpg)"></div>
   
 
   <!-- navbar -->
@@ -96,15 +96,15 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">大三上日报</h1>
+          <h1 class="title-wrap">vue3中的过渡与动画</h1>
           <h2 class="title-sub-wrap">
             <strong>ChenZehong</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2021-11-17T03:42:21.000Z" itemprop="datePublished">2021-11-17</time>
+            <time  class="article-date" datetime="2022-04-18T11:41:59.844Z" itemprop="datePublished">2022-04-18</time>
           </h2>
           <ul class="wrap-list dark">
   
-    <li><a href="/categories/%E6%97%A5%E6%8A%A5/">📒 日报</a></li>
+    <li><a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">📒 Vue3学习笔记</a></li>
   
 </ul>
           <ul class="wrap-list dark">
@@ -131,134 +131,23 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h3>2021-11-17</h3>
-<h4>个人博客</h4>
-
-<ul>
-<li>新增文章加密功能 </li>
-<li>更换背景图片</li>
+        <h3 id="hash路由与history路由"><a href="#hash路由与history路由" class="headerlink" title="hash路由与history路由"></a>hash路由与history路由</h3><ul>
+<li>hash模式：hash模式就是浏览器地址中<code>#</code>及其后边的部分，通过window.location.hash可以获取到路径上的hash值。当路径的hash值发生变化时，不会导致页面刷新，也不会发送请求，我们可以通过hashchange事件来监听hash值的变化，进而渲染新的组件内容。</li>
+<li>history模式：history模式没有<code>#</code>相关的内容，它之所以可以实现前端路由是由于HTML5新增的pushState以及replaceState方法啊，支持对浏览器的路由进行修改操作，此时浏览器不会对服务端发送请求并且也会触发一个监听事件popState。</li>
 </ul>
-<h4 id="小程序："><a href="#小程序：" class="headerlink" title="小程序："></a>小程序：</h4><p>1、新的<code>js</code>库：</p>
+<p>实现前端路由的条件如下：</p>
 <ul>
-<li><code>fly.js</code>：类似于<code>axios</code>的<code>HTTP</code>请求库，适用于小程序</li>
-<li><code>jsonwebtoken.js</code>：实现token技术的一种解决方案。</li>
+<li>更改页面路径，不会引起页面刷新，不会向服务器端发送请求</li>
+<li>存在监听路径改变的事件，可以在路径改变之后动态渲染页面</li>
 </ul>
-<p>2、</p>
-<p>分包<code>API</code>：在<code>app.json</code>中配置，配置完成后被分包出来的页面路径会发生改变，需要更改代码用到的原路径，体验较差~</p>
-<p>分包预加载<code>API</code>：也是在<code>app.json</code>中配置</p>
-<h4 id="算法："><a href="#算法：" class="headerlink" title="算法："></a>算法：</h4><p><code>acwing</code>第二章：栈，队列，单调栈，单调队列，<code>KMP</code>算法</p>
-<h3>2021-11-18</h3>
+<h3 id="怎么实现vue3中的路由管理："><a href="#怎么实现vue3中的路由管理：" class="headerlink" title="怎么实现vue3中的路由管理："></a>怎么实现vue3中的路由管理：</h3><p>下面以hash模式为例手动实现vue3的hash模式路由：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//router.js</span></span><br><span class="line"><span class="keyword">import</span> &#123;createRouter,createWebHashHistory&#125; <span class="keyword">from</span> <span class="string">&#x27;vue-router&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> Login <span class="keyword">from</span> <span class="string">&#x27;../pages/login.vue&#x27;</span></span><br><span class="line"><span class="keyword">import</span> Home <span class="keyword">from</span> <span class="string">&#x27;../pages/home.vue&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//定义各个组件的路由地址</span></span><br><span class="line"><span class="keyword">const</span> routes = [</span><br><span class="line">	&#123;<span class="attr">path</span>:<span class="string">&#x27;/login&#x27;</span>,<span class="attr">component</span>:Login&#125;,</span><br><span class="line">	&#123;<span class="attr">path</span>:<span class="string">&#x27;/home&#x27;</span>,<span class="attr">component</span>:Home&#125;</span><br><span class="line">]</span><br><span class="line"><span class="comment">//创建路由实例</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> createRouter(&#123;</span><br><span class="line">    <span class="attr">history</span>:CreateWebHashHistory(),</span><br><span class="line">    routes</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
-<h4 id="个人博客："><a href="#个人博客：" class="headerlink" title="个人博客："></a>个人博客：</h4><p>搭建<code>ESC</code>云服务器失败，阿里云使用体验太差了，但至少学会了<code>nginx</code>和云服务器<code>linux</code>和<code>git</code>环境的基本搭建</p>
-<h3>2021-11-19</h3>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//App.vue</span></span><br><span class="line"><span class="keyword">import</span> &#123;createApp&#125; <span class="keyword">from</span> <span class="string">&quot;vue&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">&#x27;./App.vue&#x27;</span></span><br><span class="line"><span class="keyword">import</span> router <span class="keyword">from</span> <span class="string">&#x27;./router/router&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = createApp(App)</span><br><span class="line">app.use(router).mount(<span class="string">&#x27;#app&#x27;</span>)</span><br></pre></td></tr></table></figure>
 
-<h4 id="个人博客：-1"><a href="#个人博客：-1" class="headerlink" title="个人博客："></a>个人博客：</h4><p>搭建ESC云服务器成功，但是需要备案服务号才可以访问网站，等有时间有钱再去弄吧~</p>
-<h4 id="Vue："><a href="#Vue：" class="headerlink" title="Vue："></a>Vue：</h4><p>学习了<code>Vue3</code>的<code>watch</code>监视属性、生命周期以及<code>hook</code>函数</p>
-<h4 id="算法：-1"><a href="#算法：-1" class="headerlink" title="算法："></a>算法：</h4><p>完成区间合并以及区间数的代码理解与打卡</p>
-<h3>2021-11-20</h3>
+<p>在这里我们手动实现一下createRouter与createWebHashHistory方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//createWebHashHistory方法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createWebHashHistory</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;WebHashHistory&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//createRouter方法</span></span><br><span class="line"><span class="keyword">import</span> ref <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createRouter</span>(<span class="params">params</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">const</span> history = params.history</span><br><span class="line">    <span class="keyword">const</span> routes = params.routes</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">const</span> router = &#123;</span><br><span class="line">        history,</span><br><span class="line">        routes,</span><br><span class="line">        <span class="comment">//增加当前路径hash的响应式变量</span></span><br><span class="line">        <span class="attr">hash</span>:ref(<span class="built_in">window</span>.location.hash.slice(<span class="number">1</span>))</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//增加监听事件判断是否是hash模式，如果是则添加hashchange事件，当事件被触发时更新当前路径的hash</span></span><br><span class="line">    <span class="keyword">if</span>(history == <span class="string">&#x27;WebHashHistory&#x27;</span>)&#123;</span><br><span class="line">        <span class="built_in">window</span>.addEvenntListener(<span class="string">&#x27;hashchange&#x27;</span>,<span class="function">() =&gt;</span> &#123;</span><br><span class="line">			router.hash.value = <span class="built_in">window</span>.location.slice(<span class="number">1</span>)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> router</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="Vue：-1"><a href="#Vue：-1" class="headerlink" title="Vue："></a><code>Vue</code>：</h4><p>完成后台管理系统角色管理页面的添加、编辑以及扩展功能（P82）</p>
-<p>学习了<code>Vue3</code>的其他<code>component API</code></p>
-<h4 id="面试准备："><a href="#面试准备：" class="headerlink" title="面试准备："></a>面试准备：</h4><p>开始<code>HTML</code>部分的准备</p>
-<h3>2021-11-21</h3>
-
-<h4 id="六级："><a href="#六级：" class="headerlink" title="六级："></a>六级：</h4><p>背单词以及阅读两篇短文</p>
-<h4 id="Vue：-2"><a href="#Vue：-2" class="headerlink" title="Vue："></a>Vue：</h4><p><code>Vue</code>全家桶完结~~~</p>
-<h3>2021-11-22</h3>
-
-<h4 id="六级：-1"><a href="#六级：-1" class="headerlink" title="六级："></a>六级：</h4><p>背单词以及阅读两篇短文</p>
-<h4 id="面试准备：-1"><a href="#面试准备：-1" class="headerlink" title="面试准备："></a>面试准备：</h4><p>巩固<code>HTML</code>基础</p>
-<h3>2021-11-23</h3>
-
-<h4 id="算法：-2"><a href="#算法：-2" class="headerlink" title="算法："></a>算法：</h4><p>打卡链表与栈</p>
-<h3>2021-11-24</h3>
-
-<h4 id="Vue"><a href="#Vue" class="headerlink" title="Vue:"></a>Vue:</h4><p>完成后台管理系统权限功能开发</p>
-<h4 id="最优化："><a href="#最优化：" class="headerlink" title="最优化："></a>最优化：</h4><p>学习了凸集凸函数知识</p>
-<h3>2021-11-25</h3>
-
-<h4 id="时间序列："><a href="#时间序列：" class="headerlink" title="时间序列："></a>时间序列：</h4><p>学习了第二章与第三章内容</p>
-<h4 id="面试准备：-2"><a href="#面试准备：-2" class="headerlink" title="面试准备："></a>面试准备：</h4><p>开始<code>CSS</code>面试题准备</p>
-<h3>2021-11-26</h3>
-
-<h4 id="R语言："><a href="#R语言：" class="headerlink" title="R语言："></a>R语言：</h4><p>B站课程完成三分之一</p>
-<h4 id="算法：-3"><a href="#算法：-3" class="headerlink" title="算法："></a>算法：</h4><p>打卡表达式求值、模拟队列以及单调栈题目</p>
-<h3>2021-11-27</h3>
-
-<h4 id="R语言：-1"><a href="#R语言：-1" class="headerlink" title="R语言："></a>R语言：</h4><p>学会了基本运用</p>
-<h3>2021-11-28</h3>
-
-<h4 id="Vue：-3"><a href="#Vue：-3" class="headerlink" title="Vue："></a>Vue：</h4><p>完成后台管理系统商品分类页面开发（ P110）</p>
-<p>新的组件库：</p>
-<p><code>vue-table-with-tree-grid</code>：树形表格组件库</p>
-<h3>2021-11-29</h3>
-
-<h4 id="算法：-4"><a href="#算法：-4" class="headerlink" title="算法："></a>算法：</h4><p>打卡单调队列、滑动窗口题目</p>
-<p>学习了<code>Trie</code>、合并集以及手写堆</p>
-<h3>2021-11-30</h3>
-
-<h4 id="时间序列：-1"><a href="#时间序列：-1" class="headerlink" title="时间序列："></a>时间序列：</h4><p>学习了第三章<code>ARMA</code>模型</p>
-<h3>2021-12-01</h3>
-
-<h4 id="属性数据："><a href="#属性数据：" class="headerlink" title="属性数据："></a>属性数据：</h4><p>学习了列联表</p>
-<h4 id="算法：-5"><a href="#算法：-5" class="headerlink" title="算法："></a>算法：</h4><p>学习了哈希表以及读懂<code>KMP</code>代码模板</p>
-<h3>2021-12-02</h3>
-
-<h4 id="最优化：-1"><a href="#最优化：-1" class="headerlink" title="最优化："></a>最优化：</h4><p>学习了第一章</p>
-<h4 id="算法：-6"><a href="#算法：-6" class="headerlink" title="算法："></a>算法：</h4><p>打卡<code>KMP</code>与<code>trie</code>题目</p>
-<h3>2021-12-03</h3>
-
-<h4 id="算法：-7"><a href="#算法：-7" class="headerlink" title="算法："></a>算法：</h4><p>打卡最大异或对、合并集合、连通块中点的数量以及食物链题目</p>
-<h3>2021-12-04</h3>
-
-<h4 id="Vue：-4"><a href="#Vue：-4" class="headerlink" title="Vue："></a>Vue：</h4><p>完成后台管理系统分类参数页面的开发（P125）</p>
-<h3>2021-12-05</h3>
-
-<h4 id="应用多元统计："><a href="#应用多元统计：" class="headerlink" title="应用多元统计："></a>应用多元统计：</h4><p>学习了判别分析、聚类分析、主成分分析与因子分析</p>
-<h4 id="时间序列：-2"><a href="#时间序列：-2" class="headerlink" title="时间序列："></a>时间序列：</h4><p>学习了<code>AR、MA与ARMA</code>模型</p>
-<h3>2021-12-06</h3>
-
-<h4 id="Vue-1"><a href="#Vue-1" class="headerlink" title="Vue:"></a>Vue:</h4><p>完善后台管理系统分类参数页面开发（P131）</p>
-<h3>2021-12-07~2021-12-12</h3>
-
-<h4 id="随机过程："><a href="#随机过程：" class="headerlink" title="随机过程："></a>随机过程：</h4><p>学习了平稳过程</p>
-<h4 id="计算机网络："><a href="#计算机网络：" class="headerlink" title="计算机网络："></a>计算机网络：</h4><p>学习了浏览器原理与透视HTTP协议</p>
-<h4 id="面试准备：-3"><a href="#面试准备：-3" class="headerlink" title="面试准备："></a>面试准备：</h4><p>准备JS面试题</p>
-<h4 id="算法：-8"><a href="#算法：-8" class="headerlink" title="算法："></a>算法：</h4><p>复习算法基础并总结题解</p>
-<h3>2021-12-13</h3>
-
-<h4 id="tensorFlow："><a href="#tensorFlow：" class="headerlink" title="tensorFlow："></a><code>tensorFlow</code>：</h4><p>学习了基本操作</p>
-<h4 id="六级：-2"><a href="#六级：-2" class="headerlink" title="六级："></a>六级：</h4><p>做了阅读题</p>
-<h4 id="算法：-9"><a href="#算法：-9" class="headerlink" title="算法："></a>算法：</h4><p>学习了<code>dfs</code>和<code>bfs</code>，打卡了堆排序题目</p>
-<h3>2021-12-15</h3>
-
-<h4 id="算法：-10"><a href="#算法：-10" class="headerlink" title="算法："></a>算法：</h4><p>打卡模拟堆与散列表题目</p>
-<h4 id="属性数据分析："><a href="#属性数据分析：" class="headerlink" title="属性数据分析："></a>属性数据分析：</h4><p>学习第二三章</p>
-<h4 id="TensorFlow-js："><a href="#TensorFlow-js：" class="headerlink" title="TensorFlow.js："></a><code>TensorFlow.js</code>：</h4><p>学习了读取<code>csv</code>数据以及制作散点图；</p>
-<p><code>http-serve</code>可以设置参数控制是否跨域请求</p>
-<h4 id="感悟："><a href="#感悟：" class="headerlink" title="感悟："></a>感悟：</h4><p>感情这种东西记不得，先让自己好好改变吧，还是存在很多的毛病。</p>
-<h3>2021-12-18</h3>
-
-<h4 id="六级：-3"><a href="#六级：-3" class="headerlink" title="六级："></a>六级：</h4><p>完成一套六级模拟题</p>
-<h4 id="Vue管理系统"><a href="#Vue管理系统" class="headerlink" title="Vue管理系统:"></a>Vue管理系统:</h4><p>完成商品参数页面开发（P140）</p>
-<h3>2021-12-19</h3>
-
-<h4 id="马克思："><a href="#马克思：" class="headerlink" title="马克思："></a>马克思：</h4><p>复习了第一二章选择题</p>
-<h4 id="时间序列：-3"><a href="#时间序列：-3" class="headerlink" title="时间序列："></a>时间序列：</h4><p>复习了<code>ARMA</code>模型</p>
-<h4 id="多元统计："><a href="#多元统计：" class="headerlink" title="多元统计："></a>多元统计：</h4><p>复习了判别分析</p>
-<h4 id="算法：-11"><a href="#算法：-11" class="headerlink" title="算法："></a>算法：</h4><p>搞懂了树的重点题目</p>
-<h3>2021-12-20</h3>
-
-<h4 id="马克思：-1"><a href="#马克思：-1" class="headerlink" title="马克思："></a>马克思：</h4><p>复习了第三四章选择题</p>
-<h4 id="算法：-12"><a href="#算法：-12" class="headerlink" title="算法："></a>算法：</h4><p>打卡了<code>DFS</code>排列数以及<code>n</code>皇后问题</p>
-<h4 id="随机过程：-1"><a href="#随机过程：-1" class="headerlink" title="随机过程："></a>随机过程：</h4><p>复习了第二章</p>
-<h4 id="属性数据：-1"><a href="#属性数据：-1" class="headerlink" title="属性数据："></a>属性数据：</h4><p>复习了第三四章</p>
-<h4 id="TensorFlow："><a href="#TensorFlow：" class="headerlink" title="TensorFlow："></a>TensorFlow：</h4><p>学习了如何将数据标准化、建立模型与线性模型优化</p>
-<h4 id="最优化：-2"><a href="#最优化：-2" class="headerlink" title="最优化："></a>最优化：</h4><p>学习了0.618法、二分法和三点插值法</p>
-<h3>2021-12-21</h3>
-
-<h4 id="随机过程：-2"><a href="#随机过程：-2" class="headerlink" title="随机过程："></a>随机过程：</h4><p>复习了均方分析和平稳过程</p>
-<h4 id="Vue：-5"><a href="#Vue：-5" class="headerlink" title="Vue："></a>Vue：</h4><p>完成后台管理系统添加商品的开发（P158）</p>
 
       </section>
 
@@ -266,22 +155,22 @@
       
         <nav class="article-nav">
           
+          
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202108/f092cc1f6f56f44e41117e74b2b87e93--1342244925.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202204/0f829ab893fbfda172e7d31c02d61fb1--450213885.jpg"></div>
     
     <div class="card-text">
       
-        <a href="/2021/11/20/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/HTML/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">HTML篇</h2>
+        <a href="/2022/04/17/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/%E5%AE%9E%E4%B9%A0%E5%BF%85%E5%A4%87%E4%B9%8B%E5%89%8D%E7%AB%AF%E9%83%A8%E7%BD%B2/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">前端部署</h2>
         </a>
       
-      <div class="card-text--row">Newer</div>
+      <div class="card-text--row">Older</div>
     </div>
   </article>
 </div>
-          
           
         </nav>
       

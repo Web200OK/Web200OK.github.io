@@ -22,7 +22,7 @@
 
   
 
-  <title>react的基本使用 | 大三下</title>
+  <title>react的基本使用 | 好好学习，天天向上</title>
 
   
 
@@ -55,7 +55,7 @@
     <div class="navbar-logo">
       <a href="/">
         
-          大三下
+          好好学习，天天向上
         
       </a>
     </div>
@@ -175,7 +175,21 @@
 <h3 id="state的简写方式："><a href="#state的简写方式：" class="headerlink" title="state的简写方式："></a>state的简写方式：</h3><p>可以不需要在类的构造器中，而是直接在类中初始化state，自定义方法也可以不需要在构造器中手动绑定this，而是将自定义方法在类中用赋值语句+箭头函数的形式声明即可，此时this指向的就是类的实例。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class Weather extends React.Component &#123;</span><br><span class="line">    //不通过构造器直接在类中初始化</span><br><span class="line">	state = &#123;&#125;</span><br><span class="line">    render()&#123;</span><br><span class="line">        return &lt;h1 onClick=&#123;this.handleClick&#125;&gt;你好&lt;/h1&gt;</span><br><span class="line">    &#125;</span><br><span class="line">    //自定义方法</span><br><span class="line">    handleClick = () =&gt; &#123;</span><br><span class="line">        this.setState(&#123;name:&quot;CZH&quot;&#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="组价标签标识ref："><a href="#组价标签标识ref：" class="headerlink" title="组价标签标识ref："></a>组价标签标识ref：</h3><p>组件内的标签可以定义ref属性来表示自己。使用this.$refs.refName可以获取到真实的DOM节点，必须等到虚拟DOM插入到文档之后才能使用这个属性。</p>
+<h3 id="refs："><a href="#refs：" class="headerlink" title="refs："></a>refs：</h3><p>refs提供了一种方式，允许我们访问DOM节点或在render方法中创建的react元素。</p>
+<p><strong>创建refs：</strong></p>
+<p>refs是使用Reat.createRef()创建的，并通过ref属性附加到React元素，在构造组件时通常将refs分配给实例属性以便可在整个组件中引用它们。</p>
+<p>当ref被传递给render中的元素时，对该节点的引用可以在ref的current属性中访问</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const node = this.myRef.current</span><br></pre></td></tr></table></figure>
+
+<p>ref的值根据节点的类型有所不同：</p>
+<ul>
+<li>当ref属性用于HTML元素时，构造函数中使用React.createRef()创建的ref接收底层的DOM元素作为current属性</li>
+<li>当ref属性用于自定义class组件时，ref对象接收组件的挂载实例作为其current属性</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//为DOM元素添加ref</span><br><span class="line">class a extends React.Component &#123;</span><br><span class="line">	constructor(props)&#123;</span><br><span class="line">        super(props)</span><br><span class="line">        this.textInput = React.createRef()</span><br><span class="line">        this.focusTextInput = this.focusTextInput.bind(this)</span><br><span class="line">    &#125;</span><br><span class="line">    foucusTextInput()&#123;</span><br><span class="line">		</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
 <h3 id="react的生命周期："><a href="#react的生命周期：" class="headerlink" title="react的生命周期："></a>react的生命周期：</h3><p>组件的生命周期分为三种状态，分别是：</p>
 <ul>
 <li>mounting：已插入真实DOM</li>
@@ -192,9 +206,27 @@
 <h3 id="事件处理："><a href="#事件处理：" class="headerlink" title="事件处理："></a>事件处理：</h3><p>1、通过onXXX属性指定事件处理函数（注意大小写）</p>
 <ul>
 <li>react使用的是自定义事件，而不是使用的原生DOM事件</li>
-<li>react中的事件时通过事件委托方式处理的</li>
+<li>react中的事件是通过事件委托方式处理的</li>
 </ul>
 <p>2、通过event.target得到发生事件的DOM元素对象</p>
+<p>3、在react中不能使用返回false的方式阻止默认行为，必须明确使用preventDefault</p>
+<p><strong>给事件传递参数：</strong></p>
+<p>1、箭头函数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;button onClick = &#123;(e) =&gt; this.deleteRow(id,e)&#125;&gt;Delete Row&lt;/button&gt;</span><br></pre></td></tr></table></figure>
+
+<p>2、bind函数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//通过bind方式向监听对监听对象传参，在类组件中定义的监听对象，事件对象e要排在所传递的参数后面</span><br><span class="line">deleteRow(id,e)&#123;</span><br><span class="line">    e.preventDefault()</span><br><span class="line">    alert(id)</span><br><span class="line">&#125;</span><br><span class="line">&lt;button onClick = &#123;this.deleteRow.bind(this,id)&#125;&gt;&lt;/button&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="条件渲染"><a href="#条件渲染" class="headerlink" title="条件渲染"></a>条件渲染</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">//if语句控制是否渲染</span><br><span class="line">render()&#123;</span><br><span class="line">    let button = null</span><br><span class="line">    if(true)&#123;</span><br><span class="line">		button = &lt;LogutButton onClick=&#123;this.handleLogoutClick&#125; /&gt;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">		button = &lt;LoginButton onClick=&#123;this.handleLoginClick&#125; /&gt;</span><br><span class="line">    &#125;</span><br><span class="line">    return (</span><br><span class="line">        &lt;div&gt;&#123;button&#125;&lt;/div&gt;</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//&amp;&amp;运算符控制是否渲染，在react中，大括号&#123;&#125;内如果是false，会忽略并跳过，并不会渲染出来</span><br><span class="line">&lt;div&gt;</span><br><span class="line">    &lt;h1&gt;你好&lt;/h1&gt;</span><br><span class="line">    &#123;arr.length &gt; 0 &amp;&amp; &lt;h2&gt;我不好&lt;/h2&gt;&#125;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">//三元运算符</span><br><span class="line">&lt;div&gt;</span><br><span class="line">	&#123;isLoggedIn ? (</span><br><span class="line">    	&lt;LogoutBUtton/&gt;</span><br><span class="line">    ) : (</span><br><span class="line">    	&lt;LoginButton/&gt;</span><br><span class="line">    )&#125;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>如果不想让组件渲染可以让render返回null，组件的render方法返回null并不会影响该组件生命周期方法的回调。</p>
+<h3 id="列表渲染"><a href="#列表渲染" class="headerlink" title="列表渲染"></a>列表渲染</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function NumberList(props)&#123;</span><br><span class="line">    const numbers = [1,2,3,4,5,6]</span><br><span class="line">    const listItems = numbers.map(number =&gt; &#123;</span><br><span class="line">        &lt;li key = &#123;nunber.toString()&#125;&gt;</span><br><span class="line">        	&#123;number&#125;</span><br><span class="line">        &lt;/li&gt;</span><br><span class="line">    &#125;)</span><br><span class="line">    return (</span><br><span class="line">        &lt;ul&gt;&#123;listItems&#125;&lt;/ul&gt;</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>react在列表渲染的时候必须给每个列表元素分配一个唯一的key值，否则会出现警告。</p>
+<h3 id="表单元素"><a href="#表单元素" class="headerlink" title="表单元素"></a>表单元素</h3><p><strong>受控组件：</strong>使用受控组件可以将用户输入的值保存在组件的状态属性中，并且能控制用户输入时所发生的变化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class NameForm extends React.Component &#123;</span><br><span class="line">    constructor(props)&#123;</span><br><span class="line">        super(props)</span><br><span class="line">        this.state = &#123;value:&quot;&quot;&#125;</span><br><span class="line">        this.handleChange = this.handleChange.bind(this)</span><br><span class="line">    &#125;</span><br><span class="line">    handleChange(event)&#123;</span><br><span class="line">        this.setState(&#123;value:event.target.value&#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">render()&#123;</span><br><span class="line">    return (</span><br><span class="line">    	&lt;input type=&quot;text&quot; value=&#123;this.state.value&#125; onChange=&#123;this.handleChange&#125; /&gt;</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>非受控组件：</strong></p>
 
       </section>
 
@@ -287,7 +319,7 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>27</span>
+        <span>28</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -320,14 +352,26 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
+          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
+            网站介绍 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/TensorFlow-js/">
             TensorFlow.js (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
-            网站介绍 (1)
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+            面试准备 (10)
           </a>
         </li>
       
@@ -344,32 +388,20 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E7%AE%97%E6%B3%95/">
             算法 (2)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
-            面试准备 (10)
+          <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            Vue3学习笔记 (4)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
             react学习笔记 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            Vue3学习笔记 (3)
           </a>
         </li>
       
