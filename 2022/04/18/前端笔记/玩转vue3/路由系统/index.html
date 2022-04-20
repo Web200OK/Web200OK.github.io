@@ -145,8 +145,13 @@
 
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//App.vue</span></span><br><span class="line"><span class="keyword">import</span> &#123;createApp&#125; <span class="keyword">from</span> <span class="string">&quot;vue&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">&#x27;./App.vue&#x27;</span></span><br><span class="line"><span class="keyword">import</span> router <span class="keyword">from</span> <span class="string">&#x27;./router/router&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = createApp(App)</span><br><span class="line">app.use(router).mount(<span class="string">&#x27;#app&#x27;</span>)</span><br></pre></td></tr></table></figure>
 
-<p>在这里我们手动实现一下createRouter与createWebHashHistory方法</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//createWebHashHistory方法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createWebHashHistory</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;WebHashHistory&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//createRouter方法</span></span><br><span class="line"><span class="keyword">import</span> ref <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createRouter</span>(<span class="params">params</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">const</span> history = params.history</span><br><span class="line">    <span class="keyword">const</span> routes = params.routes</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">const</span> router = &#123;</span><br><span class="line">        history,</span><br><span class="line">        routes,</span><br><span class="line">        <span class="comment">//增加当前路径hash的响应式变量</span></span><br><span class="line">        <span class="attr">hash</span>:ref(<span class="built_in">window</span>.location.hash.slice(<span class="number">1</span>))</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//增加监听事件判断是否是hash模式，如果是则添加hashchange事件，当事件被触发时更新当前路径的hash</span></span><br><span class="line">    <span class="keyword">if</span>(history == <span class="string">&#x27;WebHashHistory&#x27;</span>)&#123;</span><br><span class="line">        <span class="built_in">window</span>.addEvenntListener(<span class="string">&#x27;hashchange&#x27;</span>,<span class="function">() =&gt;</span> &#123;</span><br><span class="line">			router.hash.value = <span class="built_in">window</span>.location.slice(<span class="number">1</span>)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> router</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这里我们手动实现一下createRouter与createWebHashHistory方法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//注册router-link和router-view为全局组件</span></span><br><span class="line"><span class="keyword">import</span> RouterLink <span class="keyword">from</span> <span class="string">&#x27;./router-link.vue&#x27;</span></span><br><span class="line"><span class="keyword">import</span> RouterView <span class="keyword">from</span> <span class="string">&#x27;./router-view.vue&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//createWebHashHistory方法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createWebHashHistory</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;WebHashHistory&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//createRouter方法</span></span><br><span class="line"><span class="keyword">import</span> ref <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createRouter</span>(<span class="params">params</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">const</span> history = params.history</span><br><span class="line">    <span class="keyword">const</span> routes = params.routes</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">const</span> router = &#123;</span><br><span class="line">        history,</span><br><span class="line">        routes,</span><br><span class="line">        <span class="comment">//增加当前路径hash的响应式变量</span></span><br><span class="line">        <span class="attr">hash</span>:ref(<span class="built_in">window</span>.location.hash.slice(<span class="number">1</span>))</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//使用install注册</span></span><br><span class="line">        <span class="function"><span class="title">install</span>(<span class="params">app</span>)</span>&#123;</span><br><span class="line">            app.component(<span class="string">&quot;router-link&quot;</span>,RouterLink)</span><br><span class="line">            app.component(<span class="string">&quot;router-view&quot;</span>,RouterView)</span><br><span class="line">            </span><br><span class="line">            <span class="comment">//将router对象传递给router-view组件，使用provide</span></span><br><span class="line">            app.provide(<span class="string">&quot;ROUTER&quot;</span>,router)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//增加监听事件判断是否是hash模式，如果是则添加hashchange事件，当事件被触发时更新当前路径的hash</span></span><br><span class="line">    <span class="keyword">if</span>(history == <span class="string">&#x27;WebHashHistory&#x27;</span>)&#123;</span><br><span class="line">        <span class="built_in">window</span>.addEvenntListener(<span class="string">&#x27;hashchange&#x27;</span>,<span class="function">() =&gt;</span> &#123;</span><br><span class="line">			router.hash.value = <span class="built_in">window</span>.location.slice(<span class="number">1</span>)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> router</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>搞定了上面这些只能监听到hash值的变化，还不足以根据hash将组件渲染到页面上，所以需要新增两个文件router-link.vue与router-view.vue来实现跳转与渲染功能。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">//router-link使用</span><br><span class="line">&lt;router-link to=&#x27;/login&#x27;&gt;login&lt;/router-link&gt;</span><br><span class="line"></span><br><span class="line">//实现:就是一个a标签传入一个to参数，子元素使用插槽插入</span><br><span class="line">&lt;template&gt;</span><br><span class="line">	&lt;a :href=&quot;&#x27;#&#x27; + props.to&quot;&gt;</span><br><span class="line">        &lt;slot&gt;&lt;/slot&gt;</span><br><span class="line">    &lt;/a&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script setup&gt;</span><br><span class="line">	import &#123;defineProps&#125; from &quot;vue&quot;</span><br><span class="line">    let props = defineProps(&#123;</span><br><span class="line">        to:String</span><br><span class="line">    &#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">//router-view实现:根据hash值去匹配查询的对应的组件</span><br><span class="line">&lt;template&gt;</span><br><span class="line">	&lt;component :is=&quot;currentComponent&quot;&gt;&lt;/component&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">	import &#123;computed,reactive,ref&#125; from &quot;vue&quot;</span><br><span class="line">    //获取app组件的传值，使用inject </span><br><span class="line">    const router = inject(&#x27;ROUTER&#x27;)</span><br><span class="line">    let hash = router.hash</span><br><span class="line">    let routes = router.routes</span><br><span class="line">    </span><br><span class="line">    //hash地址为响应式，根据地址计算出组件</span><br><span class="line">    let currentComponent = computed(() =&gt; &#123;</span><br><span class="line">		const targetComponent = routes.find((routes) =&gt; &#123;</span><br><span class="line">			return route.path === hash.value</span><br><span class="line">        &#125;)</span><br><span class="line">        return targetComponent.component</span><br><span class="line">    &#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
 
 
       </section>
@@ -257,26 +262,14 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
-            网站介绍 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/TensorFlow-js/">
             TensorFlow.js (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
-            面试准备 (10)
+          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
+            网站介绍 (1)
           </a>
         </li>
       
@@ -293,20 +286,32 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+            面试准备 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E7%AE%97%E6%B3%95/">
             算法 (2)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            Vue3学习笔记 (4)
+          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            react学习笔记 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            react学习笔记 (1)
+          <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            Vue3学习笔记 (4)
           </a>
         </li>
       

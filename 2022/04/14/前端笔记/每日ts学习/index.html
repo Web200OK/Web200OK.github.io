@@ -250,7 +250,23 @@
 <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="built_in">enum</span> Direction &#123;</span><br><span class="line">	Up = <span class="string">&quot;Up&quot;</span>,</span><br><span class="line">    Down = <span class="string">&quot;Down&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> value = <span class="string">&quot;Up&quot;</span></span><br><span class="line"><span class="keyword">if</span>(value === Direction.Up)&#123;...&#125;</span><br></pre></td></tr></table></figure>
 
 <p>常量枚举可以避免在额外生成的代码上的额外开销和额外的非直接的对枚举成员的访问。</p>
+<h3 id="类型推论"><a href="#类型推论" class="headerlink" title="类型推论"></a>类型推论</h3><p>在ts中，在没有明确指出类型的地方，类型推论会帮助提供类型，这种推断发生在初始化变量和成员，设置默认参数值和决定函数返回值时。</p>
+<p><strong>定义时不赋值：</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a</span><br><span class="line">a = <span class="number">18</span></span><br><span class="line">a = <span class="string">&quot;CZH&quot;</span></span><br></pre></td></tr></table></figure>
 
+<p>定义时不赋值，会被自动推断为any类型。</p>
+<p><strong>初始化变量：</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="string">&quot;nihao&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>在赋值的时候是一个字符串，所以TS自动推导出a类型是字符串，这个时候如果更改a类型为number类型会报错。</p>
+<p><strong>设置默认参数值：</strong></p>
+<p>函数设置默认参数时，也会有自动推导。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">num = <span class="number">18</span></span>)</span>&#123;</span><br><span class="line">	retrun num</span><br><span class="line">&#125;</span><br><span class="line">fn(<span class="string">&quot;18&quot;</span>) <span class="comment">//报错</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>决定函数返回值：</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//当函数不写返回值时自动推导返回值是void类型</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">&quot;1&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="内置类型"><a href="#内置类型" class="headerlink" title="内置类型"></a>内置类型</h3>
       </section>
 
       
@@ -375,26 +391,14 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
-            网站介绍 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/TensorFlow-js/">
             TensorFlow.js (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
-            面试准备 (10)
+          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
+            网站介绍 (1)
           </a>
         </li>
       
@@ -411,20 +415,32 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+            面试准备 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E7%AE%97%E6%B3%95/">
             算法 (2)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            Vue3学习笔记 (4)
+          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            react学习笔记 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            react学习笔记 (1)
+          <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            Vue3学习笔记 (4)
           </a>
         </li>
       
