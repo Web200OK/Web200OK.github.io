@@ -132,7 +132,7 @@
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
         <p><em>该笔记适合对ts已有过基本了解的小伙伴：</em></p>
-<h3 id="boolean、number、string类型声明："><a href="#boolean、number、string类型声明：" class="headerlink" title="boolean、number、string类型声明："></a>boolean、number、string类型声明：</h3><p>使用类型声明可以帮助我们提前发现代码中赋值与定义不一致的错误。</p>
+<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="boolean、number、string类型声明："><a href="#boolean、number、string类型声明：" class="headerlink" title="boolean、number、string类型声明："></a>boolean、number、string类型声明：</h3><p>使用类型声明可以帮助我们提前发现代码中赋值与定义不一致的错误。</p>
 <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//boolean</span></span><br><span class="line"><span class="keyword">let</span> isSelect : <span class="built_in">boolean</span> = <span class="literal">true</span></span><br><span class="line"><span class="comment">//string</span></span><br><span class="line"><span class="keyword">let</span> myName : <span class="built_in">string</span> = <span class="string">&quot;CZH&quot;</span></span><br><span class="line"><span class="comment">//number</span></span><br><span class="line"><span class="keyword">let</span> age : <span class="built_in">number</span> = <span class="number">21</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="undefined和null类型："><a href="#undefined和null类型：" class="headerlink" title="undefined和null类型："></a>undefined和null类型：</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> u : <span class="literal">undefined</span> = <span class="literal">undefined</span></span><br><span class="line"><span class="keyword">let</span> n : <span class="literal">null</span> = <span class="literal">null</span></span><br></pre></td></tr></table></figure>
@@ -266,7 +266,49 @@
 <p><strong>决定函数返回值：</strong></p>
 <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//当函数不写返回值时自动推导返回值是void类型</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">&quot;1&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="内置类型"><a href="#内置类型" class="headerlink" title="内置类型"></a>内置类型</h3>
+<h3 id="内置类型"><a href="#内置类型" class="headerlink" title="内置类型"></a>内置类型</h3><p><strong>JS八种内置类型：</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> name: <span class="built_in">string</span> = <span class="string">&quot;lin&quot;</span>;</span><br><span class="line"><span class="keyword">let</span> age: <span class="built_in">number</span> = <span class="number">18</span>;</span><br><span class="line"><span class="keyword">let</span> isHandsome: <span class="built_in">boolean</span> = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">let</span> u: <span class="literal">undefined</span> = <span class="literal">undefined</span>;</span><br><span class="line"><span class="keyword">let</span> n: <span class="literal">null</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">let</span> obj: <span class="built_in">object</span> = &#123;<span class="attr">name</span>: <span class="string">&#x27;lin&#x27;</span>, <span class="attr">age</span>: <span class="number">18</span>&#125;;</span><br><span class="line"><span class="keyword">let</span> big: bigint = <span class="number">100n</span>;</span><br><span class="line"><span class="keyword">let</span> sym: symbol = <span class="built_in">Symbol</span>(<span class="string">&quot;lin&quot;</span>); </span><br></pre></td></tr></table></figure>
+
+<p><strong>ECMAScript的内置对象：</strong>比如数组、日期或者是正则</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> nums : <span class="built_in">Array</span>&lt;nunmber&gt; = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line"><span class="keyword">const</span> date : <span class="built_in">Date</span> = <span class="keyword">new</span> <span class="built_in">Date</span>()</span><br><span class="line"><span class="keyword">const</span> reg : <span class="built_in">RegExp</span> = <span class="regexp">/abc/</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>DOM和BOM：</strong>比如HTML元素、NodeList、鼠标事件等</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> body : HTMLElement = <span class="built_in">document</span>.body</span><br><span class="line"><span class="keyword">let</span> allDiv : NodeList = <span class="built_in">document</span>.querySelectorAll(<span class="string">&quot;div&quot;</span>)</span><br><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">&#x27;click&#x27;</span>,<span class="function">(<span class="params">e:MouseEvent</span>) =&gt;</span> &#123;</span><br><span class="line">	e.preventDefault()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="进阶知识"><a href="#进阶知识" class="headerlink" title="进阶知识"></a>进阶知识</h2><h3 id="联合类型"><a href="#联合类型" class="headerlink" title="联合类型"></a>联合类型</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用|可以使变量同时支持多种类型</span></span><br><span class="line"><span class="keyword">let</span> num : <span class="built_in">number</span> | <span class="built_in">string</span></span><br><span class="line">num = <span class="number">8</span></span><br><span class="line">num = <span class="string">&quot;CZH&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>联合类型提高了类型的可扩展性但是当TS不确定一个联合类型的变量是哪个类型的时候只能访问他们共有的属性和方法。</p>
+<h3 id="交叉类型"><a href="#交叉类型" class="headerlink" title="交叉类型"></a>交叉类型</h3><p>使用&amp;可对对象类型进行扩展：</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Person &#123;</span><br><span class="line">	<span class="attr">name</span>:<span class="built_in">string</span>,</span><br><span class="line">    <span class="attr">age</span>:<span class="built_in">number</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> Student = Person &amp; &#123;<span class="attr">grade</span>:<span class="built_in">number</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="类型别名"><a href="#类型别名" class="headerlink" title="类型别名"></a>类型别名</h3><p>类型别名使用type书写，相当于给类型起一个新名字。跟接口的区别就是类型别名可以作用于原始值，联合类型，元组以及其他任何需要手写的类型。</p>
+<p><strong>type与interface的区别：</strong></p>
+<p>共同点：</p>
+<ol>
+<li>都可以定义一个对象或者函数</li>
+<li>都允许继承</li>
+</ol>
+<p>不同点：</p>
+<ol>
+<li>interface是ts设计出来用于定义对象类型的，可以对对象的形状进行描述</li>
+<li>type是类型别名，用于给各种类型定义别名，让ts写起来更简洁、清晰</li>
+<li>type可以声明基本类型、联合类型、元组，但是interface不行</li>
+<li>interface可以合并重复声明，type不行</li>
+</ol>
+<p>平时开发中，一般使用组合或者交叉类型的时候，使用type；一般要用类的extends或implements时用interface</p>
+<p><strong>合并重复声明：</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Person &#123;</span><br><span class="line">	<span class="attr">name</span>:<span class="built_in">string</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">interface</span> Person &#123;</span><br><span class="line">	<span class="attr">age</span>:<span class="built_in">number</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> person : Person &#123;</span><br><span class="line">	<span class="attr">name</span>:<span class="string">&quot;lin&quot;</span>,</span><br><span class="line">	<span class="attr">age</span>:<span class="number">18</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果换成是type，就会报错。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Person = &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="built_in">string</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> Person = &#123;     <span class="comment">// Duplicate identifier &#x27;Person&#x27;</span></span><br><span class="line">    <span class="attr">age</span>: <span class="built_in">number</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> person: Person = &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;lin&#x27;</span>,</span><br><span class="line">    <span class="attr">age</span>: <span class="number">18</span></span><br><span class="line">&#125; <span class="comment">//报错</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="类型保护"><a href="#类型保护" class="headerlink" title="类型保护"></a>类型保护</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">age:<span class="built_in">number</span>|<span class="built_in">string</span></span>):<span class="title">number</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> arg.length</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//这样写会报错,可以使用类型保护typeof</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">age:<span class="built_in">number</span>|<span class="built_in">string</span></span>):<span class="title">number</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> arg === <span class="string">&quot;string&quot;</span>)&#123;</span><br><span class="line">		<span class="keyword">return</span> arg.length</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> arg.toString().length</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="类型断言"><a href="#类型断言" class="headerlink" title="类型断言"></a>类型断言</h3><p>上面的例子也可以使用类型断言解决：</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">age:<span class="built_in">number</span>|<span class="built_in">string</span></span>):<span class="title">number</span></span>&#123;</span><br><span class="line">	<span class="keyword">const</span> str = arg <span class="keyword">as</span> <span class="built_in">string</span></span><br><span class="line">    <span class="keyword">if</span>(str.length)&#123;</span><br><span class="line">        <span class="keyword">return</span> str.length</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">const</span> <span class="built_in">number</span> = arg <span class="keyword">as</span> <span class="built_in">number</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">number</span>.toString().length</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意：类型断言不是类型转换，把一个类型断言成联合类型中不存在的类型会报错。</p>
+
       </section>
 
       
@@ -421,14 +463,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
-            面试准备 (10)
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+            面试准备 (10)
           </a>
         </li>
       
