@@ -260,6 +260,8 @@
 <p>1、若A函数，接收的参数是一个函数，那么A就是高阶函数</p>
 <p>2、若A函数，调用的返回值依然是一个函数，那么A就可以称为高阶函数</p>
 <p>函数柯里化：通过函数调用继续返回函数的方式，实现多次接收参数最后统一处理的函数编码形式</p>
+<h3 id="状态提升"><a href="#状态提升" class="headerlink" title="状态提升"></a>状态提升</h3><p>在react中将多个组件中需要共享的state向上移动到它们共同的父组件中，便可实现共享state。</p>
+<p>在react应用中，任何可变数据应当只有一个相对应的唯一数据源。通常，state都是首先添加到渲染数据的组件中去，如果其他组件需要这个state就需要提升到共同组件中，然后使用props进行父子组件传值，当需要在子组件中修改父组件的值时，此时需要再通过props调用父组件自身的方法修改，不能直接使用子组件对props的数据进行修改。</p>
 
       </section>
 
@@ -409,6 +411,12 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+            面试准备 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E6%97%A5%E6%8A%A5/">
             日报 (2)
           </a>
@@ -417,12 +425,6 @@
         <li class="categorys-list-item">
           <a href="/categories/%E7%AE%97%E6%B3%95/">
             算法 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
-            面试准备 (10)
           </a>
         </li>
       

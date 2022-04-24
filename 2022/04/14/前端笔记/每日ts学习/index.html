@@ -327,6 +327,29 @@
 <p><strong>默认参数：</strong></p>
 <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Print&lt;T = number&gt; &#123;</span><br><span class="line">	(arg；T):T</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h3 id="索引类型"><a href="#索引类型" class="headerlink" title="索引类型"></a>索引类型</h3><p>keyof（索引查询）：keyof操作符可以用于获取某种类型的所有键，其返回值是联合类型。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Person &#123;</span><br><span class="line">	<span class="attr">name</span>:<span class="built_in">string</span>,</span><br><span class="line">    <span class="attr">age</span>:<span class="built_in">number</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> Test = keyof Person <span class="comment">//&quot;name&quot; | &quot;age&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>T[k]（索引访问）：表示接口T的属性K所代表的类型</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Person &#123;</span><br><span class="line">	<span class="attr">name</span>:<span class="built_in">string</span>,</span><br><span class="line">    <span class="attr">age</span>:<span class="built_in">number</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> type1 = Person[<span class="string">&quot;name&quot;</span>] <span class="comment">//string</span></span><br></pre></td></tr></table></figure>
+
+<p>extends（泛型约束）：T extends U表示泛型变量可以通过继承某个类型，获得某些属性</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Person &#123;</span><br><span class="line">    <span class="attr">length</span>:<span class="built_in">number</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>&lt;<span class="title">T</span> <span class="title">extends</span> <span class="title">Person</span>&gt;(<span class="params">arg:T</span>):<span class="title">T</span> </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(arg.length)</span><br><span class="line">    <span class="keyword">return</span> arg</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="映射类型"><a href="#映射类型" class="headerlink" title="映射类型"></a>映射类型</h3><p>TS允许将一个类型映射成另一个类型。</p>
+<p><strong>in：用于对联合类型实现遍历。</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Person = <span class="string">&quot;name&quot;</span> | <span class="string">&quot;age&quot;</span> | <span class="string">&quot;sex&quot;</span></span><br><span class="line"><span class="keyword">type</span> Obj = &#123;</span><br><span class="line">	[p <span class="keyword">in</span> Person]:<span class="built_in">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Partial<code>&lt;T&gt;</code>：将T所有的属性映射为可选的。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Person &#123;</span><br><span class="line">	<span class="attr">name</span>:<span class="built_in">string</span></span><br><span class="line">    <span class="attr">age</span>:<span class="built_in">number</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> Person2 = Partial&lt;Person&gt;</span><br><span class="line"><span class="keyword">let</span> person:Person2 = &#123;&#125; <span class="comment">//不会报错</span></span><br></pre></td></tr></table></figure>
+
+<p>Readonly：Readonly<code>&lt;T&gt;</code>将T的所有属性映射为只读的</p>
+<p>Pick：Pick映射类型有两个参数：①T：表示要抽取的对象②K：具有一个约束，K一定要来自T所有属性字面量的联合类型</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Person &#123;</span><br><span class="line">    <span class="attr">name</span>:<span class="built_in">string</span></span><br><span class="line">    <span class="attr">age</span>:<span class="built_in">number</span></span><br><span class="line">    <span class="attr">sex</span>:<span class="built_in">string</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">interface</span> Person1 <span class="keyword">extends</span> Pick&lt;Person,&quot;name&quot; | &quot;age&quot;&gt;&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Record：可以创建新属性的非同态映射类型</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Person &#123;</span><br><span class="line">	<span class="attr">id</span>:<span class="built_in">number</span></span><br><span class="line">    <span class="attr">fullname</span>:<span class="built_in">string</span></span><br><span class="line">    <span class="attr">role</span>:<span class="built_in">string</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> persons:Record&lt;<span class="built_in">number</span>,Person&gt;&#123;</span><br><span class="line">	<span class="number">0</span>:&#123;<span class="attr">id</span>:<span class="number">2</span>,<span class="attr">fullname</span>:<span class="string">&quot;CZH&quot;</span>,<span class="attr">role</span>:<span class="string">&quot;A&quot;</span>&#125;,</span><br><span class="line">    <span class="number">1</span>:&#123;<span class="attr">id</span>:<span class="number">3</span>,<span class="attr">fullname</span>:<span class="string">&quot;XMY&quot;</span>,<span class="attr">role</span>:<span class="string">&quot;B&quot;</span>&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//在这里期望数字作为类型，属性值的类型是Person</span></span><br></pre></td></tr></table></figure>
+
 
       </section>
 
@@ -476,6 +499,12 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+            面试准备 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E6%97%A5%E6%8A%A5/">
             日报 (2)
           </a>
@@ -484,12 +513,6 @@
         <li class="categorys-list-item">
           <a href="/categories/%E7%AE%97%E6%B3%95/">
             算法 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
-            面试准备 (10)
           </a>
         </li>
       
