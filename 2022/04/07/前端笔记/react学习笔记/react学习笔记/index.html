@@ -188,18 +188,49 @@
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//为DOM元素添加ref</span><br><span class="line">class a extends React.Component &#123;</span><br><span class="line">	constructor(props)&#123;</span><br><span class="line">        super(props)</span><br><span class="line">        this.textInput = React.createRef()</span><br><span class="line">        this.focusTextInput = this.focusTextInput.bind(this)</span><br><span class="line">    &#125;</span><br><span class="line">    foucusTextInput()&#123;</span><br><span class="line">		</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="react的生命周期："><a href="#react的生命周期：" class="headerlink" title="react的生命周期："></a>react的生命周期：</h3><p>组件的生命周期分为三种状态，分别是：</p>
+<h3 id="react的生命周期："><a href="#react的生命周期：" class="headerlink" title="react的生命周期："></a>react的生命周期：</h3><p><strong>生命周期函数（旧）：</strong></p>
+<p>1、初始化阶段：由React.render()触发 –初次渲染，调用顺序是</p>
 <ul>
-<li>mounting：已插入真实DOM</li>
-<li>updating：正在被重新渲染</li>
-<li>unmounting：已移出真实DOM</li>
+<li>constructor()</li>
+<li>componentWillMount()</li>
+<li>render()</li>
+<li>componentDidMount()</li>
 </ul>
-<p>react为每个状态都提供了两种处理函数，will函数在进入状态之前调用，did函数在进入状态之后调用。</p>
-<p>componentWillMount()、componentDidMount()、componentWillUpdate、componentDidUpdate、componentWillUnmount。</p>
-<p>此外react还提供两种特殊状态的处理函数：</p>
+<p>2、更新阶段：由组件内部this.setState()或父组件render触发，调用顺序是：</p>
 <ul>
-<li>componentWillReceiveProps：已记载组件收到新的参数时调用</li>
-<li>shouldComponentUpdate：组件判断是否重新渲染时调用</li>
+<li>shouldComponentUpdate()：通过返回值控制组件更新的“阀门”</li>
+<li>componentWillUpdate()</li>
+<li>render()</li>
+<li>componenrDidUpdate()</li>
+</ul>
+<p>3.、卸载组件：由ReactDOM.unmountComponentAtNode()触发</p>
+<ul>
+<li>componentWillUnmount() –常用，一般在这个钩子中做一些收尾的事，比如关闭定时器，取消消息订阅等。</li>
+</ul>
+<p><strong>生命周期函数（新）：</strong></p>
+<p>1、初始化阶段：由React.render()触发 –初次渲染，调用顺序是</p>
+<ul>
+<li>constructor()</li>
+<li>getDerivedStateFromProps</li>
+<li>render()</li>
+<li>componentDidMount()</li>
+</ul>
+<p>2、更新阶段：由组件内部this.setState()或父组件render触发，调用顺序是：</p>
+<ul>
+<li><p>getDerivedStateFromProps</p>
+</li>
+<li><p>shouldComponentUpdate()：通过返回值控制组件更新的“阀门”</p>
+</li>
+<li><p>render()</p>
+</li>
+<li><p>getSnapshotBeforeUpdate()</p>
+</li>
+<li><p>componenrDidUpdate()</p>
+</li>
+</ul>
+<p>3.、卸载组件：由ReactDOM.unmountComponentAtNode()触发</p>
+<ul>
+<li>componentWillUnmount() –常用，一般在这个钩子中做一些收尾的事，比如关闭定时器，取消消息订阅等。</li>
 </ul>
 <h3 id="事件处理："><a href="#事件处理：" class="headerlink" title="事件处理："></a>事件处理：</h3><p>1、通过onXXX属性指定事件处理函数（注意大小写）</p>
 <ul>
@@ -225,6 +256,10 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class NameForm extends React.Component &#123;</span><br><span class="line">    constructor(props)&#123;</span><br><span class="line">        super(props)</span><br><span class="line">        this.state = &#123;value:&quot;&quot;&#125;</span><br><span class="line">        this.handleChange = this.handleChange.bind(this)</span><br><span class="line">    &#125;</span><br><span class="line">    handleChange(event)&#123;</span><br><span class="line">        this.setState(&#123;value:event.target.value&#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">render()&#123;</span><br><span class="line">    return (</span><br><span class="line">    	&lt;input type=&quot;text&quot; value=&#123;this.state.value&#125; onChange=&#123;this.handleChange&#125; /&gt;</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>非受控组件：</strong>指表单数据不受<strong>React</strong>控制，而是由DOM节点自己控制。</p>
+<h3 id="高阶函数与函数柯里化"><a href="#高阶函数与函数柯里化" class="headerlink" title="高阶函数与函数柯里化"></a>高阶函数与函数柯里化</h3><p>高阶函数：如果一个函数符合下面2个规范中的任何一个就是高阶函数。</p>
+<p>1、若A函数，接收的参数是一个函数，那么A就是高阶函数</p>
+<p>2、若A函数，调用的返回值依然是一个函数，那么A就可以称为高阶函数</p>
+<p>函数柯里化：通过函数调用继续返回函数的方式，实现多次接收参数最后统一处理的函数编码形式</p>
 
       </section>
 
@@ -350,14 +385,14 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
-            网站介绍 (1)
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/TensorFlow-js/">
-            TensorFlow.js (1)
+          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
+            网站介绍 (1)
           </a>
         </li>
       
@@ -392,14 +427,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            Vue3学习笔记 (4)
+          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            react学习笔记 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            react学习笔记 (1)
+          <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            Vue3学习笔记 (4)
           </a>
         </li>
       
