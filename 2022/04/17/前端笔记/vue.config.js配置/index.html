@@ -22,7 +22,7 @@
 
   
 
-  <title>vue.cong.js配置 | 好好学习，天天向上</title>
+  <title>vue.config.js配置 | 好好学习，天天向上</title>
 
   
 
@@ -96,7 +96,7 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">vue.cong.js配置</h1>
+          <h1 class="title-wrap">vue.config.js配置</h1>
           <h2 class="title-sub-wrap">
             <strong>ChenZehong</strong>
             <span>发布于</span>
@@ -131,7 +131,17 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h2 id=""><a href="#" class="headerlink" title=""></a></h2>
+        <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//写法一</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;&#125;</span><br><span class="line"><span class="comment">//写法二(可以获得更好的类型提示)</span></span><br><span class="line"><span class="keyword">const</span> &#123;defineConfig&#125; = <span class="built_in">require</span>(<span class="string">&quot;@vue/cli-serve&quot;</span>)</span><br><span class="line"><span class="built_in">module</span>.exports = defineConfig(&#123;</span><br><span class="line">    <span class="comment">//publicPath:部署应用包时的基本URL，可以设置为空字符串或者相对路径，这样所有的资源都会被链接为相对路径</span></span><br><span class="line">    <span class="comment">//可以如下使用来配置不同环境下基础URL</span></span><br><span class="line">    <span class="attr">publicPath</span>:process.env.NODE_ENV === <span class="string">&quot;production&quot;</span> ? <span class="string">&quot;/production-sub-path/&quot;</span> : <span class="string">&quot;/&quot;</span></span><br><span class="line">    <span class="comment">//outputDir:当运行vue-cli-service build时生成的生产环境构建文件的目录，注意目标目录的内容在构建之前会被清除</span></span><br><span class="line">    <span class="comment">//assetsDir:放置生成的静态资源</span></span><br><span class="line">    <span class="comment">//indexPath:指定生成的index.html的输出路径，相对于outputDir，也可以是一个绝对路径</span></span><br><span class="line">    <span class="comment">//filenameHashing:默认情况下生成的静态资源在它们的文件名中包含了hash以便更好地控制缓存，然而这也要求index的HTML是被vue-cli自动生成的，如果不是可以通过false来关闭文件名哈希。</span></span><br><span class="line">    <span class="comment">//lintOnSave:是否在开发环境下通过eslint-loader在每次保存时lint代码，这个值会在@vue/cli-plugin-eslint被安装后生效</span></span><br><span class="line">    <span class="comment">//runtimeCompiler:是否使用包含运行时编译器的vue构建版本，设置为true后可以在vue组件中使用templete选项</span></span><br><span class="line">    <span class="comment">//transplieDependencies:默认情况下babel-loader会忽略所有node_modules中的文件，启用该选项可以避免构建后的代码中出现未转译的第三方依赖</span></span><br><span class="line">    <span class="comment">//productionSourceMap:如果不需要生产环境的sourcemap，可以将其设置为false以加速生产环境构建</span></span><br><span class="line">    <span class="comment">//configWebpack:如果这个值是一个对象，会通过webpack-merge合并到最终的配置中，如果是函数则会接收被解析的配置作为参数，该函数既可以修改配置并不返回任何东西也可以返回一个被克隆或合并过的配置版本（下面单独说）</span></span><br><span class="line">    <span class="comment">//chainWebpack:是一个函数，会接收一个基于webpack-chain的实例，允许对内部的webpack配置进行更细粒度的修改（下面细说）</span></span><br><span class="line">    <span class="comment">//css.requireModuleExtension:默认情况下只有module结尾的文件才会被当做CSSmodules，设置为false之后你就课可以去掉文件名中的module并将所有的`css、scss、sass、less、stylus`文件视为才cssmodules</span></span><br><span class="line">    <span class="comment">//css.extract:是否将组件中的css提取到一个独立的css文件中，默认开发环境下是true，生产环境下是false</span></span><br><span class="line">    <span class="comment">//css.suorceMap:是否为css开启source.map，设置为true之后可能会影响构建的性能</span></span><br><span class="line">    <span class="comment">//css.loaderOptions:向css相关的loader传递选项，支持的loader：css-loader/postcss-loader/sass-loader/less-loader/stylus-loader,如下:</span></span><br><span class="line">    <span class="attr">css</span>:&#123;</span><br><span class="line">    	<span class="attr">loaderOptions</span>:&#123;</span><br><span class="line">			<span class="attr">css</span>:&#123;</span><br><span class="line">				<span class="comment">//这里的选项会传递到css-loader</span></span><br><span class="line">			&#125;,</span><br><span class="line">             <span class="attr">postcss</span>:&#123;</span><br><span class="line">				<span class="comment">//这里选项会传递给postcss-loader</span></span><br><span class="line">             &#125;                </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">    </span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>configureWebpack：最简单的配置就是在该选项里面提供一个对象，如果你需要基于环境条件有条件的配置行为，或者想要直接修改配置就可以换成一个函数。该函数的第一个参数会收到已经解析好的配置 ，你可以直接修改配置，或者返回一个将被合并的对象：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    <span class="attr">configureWebpack</span>:<span class="function"><span class="params">config</span> =&gt;</span> &#123;</span><br><span class="line">		<span class="keyword">if</span>(process.env.NODE_ENV === <span class="string">&quot;production&quot;</span>)&#123;</span><br><span class="line">			<span class="comment">//为生产环境修改配置</span></span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="comment">//为开发环境修改配置</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>链式操作（高级）：vue-cli内部配置是通过webpack-chain维护的，这个库提供了一个webpack原始配置的上层抽象使其可以定义具名的loader规则和具名插件，并有机会在后期进入 这些规则并对它们的选项进行修改。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//修改loader选项</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    <span class="attr">chainWebpack</span>:<span class="function"><span class="params">config</span> =&gt;</span> &#123;</span><br><span class="line">		config.module</span><br><span class="line">        .rule(<span class="string">&quot;vue&quot;</span>)</span><br><span class="line">        .use(<span class="string">&quot;vue-loader&quot;</span>)</span><br><span class="line">        .tap(<span class="function"><span class="params">options</span> =&gt;</span> &#123;</span><br><span class="line">			<span class="comment">//修改它的选项</span></span><br><span class="line">            <span class="keyword">return</span> options</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//添加一个新的loader</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    <span class="attr">chainWebpack</span>:<span class="function"><span class="params">config</span> =&gt;</span> &#123;</span><br><span class="line">		config.module</span><br><span class="line">        .rule(<span class="string">&quot;graphql&quot;</span>)</span><br><span class="line">        .test(<span class="regexp">/\.graphql$/</span>)</span><br><span class="line">        .use(<span class="string">&quot;graphql-tag/loader&quot;</span>)</span><br><span class="line">        	.loader(<span class="string">&quot;graphql-tag/loader&quot;</span>)</span><br><span class="line">        	.end()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//替换一个规则里的loader</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">	<span class="attr">chainWebpack</span>:<span class="function"><span class="params">config</span> =&gt;</span> &#123;</span><br><span class="line">		<span class="keyword">const</span> svgRule = config.module.rule(<span class="string">&quot;svg&quot;</span>)</span><br><span class="line">        <span class="comment">//清除已有的所有loader</span></span><br><span class="line">        svgRule.uses.clear()</span><br><span class="line">        <span class="comment">//添加要替换的loader</span></span><br><span class="line">        svgRule</span><br><span class="line">        .use(<span class="string">&quot;vue-svg-loader&quot;</span>)</span><br><span class="line">        	.loader(<span class="string">&quot;vue-svg-loader&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//修改插件选项</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">	<span class="attr">chainWebpack</span>:<span class="function"><span class="params">config</span> =&gt;</span> &#123;</span><br><span class="line">		config</span><br><span class="line">        .plugin(<span class="string">&quot;html&quot;</span>)</span><br><span class="line">        .tap(<span class="function"><span class="params">args</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> [传递给html-webpack-plugin构造函数的新参数]</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
       </section>
 
       
@@ -223,7 +233,7 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>28</span>
+        <span>29</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -268,8 +278,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            前端学习笔记 (4)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
+            实习相关 (3)
           </a>
         </li>
       
@@ -280,14 +296,8 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            前端学习笔记 (4)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
-            实习相关 (3)
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
           </a>
         </li>
       
@@ -305,7 +315,7 @@
       
         <li class="categorys-list-item">
           <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            Vue3学习笔记 (4)
+            Vue3学习笔记 (5)
           </a>
         </li>
       
