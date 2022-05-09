@@ -265,6 +265,26 @@
 <ul>
 <li>说说websocket:</li>
 </ul>
+<p>在websocket出现之前开发实时web应用的方式是轮询，需要不断向服务器发送http请求询问是否有新数据，当轮询的频率较高时就可以近似实现实时通信的效果。</p>
+<p>websocket是一种网络传输协议，位于应用层，可在单个tcp连接上进行全双工通信，客户端与服务器只需要完成一次握手就可以创建持久性连接，并进行双向数据传输。</p>
+<p>主要的应用场景有：弹幕、媒体聊天、协同编辑、基于位置的应用、体育实况更新等。</p>
+<p>项目中使用到的socket.io是一个websocket库，包括客户端的js以及服务端的node.js，通过在服务器端初始化服务器并将websocket.io绑定到上面然后监听事件将消息发送给客户端。在客户端则是初始化websocket并和服务器建立连接，发送消息，主要使用到的是on函数与emit函数。</p>
+<p>socket.emit函数提交一个事件，事件名称可以自定义，紧接着的参数是向该socket发送的内容。</p>
+<p>socket.on接收一个事件，紧接着的参数是收到事件调用的回调函数，其中的data是收到的数据。</p>
+<p>内置的默认事件名称有：io.on函数接收的connection作为客户端发起连接的实践，当连接成功后，会调用带有socket参数的回调函数；disconnect表示客户端连接断开，message表示接收到消息。</p>
+<p>常用的API：</p>
+<p>1、向所有客户端发送消息：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">io.emit(<span class="string">&quot;hi&quot;</span>,<span class="string">&quot;你好&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>2、进入一个房间向房间里的成员发送消息（包括自己）:socket.join,io.to,socket.leave</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">io.on(<span class="string">&#x27;connection&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">socket</span>)</span>&#123;</span><br><span class="line">  socket.join(<span class="string">&#x27;some room&#x27;</span>);</span><br><span class="line">  io.to(<span class="string">&#x27;some room&#x27;</span>).emit(<span class="string">&#x27;some event&#x27;</span>): <span class="comment">// in和to实现相同效果，io.in().emit();</span></span><br><span class="line">  socket.leave(<span class="string">&#x27;some room&#x27;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>3、向一个房间广播信息（自己收不到信息）：socket.broadcast.to(“some room”).emit(“message”)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">io.on(<span class="string">&#x27;connection&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">socket</span>)</span>&#123;</span><br><span class="line">  socket.on(<span class="string">&#x27;say to someone&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">id, msg</span>)</span>&#123;</span><br><span class="line">    socket.broadcast.to(id).emit(<span class="string">&#x27;my message&#x27;</span>, msg); <span class="comment">// id为socket#id</span></span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>说说怎么引入富文本编辑器以及相关配置:</li>
+</ul>
 
       </section>
 
@@ -357,7 +377,7 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>29</span>
+        <span>30</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -390,20 +410,20 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/TensorFlow-js/">
-            TensorFlow.js (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
             网站介绍 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            前端学习笔记 (4)
+            前端学习笔记 (5)
           </a>
         </li>
       

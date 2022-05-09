@@ -22,7 +22,7 @@
 
   
 
-  <title>Category: TensorFlow.js | 好好学习，天天向上</title>
+  <title>webpack基础 | 好好学习，天天向上</title>
 
   
 
@@ -43,9 +43,9 @@
   <div class="root-container">
     
 <!-- header container -->
-<header class="header-container">
+<header class="header-container post">
   
-    <div class="post-image" style="background-image: url(http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202201/ada8fcccb0152cbfb2452be8d9fb8ce1--576553505.jpg)"></div>
+    <div class="post-image" style="background-image: url(http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202204/0f829ab893fbfda172e7d31c02d61fb1--450213885.jpg)"></div>
   
 
   <!-- navbar -->
@@ -87,17 +87,6 @@
 
   
   
-    
-    <div class="header-content">
-      <div class="post-text layout-block layout-padding">
-        <h1 class="title-wrap">TensorFlow.js</h1>
-        <h2 class="title-sub-wrap">当前分类下共有1篇文章</h2>
-      </div>
-    </div>
-  
-
-  
-  
 
   
   
@@ -105,145 +94,107 @@
   
   
     <div class="header-content">
-      <div class="post-text layout-block layout-padding">
-        <h1 class="title-wrap">神经网络</h1>
-        
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">webpack基础</h1>
+          <h2 class="title-sub-wrap">
+            <strong>ChenZehong</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2022-05-07T12:19:57.190Z" itemprop="datePublished">2022-05-07</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">📒 前端学习笔记</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+</ul>
+        </div>
       </div>
     </div>
+  
+
+  
   
   
 </header>
 
-    <!-- 分页(其他自定义页面) -->
+    <!-- 文章 -->
 
-<!-- 自定义页面 -->
-
+<!-- 文章内容 -->
 <div class="body-container">
   <article class="content-container layout-block post-container">
     <div class="article-info">
       
+      
+      
+      
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <ul>
-<li>神经网络的层：</li>
-</ul>
-<p>第一层称为输入层，节点数量取决于数据集中存在的特征数量</p>
-<p>最后一层称为输出层，数量取决于要预测的内容，对于回归和二元分类任务可以使用单个节点；对于多类问题，将使用多个节点，具体取决于类的数量</p>
-<p>中间的层称为隐藏层，隐藏层可以任意深或宽，计算时间会随深入而增加</p>
-<ul>
-<li>权重与偏差：</li>
-</ul>
-<p>权重：衡量某个特征对预测的贡献程度的确定程度</p>
-<p>偏差：预测必须从其开始的基值</p>
-<ul>
-<li>激活函数：</li>
-</ul>
-<p>激活函数由神经网络隐藏层中的每个节点计算</p>
-<p>输出层计算的结果不是通过另一个激活函数传递，而是通过输出函数传递，取决于要预测的内容</p>
-<ul>
-<li>损失函数：</li>
-</ul>
-<p>损失函数是一种衡量模型预测好坏的方法，可以调整权重和偏差</p>
-<p>必须正确设计损失函数，以便可以正确地惩罚错误的模型奖励正确的模型，这意味着希望损失表明所做的预测是远离还是接近真实预测。损失函数取决于任务，对于分类问题可以使用交叉熵损失。</p>
-<ul>
-<li>前进：前向传播</li>
-</ul>
-<p>前向传播是神经网络在做出预测之前执行的一系列计算的名称</p>
-<ul>
-<li>反向传播：</li>
-</ul>
-<p>反向传播是通过更新其权重和偏差来训练神经网络的过程的名称</p>
-<p>神经网络通过不断尝试不同的权重然后比较损失来学习预测正确的值，如果损失函数减少，那么当前的权重比之前的要好，反之亦然。这意味着神经网络必须经过多次训练和更新循环才能获得最佳权重和偏差。这个循环就是训练阶段，寻找合适的权重的过程就是优化。</p>
-<ul>
-<li>训练和测试网络：</li>
-</ul>
-<p>将数据拆分为训练集和测试集</p>
-<p>对其进行标准化</p>
-<p>初始化一个模型</p>
-<p>使用模型进行训练和预测</p>
-<h3>卷积神经网络（CNN）</h3>
+        <h3 id="入口起点（entry）："><a href="#入口起点（entry）：" class="headerlink" title="入口起点（entry）："></a>入口起点（entry）：</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> config = &#123;</span><br><span class="line">	<span class="comment">//单个入口写法</span></span><br><span class="line">    <span class="attr">entry</span>:<span class="string">&#x27;./main.js&#x27;</span></span><br><span class="line">    <span class="comment">//上面是下面的简写</span></span><br><span class="line">    <span class="attr">entry</span>:&#123;</span><br><span class="line">    	<span class="attr">main</span>:<span class="string">&#x27;./main.js&#x27;</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//当entry传入一个数组时，将创建多个主入口，在你想要多个依赖文件一起注入，并且将它们的依赖导向到一个chunk时，传入数组的方式就很有用</span></span><br><span class="line">	<span class="comment">//对象写法</span></span><br><span class="line">	<span class="attr">entry</span>:&#123;</span><br><span class="line">        <span class="comment">//分离应用程序和第三方库入口</span></span><br><span class="line">        <span class="attr">app</span>:<span class="string">&#x27;./src/app.js&#x27;</span>,</span><br><span class="line">        <span class="attr">vendors</span>:<span class="string">&#x27;./src/vendor.js&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>CNN是如何工作的？</li>
-</ul>
-<p>1、图像由像素组成，每个像素由0~255之间的数字表示，这是计算机处理图像的方式。</p>
-<p>卷积过程中需要三个重要的项目：输入图像、特征检测器和特征图。输入图像是被检测的图像，特征检测器是一个矩阵，也称为内核或过滤器。直观地说，输入图像的矩阵表示与特征检测器逐元素相乘以产生特征图，也称为卷积特征或激活图。此步骤目的是为了减少图像大小并处理更快、更容易，在此步骤中丢失了图像的一些特征。</p>
-<p>2、在此步骤中应用整流函数（Relu）来增加CNN中的非线性，图像由彼此非线性的不同对象组成。</p>
-<p>3、池化</p>
-<p>由于物体的空间不变性，即一个物体在图像中的位置不会影响神经网络检测其特定特征的能力。池化使CNN能够检测各种图像中的特征，而不考虑图像中的照明差异和图像的不同角度。</p>
-<p>由不同类型的池化：如最小池化和最大池化。最大池化的工作原理是在特征图上放置一个2*2矩阵，并在该框中挑选最大的值，然后从左向右移动，穿过整个特征图，每次挑选最大的值。</p>
-<p>这些值最后形成一个新的矩阵，成为池化特征图，作用是保留主要特征，同时减少图像大小，这有助于减少过度拟合。</p>
-<p>4、展平</p>
-<p>将整个池化特征图矩阵转换为单个列，然后将其馈送到神经网络中进行处理。</p>
-<p>5、全连接</p>
-<p>这一步由输入层、全连接层和输出层组成，全连接层相当于人工神经网络中的隐藏层，但它是全连接的。</p>
-<ul>
-<li>使用TensorFlow的Keras库实现卷积神经网络</li>
-</ul>
-<p>1、导入需要的包：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from keras.models import Sequential</span><br><span class="line">from keras.layers import Convolution2D</span><br><span class="line">from keras.layers import MaxPooling2D</span><br><span class="line">from keras.layers import Flatten</span><br><span class="line">from keras.layers import Dense</span><br></pre></td></tr></table></figure>
+<h3 id="输出（output）："><a href="#输出（output）：" class="headerlink" title="输出（output）："></a>输出（output）：</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> config = &#123;</span><br><span class="line">    <span class="comment">//普通写法</span></span><br><span class="line">	<span class="attr">output</span>:&#123;</span><br><span class="line">        <span class="comment">//输出文件的文件名</span></span><br><span class="line">        <span class="attr">filename</span>:<span class="string">&#x27;bundle.js&#x27;</span>,</span><br><span class="line">        <span class="comment">//目标输出目录path的绝对路径</span></span><br><span class="line">        <span class="attr">path</span>:<span class="string">&#x27;/home/proj/public/assets&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//多个入口起点</span></span><br><span class="line">    <span class="attr">entry</span>:&#123;</span><br><span class="line">    	<span class="attr">app</span>:<span class="string">&#x27;./src/app.js&#x27;</span>,</span><br><span class="line">    	<span class="attr">search</span>:<span class="string">&#x27;./src/search.js&#x27;</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="attr">output</span>:&#123;</span><br><span class="line">        <span class="attr">filename</span>:<span class="string">&#x27;[name].js&#x27;</span>,</span><br><span class="line">        <span class="attr">path</span>:__dirname + <span class="string">&#x27;/dist&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>Sequential：初始化神经网络</p>
-<p>Convolution2D：用于制作处理图像的卷积网络</p>
-<p>MaxPooling2D：用于添加池化层</p>
-<p>Flatten：将池化特征图转换为单个列并传递给全连接层的函数</p>
-<p>Dense：将全连接层添加到神经网络</p>
-<p>2、初始化神经网络</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">classifier = Sequential()</span><br></pre></td></tr></table></figure>
-
-<p>3、卷积</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">classifier.add(Convolution2D(32, 3, 3, input_shape = (256, 256, 3), activation=’relu’))</span><br></pre></td></tr></table></figure>
-
-<p>添加卷积层，第一个参数是想要创建的特征检测器的数量，通常是以32个开始，第二和第三个参数是特征检测器矩阵的尺寸。input_shape是输入图形的形状，黑白图像转换为二维数组，彩色转换为三维数组。最后一个参数是激活函数，图像分类是一个非线性问题，使用relu函数可以确保在计算过程中没有负数像素值。</p>
-<p>4、池化</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">classifier.add(MaxPooling2D(pool_size=(2,2)))</span><br></pre></td></tr></table></figure>
-
-<p>通常创建一个2*2的池大小。</p>
-<p>5、展平</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">classifier.add(Flatten())</span><br></pre></td></tr></table></figure>
-
-<p>6、全连接</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">classifier.add(Dense(output_dim = 128, activation=’relu’))</span><br></pre></td></tr></table></figure>
-
-<p>通过使用Dense函数将上面得到的向量作为神经网络的输入，第一个参数是全连接层的节点数，维数越多，拟合模型所需要的计算资源越多，一般选择2的幂。第二个函数时激活函数。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">classifier.add(Dense(output_dim=1, activation=’sigmoid’))</span><br></pre></td></tr></table></figure>
-
-<p>添加输出层。期望得到二元结果使用sigmoid函数，期望得到两个以上结果，使用softmax函数。</p>
-<p>7、编译CNN</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">classifier.compile(optimizer=’adam’, loss=’binary_crossentropy’,metrics=[‘accuracy’])</span><br></pre></td></tr></table></figure>
-
-<p>使用编译函数编译CNN，需要三个参数：优化器、损失函数和性能指标。</p>
-<p>8、拟合CNN</p>
-<p>进行图像增强处理防止过度拟合，是通过翻转、重新缩放、缩放和裁剪图像来进行工作的。第一个参数是确保图像被重新缩放后值介于0~1之间，</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from keras.preprocessing.image import ImageDataGenerator</span><br><span class="line">train_datagen = ImageDataGenerator(rescale=1./255, shear_range=0.2, zoom_range=0.2, horizontal_flip=True)</span><br><span class="line">test_datagen = ImageDataGenerator(rescale=1./255)</span><br></pre></td></tr></table></figure>
-
-<p>测试数据不需要跟训练数据一样采用图像增强。接下来是创建训练集和测试集：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">training_set = train_datagen.flow_from_directory(‘training_set’, target_size=(256, 256), batch_size=32, class_mode=’binary’)</span><br><span class="line">test_set = test_datagen.flow_from_directory(‘test_set’, target_size=(64, 64), batch_size=32, class_mode=’binary’)</span><br></pre></td></tr></table></figure>
-
-<p>第一个参数是训练集的路径，第二个参数是CNN期望的图像大小。btach_size是在权重更新之前通过网路的图像数量，class_mode指示分类是否是二进制。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">classifier.fit_generator(training_set, steps_per_epoch=5000, epochs=25, validation_data=test_set, nb_val_samples=1000)</span><br></pre></td></tr></table></figure>
-
-<p>最后调用拟合函数并使用测试集测试其性能，第一个参数是训练集，第二个参数是训练集中的参数数量，第三个参数是训练的次数，第四个参数是测试集，最后一个参数是测试集的参数数量。</p>
-<p>9、进行单一预测</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np </span><br><span class="line">from keras.preprocessing import image</span><br></pre></td></tr></table></figure>
-
-<p>使用预测函数使用新图像进行预测，在这之前需要对其进行预处理。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">test_image = image.load_img(‘brain_image1.jpg’, target_size=(256, 256))</span><br></pre></td></tr></table></figure>
-
-<p>加载想要预测的图像，第一个参数是图像的路径，第二个参数是图像的大小，应与训练过程中的大小相同。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">test_image = image.img_to_array(test_image)</span><br></pre></td></tr></table></figure>
-
-<p>使用彩色图像则将图像转换为一个三维数组。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">test_image = np.expand_dims(test_image, axis=0)</span><br><span class="line">prediction = classifier.predict(test_image)</span><br></pre></td></tr></table></figure>
-
-<p>预测需要四个维度，第四个维度对应批量大小，这是因为在神经网络中要预测的数据通常作为批次传入。使用np.expand_dims函数添加这个维度，最后使用predict预测图像。</p>
+<h3 id="模式（mode）："><a href="#模式（mode）：" class="headerlink" title="模式（mode）："></a>模式（mode）：</h3><p>development：会将process.env.NODE_ENV的值设置为development</p>
+<p>production：会将process.env.NODE_ENV的值设置为production</p>
+<p>注：只设置NODE_ENV，则不会自动设置mode</p>
 
       </section>
 
       
       
+        <nav class="article-nav">
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202110/9da80970396542f9ffaf13ddd01f5067--304154848.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2022/05/06/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/%E7%8E%A9%E8%BD%ACvue3/vite.config.js/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">vue3vite.config.js配置</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
 
-      
-      
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+    <div class="valine-container comments-container content-padding--primary soft-size--large soft-style--box">
+      <div id="valine_thread" class="valine-thread"></div>
+    </div>
+    <script type="text/javascript" src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script type="text/javascript" src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <script type="text/javascript">
+      new Valine({
+        el: "#valine_thread",
+        appId: "zPxT1BH5qC6JYqXmizvClRGk-gzGzoHsz",
+        appKey: "kU1QKKjUJco1Gyjj0Usl4bwM",
+        avatar: "ChenZehong",
+        placeholder: "随便说点什么叭～",
+        notify: true,
+        visitor: true,
+        pageSize: 10,
+      });
+    </script>
+  
+
+  
+  
+
+
+      </section>
     </div>
     <div class="widget-info">
       <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -280,6 +231,8 @@
     </div>
   </div>
 </section>
+
+      
 
       
 
@@ -367,7 +320,6 @@
     </div>
   </article>
 </div>
-
 
     <!-- footer container -->
 <footer id="footer" class="footer">
