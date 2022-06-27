@@ -188,6 +188,12 @@
 </ul>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mySetTimeout</span>(<span class="params">fn,millisec</span>)</span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">interval</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">setTimeout</span>(interval,millisec)</span><br><span class="line">        fn()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">setTimeout</span>(interval,millisec)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<ul>
+<li>使用requestAnimationFrame实现定时器：</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//建立定时器</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setIntervalPrecision</span>(<span class="params">callback,delay</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">let</span> obj = <span class="built_in">window</span>.intervalPrecisionObj || (<span class="built_in">window</span>.intervalPrecisionObj = &#123;<span class="attr">num</span>:<span class="number">0</span>&#125;)</span><br><span class="line">    obj.num++</span><br><span class="line">    obj[<span class="string">&#x27;n&#x27;</span> + obj.num] = <span class="literal">true</span></span><br><span class="line">    <span class="keyword">let</span> intervalId = obj.num</span><br><span class="line">    <span class="comment">//开始时间</span></span><br><span class="line">    <span class="keyword">let</span> startTime = +<span class="keyword">new</span> <span class="built_in">Date</span>()</span><br><span class="line">    <span class="comment">//已执行次数</span></span><br><span class="line">    <span class="keyword">let</span> count = <span class="number">0</span></span><br><span class="line">    <span class="comment">//延迟时间</span></span><br><span class="line">    delay = delay | <span class="number">0</span></span><br><span class="line">    (<span class="function"><span class="keyword">function</span> <span class="title">loop</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="comment">//定时器被清除，则终止</span></span><br><span class="line">        <span class="keyword">if</span>(!obj[<span class="string">&#x27;n&#x27;</span> + intervalId]) <span class="keyword">return</span> </span><br><span class="line">        <span class="comment">//满足条件执行的回调</span></span><br><span class="line">        <span class="keyword">if</span>(+<span class="keyword">new</span> <span class="built_in">Date</span>() &gt; startTime + delay * (count + <span class="number">1</span>))&#123;</span><br><span class="line">            count++</span><br><span class="line">            callback(count)</span><br><span class="line">        &#125;</span><br><span class="line">        requestAnimationFrame(loop)</span><br><span class="line">    &#125;)()</span><br><span class="line">    <span class="keyword">return</span> intervalId</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//销毁定时器</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">clearIntervalPrecision</span>(<span class="params">intervalId</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">window</span>.intervalPrecisionObj)&#123;</span><br><span class="line">		<span class="keyword">delete</span> <span class="built_in">window</span>.intervalPrecisionObj[<span class="string">&#x27;n&#x27;</span> + intervalId]</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+
       </section>
 
       
@@ -312,26 +318,14 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
-            网站介绍 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/TensorFlow-js/">
             TensorFlow.js (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
+          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
+            网站介绍 (1)
           </a>
         </li>
       
@@ -348,20 +342,32 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
             面试准备 (10)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            react学习笔记 (2)
+          <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            Vue3学习笔记 (5)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            Vue3学习笔记 (5)
+          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            react学习笔记 (2)
           </a>
         </li>
       
