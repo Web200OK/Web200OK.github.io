@@ -401,6 +401,21 @@
 <li>父子组件中生命周期执行顺序：</li>
 </ul>
 <p>父beforeCreate -&gt; 父created -&gt; 父beforeMount -&gt; 子beforeCreate -&gt; 子created -&gt; 子beforeMount -&gt; 子mounted -&gt; 父mounted-&gt;父beforeUpdate-&gt;子beforeUpdate-&gt;子updated-&gt;父updated-&gt;父beforeDestroy-&gt;子beforeDestroy-&gt;子destroyed-&gt;父destroyed</p>
+<ul>
+<li>说说keep-alive：</li>
+</ul>
+<p>keep-alive是vue提供的一个抽象组件，用来对组件进行缓存，从而节省性能。被keep-alive包裹的动态组件或者是router-view会缓存不活动的实例，再次被调用这些被缓存的实例会被再次复用，对于不需要实时更新的页面来说大大减少了性能上的消耗。</p>
+<p>当组件子keep-alive中被切换时组件的activated，deactivated这两个生命周期构子函数会被执行。</p>
+<p>由于被包裹的组件我们请求获取的数据不会再重新渲染页面，只会保持第一次请求数据的渲染结果，所以在某些特定环境下需要强制刷新组件：</p>
+<p>1、利用include、exclude属性（匹配组件的name属性）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;keep-alive exclude=&quot;indexLists&quot;&gt;</span><br><span class="line">      &lt;router-view&gt;&lt;/router-view&gt;</span><br><span class="line">&lt;/keep-alive&gt;</span><br></pre></td></tr></table></figure>
+
+<p>2、利用meta属性</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span>[</span><br><span class="line"> &#123;</span><br><span class="line">  <span class="attr">path</span>:<span class="string">&#x27;/&#x27;</span>,</span><br><span class="line">  <span class="attr">name</span>:<span class="string">&#x27;home&#x27;</span>,</span><br><span class="line">  <span class="attr">components</span>:Home,</span><br><span class="line">  <span class="attr">meta</span>:&#123;</span><br><span class="line">    <span class="attr">keepAlive</span>:<span class="literal">true</span> <span class="comment">//需要被缓存的组件</span></span><br><span class="line"> &#125;,</span><br><span class="line"> &#123;</span><br><span class="line">  <span class="attr">path</span>:<span class="string">&#x27;/book&#x27;</span>,</span><br><span class="line">  <span class="attr">name</span>:<span class="string">&#x27;book&#x27;</span>,</span><br><span class="line">  <span class="attr">components</span>:Book,</span><br><span class="line">  <span class="attr">meta</span>:&#123;</span><br><span class="line">     <span class="attr">keepAlive</span>:<span class="literal">false</span> <span class="comment">//不需要被缓存的组件</span></span><br><span class="line"> &#125; </span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;keep-alive&gt;</span><br><span class="line">  &lt;router-view v-if=&quot;this.$route.meat.keepAlive&quot;&gt;&lt;/router-view&gt;</span><br><span class="line">  &lt;!--这里是会被缓存的组件--&gt;</span><br><span class="line">&lt;/keep-alive&gt;</span><br><span class="line">&lt;keep-alive v-if=&quot;!this.$router.meta.keepAlive&quot;&gt;&lt;/keep-alive&gt;</span><br><span class="line">&lt;!--这里是不会被缓存的组件--&gt;</span><br></pre></td></tr></table></figure>
+
+<p>3、使用路由守卫实现前进刷新，后退缓存资料</p>
 
       </section>
 
@@ -538,14 +553,20 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            前端学习笔记 (6)
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            前端学习笔记 (6)
           </a>
         </li>
       
@@ -558,12 +579,6 @@
         <li class="categorys-list-item">
           <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
             面试准备 (10)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (2)
           </a>
         </li>
       
