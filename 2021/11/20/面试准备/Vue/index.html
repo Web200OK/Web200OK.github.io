@@ -164,10 +164,11 @@
 <p>1、由于底层是使用Object.defineProperty实现响应式，而这个api本身不支持IE8及以下浏览器</p>
 <p>2、由于百度等引擎爬虫无法爬取js中的内容，故单页面应用先天就对seo优化不友好</p>
 <ul>
-<li>什么是虚拟DOM：</li>
+<li>什么是虚拟DOM，为什么需要虚拟DOM：</li>
 </ul>
 <p>虚拟DOM是相对于浏览器所渲染出来的真实DOM的，在React、vue等技术出现之前，我们要改变页面展示的内容只能通过遍历查询dom树的方式来找到需要修改的dom然后修改样式行为或结构，来达到更新ui的目的。</p>
 <p>这种方式相当 消耗计算资源，因为每次查询几乎需要遍历整棵DOM树，如果建立一个与DOM树对应的虚拟DOM对象，以对象嵌套的方式表示DOM树，那么每次DOM的更改就变成了js对象属性的更改，这样一来查找js对象的属性变化要比查询DOM树性能开销小。</p>
+<p>理由：</p>
 <ul>
 <li>简要概述Vue的生命周期：</li>
 </ul>
@@ -416,6 +417,17 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;keep-alive&gt;</span><br><span class="line">  &lt;router-view v-if=&quot;this.$route.meat.keepAlive&quot;&gt;&lt;/router-view&gt;</span><br><span class="line">  &lt;!--这里是会被缓存的组件--&gt;</span><br><span class="line">&lt;/keep-alive&gt;</span><br><span class="line">&lt;keep-alive v-if=&quot;!this.$router.meta.keepAlive&quot;&gt;&lt;/keep-alive&gt;</span><br><span class="line">&lt;!--这里是不会被缓存的组件--&gt;</span><br></pre></td></tr></table></figure>
 
 <p>3、使用路由守卫实现前进刷新，后退缓存资料</p>
+<ul>
+<li>说说nextTick的源码：</li>
+</ul>
+<p>1、vue把nextTick源码单独放到一个next-tick.js中，在nextTick函数外层定义三个变量callbacks,pending,timeFunc，一个是callbacks就是队列，每次调用$nextTick函数就是在向callbacks中新增回调函数的过程。</p>
+<p>callbacks新增回调函数后又执行了timeFunc函数，pending用来标识同一个时间只能执行一次，在timeFunc函数中使用isNative函数用来判断所传参数是否在当前环境原生就支持。vue在代码中做了四个判断，对当前环境进行了不断的降级处理，尝试使用原生的Promise.then,MutationObserver和setImmediate，上述三个都不支持最后使用serTimeout。降级处理的目的都是将flushCallbacks函数放入到微任务（判断1和2）或者是宏任务（判断3,4），等待下一次事件循环时执行。</p>
+<p>flushCallbacks就是把callbacks数组复制一份之后把callbacks置为空，最后用for循环把数组中的函数依次执行一遍。</p>
+<p>使用vue的时候，在**<style> 标签加上scoped**就可以实现样式隔离，只会作用在当前组件。</p>
+<ul>
+<li>Vue样式隔离是怎么实现的？</li>
+</ul>
+<p>使用<code>vue</code>SFC的时候，在<code>&lt;style&gt;</code> 标签加上<code>scoped</code>就可以实现样式隔离，只会作用在当前组件。</p>
 
       </section>
 
@@ -553,14 +565,20 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E7%AE%97%E6%B3%95/">
             算法 (2)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (2)
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+            面试准备 (10)
           </a>
         </li>
       
@@ -573,12 +591,6 @@
         <li class="categorys-list-item">
           <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
             实习相关 (3)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
-            面试准备 (10)
           </a>
         </li>
       
