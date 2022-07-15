@@ -449,6 +449,22 @@
 <p>采用递归，终止条件是字符串的长度等于2n，递归函数传入构建的字符串，左右括号剩余多少，每个位置有两种选择，选择左或者右括号，这里可以进行剪枝优化，只有右括号的保有数量大于左括号的保有数量，才能选右括号，否则肯定不能构成有效括号</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> generateParenthesis = <span class="function"><span class="keyword">function</span>(<span class="params">n</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> res = []</span><br><span class="line">    fn(<span class="string">&#x27;&#x27;</span>,<span class="number">0</span>,<span class="number">0</span>)</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">str,l,r</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(l + r == <span class="number">2</span> * n) &#123;</span><br><span class="line">            res.push(str)</span><br><span class="line">            <span class="keyword">return</span> </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(l &lt; n) fn(str+<span class="string">&#x27;(&#x27;</span>,l + <span class="number">1</span>,r)</span><br><span class="line">        <span class="keyword">if</span>(l &gt; r) fn(str+<span class="string">&#x27;)&#x27;</span>,l,r + <span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/next-permutation/">下一个排列</a></li>
+</ul>
+<p>采用两遍扫描的方法，首先从后向前查找第一个顺序对 (i,i+1)，满足 a[i] &lt; a[i+1]。这样「较小数」即为 a[i]。此时 [i+1,n) 必然是下降序列。</p>
+<p>如果找到了顺序对，那么在区间 [i+1,n) 中从后向前查找第一个元素 j 满足 a[i]&lt;a[j]。这样「较大数」即为 a[j]。</p>
+<p>交换 a[i] 与 a[j]，此时可以证明区间[i+1,n) 必为降序。我们可以直接使用双指针反转区间 [i+1,n) 使其变为升序，而无需对该区间进行排序。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> nextPermutation = <span class="function"><span class="keyword">function</span>(<span class="params">nums</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> i = nums.length - <span class="number">2</span></span><br><span class="line">    <span class="keyword">while</span>(i &gt;= <span class="number">0</span> &amp;&amp; nums[i] &gt;= nums[i+<span class="number">1</span>])&#123;</span><br><span class="line">        i--</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(i &gt;= <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">let</span> j = nums.length - <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span>(nums[i] &gt;= nums[j])&#123;</span><br><span class="line">            j--</span><br><span class="line">        &#125;</span><br><span class="line">        [nums[i],nums[j]] = [nums[j],nums[i]]</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> nums.reverse()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> m = i+<span class="number">1</span></span><br><span class="line">    <span class="keyword">let</span> n = nums.length - <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span>(m,n;m &lt; n;m++,n--)&#123;</span><br><span class="line">        [nums[m],nums[n]] = [nums[n],nums[m]]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nums</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/search-in-rotated-sorted-array/">搜索旋转排序数组</a></li>
+</ul>
+<p>用二分法，我们将数组从中间分开成左右两部分的时候，一定有一部分的数组是有序的。拿示例来看，我们从 6 这个位置分开以后数组变成了 [4, 5, 6] 和 [7, 0, 1, 2] 两个部分，其中左边 [4, 5, 6] 这个部分的数组是有序的，其他也是如此。</p>
+<p>这启示我们可以在常规二分查找的时候查看当前 mid 为分割位置分割出来的两个部分 [l, mid] 和 [mid + 1, r] 哪个部分是有序的，并根据有序的那个部分确定我们该如何改变二分查找的上下界，因为我们能够根据有序的那部分判断出 target 在不在这个部分：</p>
+<p>如果 [l, mid - 1] 是有序数组，且 target 的大小满足 [nums[l],nums[mid])，则我们应该将搜索范围缩小至 [l, mid - 1]，否则在 [mid + 1, r] 中寻找。<br>如果 [mid, r] 是有序数组，且 target 的大小满足(nums[mid+1],nums[r]]，则我们应该将搜索范围缩小至 [mid + 1, r]，否则在 [l, mid - 1] 中寻找。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> search = <span class="function"><span class="keyword">function</span>(<span class="params">nums, target</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!nums.length) <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">    <span class="keyword">let</span> l = <span class="number">0</span></span><br><span class="line">    <span class="keyword">let</span> r = nums.length - <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span>(l &lt;= r)&#123;</span><br><span class="line">        <span class="keyword">let</span> mid = (l + r) &gt;&gt; <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span>(nums[mid] == target) <span class="keyword">return</span> mid</span><br><span class="line">        <span class="keyword">if</span>(nums[mid] &gt;= nums[<span class="number">0</span>])&#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[mid] &gt; target &amp;&amp; nums[<span class="number">0</span>] &lt;= target) r = mid - <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span> l = mid + <span class="number">1</span></span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[mid] &lt; target &amp;&amp; nums[r] &gt;= target) l = mid + <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span> r = mid - <span class="number">1</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
 
       </section>
 
@@ -586,12 +602,6 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E7%AE%97%E6%B3%95/">
             算法 (2)
           </a>
@@ -616,14 +626,20 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            react学习笔记 (2)
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
             Vue3学习笔记 (5)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            react学习笔记 (2)
           </a>
         </li>
       

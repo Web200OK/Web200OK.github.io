@@ -428,6 +428,10 @@
 <li>Vue样式隔离是怎么实现的？</li>
 </ul>
 <p>使用<code>vue</code>SFC的时候，在<code>&lt;style&gt;</code> 标签加上<code>scoped</code>就可以实现样式隔离，只会作用在当前组件。</p>
+<ul>
+<li>说说v-model语法糖以及具体绑定什么属性：</li>
+</ul>
+<p>本质上，v-model就是@input与:value的结合，通过绑定value值当input改变子组件值的时候通过事件传递给父组件进行修改，达到v-model的绑定原理。通常绑定的元素有radio单选框、CheckBox多选框还有select标签。</p>
 
       </section>
 
@@ -565,12 +569,6 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E7%AE%97%E6%B3%95/">
             算法 (2)
           </a>
@@ -595,14 +593,20 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            react学习笔记 (2)
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
             Vue3学习笔记 (5)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            react学习笔记 (2)
           </a>
         </li>
       

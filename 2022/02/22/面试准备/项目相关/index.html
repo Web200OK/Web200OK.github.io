@@ -170,10 +170,11 @@
 <p><em>优化token安全性：</em></p>
 <p>在项目中只是单纯的将token存放在sessionStorage中，由于sessionStorage很容易拿到所以存在安全隐患。</p>
 <ol>
-<li>客户端通过用户名密码登录服务器并获取token</li>
-<li>客户端生成时间戳并将时间戳作为下次请求的其中一个参数</li>
-<li>客户端将所有参数包括token、时间戳按照自己的算法进行排序加密得到签名</li>
-<li>将token、时间戳和签名作为请求时必须携带的参数发送给服务器，只有在token有效，时间戳与当前时间戳间隔不超过固定时间段、服务器中不存在签名三种情况同时满足才请求有效</li>
+<li>客户端通过用户名密码登录服务器并获取Token</li>
+<li>客户端生成时间戳timestamp，并将timestamp作为其中一个参数。</li>
+<li>客户端将所有的参数，包括Token和timestamp按照自己的算法进行排序加密得到签名sign</li>
+<li>将token、timestamp和sign作为请求时必须携带的参数加在每个请求的URL后边（<a href="https://link.zhihu.com/?target=http://api.com/users?token=asdsadasd&timestamp=123&sign=123123123">http://api.com/users?token=asdsadasd&amp;timestamp=123&amp;sign=123123123</a>）</li>
+<li>服务端写一个过滤器对token、timestamp和sign进行验证，只有在token有效、timestamp未超时、缓存服务器中不存在sign三种情况同时满足，本次请求才有效</li>
 </ol>
 <p>使用路由守卫对路由进行优化：</p>
 <p>当用户直接跳过登录页面进入网页时，通过在路由守卫中判断是否可以获取到用户的token，如果获取到则允许访问，否则则重定向到登录页。</p>
@@ -308,6 +309,13 @@
 <p>优点：数据全民，不需要关注埋点逻辑，前端开发量轻</p>
 <p>缺点：流量与采集的数据过于庞大，存在浪费，服务器性能压力大、难以特殊化定制</p>
 <p>适用场景：网站需要全埋点监控</p>
+<ul>
+<li>说说token在项目中的存储：</li>
+</ul>
+<p>在登录的时候将后端返回的token保存到localstorage中，同时调用vuex的commit方法将token存进state中，在封装axios的时候从state中取出token在请求拦截器中为请求携带上token。之所以localStorage中的token也要用vuex维护的原因如下：</p>
+<p>1、vuex是状态管理，全局的变量放在state中方便查找</p>
+<p>2、localStorage的API不友好，每次使用都需要JSON.parse与JSON.stringify进行转化</p>
+<p>3、localStorage的数据读取性能极差，远低于vuex的读取性能，因为localStorage的数据都是存储在磁盘文件中，每次读取都相当于一次磁盘读取，像token这样每次请求都需要携带的数据如果每次都从localStorage读取，太消耗性能且太慢了，但是vuex读取就特别快。</p>
 
       </section>
 
@@ -445,12 +453,6 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E7%AE%97%E6%B3%95/">
             算法 (2)
           </a>
@@ -475,14 +477,20 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            react学习笔记 (2)
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
             Vue3学习笔记 (5)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            react学习笔记 (2)
           </a>
         </li>
       
