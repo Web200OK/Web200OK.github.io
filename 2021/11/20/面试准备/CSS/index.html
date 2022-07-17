@@ -185,7 +185,9 @@
 <p>2、设置元素绝对定位</p>
 <p>3、设置元素为inline-block</p>
 <p>4、将元素的overflow设置为hidden（副作用最小）</p>
-<h3 id="4-垂直居中的方法"><a href="#4-垂直居中的方法" class="headerlink" title="4.垂直居中的方法"></a>4.垂直居中的方法</h3><p>(1)margin:auto法</p>
+<h3 id="4-垂直居中的方法"><a href="#4-垂直居中的方法" class="headerlink" title="4.垂直居中的方法"></a>4.垂直居中的方法</h3><p>快速水平垂直居中：</p>
+<p>父元素display:flex，子元素margin设置为auto即可</p>
+<p>(1)margin:auto法</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">css:</span><br><span class="line">div&#123;</span><br><span class="line">width: <span class="number">400px</span>;</span><br><span class="line"><span class="attribute">height</span>: <span class="number">400px</span>;</span><br><span class="line"><span class="attribute">position</span>: relative;</span><br><span class="line"><span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#465468</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">img</span>&#123;</span><br><span class="line"><span class="attribute">position</span>: absolute;</span><br><span class="line"><span class="attribute">margin</span>: auto;</span><br><span class="line"><span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line"><span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line"><span class="attribute">right</span>: <span class="number">0</span>;</span><br><span class="line"><span class="attribute">bottom</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">html</span>:</span><br><span class="line">&lt;div&gt;</span><br><span class="line">&lt;img src=<span class="string">&quot;mm.jpg&quot;</span>&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
 
 <p>定位为上下左右为0，margin：0可以实现脱离文档流的居中.</p>
@@ -497,6 +499,12 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
             前端学习笔记 (6)
           </a>
@@ -509,20 +517,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (2)
+          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            react学习笔记 (2)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
             Vue3学习笔记 (5)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            react学习笔记 (2)
           </a>
         </li>
       

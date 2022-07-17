@@ -136,6 +136,27 @@
 </ul>
 <p>在添加商品模块上传图片的时候，因为在elementUi中并没有声明上传图片并不是使用axios请求，所以在将图片发送给服务端的时候失败了，原因是因为axios有在请求拦截器中为每个请求添加服务器返回的token，所以需要手动给图片上传的请求头中添加token ，可以存在cookie，同时在后端开启http only，这样通过document.cookie就读取不到了。</p>
 <ul>
+<li>性能优化都可以从哪里入手：</li>
+</ul>
+<p>1、加载：减少http请求（雪碧图，文件合并），减少文件大小（资源压缩，图片压缩，代码压缩），CDN（第三方库，大文件，大图），SSR服务端渲染，预渲染，懒加载，分包</p>
+<p>2、减少DOM操作，避免回流，文档碎片</p>
+<ul>
+<li>技术方案划分：</li>
+</ul>
+<p>1、缓存：客户端控制的强缓存策略</p>
+<p>2、降低请求成本：</p>
+<p>HTTP DNS:由客户端控制，隔一段时间主动请求DNS获取域名IP，不走系统的DNS</p>
+<p>TCP/TLS连接复用：由服务端升级到HTTP2，尽量合并域名</p>
+<p>3、减少请求数：</p>
+<p>JS、CSS打包到HTML</p>
+<p>用JS控制图片异步加载和懒加载</p>
+<p>小型图片使用data-url</p>
+<p>4、减少传输体积：</p>
+<p>尽量使用SVG等替代图片</p>
+<p>根据机型和网络状况控制图片清晰度</p>
+<p>对低清晰度图片使用锐化来提升体验</p>
+<p>设计上避免大型背景图</p>
+<ul>
 <li>项目性能优化：</li>
 </ul>
 <ol>
@@ -465,6 +486,12 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
             前端学习笔记 (6)
           </a>
@@ -477,20 +504,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (2)
+          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            react学习笔记 (2)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
             Vue3学习笔记 (5)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            react学习笔记 (2)
           </a>
         </li>
       
