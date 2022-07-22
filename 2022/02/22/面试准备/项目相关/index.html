@@ -353,6 +353,73 @@
 <p>1、减少访问API或者是不访问。使用防抖节流</p>
 <p>2、利用缓存存放数据。将一些实时性修改但是不必须发送给后端存储的数据放在缓存中，例如修改图像但是还没点确定修改时。</p>
 <p>3、避免高频刷新页面获取数据。做一个限定避免高频刷新带给服务器的压力。例如可以几秒内刷新页面中，只后去一次页面样式或者列表等数据。</p>
+<ul>
+<li>说说节流阀：</li>
+</ul>
+<p>节流阀就是在事件多次触发的时候可以通过设置一个true和false来控制，降低事件的执行频率。使用场景比如在下拉刷新或上拉触底加载的时候，会一直发起请求，这样会增加服务器的压力。</p>
+<p>使用：在data中定义一个isLoading:false默认关闭状态，在发起请求时把节流阀打开，在请求完的时候节流阀关闭。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">//上拉触底获取新的下一页数据</span><br><span class="line">data()&#123;</span><br><span class="line">	isLoading:false</span><br><span class="line">&#125;</span><br><span class="line">methods:&#123;</span><br><span class="line">	async getDatas()&#123;</span><br><span class="line">		//请求数据的时候打开节流阀</span><br><span class="line">		this.isLoading = true</span><br><span class="line">		......</span><br><span class="line">		//请求完毕，关闭节流阀</span><br><span class="line">		thi.isLoading = false</span><br><span class="line">	&#125;</span><br><span class="line">	onReachBotton()&#123;</span><br><span class="line">		//根据节流阀状态来控制请求的状态</span><br><span class="line">		//在节流阀打开的时候即请求数据的时候不让它执行下面的代码</span><br><span class="line">		if(!isLoading) return</span><br><span class="line">		//请求结束切换到下一页</span><br><span class="line">		this.quertObj.pagenum++</span><br><span class="line">		//调用函数更新</span><br><span class="line">		this.getDatas()</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>textarea 如何实现高度自适应（不出现滚动条）:</li>
+</ul>
+<p>1、使用div模拟textarea文本</p>
+<p>通过属性设置contenteditable来实现div可编辑。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!doctype <span class="meta-keyword">html</span>&gt;</span>    </span><br><span class="line">        &lt; html  lang =&quot;en&quot; &gt;    </span><br><span class="line">          </span><br><span class="line">            &lt; head&gt;    </span><br><span class="line">                &lt; meta  charset = &quot;UTF-8&quot; &gt;    </span><br><span class="line">                &lt; title&gt; div模拟textarea文本域轻松实现高度自适应 &lt;/ title &gt;    </span><br><span class="line">                &lt; style&gt;    </span><br><span class="line">                    h2 &#123;  </span><br><span class="line">                        text-align: center;  </span><br><span class="line">                        margin: 50px auto;  </span><br><span class="line">                    &#125;  </span><br><span class="line">                      </span><br><span class="line">                    .test_box &#123;  </span><br><span class="line">                        width: 400px;  </span><br><span class="line">                        min-height: 20px;  </span><br><span class="line">                        /*设置最小高度*/  </span><br><span class="line">                        max-height: 1000px;  </span><br><span class="line">                        /*设置最大高度超过1000px时出现滚动条*/   </span><br><span class="line">                        margin-left: auto;  </span><br><span class="line">                        margin-right: auto;  </span><br><span class="line">                        padding: 13px;  </span><br><span class="line">                        outline: 0;  </span><br><span class="line">                        border: 1px solid #a0b3d6;  </span><br><span class="line">                        font-size: 16px;  </span><br><span class="line">                        line-height: 24px;  </span><br><span class="line">                        word-wrap: break-word;  </span><br><span class="line">                        overflow-x: hidden;  </span><br><span class="line">                        overflow-y: auto;  </span><br><span class="line">                        border-color: rgba(82, 168, 236, 0.8);  </span><br><span class="line">                        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);  </span><br><span class="line">                    &#125;  </span><br><span class="line">                &lt;/ style&gt;  </span><br><span class="line">            &lt;/ head&gt;    </span><br><span class="line">          </span><br><span class="line">            &lt; body&gt;    </span><br><span class="line">                &lt; h2&gt; div模拟textarea文本域轻松实现高度自适应&lt;/ h2&gt;    </span><br><span class="line">                &lt; div  class =&quot;test_box&quot;  contenteditable =&quot;true&quot; &gt;    </span><br><span class="line">                    &lt; br  /&gt;    </span><br><span class="line">                &lt;/ div&gt;    </span><br><span class="line">            &lt;/ body&gt;    </span><br><span class="line">          </span><br><span class="line">        &lt;/ html&gt;   </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>2、通过js监听文本域输入变化后通过scrollHeight计算出高度，再通过JS修改textarea高度为scrollHeight即可，可以加入过渡动画优化过渡效果</p>
+<ul>
+<li>多个异步请求同步返回后再执行下一步的解决方案：</li>
+</ul>
+<p>1、axios.all与axios.spread搭配实现：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// 获取菜单树(axios请求函数是进行封装了的)</span></span><br><span class="line"><span class="function"><span class="title">getMenuTreeData</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> getMenuTreeData()</span><br><span class="line">&#125;,</span><br><span class="line"><span class="comment">// 获取角色菜单匹配array</span></span><br><span class="line"><span class="function"><span class="title">getRoleMenuData</span>(<span class="params">sysRoleId</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> parm = &#123;</span><br><span class="line">        <span class="attr">oid</span>: sysRoleId,</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> getRoleMenuData(parm)</span><br><span class="line">&#125;,     <span class="built_in">this</span>.$axios.all([that.getMenuTreeData(),that.getRoleMenuData(row.sysRoleId)]).then(that.$axios.spread(<span class="function">(<span class="params">res1, res2</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="built_in">console</span>.log(res1, res2)</span><br><span class="line">          that.LimitData = res1.data.data</span><br><span class="line">          that.permissionsList = res2.data.data.resources</span><br><span class="line">        &#125;))</span><br></pre></td></tr></table></figure>
+
+<p>2、使用Promise.all()实现</p>
+<p>3、定义一个全局计数器，当每个请求成功时使计数器自增，当计数器等于所有请求数量时，即表示所有请求成功完成，可以进入下一步。</p>
+<ul>
+<li>了解分页拉取数据重复的原因跟解决思路吗：</li>
+</ul>
+<p>问题：电商系统中，用户查询已收货包裹数据时，向上滑动，新加载的第二页数据与第一页数据有重复内容。</p>
+<p>原因：</p>
+<ol>
+<li>已收货包裹默认按照数据表中主键进行降序排序。</li>
+<li>第一页的第一条数据为当前该商户已收货包裹，id最大的记录。</li>
+<li>前端拉取到第一页数据后，该商户此时有新收货记录变动，且该条记录的id大于第一页第一条数据对应的id。</li>
+<li>拉取第二页数据时，之前第一页的最后一条记录，被排序到第二页的第一条，出现数据重复。</li>
+</ol>
+<p>类似其他数据集也会出现这样的问题，共性条件如下：</p>
+<ol>
+<li>数据集根据某一个或几个字段进行排序。</li>
+<li>根据排序条件无法确定一个稳定的数据集，新插入的数据，按照排序字段进行排序，可能插在整个数据集的头部或者中间。</li>
+<li>查询某一页数据时，如果该页之前的数据集存在新插入的数据，该页一定会查询到重复的数据。</li>
+</ol>
+<p>解决方案：</p>
+<p>1、查询完成的数据集：不进行分页，一次拉取所有的数据，原始数据集无重复，就不会拉取到重复的数据。</p>
+<p>缺点：数据规模大的时候查询慢，渲染慢，适用于数据量小的情况</p>
+<p>2、固定数据集范围：</p>
+<ol>
+<li>通过增加数据开始条件、结束条件，取一段固定的数据集。</li>
+<li>或者调整排序条件，固定一侧数据不会变更。</li>
+</ol>
+<p>缺点：使用场景有限,必须能够固定住数据集两侧，或者至少固定住数据集开头。适用于能够固定住数据集的场景。</p>
+<p>3、固定某一页的数据集：</p>
+<ol>
+<li>第一页是固定的，前端保存最后一条数据对应的排序条件的值</li>
+<li>查询下一页数据时，将当前页的最后一条记录对应的排序条件的值作为过滤参数</li>
+</ol>
+<p>缺点：只适用于单条件排序，且排序条件具有唯一性；只适用于滑动分页，不支持页码分页，不根据页码定位数据。</p>
+<p>4、前端过滤重复数据集：</p>
+<ol>
+<li>每拉取一页数据，前端将所有的唯一id缓存</li>
+<li>对比当前页给出的数据，如果存在则不渲染</li>
+<li>判断当前页过滤掉的数据，对比阙值，如果超过了阙值，再拉取一页避免用户感知到</li>
+</ol>
+<p>缺点：前端需要缓存已拉取到的所有数据，用于判断去重 ，占用内存；缓存数据较多，去重判断次数也多，渲染效率低；未下拉刷新之前，数据集中新插入的数据无法显示。适用于滑动分页，数据量较小，能够容忍未下拉刷新前数据集不展示新插入的数据。</p>
+<p><img src="https://s3.bmp.ovh/imgs/2022/07/21/458ae3cc4632dc81.png"></p>
+<ul>
+<li>为什么webpack的文件名要加hash值：</li>
+</ul>
+<p>一般去部署前端资源文件时，会启用服务器的静态资源缓存，对于用户的浏览器而言就可以缓存到我们的静态资源，后续就不需要在请求服务器得到这些静态资源文件，整体应用的相应速度就有大幅度的提升。<br>不过，开启静态资源的缓存，也有问题，如果说在缓存策略当中，失效时间设置过短的话，效果不是特别明显，如果设置过长，一旦说应用发生了更新，重新部署过后，无法及时更新到客户客户端<br>所以在生产模式下，文件名使用 Hash 值，一旦资源文件发生改变，文件名称也可以跟着一起改变，对于客户端而言，全新的文件名就是全新的请求，那也就没有缓存的问题。</p>
 
       </section>
 
@@ -445,13 +512,13 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>32</span>
+        <span>33</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
 </svg>
-        9
+        10
       </div>
       <div class="count-box--item">
         <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -484,20 +551,32 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
             网站介绍 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+            面试准备 (10)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (2)
+          <a href="/categories/%E5%A4%A7%E5%8E%82%E7%AC%94%E8%AF%95%E9%A2%98/">
+            大厂笔试题 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
           </a>
         </li>
       
@@ -510,12 +589,6 @@
         <li class="categorys-list-item">
           <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
             实习相关 (3)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
-            面试准备 (10)
           </a>
         </li>
       

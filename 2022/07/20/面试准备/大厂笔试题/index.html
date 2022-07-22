@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+  
+  <meta name="generator" content="Hexo 5.4.0">
+
+  
+
+  
+
+  
+    <meta name="author" content="ChenZehong">
+  
+
+  
+
+  
+
+  <title>项目相关 | 好好学习，天天向上</title>
+
+  
+
+  
+    <link rel="shortcut icon" href="/happy.ico">
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@1.1.3/index.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/monokai.css">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+  <div class="root-container">
+    
+<!-- header container -->
+<header class="header-container post">
+  
+    <div class="post-image" style="background-image: url(http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202112/def71a18fe51f8d911376bc713639daf--3679449604.jpg)"></div>
+  
+
+  <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          好好学习，天天向上
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+          <li class="navbar-list-item"><a href="/">首页</a></li>
+        
+          <li class="navbar-list-item"><a href="/links">友链</a></li>
+        
+          <li class="navbar-list-item"><a href="/about">关于</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">项目相关</h1>
+          <h2 class="title-sub-wrap">
+            <strong>ChenZehong</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2022-07-20T07:24:07.979Z" itemprop="datePublished">2022-07-20</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E5%A4%A7%E5%8E%82%E7%AC%94%E8%AF%95%E9%A2%98/">📒 大厂笔试题</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+</ul>
+        </div>
+      </div>
+    </div>
+  
+
+  
+  
+  
+</header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+<div class="body-container">
+  <article class="content-container layout-block post-container">
+    <div class="article-info">
+      
+      
+      
+      
+      <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
+        <ul>
+<li>由于前端直接可被用户访问，攻击者可以轻易得到页面和通讯过程中的相关信息，进而进行恶意的攻击，关于其攻击的方式描述正确的有哪些？</li>
+</ul>
+<p>A、假定站点 foo.com 的服务器架设在公司内网，提供了任意站点截图服务 foo.com/screenshot?url=xxx，恶意修改 url 中的值为内网地址，构成 SSRF 攻击，进而造成数据泄露的风险<br>B、网站 foo.com 提供 POST 方法的 /tansfer/to/xxx 的转账服务，由于未做 CSRF 的防范，被攻击者重复伪造该请求，形成重放攻击，造成经济损失<br>C、网站 foo.com 使用了非安全的 HTTP 协议，其中转账服务 POST /transfer/to/xxx，转账金额 money 在 payload 上，假定接口层面采用了随机 token 来防范 csrf 攻击，接口参数未做签名校验，此时攻击者通过篡改 money 的数值，构成中间人攻击<br>D、借助社会工程学的理论基础，基于用户的贪婪等心理，制作一个 qq.com 的”冒牌”中奖页面，诱导用户输入账号密码进行登录，造成隐私的泄露，属于”钓鱼”的网络欺诈行为</p>
+<p>答案解析：SSRF概念 SSRF为服务端请求伪造(Server-Side Request Forgery),指的是攻击者在未能取得服务器所有权限时。<br>利用服务器漏洞以服务器的身份发送一条构造好的请求给服务器所在内网。SSRF攻击通常针对外部网络无法直接访问的内部系统。 </p>
+<p>SSRF的原理 ：很多web应用都提供了从其他的服务器上获取数据的功能。使用指定的URL，web应用便可以获取图片，下载文件，读取文件内容等。SSRF的实质是利用存在缺陷的web应用作为代理攻击远程和本地的服务器。一般情况下， SSRF攻击的目标是外网无法访问的内部系统，黑客可以利用SSRF漏洞获取内部系统的一些信息（正是因为它是由服务端发起的，所以它能够请求到与它相连而与外网隔离的内部系统）。SSRF形成的原因大都是由于服务端提供了从其他服务器应用获取数据的功能且没有对目标地址做过滤与限制。</p>
+<p>SSRF的主要攻击方式 ：攻击者想要访问主机B上的服务，但是由于存在***或者主机B是属于内网主机等原因导致攻击者无法直接访问主机B。而服务器A存在SSRF漏洞，这时攻击者可以借助服务器A来发起SSRF攻击，通过服务器A向主机B发起请求，从而获取主机B的一些信息。</p>
+<p>csrf：</p>
+<p>跨站请求伪造（英语：Cross-site request forgery），也被称为 one-click attack 或者 session riding，通常缩写为 CSRF  或者 XSRF， 是一种挟制用户在当前已登录的Web应用程序上执行非本意的操作的攻击方法。跟跨网站脚本（XSS）相比， XSS 利用的是用户对指定网站的信任，CSRF 利用的是网站对用户网页浏览器的信任。 </p>
+<p><em>正确答案: A B C D</em>  </p>
+<ul>
+<li>请选出3的颜色</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span><br><span class="line"> <span class="selector-tag">ul</span> &#123; <span class="attribute">color</span>: blue <span class="meta">!important</span>; &#125;</span><br><span class="line"> <span class="selector-tag">ul</span> &gt; <span class="selector-tag">li</span> &#123; <span class="attribute">color</span>: green; &#125;</span><br><span class="line"> <span class="selector-tag">ul</span> <span class="selector-tag">li</span> + <span class="selector-tag">li</span> &#123; <span class="attribute">color</span>: red; &#125;</span><br><span class="line"> <span class="selector-tag">li</span> &#123; <span class="attribute">color</span>: yellow; &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span><span class="tag">&lt;<span class="name">li</span>&gt;</span>1<span class="tag">&lt;/<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">li</span>&gt;</span>2<span class="tag">&lt;/<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">li</span>&gt;</span>3<span class="tag">&lt;/<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>A、蓝色<br>B、绿色<br>C、红色<br>D、黄色</p>
+<p>答案解析：</p>
+<p><strong>相邻兄弟选择器</strong> (+) 介于两个选择器之间，当第二个元素<em>紧跟在</em>第一个元素之后，并且两个元素都是属于同一个父元素的子元素，则第二个元素将被选中。</p>
+<p>而这里并没有指明第一个元素就是最前面的哪一个li，所以每一个li都会找自己的兄弟，结果就是除了第一个li以外的所有li都被选中了。效果看起来和li~li一样。但是实际上是不同的。</p>
+<p>通用兄弟选择器<del>：兄弟选择符，位置无须紧邻，只须同层级，A</del>B 选择A元素之后所有同层级B元素。</p>
+<p>如果只想找第一个li的相邻兄弟，应该用伪类:first-of-type，这样就会只选中第二个li。</p>
+<p>ul { color: blue !important; }//!important优先级最高，但是后面是继承的，所以为0<br> ul &gt; li { color: green; } 有两个元素选择器，优先级为0002<br> ul li + li { color: red; }有3个元素选择器，优先级为0003<br> li { color: yellow; }一个元素选择器，优先级为0001</p>
+<p>所以最终的结果是：C</p>
+<ul>
+<li><p>哪种方式的CSS优先级最高</p>
+<p>A、link引入<br>B、@import注入<br>C、内联方式引入<br>D、行内方式引入</p>
+</li>
+</ul>
+<p>答案解析：D</p>
+<ul>
+<li>设任务列表有三个异步的任务，即 <code>taskList = [taskA, taskB, taskC]</code>，想使用 <code>async/await</code> 配合 <code>forEach</code> 实现串行执行，以下哪个代码是可行的？</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">A、<span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">taskList.forEach(<span class="keyword">async</span> (task) =&gt; <span class="keyword">await</span> task())</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">run()</span><br><span class="line"></span><br><span class="line">B、<span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">taskList.forEach(<span class="function">(<span class="params">task</span>) =&gt;</span> <span class="keyword">await</span> task())</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">run()</span><br><span class="line"></span><br><span class="line">C、<span class="function"><span class="keyword">function</span> <span class="title">run</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">List.forEach(<span class="keyword">async</span> (task) =&gt; <span class="keyword">await</span> task())</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">run()</span><br><span class="line"></span><br><span class="line">D、其余都不对</span><br></pre></td></tr></table></figure>
+
+<p>答案解析：</p>
+<p>forEach 不会按顺序执行 而是<strong>并发</strong>执行异步任务</p>
+<p>for of 和 普通的for循环却能顺序执行异步任务</p>
+<p>所以最终的结果是：D</p>
+<ul>
+<li>以下代码执行的结果是：</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fun</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> <span class="function">() =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> <span class="function">() =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> <span class="function">() =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">this</span>.name)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> f = fun.call(&#123;<span class="attr">name</span>: <span class="string">&#x27;foo&#x27;</span>&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> t1 = f.call(&#123;<span class="attr">name</span>: <span class="string">&#x27;bar&#x27;</span>&#125;)()()</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> t2 = f().call(&#123;<span class="attr">name</span>: <span class="string">&#x27;baz&#x27;</span>&#125;)()</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> t3 = f()().call(&#123;<span class="attr">name</span>: <span class="string">&#x27;qux&#x27;</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>A、foo foo foo</p>
+<p>B、bar bar bar</p>
+<p>C、qux qux qux</p>
+<p>D、bar baz qux</p>
+<p>答案解析：</p>
+<p>this的指向只有一个，就是函数foo的this，这是因为所有的内层函数都是箭头函数，都没有自己的this，它们的this其实都是最外层foo函数的this。所以不管怎么嵌套，t1、t2、t3都输出同样的结果。如果这个例子的所有内层函数都写成普通函数，那么每个函数的this都指向运行时所在的不同对象。另外，由于箭头函数没有自己的<code>this</code>，所以当然也就不能用<code>call()</code>、<code>apply()</code>、<code>bind()</code>这些方法去改变<code>this</code>的指向。</p>
+<p>答案：A</p>
+<ul>
+<li><p>某进程创建的若干个线程，这些线程不能共享的是</p>
+<p>A、程序计数器</p>
+<p>B、某线程的栈指针</p>
+<p>C、进程打开的文件</p>
+<p>D、全局变量</p>
+<p>E、进程的堆空间</p>
+<p>答案解析：AB，线程独享栈，共享进程堆</p>
+</li>
+</ul>
+<ul>
+<li>tcp发送报文数据时，可能将多个数据包合并成一个大的数据包发送，就有可能发生粘包问题。以下可以用来解决这个问题的是？</li>
+</ul>
+<p>正确答案: A B D </p>
+<p>A、发送固定长度的消息<br>B、包结尾增加分隔符<br>C、慢开始算法<br>D、把消息分成消息头和消息体，其中消息头上包含长度<br>E、利用滑动窗口实现控制</p>
+<ul>
+<li>下列代码的执行结果:</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">...args</span>) </span>&#123;</span><br><span class="line"> <span class="built_in">console</span>.log(<span class="keyword">typeof</span> args);</span><br><span class="line">&#125;</span><br><span class="line">fn(<span class="number">21</span>);</span><br></pre></td></tr></table></figure>
+
+<p>A、”number”<br>B、”array”<br>C、”object”<br>D、“NaN”</p>
+<p>Rest 参数可以通过使用三个点…并在后面跟着包含剩余参数的数组名称，来将它们包含在函数定义中。这些点的字面意思是“将剩余参数收集到一个数组中”。</p>
+<p>所以args是一个数组。选C</p>
+<ul>
+<li>有a.js和b.js两个文件，请选择b文件中代码的输出</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// a.js</span></span><br><span class="line"><span class="keyword">let</span> a = <span class="number">1</span></span><br><span class="line"><span class="keyword">let</span> b = &#123;&#125;</span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;  </span><br><span class="line">a = <span class="number">2</span>  </span><br><span class="line">b.b = <span class="number">2</span></span><br><span class="line">&#125;, <span class="number">100</span>)</span><br><span class="line"><span class="built_in">module</span>.exports = &#123; a, b &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// b.js</span></span><br><span class="line"><span class="keyword">const</span> a = <span class="built_in">require</span>(<span class="string">&#x27;./a&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(a.a)</span><br><span class="line"><span class="built_in">console</span>.log(a.b)</span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;  </span><br><span class="line"><span class="built_in">console</span>.log(a.a)  </span><br><span class="line"><span class="built_in">console</span>.log(a.b)</span><br><span class="line">&#125;, <span class="number">500</span>)</span><br></pre></td></tr></table></figure>
+
+<p>A、1 {} 1 {}<br>B、1 {} 2 {b:2}<br>C、1 {} 1 {b:2}<br>D、1 {} 2 {}</p>
+<p>答案解析：</p>
+<p>commonjs 导出的是值的拷贝 ，在require的时候a.js执行一次，开启定时器，因为执行到export的时候定时器还没有执行，所以a一直是1;b是存储的是一个值引用，属于浅拷贝，所以a.js的b改变时,b.js的a.b也改变。答案是C</p>
+<ul>
+<li>以下哪行代码添加之后不会造成父容器高度塌陷</li>
+</ul>
+<p>正确答案: A </p>
+<p>A、display: flex;<br>B、display:inline;<br>C、float:left;<br>D、position:fixed;</p>
+<ul>
+<li>以下这种写法不规范，但是不会报错，其在浏览器中的表现形式是</li>
+</ul>
+<p><code>&lt;p&gt;1&lt;p&gt;2&lt;/p&gt;&lt;/p&gt;</code></p>
+<p>正确答案: D </p>
+<p>A、<p>1<p>2</p></p><br>B、<p>1</p><p>2</p><br>C、<p>12</p><br>D、<p>1</p><p>2</p><p></p></p>
+<p>p标签不能嵌套，因为浏览器会自动认为你的代码不规范，自动帮你补充</p>
+
+      </section>
+
+      
+      
+        <nav class="article-nav">
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://pic.3gbizhi.com/2021/1118/thumb_1680_0_20211118091821767.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2022/05/17/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/%E5%89%8D%E7%AB%AF%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">前端项目自动化部署</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
+
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+    <div class="valine-container comments-container content-padding--primary soft-size--large soft-style--box">
+      <div id="valine_thread" class="valine-thread"></div>
+    </div>
+    <script type="text/javascript" src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script type="text/javascript" src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <script type="text/javascript">
+      new Valine({
+        el: "#valine_thread",
+        appId: "zPxT1BH5qC6JYqXmizvClRGk-gzGzoHsz",
+        appKey: "kU1QKKjUJco1Gyjj0Usl4bwM",
+        avatar: "ChenZehong",
+        placeholder: "随便说点什么叭～",
+        notify: true,
+        visitor: true,
+        pageSize: 10,
+      });
+    </script>
+  
+
+  
+  
+
+
+      </section>
+    </div>
+    <div class="widget-info">
+      <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-body">
+    
+      <img src="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202007/f9c696aa27edaddf87257e5e70d1eb62--1437661584.jpg" class="soft-size--round soft-style--box" alt="ChenZehong">
+    
+    
+      <h2>ChenZehong</h2>
+    
+    
+      <p>贵在坚持</p>
+    
+
+    <div class="count-box">
+      <div class="count-box--item">
+        <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
+</svg>
+        <span>33</span>
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+        10
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+        1
+      </div>
+    </div>
+  </div>
+</section>
+
+      
+
+      
+
+      <section class="widget-categorys widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+    <span>CATEGORYS</span>
+  </div>
+  <div class="widget-body">
+    <ul class="categorys-list">
+      
+        <li class="categorys-list-item">
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
+            网站介绍 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+            面试准备 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%A4%A7%E5%8E%82%E7%AC%94%E8%AF%95%E9%A2%98/">
+            大厂笔试题 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            前端学习笔记 (6)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
+            实习相关 (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            react学习笔记 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            Vue3学习笔记 (5)
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+</section>
+
+      <section class="widget-tags widget-item  layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+    <span>TAGS</span>
+  </div>
+  <div class="widget-body">
+    <div class="tags-cloud">
+      <a href="/tags/%E4%BB%8B%E7%BB%8D/" style="font-size: 10px;" class="tags-cloud-0">介绍</a>
+    </div>
+  </div>
+</section>
+    </div>
+  </article>
+</div>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+    
+    <div class="social-icons">
+      
+        
+      
+        
+      
+        
+      
+        
+          <a href="https://github.com/Web200OK" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-github" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M64.6 512c0 195.6 125.4 361.9 300.1 422.9 23.5 5.9 19.9-10.8 19.9-22.2v-77.6c-135.8 15.9-141.3-74-150.5-89-18.5-31.5-61.9-39.5-49-54.5 31-15.9 62.5 4 98.9 58 26.4 39.1 77.9 32.5 104.1 26 5.7-23.5 17.9-44.5 34.7-60.9-140.7-25.2-199.4-111.1-199.4-213.3 0-49.5 16.4-95.1 48.4-131.8-20.4-60.6 1.9-112.4 4.9-120.1 58.2-5.2 118.5 41.6 123.3 45.3 33.1-8.9 70.8-13.7 112.9-13.7 42.4 0 80.3 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.4-43.9 2.9 7.7 24.7 58.3 5.5 118.1 32.5 36.8 49 82.8 49 132.4 0 102.3-59 188.3-200.2 213.2 23.5 23.3 38.1 55.5 38.1 91.1v112.7c0.8 9 0 17.9 15.1 17.9C832.7 877 960.4 709.4 960.4 512.1c0-247.5-200.6-447.9-447.9-447.9C265 64.1 64.6 264.5 64.6 512z"></path>
+</svg>
+          </a>
+        
+      
+        
+      
+    </div>
+     
+    <p>&copy; 2022 <a href="/" target="_blank">ChenZehong</a></p>
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+
+    <p>
+      <a href="javascript:;" id="theme-light">🌞 浅色</a>
+      <a href="javascript:;" id="theme-dark">🌛 深色</a>
+      <a href="javascript:;" id="theme-auto">🤖️ 自动</a>
+    </p>
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed soft-size--round soft-style--box">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+      <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+      <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+    </svg>
+  </div>
+
+  
+  <!-- aplayer -->
+
+
+<!-- dplayer -->
+
+
+
+
+  
+
+
+  
+
+
+  <!-- Baidu Analytics START -->
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      if (window.location.hostname === "localhost" || window.location.hostname.startsWith("192.168")) {
+        return console.log("本地调试");
+      }
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8a923e14e6dbf862c2b287e6c1266764";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  <!-- Baidu Analytics End -->
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+</body>
+</html>

@@ -483,6 +483,23 @@
 <p>我们定义递归函数 dfs(target,combine,idx)表示当前在candidates 数组的第 idx 位，还剩 target 要组合，已经组合的列表为 combine。递归的终止条件为target≤0 或者candidates 数组被全部用完。那么在当前的函数中，每次我们可以选择跳过不用第idx 个数，即执行dfs(target,combine,idx+1)。也可以选择使用第idx 个数，即执行dfs(target−candidates[idx],combine,idx)，注意到每个数字可以被无限制重复选取，因此搜索的下标仍为 idx。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> combinationSum = <span class="function"><span class="keyword">function</span>(<span class="params">candidates, target</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> res = []</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">dfs</span>(<span class="params">target,combile,idx</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(target === <span class="number">0</span>)&#123;</span><br><span class="line">            res.push(combile)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(idx === candidates.length)&#123;</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        dfs(target,combile,idx+<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">if</span>(target - candidates[idx] &gt;= <span class="number">0</span>)&#123;</span><br><span class="line">            dfs(target-candidates[idx],[...combile,candidates[idx]],idx)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    dfs(target,[],<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/trapping-rain-water/">接雨水</a></li>
+</ul>
+<p><img src="https://s3.bmp.ovh/imgs/2022/07/19/2e60ff0b088db39e.png"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> trap = <span class="function"><span class="keyword">function</span>(<span class="params">height</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(height === [<span class="number">0</span>]) <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">let</span> n = height.length</span><br><span class="line">    <span class="keyword">let</span> leftMax = <span class="keyword">new</span> <span class="built_in">Array</span>(n).fill(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">let</span> rightMax = <span class="keyword">new</span> <span class="built_in">Array</span>(n).fill(<span class="number">0</span>)</span><br><span class="line">    leftMax[<span class="number">0</span>] = height[<span class="number">0</span>]</span><br><span class="line">    rightMax[n - <span class="number">1</span>] = height[n - <span class="number">1</span>]</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">1</span>;i &lt; n;i++)&#123;</span><br><span class="line">        leftMax[i] = <span class="built_in">Math</span>.max(height[i],leftMax[i-<span class="number">1</span>])</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = n - <span class="number">2</span>;i &gt;= <span class="number">0</span>;i--)&#123;</span><br><span class="line">        rightMax[i] = <span class="built_in">Math</span>.max(height[i],rightMax[i+<span class="number">1</span>])</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> res = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt; n;i++)&#123;</span><br><span class="line">        res += <span class="built_in">Math</span>.min(leftMax[i],rightMax[i]) - height[i]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/permutations/">全排列</a></li>
+</ul>
+<p>使用回溯的方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> permute = <span class="function"><span class="keyword">function</span>(<span class="params">nums</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> res = []</span><br><span class="line">    <span class="keyword">let</span> path = []</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">dfs</span>(<span class="params">use</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(path.length === nums.length)&#123;</span><br><span class="line">            res.push([...path])</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt; nums.length;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(use[i]) <span class="keyword">continue</span></span><br><span class="line">            use[i] = <span class="literal">true</span></span><br><span class="line">            path.push(nums[i])</span><br><span class="line">            dfs(use)</span><br><span class="line">            use[i] = <span class="literal">false</span></span><br><span class="line">            path.pop()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    dfs([])</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>老板给度度熊<img src="https://www.nowcoder.com/equation?tex=%5Cmathit%20n" alt="img">个数， 每一次从<img src="https://www.nowcoder.com/equation?tex=%5Cmathit%20a%5Bi%5D" alt="img">中取出一个最大的减去<img src="https://www.nowcoder.com/equation?tex=%5Cmathit%20n" alt="img">， 其他的<img src="https://www.nowcoder.com/equation?tex=%5Cmathit%20n-1" alt="img">个数加上<img src="https://www.nowcoder.com/equation?tex=%5Ctext%201" alt="img">， 一直重复直到最大的<img src="https://www.nowcoder.com/equation?tex=%5Cmathit%20a%5Bi%5D%20%3C%20n" alt="img">， 执行次数记为<img src="https://www.nowcoder.com/equation?tex=%5Cmathit%20k" alt="img">。老板想知道最少执行多少次操作使得<img src="https://www.nowcoder.com/equation?tex=%5Cmathit%20n" alt="img">个数都小于<img src="https://www.nowcoder.com/equation?tex=%5Cmathit%20n" alt="img">呢？</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>(<span class="params">n,arr</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">let</span> k = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">         <span class="keyword">let</span> max = <span class="number">0</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt; arr.length;i++)&#123;</span><br><span class="line">			<span class="keyword">if</span>(arr[i] &gt; arr[max]) max = i</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(arr[max] &lt; n) <span class="keyword">continue</span></span><br><span class="line">        <span class="comment">//数值很大，n又很小的时候，k会很大，所以k不能一次只加1，会超时。一次要直接加上max/n取整</span></span><br><span class="line">        <span class="keyword">let</span> step = <span class="built_in">Math</span>.floor(n / arr[max])</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt; arr.length;i++)&#123;</span><br><span class="line">			<span class="keyword">if</span>(i !== max) &#123;</span><br><span class="line">               arr[i] += step</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        arr[max] -= step * n</span><br><span class="line">        k += step</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> k</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
       </section>
 
@@ -575,13 +592,13 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>32</span>
+        <span>33</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
 </svg>
-        9
+        10
       </div>
       <div class="count-box--item">
         <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -614,20 +631,32 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
             网站介绍 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+            面试准备 (10)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (2)
+          <a href="/categories/%E5%A4%A7%E5%8E%82%E7%AC%94%E8%AF%95%E9%A2%98/">
+            大厂笔试题 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
           </a>
         </li>
       
@@ -640,12 +669,6 @@
         <li class="categorys-list-item">
           <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
             实习相关 (3)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
-            面试准备 (10)
           </a>
         </li>
       
