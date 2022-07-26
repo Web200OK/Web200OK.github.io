@@ -259,17 +259,19 @@
 <ul>
 <li>使用Promise.all实现限制并发请求函数：</li>
 </ul>
-<p>所谓并发请求，即有待请求接口100个，限制每次只能发出10个。即同一时刻最多有10个正在发送的请求。</p>
-<p>每当10个之中有一个请求完成，则从待请求的接口中再取出一个发出。保证当前并发度仍旧为10。</p>
+<p>所谓并发请求，即有待执行任务100个，限制每次只能发出num个。即同一时刻最多有num个正在发送的请求。</p>
+<p>每当正在执行的任务之中有一个请求完成，则从待请求的接口中再取出一个发出。保证当前并发度仍旧为num。</p>
 <p>直至最终请求完成。</p>
 <p>设计思路：</p>
 <p>简单思路如下：</p>
-<p>1、创建发送请求函数，然后返回一个promise对象，通过改变该promise状态来调用then函数发送网络请求</p>
-<p>2、根据最大并发数通过for循环发送网络请求，使用一个数组来接收请求结果</p>
-<p>3、由于发送请求函数返回的是promise，所以我么可以创建一个调度函数，在请求完成后的回调函数中继续触发下一个请求，实现链式调用</p>
-<p>4、在调度函数里面进行判断，当请求全部执行完毕后，停止发送请求，最后使用Promise.all，将保存结果的数组作为参数传入，此时请求结束。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//用promise实现并发发送多个请求</span></span><br><span class="line">        <span class="comment">//发送请求函数</span></span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">send</span>(<span class="params">param</span>)</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">                <span class="comment">//在这里可以使用param发送网络请求获取数据，例如get请求</span></span><br><span class="line">                axios(&#123;</span><br><span class="line">                  <span class="attr">method</span>: <span class="string">&#x27;get&#x27;</span>,</span><br><span class="line">                  <span class="attr">url</span>: param,</span><br><span class="line">                &#125;).then(<span class="function"><span class="params">v</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="comment">//可以使用then方法，也可以使用async/await</span></span><br><span class="line">                    <span class="comment">//如果是请求被成功处理则改变返回的promise状态为成功，以便后续链式调用</span></span><br><span class="line">                    resolve()</span><br><span class="line">                &#125;,<span class="function"><span class="params">r</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="comment">//如果请求失败则返回promise状态为失败，则最终的Promise.all会失败</span></span><br><span class="line">                    reject()</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">request</span>(<span class="params">urls,max</span>)</span>&#123;</span><br><span class="line">            <span class="comment">//存放请求的结果</span></span><br><span class="line">            <span class="keyword">let</span> pool = []</span><br><span class="line">            <span class="keyword">let</span> Max = <span class="built_in">Math</span>.min(urls.length,max)</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt; Max;i++)&#123;</span><br><span class="line">                pool.push(send(urls.splice(<span class="number">0</span>,<span class="number">1</span>)).then(resolve))</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//调度函数</span></span><br><span class="line">            <span class="function"><span class="keyword">function</span> <span class="title">resolve</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">&quot;当前并发度为：&quot;</span>,pool.length)</span><br><span class="line">                <span class="keyword">if</span>(urls.length === <span class="number">0</span>)&#123;</span><br><span class="line">                    <span class="built_in">console</span>.log(<span class="string">&quot;请求全部发送成功&quot;</span>)</span><br><span class="line">                    <span class="keyword">return</span> <span class="built_in">Promise</span>.resolve()</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> send(urls.splice(<span class="number">0</span>,<span class="number">1</span>)).then(resolve)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//可以新增一个reject函数来返回一个pending状态的promise终止链式调用，这里只声明resolv</span></span><br><span class="line">            <span class="built_in">Promise</span>.all(pool).then(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">&quot;请求结束&quot;</span>)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        request([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>],<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<p>1、创建一个控制器类，包含添加任务队列函数与执行函数</p>
+<p>2、在add方法中使用sum来记录目前并发数，当sum小于最大并发数时，可以运行执行函数</p>
+<p>3、在run方法中每次从队列中拿出一个任务执行，用promise异步执行，只有当前promise执行后才继续下一个任务执行</p>
+<p>4、由于promise是异步的，sum的改变是在同步代码中，所以每次使用一个n来存放当前并发数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//声明一个控制类,num为传入最大并发数</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">controler</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">num</span>)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.num = num</span><br><span class="line">        <span class="built_in">this</span>.queue = []</span><br><span class="line">        <span class="built_in">this</span>.sum = <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//将任务添加到任务队列中的函数</span></span><br><span class="line">    <span class="function"><span class="title">add</span>(<span class="params">i</span>)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.queue.push(<span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span><br><span class="line">            resolve(i)</span><br><span class="line">        &#125;))</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.sum &lt; <span class="built_in">this</span>.num)&#123;</span><br><span class="line">            <span class="built_in">this</span>.run()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//将任务从队列里拿出来执行函数</span></span><br><span class="line">    <span class="function"><span class="title">run</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.queue.length == <span class="number">0</span>) <span class="keyword">return</span> </span><br><span class="line">        <span class="keyword">let</span> cur = <span class="built_in">this</span>.queue.shift()</span><br><span class="line">        ++<span class="built_in">this</span>.sum</span><br><span class="line">        <span class="comment">//记录当前并发数</span></span><br><span class="line">        <span class="keyword">let</span> n = <span class="built_in">this</span>.sum</span><br><span class="line">        cur.then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">&quot;当前并发度：&quot;</span>,n,<span class="string">&quot;正在执行，&quot;</span>,res)</span><br><span class="line">            <span class="comment">// console.log(res)</span></span><br><span class="line">        &#125;).catch().finally(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">            <span class="comment">//finally无论是成功还是失败都会执行</span></span><br><span class="line">            --<span class="built_in">this</span>.sum</span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">this</span>.queue.length !== <span class="number">0</span>) <span class="built_in">this</span>.run()</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> obj  = <span class="keyword">new</span> controler(<span class="number">5</span>)</span><br><span class="line"><span class="comment">//测试：用10个任务试试</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt; <span class="number">10</span>;i++)&#123;</span><br><span class="line">    obj.add(i)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p>结果如下：</p>
+<p><img src="https://s3.bmp.ovh/imgs/2022/07/26/6724c562c0ee0a41.png" alt="结果"></p>
 <ul>
 <li>讲一下数组的方法，哪些会改变原数组哪些不会？</li>
 </ul>
@@ -864,14 +866,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (2)
+          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
+            网站介绍 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
-            网站介绍 (1)
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
           </a>
         </li>
       
@@ -888,12 +890,6 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
             前端学习笔记 (6)
           </a>
@@ -902,6 +898,12 @@
         <li class="categorys-list-item">
           <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
             实习相关 (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
           </a>
         </li>
       
