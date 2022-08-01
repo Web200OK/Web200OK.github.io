@@ -500,6 +500,23 @@
 </ul>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>(<span class="params">n,arr</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">let</span> k = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">         <span class="keyword">let</span> max = <span class="number">0</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt; arr.length;i++)&#123;</span><br><span class="line">			<span class="keyword">if</span>(arr[i] &gt; arr[max]) max = i</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(arr[max] &lt; n) <span class="keyword">continue</span></span><br><span class="line">        <span class="comment">//数值很大，n又很小的时候，k会很大，所以k不能一次只加1，会超时。一次要直接加上max/n取整</span></span><br><span class="line">        <span class="keyword">let</span> step = <span class="built_in">Math</span>.floor(n / arr[max])</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt; arr.length;i++)&#123;</span><br><span class="line">			<span class="keyword">if</span>(i !== max) &#123;</span><br><span class="line">               arr[i] += step</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        arr[max] -= step * n</span><br><span class="line">        k += step</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> k</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/rotate-image/">旋转图像</a></li>
+</ul>
+<p>先把二维矩阵沿对角线反转，然后反转矩阵的每一行，结果就是顺时针反转整个矩阵。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> rotate = <span class="function"><span class="keyword">function</span>(<span class="params">matrix</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> n = matrix.length</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt; n;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> j = i;j &lt; n;j++)&#123;</span><br><span class="line">            <span class="keyword">let</span> temp = matrix[i][j]</span><br><span class="line">            matrix[i][j] = matrix[j][i]</span><br><span class="line">            matrix[j][i] = temp</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt; n;i++)&#123;</span><br><span class="line">        matrix[i].reverse()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> matrix</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/group-anagrams/">字母异位词分组</a></li>
+</ul>
+<p>由于互为字母异位词的两个字符串包含的字母相同，因此对两个字符串分别进行排序之后得到的字符串一定是相同的，故可以将排序之后的字符串作为哈希表的键。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> groupAnagrams = <span class="function"><span class="keyword">function</span>(<span class="params">strs</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> map = <span class="keyword">new</span> <span class="built_in">Map</span>()</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> str <span class="keyword">of</span> strs)&#123;</span><br><span class="line">        <span class="keyword">let</span> arr = str.split(<span class="string">&quot;&quot;</span>)</span><br><span class="line">        <span class="keyword">let</span> key = arr.sort().toString()</span><br><span class="line">        <span class="keyword">let</span> list = map.get(key) ? map.get(key) : []</span><br><span class="line">        list.push(str)</span><br><span class="line">        map.set(key,list)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Array</span>.from(map.values())</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/maximum-subarray/">最大子数组和</a></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> maxSubArray = <span class="function"><span class="keyword">function</span>(<span class="params">nums</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> pre = <span class="number">0</span>,max = nums[<span class="number">0</span>]</span><br><span class="line">    nums.forEach(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</span><br><span class="line">        pre = <span class="built_in">Math</span>.max(item,pre+item)</span><br><span class="line">        max = <span class="built_in">Math</span>.max(pre,max)</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span> max</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
 
       </section>
 
@@ -637,12 +654,6 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
             面试准备 (10)
           </a>
@@ -669,6 +680,12 @@
         <li class="categorys-list-item">
           <a href="/categories/%E6%97%A5%E6%8A%A5/">
             日报 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
           </a>
         </li>
       
