@@ -149,7 +149,7 @@
 <p>1、将问题分解成一个个子问题：先把数组按照中点分为两组，对两个数组内的数字按照下标从小到大与中点分别进行比较，如果左边的数组数值比中点小则下标加1更新，右边的比中点大则下标减1，不满足条件则暂停下标更新。</p>
 <p>2、当左边或者右边的数组值都暂停更新时，将左右数组两个数互换，这一步的目标是将比中点大的换到数组右边，小的放到左边。</p>
 <p>3、每个子问题通过递归完成，由于都是在原数组中进行操作，所以最后数组就是排序好的数组。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">quickSort</span>(<span class="params">arr,l,r</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(l &gt;= r) <span class="keyword">return</span></span><br><span class="line">	<span class="keyword">let</span> i = l - <span class="number">1</span></span><br><span class="line">	<span class="keyword">let</span> j = r + <span class="number">1</span></span><br><span class="line">	<span class="keyword">let</span> t = arr[r + l &gt;&gt; <span class="number">1</span>]</span><br><span class="line">	<span class="keyword">while</span>(i &lt; j)&#123;</span><br><span class="line">		<span class="keyword">do</span> &#123;i++&#125; <span class="keyword">while</span>(arr[i] &lt; t)</span><br><span class="line">		<span class="keyword">do</span> &#123;j--&#125; <span class="keyword">while</span>(arr[j] &gt; t)</span><br><span class="line">		<span class="keyword">if</span>(i &lt; j)&#123;</span><br><span class="line">			<span class="keyword">let</span> temp = arr[i]</span><br><span class="line">			arr[i] = arr[j]</span><br><span class="line">			arr[j] = arr[i]</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	quickSort(arr,l,j)</span><br><span class="line">	quickSort(arr,j + <span class="number">1</span>,r)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">quickSort</span>(<span class="params">arr,l,r</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(l &gt;= r) <span class="keyword">return</span></span><br><span class="line">	<span class="keyword">let</span> i = l - <span class="number">1</span></span><br><span class="line">	<span class="keyword">let</span> j = r + <span class="number">1</span></span><br><span class="line">	<span class="keyword">let</span> t = arr[r + l &gt;&gt; <span class="number">1</span>]</span><br><span class="line">	<span class="keyword">while</span>(i &lt; j)&#123;</span><br><span class="line">		<span class="keyword">do</span> &#123;i++&#125; <span class="keyword">while</span>(arr[i] &lt; t)</span><br><span class="line">		<span class="keyword">do</span> &#123;j--&#125; <span class="keyword">while</span>(arr[j] &gt; t)</span><br><span class="line">		<span class="keyword">if</span>(i &lt; j)&#123;</span><br><span class="line">			<span class="keyword">let</span> temp = arr[i]</span><br><span class="line">			arr[i] = arr[j]</span><br><span class="line">			arr[j] = temp</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	quickSort(arr,l,j)</span><br><span class="line">	quickSort(arr,j + <span class="number">1</span>,r)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>归并排序（O (n*log n)：</li>
@@ -517,6 +517,12 @@
 </ul>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> maxSubArray = <span class="function"><span class="keyword">function</span>(<span class="params">nums</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> pre = <span class="number">0</span>,max = nums[<span class="number">0</span>]</span><br><span class="line">    nums.forEach(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</span><br><span class="line">        pre = <span class="built_in">Math</span>.max(item,pre+item)</span><br><span class="line">        max = <span class="built_in">Math</span>.max(pre,max)</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span> max</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
+<ul>
+<li>小红拿到了一个二进制字符串 <img src="https://www.nowcoder.com/equation?tex=s" alt="s">，她可以删掉其中的一些字符，使得最终该字符串为一个2的幂（即可以表示为 <img src="https://www.nowcoder.com/equation?tex=2%5Ek" alt="img"> 形式的数)。小红想知道，自己最少删几个字符可以达成？请你编写一个函数返回这个答案。</li>
+</ul>
+<p>对于任意二进制字符串，只有形如1….0000的字符串才是2的幂</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">minCnt</span>(<span class="params">s</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">let</span> sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i =<span class="number">0</span>;i &lt; s.length;i++)&#123;</span><br><span class="line">		<span class="keyword">if</span>(s[i] === <span class="string">&quot;1&quot;</span>) sum++</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum - <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
       </section>
 
@@ -654,20 +660,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            前端学习笔记 (6)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
-            实习相关 (3)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E6%97%A5%E6%8A%A5/">
             日报 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
           </a>
         </li>
       
@@ -684,14 +684,20 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            react学习笔记 (2)
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            前端学习笔记 (6)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
+          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
+            实习相关 (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            react学习笔记 (2)
           </a>
         </li>
       

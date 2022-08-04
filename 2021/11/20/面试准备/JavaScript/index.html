@@ -205,7 +205,7 @@
 </ul>
 <p>for … of 是作为 ES6 新增的遍历方式,允许遍历一个含有 iterator 接口的数据结构并且返回各项的值 。</p>
 <p><strong>ES 中的 for … in 的区别如下</strong></p>
-<p> 1、for … of 只能用在可迭代对象上,获取的是迭代器返回的 value 值,for … in 可以获取所有对象的键名</p>
+<p> 1、for … in 可以获取所有对象的键名，for … of 只能用在可迭代对象上,获取的是迭代器返回的 value 值，不能用在普通对象上，获取普通对象可以与Object.keys()搭配</p>
 <p> 2、for … in 会遍历对象的整个原型链,性能非常差不推荐使用,而 for … of 只遍历当前对象不会遍历它的原型链</p>
 <p> 3、对于数组的遍历,for … in 会返回数组中所有可枚举的属性(包括原型链上可枚举的属性),for … of 只返回数组的下标对应的属性值</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> iterator <span class="keyword">of</span> arr) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(iterator)</span><br><span class="line">&#125; </span><br><span class="line"><span class="comment">//1 2 3 4 5 6</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> arr) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">Object</span>.hasOwnProperty.call(arr, key)) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(key)</span><br><span class="line">        <span class="built_in">console</span>.log(arr[key])</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br><span class="line"><span class="comment">// 0 1 2 3 4 5 </span></span><br><span class="line"><span class="comment">// 1 2 3 4 5 6</span></span><br></pre></td></tr></table></figure>
@@ -246,6 +246,9 @@
 <li>闭包：</li>
 </ul>
 <p>在一个函数里面声明另一个函数，那么这个内部的函数就叫做闭包函数。闭包的产生，一个条件是闭包函数，另一个就是在内部函数中使用外部函数声明的参数和变量。闭包存在的意义，是让外部访问函数内部变量成为可能，就是因为闭包产生之后，会创建一个私有的作用域来保存内部函数中使用到的参数和变量。所以闭包的一个使用场景就是作为函数返回体，这样外部就可以通过闭包函数来获取到函数内部的参数和变量。每个闭包里面的环境都是独立的，互不干扰，所以闭包会发生内存泄露，需要谨慎使用。</p>
+<p>例题：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i&lt;<span class="number">5</span>;i++)&#123;</span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span><span class="built_in">console</span>.log(i),<span class="number">0</span>) <span class="comment">// 5 5 5 5 5</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//上面的代码因为setTimeout是一个异步，所以它拿到的是循环结束后的i的值，因为上面我们说的var是全局变量会被覆盖掉所以最后的i值是5，而且一共循环了5次（0-4），所以会打印触五个5。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>; i&lt;<span class="number">5</span>;i++)&#123;</span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span><span class="built_in">console</span>.log(i),<span class="number">0</span>)<span class="comment">//0 1 2 3 4</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//上面的代码，因为在for循环中使用了let声明循环变量，所以每一个值都会存在于单独的作用域不会被覆盖掉，因此，循环结束后得到的值是0,1，2,3，4 </span></span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>原型与原型链：</li>
 </ul>
@@ -256,6 +259,11 @@
 </ul>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type = <span class="string">&quot;text/javascript&quot;</span>&gt;</span><br><span class="line">	<span class="keyword">var</span> obj = <span class="keyword">new</span> Image()</span><br><span class="line">	obj.src = <span class="string">&quot;网址&quot;</span></span><br><span class="line">	obj.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">document</span>.getElementById(<span class="string">&quot;id&quot;</span>).innerHTML = <span class="string">&quot;&lt;img src = &#x27;+this.src&#x27; /&gt;&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span> = <span class="string">&quot;&quot;</span>&gt;</span>onLoading...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">也可以用obj.onreadyStatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">this</span>.readState == <span class="string">&quot;complete&quot;</span>)&#123;</span><br><span class="line">    	<span class="built_in">document</span>.getElementById(<span class="string">&quot;id&quot;</span>).innerHTML = <span class="string">&quot;&lt;img src = &#x27;+this.src&#x27; /&gt;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;代替</span></span><br></pre></td></tr></table></figure>
 
+<ul>
+<li>call/apply/bind函数的区别：</li>
+</ul>
+<p>call 方法调用一个函数, 其具有一个指定的 this 值和分别地提供的参数(参数的列表)。 注意：该方法的作用和 apply() 方法类似，只有一个区别，就是 call()方法接受的是若干个 参数的列表，而 apply()方法接受的是一个包含多个参数的数组 方法调用一个具有给定 this 值的函数，以及作为一个数组（或类似数组对象）提供的参数。 注意：call()方法的作用和 apply() 方法类似，区别就是 call()方法接受的是参数列表，而 apply() 方法接受的是一个参数数组 。</p>
+<p>bind()方法创建一个新的函数，当这个新的函数被调用时，其 this 置为提供的值，其参数 列表前几项，置为创建时指定的参数序列。</p>
 <ul>
 <li>使用Promise.all实现限制并发请求函数：</li>
 </ul>
@@ -481,7 +489,7 @@
 
 <p>由于async隐式返回promise作为结果，那么可以理解为在await命令之后，await会产生一个微任务，相当于是promise.then()，但还是这个微任务产生的时机是在await执行之后，直接跳出async函数执行其他代码，这就是协程的运作。其他代码执行完毕后在回到async函数执行剩下的代码，注册到微任务队列中。</p>
 <ul>
-<li>commonjs与es6模块的区别：</li>
+<li>commonjs（require）与es6（export）模块的区别：</li>
 </ul>
 <p>commonjs模块加载过程是同步阻塞性加载，在缓存方面，commonjs在模块代码被运行前就已经以模块绝对路径为key，module对象为value写入cache，同一个模块被多次require时只会执行一次，重复的require得到的是相同的exports引用。</p>
 <p>ES6模块时为了不再使用闭包与函数封装的方式进行模块化提供的模块化功能，使用export暴露、import引入。在node使用es6模块需要将js文件后缀改成mjs，或者配置package.json的type为module，告诉node以esmodule的形式加载模块。</p>
@@ -550,10 +558,12 @@
 <ul>
 <li>常见的内存泄露场景：</li>
 </ul>
-<p>意外的全局变量：当我们在全局对象中window声明一个变量使用完毕后没有使用null进行处理或者重新定义的时候，会出现内存泄露。</p>
+<p>意外的全局变量：当我们在全局对象中window声明一个变量使用完毕后没有使用null进行处理或者重新定义的时候，会出现内存泄露。可以使用use strict开启严格模式，这样当出现意外的全局变量时会报错。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	a = <span class="number">10</span></span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>闭包：使用闭包我们可以从外部访问到内部函数的属性，会产生一个独立的作用域，过度使用闭包会导致内存占用过多。</p>
 <p>计时器：使用完计时器完后需要手动清除计时器，否则可能由于其中引用的变量或函数被认为是需要的而不进行回收，出现内存泄露。</p>
-<p>脱离DOM的使用 ：当我们在js中操作使用一个变量来操作DOM的时候，如果在后面代码中删除DOM的时候没有对该变量进行清除的话会产生内存泄露。</p>
+<p>脱离DOM的使用 ：当我们在js中操作使用一个变量来操作DOM的时候，如果在后面代码中删除DOM的时候没有对该变量进行清除的话会产生内存泄露。将变量设置为null。</p>
 <ul>
 <li>实现水印（场景题）：</li>
 </ul>
@@ -736,6 +746,51 @@
 <p><strong>思路</strong>:用递归的方法执行倒计时，在每次递归调用<code>setTimeout</code>回调的时候，计算出时间偏差，在下一次执行<code>setTimeout</code>时，把原<strong>设定的延迟回调时间</strong>减去时间偏差即可。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> interval = <span class="number">1000</span> <span class="comment">// 设定倒计时规则为每秒倒计时</span></span><br><span class="line"><span class="keyword">let</span> totalCount = <span class="number">30000</span> <span class="comment">// 设定总倒计时长为30s</span></span><br><span class="line"><span class="keyword">let</span> count = <span class="number">0</span> <span class="comment">// 记录递归已执行次数，以倒计时时间间隔 interval=1s 为例，那么count就相当于如果没有时间偏差情况下的理想执行时间</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> startTime = <span class="keyword">new</span> <span class="built_in">Date</span>().getTime(); <span class="comment">// 记录程序开始运行的时间</span></span><br><span class="line"><span class="keyword">let</span> timeoutID = <span class="built_in">setTimeout</span>(countDownFn, interval)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 倒计时回调函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">countDownFn</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    count++ <span class="comment">// count自增，记录理想执行时间</span></span><br><span class="line">    <span class="comment">// 获取当前时间减去刚开始记录的startTime再减去理想执行时间得到时间偏差：等待执行栈为空的时间</span></span><br><span class="line">    <span class="keyword">const</span> offset = <span class="keyword">new</span> <span class="built_in">Date</span>().getTime() - startTime - count * interval</span><br><span class="line">    <span class="keyword">let</span> nextTime = interval - offset <span class="comment">// 根据时间偏差，计算下次倒计时设定的回调时间，从而达到纠正的目的</span></span><br><span class="line">    <span class="keyword">if</span> (nextTime &lt; <span class="number">0</span> ) &#123;</span><br><span class="line">        nextTime = <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">    totalCount -= interval</span><br><span class="line">    <span class="keyword">if</span> (totalCount &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">clearTimeout</span>(timeoutID)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        timeoutID = <span class="built_in">setTimeout</span>(countDownStart, nextTime)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<ul>
+<li>Eval 是做什么的：</li>
+</ul>
+<p>1、eval()的作用 把字符串参数解析成 JS 代码并运行，并返回执行的结果； </p>
+<p>例如： </p>
+<p>1.1）eval(“2+3”);//执行加运算，并返回运算值。 </p>
+<p>1.2）eval(“varage=10”);//声明一个 age 变量 </p>
+<p>2、eval 的作用域在它所有的范围内容有效 </p>
+<p>示例 1：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">functiona</span>(<span class="params"></span>)</span>&#123; <span class="built_in">eval</span>(<span class="string">&quot;var x=1&quot;</span>); <span class="comment">//等效于 var x=1; console.log(x); //输出 1 &#125; </span></span><br><span class="line">a(); </span><br><span class="line"><span class="built_in">console</span>.log(x);<span class="comment">//错误 x 没有定义 </span></span><br></pre></td></tr></table></figure>
+
+<p>示例 2：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">functiona</span>(<span class="params"></span>)</span>&#123; <span class="built_in">window</span>.eval(<span class="string">&quot;var x=1&quot;</span>); <span class="comment">// 等效于 window.x=1;定义了全局变量 console.log(x); //输出 1 &#125; </span></span><br><span class="line">a(); </span><br><span class="line"><span class="built_in">console</span>.log(x);<span class="comment">//输出 </span></span><br></pre></td></tr></table></figure>
+
+<p>3、注意事项 应该避免使用 eval，不安全，非常耗性能（2 次，一次解析成 js 语句，一次执行） 在 IE8 及 IE8 一下的版本就不支持了 </p>
+<p>4、其它作用 由 JSON 字符串转换为 JSON 对象的时候可以用 eval</p>
+<p>4.1)varjson=”{name:’Mr.CAO’,age:30}”; </p>
+<p>4.2)varjsonObj=eval(“(“+json+”)”); </p>
+<p>4.3)console.log(jsonObj);</p>
+<ul>
+<li>Promise 中 reject 和 catch 处理上有什么区别:</li>
+</ul>
+<ol>
+<li>reject 是用来抛出异常，catch 是用来处理异常 </li>
+<li>reject 是 Promise 的方法，而 catch 是 Promise 实例的方法 </li>
+<li>reject 后的东西，一定会进入 then 中的第二个回调，如果 then 中没有写第二个回调，则进入 catch </li>
+<li>网络异常（比如断网），会直接进入 catch 而不会进入 then 的第二个回调</li>
+</ol>
+<ul>
+<li>手写一个简单的promise</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Promise</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="title">constructor</span>(<span class="params">excutor</span>)</span>&#123;</span><br><span class="line">		<span class="built_in">this</span>.status = <span class="string">&quot;pending&quot;</span></span><br><span class="line">        <span class="built_in">this</span>.value = <span class="literal">undefined</span></span><br><span class="line">        <span class="built_in">this</span>.reason = <span class="literal">undefined</span></span><br><span class="line">        <span class="keyword">let</span> resolve = <span class="function">(<span class="params">value</span>) =&gt;</span> &#123;</span><br><span class="line">			<span class="keyword">if</span>(<span class="built_in">this</span>.status === <span class="string">&quot;pending&quot;</span>)&#123;</span><br><span class="line">				<span class="built_in">this</span>.status = <span class="string">&quot;resolved&quot;</span></span><br><span class="line">                 <span class="built_in">this</span>.value = value</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">let</span> reject = <span class="function">(<span class="params">reason</span>) =&gt;</span> &#123;</span><br><span class="line">			<span class="keyword">if</span>(<span class="built_in">this</span>.status === <span class="string">&quot;pending&quot;</span>)&#123;</span><br><span class="line">				<span class="built_in">this</span>.status = <span class="string">&quot;rejected&quot;</span></span><br><span class="line">                 <span class="built_in">this</span>.reason = reason</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            excutor(resolve,reject)</span><br><span class="line">        &#125;<span class="keyword">catch</span>(e)&#123;</span><br><span class="line">			reject(e)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">then</span>(<span class="params">onFullfilled,onReject</span>)</span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(<span class="built_in">this</span>.status === <span class="string">&quot;resolved&quot;</span>) onFullfilled(<span class="built_in">this</span>.value)</span><br><span class="line">         <span class="keyword">if</span>(<span class="built_in">this</span>.status === <span class="string">&quot;rejected&quot;</span>) onReject(<span class="built_in">this</span>.reason)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>export 与 export default 的区别：</li>
+</ul>
+<ol>
+<li>export与export default均可用于导出常量、函数、文件、模块等</li>
+<li>在一个文件或模块中，export、import可以有多个，export default仅有一个</li>
+<li>通过export方式导出，在导入时要加{ }，export default则不需要，并可以起任意名称</li>
+</ol>
+<p>(1) 输出单个值，使用export default</p>
+<p>(2) 输出多个值，使用export</p>
+<p>(3) export default与普通的export不要同时使用</p>
+
       </section>
 
       
@@ -872,20 +927,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            前端学习笔记 (6)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
-            实习相关 (3)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E6%97%A5%E6%8A%A5/">
             日报 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
           </a>
         </li>
       
@@ -902,14 +951,20 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            react学习笔记 (2)
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            前端学习笔记 (6)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
+          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
+            实习相关 (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            react学习笔记 (2)
           </a>
         </li>
       

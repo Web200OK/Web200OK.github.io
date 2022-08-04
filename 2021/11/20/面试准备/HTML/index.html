@@ -459,6 +459,16 @@
 <ul>
 <li>用innerHtml 代替高频的appendChilde</li>
 </ul>
+<h3 id="使用rem与媒体查询实现自适应方案："><a href="#使用rem与媒体查询实现自适应方案：" class="headerlink" title="使用rem与媒体查询实现自适应方案："></a>使用rem与媒体查询实现自适应方案：</h3><p>1、使用媒体查询做出判断，当屏幕大小微多少尺寸的时候做出不同的适配</p>
+<p>2、我们需要把设计稿上的宽度平均划分为15等分（也可以是10或者20），每一份的数据就是html根标签的字体大小</p>
+<p>3、当我们得到html根标签中的字体大小后我们就可以用设计稿中元素的大小除以html字体大小，得到的数值加上rem单位可以根据屏幕大小做出适配了。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@media</span> screen <span class="keyword">and</span> (<span class="attribute">min-width</span>:<span class="number">320px</span>) &#123;</span><br><span class="line">    <span class="selector-tag">html</span> &#123;</span><br><span class="line">		<span class="attribute">font-size</span>:<span class="number">21.3px</span> /*当前屏幕尺寸除以划分的等分：<span class="number">320</span>/<span class="number">15</span>*/</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@media</span> screen <span class="keyword">and</span> (<span class="attribute">min-width</span>:<span class="number">750px</span>)&#123;</span><br><span class="line">    <span class="selector-tag">html</span> &#123;</span><br><span class="line">        <span class="attribute">font-size</span>:<span class="number">50px</span></span><br><span class="line">    &#125;		</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">2rem</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">2rem</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>也可以使用flexible.js自动获取屏幕的宽度并平均分成10等分，然后再用px run Rem插件自动将px转化为rem单位即可。</p>
+<h3 id="event对象的常见方法与属性："><a href="#event对象的常见方法与属性：" class="headerlink" title="event对象的常见方法与属性："></a>event对象的常见方法与属性：</h3><p>event.preventDefault()：阻止默认行为</p>
+<p>event.stopPropagation()：阻止冒泡</p>
+<p>event.stopImmediatePropagation()：按钮绑定了两个响应函数，一次注册a,b两个事件，点击按钮，a事件加上这个就能阻止b事件</p>
+<p>event.currentTarget：当前的绑定事件</p>
 
       </section>
 
@@ -596,20 +606,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            前端学习笔记 (6)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
-            实习相关 (3)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E6%97%A5%E6%8A%A5/">
             日报 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
           </a>
         </li>
       
@@ -626,14 +630,20 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            react学习笔记 (2)
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            前端学习笔记 (6)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
+          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
+            实习相关 (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            react学习笔记 (2)
           </a>
         </li>
       

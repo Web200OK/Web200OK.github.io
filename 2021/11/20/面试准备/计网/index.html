@@ -694,6 +694,17 @@
 </ul>
 <p>可以对cookie数据进行压缩，将cookie中多个键值对看成文本，用文本压缩的方式进行压缩，可以使用gzip或者deflate算法，由于cookie中key,value必须是ascii字符，不能是Unicode字符，所以需要将压缩后的数据进行base64或者base32编码。</p>
 <ul>
+<li>如何在浏览器中存储大量数据：</li>
+</ul>
+<p>使用indexDB，它是浏览器提供的本地数据库（非关系型），允许存储大量数据，提供查询接口还能创建索引。</p>
+<p>1、键值对存储：indexDB内部采用对象仓库存放数据，所有类型的数据都可以直接存入，主键不能有重复，否则会抛出错误。</p>
+<p>2、异步：indexDB操作时不会锁死浏览器，这是为了防止大量数据的读写拖慢网页的表现。</p>
+<p>3、支持事务。indexDB支持事务，这意味着一系列事务中有一步失败整个事务就会取消。</p>
+<p>4、同源限制：每一个数据库对应创建它的域名，网页只能访问自身域下的数据库不能访问跨域的数据库。</p>
+<p>5、存储空间：一般来说大于250mb甚至没有上限。</p>
+<p>6、支持二进制储存</p>
+<p>或者是使用webSQL（内嵌在浏览器的关系型数据库）</p>
+<ul>
 <li>并发与并行的区别：</li>
 </ul>
 <p>并发：分别有任务A与B，在一段时间内通过任务间的切换完成了这两个任务，这种情况称为并发</p>
@@ -872,20 +883,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            前端学习笔记 (6)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
-            实习相关 (3)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E6%97%A5%E6%8A%A5/">
             日报 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
           </a>
         </li>
       
@@ -902,14 +907,20 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            react学习笔记 (2)
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            前端学习笔记 (6)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
+          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
+            实习相关 (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            react学习笔记 (2)
           </a>
         </li>
       
