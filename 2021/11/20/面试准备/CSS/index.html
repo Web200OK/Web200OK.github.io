@@ -337,8 +337,9 @@
 <ul>
 <li>浏览器重绘与回流：</li>
 </ul>
-<p>重绘：当页面中的元素样式改变不会影响它在文档流中的位置时浏览器会将新样式赋予给元素并重新绘制它，这就是重绘</p>
+<p>当DOM树与stylesheet关联生成render渲染树之后，渲染树的一部分会因为元素的规模尺寸，布局，隐藏等改变而需要重新构建，这就是回流。每个页面至少需要一次回流，就是页面在第一次加载的时候。在页面回流的时候浏览器会使渲染树中受到影响的部分失效，并重新构建这部分渲染树，完成回流后，浏览器会重新绘制受影响的部分到屏幕上，该过程为重绘。</p>
 <p>回流：当渲染树中部分或全部元素的尺寸结构或者某种属性发生变化时，浏览器重新渲染文档的过程就是回流</p>
+<p>重绘：当页面中的元素样式改变不会影响它在文档流中的位置时浏览器会将新样式赋予给元素并重新绘制它，这就是重绘</p>
 <p>会导致回流的操作有：添加删除可见的DOM元素、元素位置尺寸发生变化、激活CSS伪类、查询一些属性或者调用某些方法（clentWidth,offsetWidth）</p>
 <p>如何避免回流：</p>
 <p>CSS：避免设置多层内联样式、将动画效果应用在position设置为absolute或者fixed的元素上（脱离文档流），避免使用css表达式（calc()）</p>
@@ -562,6 +563,12 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
             面试准备 (10)
           </a>
@@ -580,20 +587,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (2)
+          <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            Vue3学习笔记 (5)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
             react学习笔记 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            Vue3学习笔记 (5)
           </a>
         </li>
       

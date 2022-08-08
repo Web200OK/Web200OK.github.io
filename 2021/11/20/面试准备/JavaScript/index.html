@@ -234,6 +234,7 @@
 <ul>
 <li>为什么函数的 arguments 参数是类数组而不是数组？如何遍历类数组?</li>
 </ul>
+<p>arguments对象是所有（非箭头）函数中都可用的局部变量，你可以使用arguments对象在函数中引用函数的参数。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//方法一:将数组的方法应用到类数组上，这时候就可以使用call和apply方法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn1</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">Array</span>.prototype.forEach.call(<span class="built_in">arguments</span>,<span class="function"><span class="params">a</span> =&gt;</span> <span class="built_in">console</span>.log(a))</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//方法二:使用Array.from方法将类数组转化成数组</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn2</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">const</span> arr = <span class="built_in">Array</span>.from(<span class="built_in">arguments</span>)</span><br><span class="line">    arr.forEach(<span class="function"><span class="params">a</span> =&gt;</span> <span class="built_in">console</span>.log(a))</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//方法三:使用展开运算符将类数组转化成数组</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn3</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">const</span> arr = [...arguments]</span><br><span class="line">    arr.forEach(<span class="function"><span class="params">a</span> =&gt;</span> <span class="built_in">console</span>.log(a))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <ul>
@@ -265,7 +266,7 @@
 <p>call 方法调用一个函数, 其具有一个指定的 this 值和分别地提供的参数(参数的列表)。 注意：该方法的作用和 apply() 方法类似，只有一个区别，就是 call()方法接受的是若干个 参数的列表，而 apply()方法接受的是一个包含多个参数的数组 方法调用一个具有给定 this 值的函数，以及作为一个数组（或类似数组对象）提供的参数。 注意：call()方法的作用和 apply() 方法类似，区别就是 call()方法接受的是参数列表，而 apply() 方法接受的是一个参数数组 。</p>
 <p>bind()方法创建一个新的函数，当这个新的函数被调用时，其 this 置为提供的值，其参数 列表前几项，置为创建时指定的参数序列。</p>
 <ul>
-<li>使用Promise.all实现限制并发请求函数：</li>
+<li>使用Promise实现限制并发请求函数：</li>
 </ul>
 <p>所谓并发请求，即有待执行任务100个，限制每次只能发出num个。即同一时刻最多有num个正在发送的请求。</p>
 <p>每当正在执行的任务之中有一个请求完成，则从待请求的接口中再取出一个发出。保证当前并发度仍旧为num。</p>
@@ -939,6 +940,12 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
             面试准备 (10)
           </a>
@@ -957,20 +964,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (2)
+          <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            Vue3学习笔记 (5)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
             react学习笔记 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            Vue3学习笔记 (5)
           </a>
         </li>
       
