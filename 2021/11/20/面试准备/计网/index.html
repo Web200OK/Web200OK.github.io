@@ -304,14 +304,25 @@
 <p>解决跨域的方法：</p>
 <p>1、jsonp是利用script脚本不受同源策略的限制</p>
 <p>2、CORS（跨域资源共享）</p>
-<p>当使用XMLHttpRequest发送请求时，如果浏览器发现违反了同源策略就会自动加上一个请求头origin;后端在接收到请求确定响应后会在响应头加上Access-Control-Allow-Origin。浏览器判断响应中的Access-Control-Allow-Origin与当前地址值是否相同，匹配成功则继续相应处理，否则报错。</p>
-<p>需要浏览器和服务器的支持，浏览器在发送请求时在请求头中添加origin字段，然后在服务器里面配置Access-Control-Allow-Origin，服务器接收到请求时会根据origin字段在Access-Control-Allow-Origin查找，如果有则允许跨域，没有则不允许。</p>
+<p>对于简单请求（GET/POST/HEAD）的跨域，只需要在服务端设置Access-Control-Allow-Origin即可，在发送请求时客户端会自动在请求头中添加origin字段，当请求到达服务端时如果origin指定的源在服务器许可范围内就会返回一个正常的响应，否则返回一个错误。</p>
+<p>对于复杂请求的跨域，由于复杂请求在发送之前会使用options方法发起一个预检请求以获取服务器是否允许该请求。所以首先需要对options方法的请求添加这些响应头，它会告诉浏览器根据这些属性进行跨域限制，随后我们对正式请求添加跨域响应头:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">app.use(<span class="function"><span class="keyword">function</span> (<span class="params">req, res, next</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (req.method == <span class="string">&#x27;OPTIONS&#x27;</span>) &#123;</span><br><span class="line">    res.setHeader(<span class="string">&#x27;Access-Control-Allow-Origin&#x27;</span>, <span class="string">&#x27;*&#x27;</span>);</span><br><span class="line">    res.setHeader(<span class="string">&#x27;Access-Control-Allow-Methods&#x27;</span>, <span class="string">&#x27;GET, PUT, POST, DELETE, OPTIONS&#x27;</span>);</span><br><span class="line">    res.setHeader(<span class="string">&#x27;Access-Control-Allow-Headers&#x27;</span>, <span class="string">&#x27;content-type&#x27;</span>);</span><br><span class="line">    res.status(<span class="number">200</span>).end();</span><br><span class="line">  &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">	 res.setHeader(<span class="string">&#x27;Access-Control-Allow-Origin&#x27;</span>, <span class="string">&#x27;*&#x27;</span>)</span><br><span class="line">     next()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
 <p>3、代理跨域请求</p>
 <p>前端发送请求经过代理，请求需要的服务器资源</p>
 <p>4、HTML5 postMessage方法</p>
 <p>允许来自不同源的脚本采用异步方式进行有限的通信</p>
 <p>5、基于HTML5的websocket协议</p>
 <p>基于该协议可以做到浏览器与服务器全双工通信，允许跨域请求</p>
+<ul>
+<li>说说跨域请求头有哪些：</li>
+</ul>
+<p>Access-Control-Allow-Origin：在预检请求与正常请求告知浏览器被允许的源，支持通配符但是不支持用逗号分隔的多源填写方式，也可以采用下面的方式进行添加：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> origin = req.headers.origin</span><br><span class="line">res.setHeader(<span class="string">&#x27;Access-Control-Allow-Origin&#x27;</span>,origin || <span class="string">&#x27;*&#x27;</span>)</span><br><span class="line"><span class="comment">//因为会随着客户端请求的origin变化，所以标识vary让浏览器不要缓存</span></span><br><span class="line">res.setHeader(<span class="string">&#x27;Vary&#x27;</span>,<span class="string">&#x27;origin&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>Access-Control-Allow-Methods：被允许的HTTP方法，由于判断简单请求之一的HTTP方法默认为GET/POST/HEAD，所以这些方法即使不声明浏览器也是支持的。</p>
+<p>Access-Control-Allow-Headers：在预检请求告知客户端允许的请求头，像 简单请求 约定的请求头默认支持： Accept 、 Accept-Language 、 Content-Language 、 Content-Type （text/plain、multipart/form-data、application/x-www-form-urlencoded）</p>
+<p>Access-Control-Max-Age：定义预检请求告知客户端允许的请求头可以缓存多久，在这段时间内只需要发送一次预检请求即可。</p>
 <ul>
 <li>HTTP缓存：</li>
 </ul>
@@ -366,7 +377,7 @@
 <li>options的主要用途：</li>
 </ul>
 <p>获取服务器支持的所有http请求方法</p>
-<p>用来检查访问权限，例如在进行CORS进行跨域资源共享时，对于复杂请求就是使用options方法发送嗅探请求，以判断是否有对指定资源的访问权限</p>
+<p>用来检查访问权限，例如在进行CORS进行跨域资源共享时，对于复杂请求(除了GET/POST/HEAD之外的请求)就是使用options方法发送嗅探请求，以判断是否有对指定资源的访问权限</p>
 <ul>
 <li>http1.0与http1.1之间的区别：</li>
 </ul>
@@ -883,14 +894,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (2)
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            前端学习笔记 (6)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
+          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
+            实习相关 (3)
           </a>
         </li>
       
@@ -907,14 +918,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            前端学习笔记 (6)
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
-            实习相关 (3)
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
           </a>
         </li>
       
