@@ -295,11 +295,6 @@
 <p>sort方法：对数组元素进行排序，并返回数组，默认排序时将元素转换为字符串，比较他们的UTF-16代码单元值，会改变原数组。</p>
 <p>splice方法：通过删除或替换现有元素或者原地添加新的元素来修改数组，并以数组的形式返回被修改的内容，会改变原数组。第一个参数是指定修改的位置，第二个参数是要移除的参数个数，第三以及以后的参数是要添加进数组中的元素。</p>
 <ul>
-<li>手写原生AJAX：</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> AJAX = &#123;</span><br><span class="line">	<span class="attr">get</span> : <span class="function"><span class="keyword">function</span>(<span class="params">url,callback</span>)</span>&#123;</span><br><span class="line">		<span class="comment">//1、创建一个XMLHttpRequest对象，即异步请求对象</span></span><br><span class="line">		<span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequst()</span><br><span class="line">		<span class="comment">//2、创建一个HTTP请求并配置请求方法，url和验证方法</span></span><br><span class="line">		xhr.open(<span class="string">&quot;GET&quot;</span>,url,<span class="literal">false</span>)</span><br><span class="line">		<span class="comment">//3、设置http响应状态改变的函数</span></span><br><span class="line">		xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="comment">//readyState:0(还没有调用open()) 1（请求已经建立，但是没有发送，即没有调用send()） 2（请求已发送，正在处理中） 3（请求在处理中，但是服务器还没有完成响应的生成） 4（响应已完成，可以获取并使用服务器的响应）</span></span><br><span class="line">			<span class="keyword">if</span>(xhr.readyState == <span class="number">4</span>)&#123;</span><br><span class="line">				<span class="keyword">if</span>(xhr.status === <span class="number">200</span>)&#123;</span><br><span class="line">					<span class="comment">//5、拿到请求的数据	</span></span><br><span class="line">					<span class="built_in">console</span>.log(responseText)</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		<span class="comment">// 设置请求失败时的监听函数</span></span><br><span class="line">        xhr.onerror = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">          <span class="built_in">console</span>.error(<span class="built_in">this</span>.statusText);</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="comment">// 设置请求头信息</span></span><br><span class="line">        xhr.responseType = <span class="string">&quot;json&quot;</span>;</span><br><span class="line">        xhr.setRequestHeader(<span class="string">&quot;Accept&quot;</span>, <span class="string">&quot;application/json&quot;</span>);</span><br><span class="line">            </span><br><span class="line">		<span class="comment">//4、发送http请求</span></span><br><span class="line">		xhr.send()	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<ul>
 <li>如何实现 ajax 请求，假如我有多个请求，我需要让这些 ajax 请求按照某种顺序一次执行，有什么办法呢？如何处理 ajax 跨域</li>
 </ul>
 <p>我们可以将多个ajax请求封装进一个数组中，然后使用jQeury的deferred对象，它有一个done和fail函数分别接收的是请求成功执行与失败的回调，当成功执行时我们可以将数组的第一个元素弹出，然后递归执行发送函数，失败的话可以设置重新发送或者将数组第一个元素弹出继续发送下一个请求，最后返回一个promise对象。</p>
@@ -791,6 +786,15 @@
 <p>(1) 输出单个值，使用export default</p>
 <p>(2) 输出多个值，使用export</p>
 <p>(3) export default与普通的export不要同时使用</p>
+<ul>
+<li>Blob、ArrayBuffer、File、FileReader和FormData的区别:</li>
+</ul>
+<p>Blob、ArrayBuffrt、File都是数据，而FileReader是一种读取数据的工具，FormData可以看做是一个应用数据的场景。</p>
+<p>Blob：是一个不可修改的二进制对象，就是对二进制数据做了一个封装，可以看到它的整体属性大小、类型，但是不能了解到它的细节，只有一个slice方法可以实现对文件的分割</p>
+<p>ArrayBuffer：是一个二进制数据通用的固定长度容器，可以对其进行读写，但需要借助TypeArray或DataView。相对Blob更底层，就是一段纯粹的内存上的二进制数据，可以对任何一个字节进行单独的修改。</p>
+<p>File：也是二进制对象，从属于Blob，它继承Blob的属性方法，同时也有自己特有的属性与方法</p>
+<p>FileReader：使用filrReader可以将Blob读取为不同的格式，相对于ArrayBuffer的简单读取（最多就是将数据转换为数字或字符串），fileReader可以看做是多了一道编码的过程，可以将二进制数据读取并编码为Base64等格式</p>
+<p>FormData：用于将表单数据编译成键值对以便用AJAX来发送数据</p>
 
       </section>
 
@@ -946,6 +950,12 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
             面试准备 (10)
           </a>
@@ -958,20 +968,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
+          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            react学习笔记 (2)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
             Vue3学习笔记 (5)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            react学习笔记 (2)
           </a>
         </li>
       
