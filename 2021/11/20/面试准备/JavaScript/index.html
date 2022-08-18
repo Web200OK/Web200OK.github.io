@@ -795,6 +795,25 @@
 <p>File：也是二进制对象，从属于Blob，它继承Blob的属性方法，同时也有自己特有的属性与方法</p>
 <p>FileReader：使用filrReader可以将Blob读取为不同的格式，相对于ArrayBuffer的简单读取（最多就是将数据转换为数字或字符串），fileReader可以看做是多了一道编码的过程，可以将二进制数据读取并编码为Base64等格式</p>
 <p>FormData：用于将表单数据编译成键值对以便用AJAX来发送数据</p>
+<ul>
+<li>ES5中模仿块级作用域：</li>
+</ul>
+<p>使用立即执行函数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">outputNumbers</span>(<span class="params">count</span>)</span>&#123;</span><br><span class="line">  (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; count; ++i)&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(i);</span><br><span class="line">    &#125;  </span><br><span class="line">  &#125;)();</span><br><span class="line">  <span class="built_in">console</span>.log(i);<span class="comment">//Uncaught ReferenceError: i is not defined</span></span><br><span class="line">&#125;</span><br><span class="line">outputNumbers(<span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+
+<p>此时<code>i</code>绑定在内部立即执行函数的变量对象上，立即执行函数执行完毕就会销毁，<code>i</code>也会随之销毁。根据闭包机制，内部的立即执行函数也可以访问到<code>count</code>。这样就实现了块级作用域——无论在立即执行函数中声明什么变量都不会影响外部变量的使用。</p>
+<ul>
+<li>说说es5与es6的作用域：</li>
+</ul>
+<p>es5：全局作用域与局部作用域（闭包，try…catch，立即执行函数）</p>
+<p>es6：全局作用域、局部作用域、块级作用域</p>
+<ul>
+<li>说说dom事件级别：</li>
+</ul>
+<p>DOM0：只能定义一个事件click，多事件会互相覆盖</p>
+<p>1级的DOM没有关于事件的更新</p>
+<p>DOM2：有两个方法用来添加与移除事件的处理程序（addEventListner和removeEventListner），可以为元素添加多个事件处理程序，触发时会按照添加顺序依次调用</p>
+<p>DOM3：与DOM2一样只是增加了几个事件类型，比如说键盘事件（keyup）、鼠标事件（mousedown）</p>
 
       </section>
 
@@ -944,6 +963,12 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E6%97%A5%E6%8A%A5/">
             日报 (2)
           </a>
@@ -958,12 +983,6 @@
         <li class="categorys-list-item">
           <a href="/categories/%E5%A4%A7%E5%8E%82%E7%AC%94%E8%AF%95%E9%A2%98/">
             大厂笔试题 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
           </a>
         </li>
       

@@ -428,6 +428,16 @@
 <li>属性选择器 比如 type = “text”</li>
 <li>伪类/伪元素选择器 比如 a:hover</li>
 </ol>
+<ul>
+<li>说说外边距溢出：</li>
+</ul>
+<p>外边距溢出就是在父元素没有设置边框的情况下，为子元素设置外边距，导致父子元素一起发生位移。</p>
+<p>解决方案：</p>
+<p>1、父元素触发BFC</p>
+<p>2、父元素添加伪元素，使设置外边框的子元素不与父元素直接接触</p>
+<p>3、为父元素设置边框</p>
+<p>4、为父元素设置内边距</p>
+<p>5、在子元素div前添加空的table标签</p>
 
       </section>
 
@@ -577,6 +587,12 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E6%97%A5%E6%8A%A5/">
             日报 (2)
           </a>
@@ -591,12 +607,6 @@
         <li class="categorys-list-item">
           <a href="/categories/%E5%A4%A7%E5%8E%82%E7%AC%94%E8%AF%95%E9%A2%98/">
             大厂笔试题 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
           </a>
         </li>
       

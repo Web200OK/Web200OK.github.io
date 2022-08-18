@@ -131,7 +131,404 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <ul>
+        <h1 id="webpack基础配置教程"><a href="#webpack基础配置教程" class="headerlink" title="webpack基础配置教程"></a>webpack基础配置教程</h1><h3 id="1-初识Webpack"><a href="#1-初识Webpack" class="headerlink" title="1. 初识Webpack"></a>1. 初识Webpack</h3><ul>
+<li>什么是webpack？<ul>
+<li>Webpack是一个模块打包器。</li>
+<li>在Webpack中会将前端的所有资源文件（js/json/css/img/less/…）都作为模块处理。</li>
+<li>它将根据模块的依赖关系进行分析，生成对应的资源</li>
+</ul>
+</li>
+<li>五个核心概念：<ol>
+<li>【入口(entry)】：指示 webpack 应该使用哪个模块，来作为构建其内部依赖图的开始。</li>
+<li>【输出(output)】：在哪里输出文件，以及如何命名这些文件。</li>
+<li>【Loader】：处理那些非 JavaScript 文件（webpack 自身只能解析 JavaScript和json）。</li>
+<li>【插件(plugins)】执行范围更广的任务，从打包到优化都可以实现。</li>
+<li>【模式(mode)】，有生产模式production和开发模式development</li>
+</ol>
+</li>
+<li>对loader的理解<ul>
+<li>webpack 本身只能处理JS、JSON模块，如果要加载其他类型的文件(模块)，就需要使用对应的loader 。</li>
+<li>它本身是一个函数，接受源文件作为参数，返回转换的结果。</li>
+<li>loader 一般以 xxx-loader 的方式命名，xxx 代表了这个 loader 要做的转换功能，比如 css-loader。</li>
+</ul>
+</li>
+<li>对plugins的理解<ul>
+<li>插件可以完成一些loader不能完成的功能。</li>
+</ul>
+</li>
+<li>配置文件<ul>
+<li>webpack.config.js : 用于存储webpack配置信息。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-开启项目"><a href="#2-开启项目" class="headerlink" title="2. 开启项目"></a>2. 开启项目</h3><ul>
+<li><p>初始化项目：</p>
+<ul>
+<li><p>使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm init</span><br></pre></td></tr></table></figure>
+
+<p>或</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn init</span><br></pre></td></tr></table></figure>
+
+<p>生成一个package.json文件</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;webpack_test&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;version&quot;</span>: <span class="string">&quot;1.0.0&quot;</span></span><br><span class="line">&#125; </span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>安装webpack</p>
+<ul>
+<li>npm install webpack@4 webpack-cli@3 -g  //全局安装,作为指令使用</li>
+<li>npm install webpack@4 webpack-cli@3 -D //本地安装,作为本地依赖使用</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-处理js和json文件"><a href="#3-处理js和json文件" class="headerlink" title="3. 处理js和json文件"></a>3. 处理js和json文件</h3><ul>
+<li><p>创建js文件</p>
+<ul>
+<li>src/js/app.js</li>
+<li>src/js/module1.js</li>
+<li>src/js/module2.js</li>
+</ul>
+</li>
+<li><p>创建json文件</p>
+<ul>
+<li>src/json/data.json</li>
+</ul>
+</li>
+<li><p>创建主页面:</p>
+<ul>
+<li>src/index.html</li>
+</ul>
+</li>
+<li><p>运行指令</p>
+<ul>
+<li><p>打包指令（开发）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">webpack ./src/js/app.js -o ./build/js/app.js --mode=development</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>功能: webpack能够打包js和json文件，并且能将es6的模块化语法转换成浏览器能识别的语法</li>
+</ul>
+</li>
+<li><p>打包指令（生产）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">webpack ./src/js/app.js -o ./build/js/app.js --mode=production</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>功能: 在开发配置功能上加上一个压缩代码的功能</li>
+</ul>
+</li>
+<li><p>index.html页面中引入：build/js/app.js</p>
+</li>
+</ul>
+</li>
+<li><p>结论：</p>
+<ul>
+<li>webpack能够编译打包js和json文件</li>
+<li>能将es6的模块化语法转换成浏览器能识别的语法</li>
+<li>能压缩代码</li>
+</ul>
+</li>
+<li><p>缺点：</p>
+<ul>
+<li>不能编译打包css、img等文件</li>
+<li>不能将js的es6基本语法转化为es5以下语法</li>
+</ul>
+</li>
+<li><p>改善：使用webpack配置文件解决，自定义功能</p>
+</li>
+</ul>
+<h3 id="4-webpack配置文件"><a href="#4-webpack配置文件" class="headerlink" title="4. webpack配置文件"></a>4. webpack配置文件</h3><ul>
+<li>目的：在项目根目录定义配置文件，通过自定义配置文件，还原以上功能</li>
+<li>文件名称：webpack.config.js</li>
+<li>文件内容：</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; resolve &#125; = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>); <span class="comment">//node内置核心模块，用来设置路径。</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    <span class="attr">entry</span>: <span class="string">&#x27;./src/js/app.js&#x27;</span>, <span class="comment">// 入口文件配置（精简写法）</span></span><br><span class="line">    <span class="comment">/*完整写法：</span></span><br><span class="line"><span class="comment">		entry:&#123;</span></span><br><span class="line"><span class="comment">			main:&#x27;./src/js/app.js&#x27;</span></span><br><span class="line"><span class="comment">		&#125;</span></span><br><span class="line"><span class="comment">		*/</span></span><br><span class="line">    <span class="attr">output</span>: &#123; <span class="comment">//输出配置</span></span><br><span class="line">        <span class="attr">filename</span>: <span class="string">&#x27;./js/app.js&#x27;</span>,<span class="comment">//输出文件名</span></span><br><span class="line">        <span class="attr">path</span>: resolve(__dirname, <span class="string">&#x27;build&#x27;</span>)<span class="comment">//输出文件路径(绝对路径)</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">mode</span>: <span class="string">&#x27;development&#x27;</span>   <span class="comment">//开发环境(二选一)</span></span><br><span class="line">    <span class="comment">//mode: &#x27;production&#x27;   //生产环境(二选一)</span></span><br><span class="line">&#125;;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>运行指令： webpack</li>
+</ul>
+<h3 id="5-打包less、css资源"><a href="#5-打包less、css资源" class="headerlink" title="5. 打包less、css资源"></a>5. 打包less、css资源</h3><ul>
+<li><p>概述：less、css文件webpack不能解析，需要借助loader编译解析</p>
+</li>
+<li><p>创建less文件</p>
+<ul>
+<li>src/css/demo1.less</li>
+<li>src/css/demo2.css</li>
+</ul>
+</li>
+<li><p>入口app.js文件</p>
+<ul>
+<li>引入less、css资源</li>
+</ul>
+</li>
+<li><p>安装loader</p>
+<ul>
+<li>npm install css-loader style-loader less-loader less -D</li>
+</ul>
+</li>
+<li><p>配置loader</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="comment">// 处理less资源</span></span><br><span class="line">	<span class="attr">test</span>: <span class="regexp">/\.less$/</span>,</span><br><span class="line">	use: [</span><br><span class="line">		<span class="string">&#x27;style-loader&#x27;</span>, <span class="comment">//创建style标签，将js中的样式资源插入进行，添加到head中生效</span></span><br><span class="line">		<span class="string">&#x27;css-loader&#x27;</span>, <span class="comment">//将css文件变成commonjs模块加载js中，里面内容是样式字符串</span></span><br><span class="line">		<span class="string">&#x27;less-loader&#x27;</span> <span class="comment">//将less文件编译成css文件</span></span><br><span class="line">	]</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">// 处理css资源</span></span><br><span class="line">	<span class="attr">test</span>: <span class="regexp">/\.css$/</span>,</span><br><span class="line">	use: [ <span class="comment">// use数组中loader执行顺序：从右到左，从下到上 依次执行</span></span><br><span class="line">		<span class="string">&#x27;style-loader&#x27;</span>,<span class="comment">// 创建style标签，将js中的样式资源插入进行，添加到head中生效</span></span><br><span class="line">		<span class="string">&#x27;css-loader&#x27;</span><span class="comment">// 将css文件变成commonjs模块加载js中，里面内容是样式字符串</span></span><br><span class="line">	]</span><br><span class="line">&#125;,</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure></li>
+<li><p>运行指令：webpack</p>
+</li>
+</ul>
+<h3 id="6-打包html文件"><a href="#6-打包html文件" class="headerlink" title="6. 打包html文件"></a>6. 打包html文件</h3><ul>
+<li><p>概述：借助html-webpack-plugin插件打包html资源</p>
+</li>
+<li><p>创建html文件</p>
+<ul>
+<li>src/index.html</li>
+<li>注意：不要在该html中引入任何css和js文件</li>
+</ul>
+</li>
+<li><p>安装插件：html-webpack-plugin</p>
+<ul>
+<li>npm install html-webpack-plugin -D</li>
+</ul>
+</li>
+<li><p>在webpack.config.js中引入插件（插件都需要手动引入，而loader会自动加载）</p>
+<ul>
+<li>const HtmlWebpackPlugin = require(‘html-webpack-plugin’)</li>
+</ul>
+</li>
+<li><p>配置插件Plugins</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">plugins: [</span><br><span class="line">  <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">	<span class="comment">// 以当前文件为模板创建新的HtML(1. 结构和原来一样 2. 会自动引入打包的资源)</span></span><br><span class="line">    <span class="attr">template</span>: <span class="string">&#x27;./src/index.html&#x27;</span>, </span><br><span class="line">  &#125;),</span><br><span class="line">]</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure></li>
+<li><p>运行指令：webpack</p>
+</li>
+</ul>
+<h3 id="7-打包样式中的图片"><a href="#7-打包样式中的图片" class="headerlink" title="7. 打包样式中的图片"></a>7. 打包样式中的图片</h3><ul>
+<li><p>概述：图片文件webpack不能解析，需要借助loader编译解析</p>
+</li>
+<li><p>添加2张图片:</p>
+<ul>
+<li>小图, 小于8kb: src/images/vue.png</li>
+<li>大图, 大于8kb: src/images/react.jpg</li>
+</ul>
+</li>
+<li><p>在less文件中通过背景图的方式引入两个图片</p>
+</li>
+<li><p>安装loader</p>
+<ul>
+<li>npm install file-loader url-loader file-loader -D</li>
+<li>补充：url-loader是对象file-loader的上层封装，使用时需配合file-loader使用。</li>
+</ul>
+</li>
+<li><p>配置loader</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="comment">// 处理图片资源</span></span><br><span class="line">	<span class="attr">test</span>: <span class="regexp">/\.(jpg|png|gif)$/</span>,</span><br><span class="line">	loader: <span class="string">&#x27;url-loader&#x27;</span>, <span class="comment">//url-loader是对file-loader的上层封装</span></span><br><span class="line">	<span class="attr">options</span>: &#123;</span><br><span class="line">		<span class="attr">limit</span>: <span class="number">8</span> * <span class="number">1024</span>, <span class="comment">//临界值为8KB，小于8KB的图片会被转为base64编码</span></span><br><span class="line">		<span class="attr">name</span>: <span class="string">&#x27;[hash:10].[ext]&#x27;</span>, <span class="comment">//加工后图片的名字</span></span><br><span class="line">		<span class="attr">outputPath</span>: <span class="string">&#x27;imgs&#x27;</span> <span class="comment">//输出路径</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;,</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="8-打包html中的图片"><a href="#8-打包html中的图片" class="headerlink" title="8. 打包html中的图片"></a>8. 打包html中的图片</h3><ul>
+<li><p>概述：html中的<code>&lt;img&gt;</code>标签url-loader没法处理，需要引入其他loader处理。</p>
+</li>
+<li><p>添加图片</p>
+<ul>
+<li>在src/index.html添加一个img标签，src/images/angular.png</li>
+</ul>
+</li>
+<li><p>安装loader</p>
+<ul>
+<li>npm install html-loader –save-dev</li>
+</ul>
+</li>
+<li><p>配置loader</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="comment">// 处理html中&lt;img&gt;资源</span></span><br><span class="line">	<span class="attr">test</span>: <span class="regexp">/\.html$/</span>,</span><br><span class="line">	loader: <span class="string">&#x27;html-loader&#x27;</span></span><br><span class="line">&#125;,</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure></li>
+<li><p>可能出现的坑：打包后html文件中的图片的src变成了：[object Module],</p>
+</li>
+<li><p>解决办法：url-loader中加入一个配置：esModule:false即可</p>
+</li>
+</ul>
+<h3 id="9-打包其他资源"><a href="#9-打包其他资源" class="headerlink" title="9. 打包其他资源"></a>9. 打包其他资源</h3><ul>
+<li><p>概述：其他资源（字体、音视频等）webpack不能解析，需要借助loader编译解析</p>
+</li>
+<li><p>以处理几个字体图标的字体为例，font下添加几个下载好的字体文件：</p>
+<ul>
+<li>src/font/iconfont.eot</li>
+<li>src/font/iconfont.svg</li>
+<li>src/font/iconfont.ttf</li>
+<li>src/font/iconfont.woff</li>
+<li>src/font/iconfont.woff2</li>
+</ul>
+</li>
+<li><p>修改incofont.css中字体的url</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@font-face</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">&#x27;iconfont&#x27;</span>;</span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">&#x27;../media/iconfont.eot&#x27;</span>);</span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">&#x27;../media/iconfont.eot?#iefix&#x27;</span>) <span class="built_in">format</span>(<span class="string">&#x27;embedded-opentype&#x27;</span>),</span><br><span class="line">  <span class="built_in">url</span>(<span class="string">&#x27;../media/iconfont.woff2&#x27;</span>) <span class="built_in">format</span>(<span class="string">&#x27;woff2&#x27;</span>),</span><br><span class="line">  <span class="built_in">url</span>(<span class="string">&#x27;../media/iconfont.woff&#x27;</span>) <span class="built_in">format</span>(<span class="string">&#x27;woff&#x27;</span>),</span><br><span class="line">  <span class="built_in">url</span>(<span class="string">&#x27;../media/iconfont.ttf&#x27;</span>) <span class="built_in">format</span>(<span class="string">&#x27;truetype&#x27;</span>),</span><br><span class="line">  <span class="built_in">url</span>(<span class="string">&#x27;../media/iconfont.svg#iconfont&#x27;</span>) <span class="built_in">format</span>(<span class="string">&#x27;svg&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.iconfont</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">&quot;iconfont&quot;</span> <span class="meta">!important</span>;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">16px</span>;</span><br><span class="line">  <span class="attribute">font-style</span>: normal;</span><br><span class="line">  -webkit-<span class="attribute">font-smoothing</span>: antialiased;</span><br><span class="line">  -moz-osx-<span class="attribute">font-smoothing</span>: grayscale;</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure></li>
+<li><p>修改html，添加字体图标，例如：<code>&lt;span class=&quot;iconfont icon-icon-test&quot;&gt;&lt;/span&gt;</code></p>
+</li>
+<li><p>配置loader</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="comment">// 处理其他资源(字体、音视频等等)</span></span><br><span class="line">	<span class="attr">exclude</span>: <span class="regexp">/\.(html|js|css|less|jpg|png|gif)/</span>, <span class="comment">//排除的文件</span></span><br><span class="line">	loader: <span class="string">&#x27;file-loader&#x27;</span>,</span><br><span class="line">	<span class="attr">options</span>: &#123;</span><br><span class="line">		<span class="attr">name</span>: <span class="string">&#x27;[hash:10].[ext]&#x27;</span>, <span class="comment">//命名</span></span><br><span class="line">		<span class="attr">outputPath</span>: <span class="string">&#x27;media&#x27;</span> <span class="comment">//输出路径</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure></li>
+<li><p>运行指令：webpack</p>
+</li>
+</ul>
+<h3 id="10-devServer"><a href="#10-devServer" class="headerlink" title="10. devServer"></a>10. devServer</h3><ul>
+<li><p>安装webpack-dev-server</p>
+<ul>
+<li>npm i webpack-dev-server -D</li>
+<li>npm i webpack-dev-server -g</li>
+<li>详细配置见官网：指南 -&gt; 开发环境 -&gt; 使用webpack-dev-server</li>
+</ul>
+</li>
+<li><p>修改webpack配置对象，追加devServer配置（注意不是loader中追加）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//devServer配置(开发模式所特有的配置)</span></span><br><span class="line"><span class="attr">devServer</span>: &#123;</span><br><span class="line">	<span class="attr">contentBase</span>: resolve(__dirname, <span class="string">&#x27;build&#x27;</span>),<span class="comment">//本地打包文件的位置</span></span><br><span class="line">	<span class="attr">port</span>: <span class="number">3000</span>, <span class="comment">//端口号</span></span><br><span class="line">	<span class="attr">open</span>: <span class="literal">true</span> <span class="comment">//自动打开浏览器</span></span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure></li>
+<li><p>修改package.json中scripts指令</p>
+<ul>
+<li><code>&quot;dev&quot;: &quot;webpack-dev-server&quot;</code>,</li>
+</ul>
+</li>
+<li><p>运行指令：npm run dev 或者 yarn dev</p>
+</li>
+</ul>
+<hr>
+<blockquote>
+<p>至此，你已经完成了用webpack搭建一个简单的开发环境，但这套配置只适用于开发过程中调试代码，项目上线并不能运用这套配置，因为你还有很多的问题没有处理，比如：css还不是单独的文件，css、js还有很多兼容性问题等等，接下来我们开始去搭建生产环境。</p>
+</blockquote>
+<h3 id="生产环境准备："><a href="#生产环境准备：" class="headerlink" title="生产环境准备："></a>生产环境准备：</h3><p>1.新建config文件夹，重命名webpack.config.js为webpack.dev.js，放入config文件夹 2.复制webpack.dev.js，重命名为webpack.prod.js,删除其中的devServer配置，因为这是开发环境特有的，生产环境是不需要的 3.修改package.json中scripts指令：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;start&quot;</span>: <span class="string">&quot;webpack-dev-server --config ./config/webpack.dev.js&quot;</span>,</span><br><span class="line"><span class="string">&quot;build&quot;</span>: <span class="string">&quot;webpack --config ./config/webpack.prod.js&quot;</span></span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>4.修改output中path为：<code>path: resolve(__dirname, &#39;../build&#39;)</code></p>
+<h3 id="1-提取css为单独文件"><a href="#1-提取css为单独文件" class="headerlink" title="1. 提取css为单独文件"></a>1. 提取css为单独文件</h3><ul>
+<li><p>安装插件</p>
+<ul>
+<li>npm install mini-css-extract-plugin -D</li>
+</ul>
+</li>
+<li><p>引入插件</p>
+<ul>
+<li>const MiniCssExtractPlugin = require(“mini-css-extract-plugin”);</li>
+</ul>
+</li>
+<li><p>配置loader</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//引入mini-css-extract-plugin，用于提取css为单独文件</span></span><br><span class="line"><span class="keyword">const</span> MiniCssExtractPlugin = <span class="built_in">require</span>(<span class="string">&#x27;mini-css-extract-plugin&#x27;</span>);</span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">// 处理less资源</span></span><br><span class="line">  <span class="attr">test</span>: <span class="regexp">/\.less$/</span>,</span><br><span class="line">  use: [</span><br><span class="line">    MiniCssExtractPlugin.loader,</span><br><span class="line">    <span class="string">&#x27;css-loader&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;less-loader&#x27;</span>,</span><br><span class="line">  ]</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">// 处理css资源</span></span><br><span class="line">  <span class="attr">test</span>: <span class="regexp">/\.css$/</span>,</span><br><span class="line">  use: [</span><br><span class="line">    MiniCssExtractPlugin.loader,</span><br><span class="line">    <span class="string">&#x27;css-loader&#x27;</span>,</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure></li>
+<li><p>配置插件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//提取css为单独文件</span></span><br><span class="line">  <span class="keyword">new</span> MiniCssExtractPlugin(&#123;</span><br><span class="line">  	<span class="comment">// 对输出的css文件进行重命名</span></span><br><span class="line">  	<span class="attr">filename</span>: <span class="string">&#x27;css/built.css&#x27;</span>,</span><br><span class="line">  &#125;)</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure></li>
+<li><p>运行指令</p>
+<ul>
+<li>npm run build</li>
+</ul>
+</li>
+<li><p>备注：由于在提取了独立的文件，要从外部引入，所以可能会有路径问题，解决方案是在output配置中，添加：<code>publicPath:&#39;/&#39;</code> publicPath根据实际情况自行调整,若上线运行值为：/imgs，若本地右键运行值为：/build/imgs</p>
+</li>
+</ul>
+<h3 id="2-css兼容性处理"><a href="#2-css兼容性处理" class="headerlink" title="2. css兼容性处理"></a>2. css兼容性处理</h3><ul>
+<li>安装loader<ul>
+<li>npm install postcss postcss-loader postcss-preset-env -D</li>
+</ul>
+</li>
+<li>因为css和less样式文件都要进行兼容性处理，所以我们定义好一个通用的配置：</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 配置一个commonCssLoader，处理less和css时都会使用</span></span><br><span class="line"><span class="keyword">const</span> commonCssLoader = [</span><br><span class="line">	MiniCssExtractPlugin.loader, <span class="comment">//提取css为单独的文件</span></span><br><span class="line">	<span class="string">&#x27;css-loader&#x27;</span>, <span class="comment">//将css文件变成commonjs模块加载js中，里面内容是样式字符串</span></span><br><span class="line">	&#123;</span><br><span class="line">		 <span class="comment">//注意：想让postcss-loader工作，还需在package.json中定义browserslist配置兼容程度</span></span><br><span class="line">		 <span class="attr">loader</span>: <span class="string">&#x27;postcss-loader&#x27;</span>,</span><br><span class="line">          <span class="attr">options</span>: &#123;</span><br><span class="line">          <span class="attr">ident</span>: <span class="string">&#x27;postcss&#x27;</span>,</span><br><span class="line">          <span class="attr">plugins</span>: <span class="function">() =&gt;</span> [<span class="built_in">require</span>(<span class="string">&#x27;postcss-preset-env&#x27;</span>)()]</span><br><span class="line">      &#125;</span><br><span class="line">	&#125;</span><br><span class="line">];</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改css-loader和less-loader配置</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// 处理css资源</span></span><br><span class="line">		<span class="attr">test</span>: <span class="regexp">/\.css$/</span>,</span><br><span class="line">		use: [...commonCssLoader]</span><br><span class="line">	&#125;,</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// 处理less资源</span></span><br><span class="line">		<span class="attr">test</span>: <span class="regexp">/\.less$/</span>,</span><br><span class="line">		use: [...commonCssLoader, <span class="string">&#x27;less-loader&#x27;</span>]</span><br><span class="line">	&#125;,</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>配置package.json，在其中追加browserslist配置，通过配置加载指定的css兼容性样式</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;browserslist&quot;</span>: &#123;</span><br><span class="line">	<span class="comment">// 开发环境</span></span><br><span class="line">	<span class="attr">&quot;development&quot;</span>: [</span><br><span class="line">		<span class="string">&quot;last 1 chrome version&quot;</span>,</span><br><span class="line">		<span class="string">&quot;last 1 firefox version&quot;</span>,</span><br><span class="line">		<span class="string">&quot;last 1 safari version&quot;</span></span><br><span class="line">	],</span><br><span class="line">	<span class="comment">// 生产环境：默认是生产环境</span></span><br><span class="line">	<span class="attr">&quot;production&quot;</span>: [</span><br><span class="line">		<span class="string">&quot;&gt;0.2%&quot;</span>, <span class="comment">//兼容市面上99.8%的浏览器</span></span><br><span class="line">		<span class="string">&quot;not dead&quot;</span>, <span class="comment">//&quot;死去&quot;的浏览器不做兼容，例如IE8</span></span><br><span class="line">		<span class="string">&quot;not op_mini all&quot;</span>,<span class="comment">//不做opera浏览器mini版的兼容</span></span><br><span class="line">		<span class="string">&quot;ie 10&quot;</span> <span class="comment">//兼容IE10</span></span><br><span class="line">	]</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure></li>
+<li><p>备注1: browserslist 是一套描述产品目标运行环境的工具，它被广泛用在各种涉及浏览器/移动端的兼容性支持工具中，详细配置规则参考：<a href="https://link.juejin.cn/?target=https://github.com/browserslist/browserslist">github.com/browserslis…</a></p>
+</li>
+<li><p>备注2：若出现版本不兼容，或配置不正确的错误，那么需更换依赖包版本：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="selector-tag">i</span> less-loader<span class="keyword">@5</span> postcss-loader@<span class="number">3</span></span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure></li>
+<li><p>运行指令：</p>
+<ul>
+<li>npm run build</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-js语法检查"><a href="#3-js语法检查" class="headerlink" title="3. js语法检查"></a>3. js语法检查</h3><ul>
+<li><p>概述：对js基本语法错误/隐患，进行提前检查</p>
+</li>
+<li><p>安装loader</p>
+<ul>
+<li>npm install eslint-loader eslint  -D</li>
+</ul>
+</li>
+<li><p>安装检查规则库：</p>
+<ul>
+<li>npm install eslint-config-airbnb-base  eslint-plugin-import  -D</li>
+</ul>
+</li>
+<li><p>备注:eslint-config-airbnb-base定制了一套标准的、常用的js语法检查规则，推荐使用</p>
+</li>
+<li><p>配置loader</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>: &#123;</span><br><span class="line">  <span class="attr">rules</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 对js进行语法检查</span></span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.js$/</span>,</span><br><span class="line">        exclude: <span class="regexp">/node_modules/</span>,<span class="comment">//排除这个文件</span></span><br><span class="line">        <span class="comment">// 优先执行</span></span><br><span class="line">        enforce: <span class="string">&#x27;pre&#x27;</span>,<span class="comment">//优先执行  只要webpack启动时  尽可能先执行  可不写</span></span><br><span class="line">        <span class="attr">loader</span>: <span class="string">&#x27;eslint-loader&#x27;</span>,</span><br><span class="line">        <span class="attr">options</span>: &#123;</span><br><span class="line">          <span class="attr">fix</span>: <span class="literal">true</span> <span class="comment">//若有问题自动修复，重要！！！！</span></span><br><span class="line">    	&#125;</span><br><span class="line">	&#125;      </span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure></li>
+<li><p>修改package.json   库的底层实现</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;eslintConfig&quot;</span>: &#123;</span><br><span class="line">  <span class="string">&quot;extends&quot;</span>: <span class="string">&quot;airbnb-base&quot;</span>, <span class="comment">//直接使用airbnb-base提供的规则 需要下载的</span></span><br><span class="line">  <span class="string">&quot;env&quot;</span>: &#123;</span><br><span class="line">   <span class="string">&quot;browser&quot;</span>: <span class="literal">true</span><span class="comment">//如果运行环境不是浏览器  则运行环境为node  此时需要将这个改为false</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure></li>
+<li><p>运行指令：webpack</p>
+</li>
+<li><p>备注：若出现：warning  Unexpected  console statement  no-console警告，意思是不应该在项目中写console.log(),若想忽略，就在要忽略检查代码的上方输入一行注释：// eslint-disable-next-line即可。</p>
+<p>黄色的警告证明打印了log  可在上面加eslint-disable-next-line  也可以不管它</p>
+</li>
+</ul>
+<h3 id="4-js语法转换"><a href="#4-js语法转换" class="headerlink" title="4. js语法转换"></a>4. js语法转换</h3><ul>
+<li><p>概述：将浏览器不能识别的新语法转换成原来识别的旧语法，做浏览器兼容性处理</p>
+</li>
+<li><p>安装loader</p>
+<ul>
+<li>webpack4版本以上可直接安装  3版本的还需定义@后面的版本  借鉴官网</li>
+<li>npm install babel-loader @babel/core @babel/preset-env  -D</li>
+</ul>
+</li>
+<li><p>配置loader</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>: &#123;</span><br><span class="line">  <span class="attr">rules</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">test</span>: <span class="regexp">/\.js$/</span>,</span><br><span class="line">      exclude: <span class="regexp">/node_modules/</span>,</span><br><span class="line">      use: &#123;</span><br><span class="line">        <span class="attr">loader</span>: <span class="string">&quot;babel-loader&quot;</span>,</span><br><span class="line">        <span class="attr">options</span>: &#123;</span><br><span class="line">          <span class="attr">presets</span>: [<span class="string">&#x27;@babel/preset-env&#x27;</span>]</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure></li>
+<li><p>运行指令：webpack</p>
+</li>
+</ul>
+<h3 id="5-js兼容性处理"><a href="#5-js兼容性处理" class="headerlink" title="5. js兼容性处理"></a>5. js兼容性处理</h3><ul>
+<li><p>安装包</p>
+<ul>
+<li><p>npm install @babel/polyfill</p>
+<p>琳-用于高级兼容  可以解决babel中无法解决的  大项目没有不用的 记住  可以解决ie中不认识promise</p>
+<p>在app.js中引入</p>
+</li>
+</ul>
+</li>
+<li><p>使用</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- app.js</span><br><span class="line">	<span class="keyword">import</span> <span class="string">&#x27;@babel/polyfill&#x27;</span>; <span class="comment">// 包含ES6的高级语法的转换</span></span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="6-压缩html、压缩js"><a href="#6-压缩html、压缩js" class="headerlink" title="6. 压缩html、压缩js"></a>6. 压缩html、压缩js</h3><ul>
+<li>直接修改webpack.prod.js中的model为production即可。</li>
+<li>备注：若设置了模式为production，必须在new HtmlWebpackPlugin时添加配置minify: false：</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">    <span class="comment">// 以当前文件为模板创建新的HtML(1. 结构和原来一样 2. 会自动引入打包的资源)</span></span><br><span class="line">    <span class="attr">template</span>: <span class="string">&#x27;./src/index.html&#x27;</span>, </span><br><span class="line">    <span class="attr">minify</span>: <span class="literal">false</span></span><br><span class="line">&#125;),</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-压缩css"><a href="#7-压缩css" class="headerlink" title="7.压缩css"></a>7.压缩css</h3><p>​    webpack 4.0版本以上可以自动压缩html  js  不能压缩css  optimize优化  assets静态资源</p>
+<ul>
+<li><p>安装插件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install optimize-css-assets-webpack-plugin -D </span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure></li>
+<li><p>引入插件</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const <span class="attr">OptimizeCssAssetsPlugin</span> = require(<span class="string">&#x27;optimize-css-assets-webpack-plugin&#x27;</span>)<span class="comment">;	</span></span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure></li>
+<li><p>配置插件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> OptimizeCssAssetsPlugin(&#123;</span><br><span class="line">  <span class="attr">cssProcessorPluginOptions</span>: &#123;</span><br><span class="line">    <span class="attr">preset</span>: [<span class="string">&#x27;default&#x27;</span>, &#123; <span class="attr">discardComments</span>: &#123; <span class="attr">removeAll</span>: <span class="literal">true</span> &#125; &#125;],<span class="comment">//移出所有注释</span></span><br><span class="line">  &#125;,</span><br><span class="line">&#125;)</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>以上就是webpack生产环境的配置，可以生成打包后的文件。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><h4 id="1-webpack配置文件"><a href="#1-webpack配置文件" class="headerlink" title="1.webpack配置文件"></a>1.webpack配置文件</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span>.<span class="keyword">exports</span> = &#123;  </span><br><span class="line">    entry: <span class="string">&#x27;&#x27;</span>, <span class="comment">//入口</span></span><br><span class="line">    output: &#123;&#125;,<span class="comment">//输出</span></span><br><span class="line">    <span class="keyword">module</span>: &#123; <span class="comment">//配置loader</span></span><br><span class="line">      rules: []</span><br><span class="line">    &#125;,</span><br><span class="line">    plugins: [], <span class="comment">//配置plugin</span></span><br><span class="line">    model:工作模式</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-webpack打包的基本流程"><a href="#2-webpack打包的基本流程" class="headerlink" title="2.webpack打包的基本流程"></a>2.webpack打包的基本流程</h4><ul>
+<li>连接: webpack从入口JS开始，递归查找出所有相关的模块, 并【连接】起来形成一个图(网)的结构</li>
+<li>编译: 将JS模块中的模块化语法【编译】为浏览器可以直接运行的模块语法(当然其它类型资源也会处理)</li>
+<li>合并: 将图中所有编译过的模块【合并】成一个或少量的几个文件, 浏览器真正运行是打包后的文件</li>
+</ul>
+<h4 id="3-比较loader与plugins"><a href="#3-比较loader与plugins" class="headerlink" title="3.比较loader与plugins"></a>3.比较loader与plugins</h4><ul>
+<li>loader: 用于加载特定类型的资源文件, webpack本身只能打包js和json。</li>
+<li>plugin: 用来扩展webpack其它方面的功能, 一般loader处理不了的资源、完成不了的操作交给插件处理。</li>
+</ul>
+<h4 id="4-live-reload（自动刷新）与HMR（热模替换）"><a href="#4-live-reload（自动刷新）与HMR（热模替换）" class="headerlink" title="4.live-reload（自动刷新）与HMR（热模替换）"></a>4.live-reload（自动刷新）与HMR（热模替换）</h4><ul>
+<li>相同点: 代码修改后都会自动重新编译打包</li>
+<li>不同点: live-reload: 刷新整体页面, 从而查看到最新代码的效果, 页面状态全部都是新的。 HMR: 没有刷新整个页面, 只是加载了修改模块的打包文件并运行, 从而更新页面的局部界面, 整个界面的其它部分的状态还在</li>
+</ul>
+<h4 id="5-webpack常用loader与plugin汇总"><a href="#5-webpack常用loader与plugin汇总" class="headerlink" title="5.webpack常用loader与plugin汇总"></a>5.webpack常用loader与plugin汇总</h4><p>常用loader:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>.【less-loader】用于将less文件翻译成为css</span><br><span class="line"><span class="number">2</span>.【css-loader】用于将css以CommonJs语法打包到js中</span><br><span class="line"><span class="number">3</span>.【style-loader】用于动态创建一个style标签，将css引入页面</span><br><span class="line"><span class="number">4</span>.【file-loader】用于处理其他资源，也可以处理图片资源，核心操作就是：提取资源到指定位置，且可修改文件名等操作。</span><br><span class="line"><span class="number">5</span>.【url-loader】与file-loader功能几乎一致，优势是可以对图片进行动态转换base64编码（控制limit属性值可以控制阈值）。</span><br><span class="line">            备注：上述两个loader中url-loader应用比file-loader广泛，且url-loader是file-loader的上层封装。</span><br><span class="line"><span class="number">6</span>.【<span class="selector-tag">html</span>-loader】用于处理<span class="selector-tag">html</span>中&lt;<span class="selector-tag">img</span>&gt;标签的图片。</span><br><span class="line"><span class="number">6</span>.【esint-loader】对项目中的js语法进行检查。       </span><br><span class="line"><span class="number">7</span>.【babel-loader】将es6语法转换为es5语法</span><br><span class="line">            备注<span class="number">1</span>：直接使用只能处理简单的语法，Promise等无法处理。</span><br><span class="line">            备注<span class="number">2</span>：借助polyfill完成高级es6语法的转换，缺点：所有都转换，无法按需转换，生成的js体积大。</span><br><span class="line">            备注<span class="number">3</span>：使用core-js配合polyfill完成按需转换。</span><br><span class="line"><span class="number">8</span>.【postcss-loader】经典的loadr，用于处理css兼容性问题，需要与【postcss】和【postcss-preset-env】配合使用</span><br><span class="line">            备注<span class="number">1</span>：使用的时机为：<span class="selector-attr">[<span class="string">&quot;css-loader&quot;</span>,<span class="string">&quot;postcss-loader&quot;</span>,<span class="string">&quot;less-loader&quot;</span>]</span>。</span><br><span class="line">            备注<span class="number">2</span>：需要在package<span class="selector-class">.json</span>中配置browserslist属性指定具体的兼容规则</span><br><span class="line">            备注<span class="number">3</span>：browserslist是一个单独的库，被广泛用在各种涉及浏览器/移动端的兼容性支持工具中</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>常用pulgins：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>【mini-css-extract-plugin】：用于提取项目中的css为一个单独的文件。</span><br><span class="line">            备注<span class="number">1</span>：使用的时机为：[MiniCssExtractPlugin.loader,<span class="string">&quot;css-loader&quot;</span>,<span class="string">&quot;postcss-loader&quot;</span>,less-loade<span class="string">r&quot;]。</span></span><br><span class="line"><span class="string">            备注2：使用是可以在new时传入具体配置例如：</span></span><br><span class="line"><span class="string">            &#123;</span></span><br><span class="line"><span class="string">                loader: &quot;</span>postcss-loade<span class="string">r&quot;,</span></span><br><span class="line"><span class="string">                options: &#123;</span></span><br><span class="line"><span class="string">                    postcssOptions: &#123;</span></span><br><span class="line"><span class="string">                        plugins: [&quot;</span>postcss-preset-env<span class="string">&quot;]</span></span><br><span class="line"><span class="string">                    &#125;</span></span><br><span class="line"><span class="string">                &#125;</span></span><br><span class="line"><span class="string">            &#125;</span></span><br><span class="line"><span class="string">2.【html-webpack-plugin】：根据指定模板，自动创建html文件，且自动引入外部资源</span></span><br><span class="line"><span class="string">3.【eslint-plugin-import】：用于配合eslint-loader</span></span><br><span class="line"><span class="string">4.【eslint-config-airbnb-base】用于引入airbnb配置好的语法检查规则，否则需要一个一个配置，比较麻烦</span></span><br><span class="line"><span class="string">5.【@babel/polyfill】用于处理JS兼容性问题，例如IE浏览器不支持Promise</span></span><br><span class="line"><span class="string">6.【optimize-css-assets-webpack-plugin】用于压缩css    </span></span><br><span class="line"><span class="string">复制代码</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="6-webpack中的tree-shaking"><a href="#6-webpack中的tree-shaking" class="headerlink" title="6. webpack中的tree-shaking"></a>6. webpack中的tree-shaking</h3><ol>
+<li>概述：有些时候，我们一个模块向外暴露了n个函数、对象、或其他一些数据，但是我们只是用到了其中的一个或几个，那在最终打包的时候，我们只希望把我们所用的打包进去，这时候就要tree-shaking，即：去除无用代码。</li>
+<li>配置：同时满足两个条件webpack会自动开启tree-shaking</li>
+</ol>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">1.</span>  使用ES6模块化</span><br><span class="line">复制代码</span><br><span class="line"><span class="bullet">2.</span>  开启production环境</span><br></pre></td></tr></table></figure>
+
+<ul>
 <li>webpack打包原理：</li>
 </ul>
 <p>webpack将一切文件视为模块，通过定义entry.js对所有的依赖文件进行跟踪，将各个模块通过loader和plugins处理，然后打包在一起。</p>
@@ -376,6 +773,12 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E6%97%A5%E6%8A%A5/">
             日报 (2)
           </a>
@@ -390,12 +793,6 @@
         <li class="categorys-list-item">
           <a href="/categories/%E5%A4%A7%E5%8E%82%E7%AC%94%E8%AF%95%E9%A2%98/">
             大厂笔试题 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
           </a>
         </li>
       
