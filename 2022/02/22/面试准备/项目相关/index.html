@@ -138,24 +138,33 @@
 <ul>
 <li>性能优化都可以从哪里入手：</li>
 </ul>
-<p>1、加载：减少http请求（雪碧图，文件合并），减少文件大小（资源压缩，图片压缩，代码压缩），CDN（第三方库，大文件，大图），SSR服务端渲染，预渲染，懒加载，分包</p>
-<p>2、减少DOM操作，避免回流，文档碎片</p>
-<ul>
-<li>技术方案划分：</li>
-</ul>
-<p>1、缓存：客户端控制的强缓存策略</p>
-<p>2、降低请求成本：</p>
-<p>HTTP DNS:由客户端控制，隔一段时间主动请求DNS获取域名IP，不走系统的DNS</p>
-<p>TCP/TLS连接复用：由服务端升级到HTTP2，尽量合并域名</p>
-<p>3、减少请求数：</p>
-<p>JS、CSS打包到HTML</p>
-<p>用JS控制图片异步加载和懒加载</p>
-<p>小型图片使用data-url</p>
-<p>4、减少传输体积：</p>
-<p>尽量使用SVG等替代图片</p>
-<p>根据机型和网络状况控制图片清晰度</p>
-<p>对低清晰度图片使用锐化来提升体验</p>
-<p>设计上避免大型背景图</p>
+<p>从输入url到显示整个页面的过程中，涉及到网络层面的主要有三个过程：</p>
+<p>DNS解析、TCP连接与HTTP请求/响应，前两个我们能做的有限，所以从HTTP开始优化，有以下两个方向：减少请求次数与减少单次请求所花费的时间。</p>
+<p><strong>Webpack构建流程优化</strong>：</p>
+<p>1、loader配置exclude</p>
+<p>2、使用DLLPlugin来动态连接第三方库</p>
+<p>3、使用Happypack将loader转换由单线程转为多线程</p>
+<p><strong>构建结果体积优化：</strong></p>
+<p>1、删除冗余代码（tree-shaking）</p>
+<p>2、按需加载</p>
+<p>3、Gzip压缩（在一个文本文件中找到一些重复出现的字符串临时替换它们，从而使整个文件变小，代码重复率越高，压缩效率越高）：在请求头加入一句：accept-encoding:gzip</p>
+<p><strong>图片优化：</strong></p>
+<p>1、JPEG/JPG：体积小、加载快、不支持透明</p>
+<p>2、PNG-8/PNG-24：质量高、体积大、支持透明</p>
+<p>3、SVG：文本文件、体积小、不失真、兼容性好</p>
+<p>4、Base64：文本文件、依赖编码、小图标解决方案</p>
+<p>5、雪碧图精灵图：减少HTTP请求数</p>
+<p>6、Webp：像JPEG一样能够展示细节，支持透明，可以显示动态图片，兼容性差</p>
+<p><strong>浏览器缓存</strong></p>
+<p><strong>CND缓存</strong></p>
+<p><strong>CSS与JS加载顺序优化</strong></p>
+<p>1、CSS的阻塞：link引用css时，在页面载入同时加载，@import引入的css将在页面加载完毕后被加载。css放在head标签里或启用CDN资源加速下载。</p>
+<p>2、JS的阻塞：使用async与defer属性</p>
+<p>3、避免回流重绘：减少DOM操作，节流防抖，文档碎片</p>
+<p><strong>首屏优化</strong>：</p>
+<p>1、懒加载</p>
+<p>2、服务端渲染</p>
+<p>3、代码分割技术</p>
 <ul>
 <li>项目性能优化：</li>
 </ul>
@@ -557,26 +566,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
-            面试准备 (10)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E5%A4%A7%E5%8E%82%E7%AC%94%E8%AF%95%E9%A2%98/">
-            大厂笔试题 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E6%97%A5%E6%8A%A5/">
             日报 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
           </a>
         </li>
       
@@ -589,6 +586,18 @@
         <li class="categorys-list-item">
           <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
             实习相关 (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+            面试准备 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%A4%A7%E5%8E%82%E7%AC%94%E8%AF%95%E9%A2%98/">
+            大厂笔试题 (1)
           </a>
         </li>
       
