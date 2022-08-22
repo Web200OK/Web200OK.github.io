@@ -573,12 +573,17 @@
 <p>1、原型链继承：通过实例化一个新的函数，子类的原型指向父类的实例，子类就可以调用父类原型对象上的私有属性和方法，本质上值重写了原型对象。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.parentName = <span class="string">&quot;父类&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">Parent.prototype.getParentName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.parentName</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.childName = <span class="string">&quot;子类&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">Child.prototype = <span class="keyword">new</span> Parent() <span class="comment">//原型链继承</span></span><br></pre></td></tr></table></figure>
 
-<p>原型链继承的优点是简单易实现，父类新增原型方法与属性子类都能访问；缺点就是无法实现多继承，引用类型的值会被实例共享。</p>
+<p>原型链继承的优点是简单易实现，父类新增原型方法与属性子类都能访问；缺点就是当改变父类构造函数上的属性时，Child的不同实例会相互影响。</p>
 <p>2、借用构造函数继承：就是利用call或apply函数，在子类型构造函数的内部调用超类型构造函数。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.name = name</span><br><span class="line">    <span class="built_in">this</span>.hobbies = [<span class="string">&quot;sing&quot;</span>,<span class="string">&quot;dance&quot;</span>]</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">    Parent.call(<span class="built_in">this</span>,name)</span><br><span class="line">    <span class="built_in">this</span>.age = <span class="number">24</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.name = <span class="string">&quot;小明&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">Parent.prototype.fn = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&quot;fn&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">    Parent.call(<span class="built_in">this</span>)</span><br><span class="line">    <span class="built_in">this</span>.age = <span class="number">24</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> child = <span class="keyword">new</span> Child()</span><br><span class="line"><span class="built_in">console</span>.log(child.fn) <span class="comment">//undefined</span></span><br><span class="line"><span class="built_in">console</span>.log(child.name) <span class="comment">//小明</span></span><br></pre></td></tr></table></figure>
 
-<p>借用函数构造的优点是解决了引用类型的值被实例共享的问题，可以试下超类传递参数，可以实现多继承；缺点是不能继承超类原型链上的属性与方法，无法实现函数复用，由于call有多个父类实例的副本有性能的损耗。</p>
+<p>原理：通过call实现的继承本质上是改变了this的指向，让父类里面的this指向子类上下文，这样父类里面通过this设置的属性或者方法会被写到子类上。</p>
+<p>缺点：只能继承父类构造函数上的属性与方法，不能继承父类原型上的属性与方法。</p>
 <p>3、组合模式继承：是将原型链继承与借助构造函数继承的技术组合到一块的一种继承模式。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.name = <span class="string">&quot;parent&quot;</span></span><br><span class="line">    <span class="built_in">this</span>.arr = []</span><br><span class="line">&#125;</span><br><span class="line">Parent.prototype.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>.name)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    Parent.call(<span class="built_in">this</span>)</span><br><span class="line">    <span class="built_in">this</span>.type = <span class="string">&quot;child&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">Child.prototype = <span class="keyword">new</span> Parent()</span><br><span class="line"><span class="keyword">var</span> child1 = <span class="keyword">new</span> Child()</span><br><span class="line"><span class="keyword">var</span> child2 = nre Child()</span><br><span class="line">child1.arr.push(<span class="string">&quot;child&quot;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(child1.arr) <span class="comment">//[&quot;child&quot;]</span></span><br><span class="line"><span class="built_in">console</span>.log(child2.arr) <span class="comment">//[]</span></span><br></pre></td></tr></table></figure>
+
+<p>原理：使用原型链继承原型上的属性和方法，而通过盗用构造函数继承实例属性，这样既可以把方法定义在原型上实现重用，也可以让每个实例都有自己的属性。</p>
+<p>缺点：父类构造函数会在Parent.call(this)和new Parent()执行两次，从而使得父类构造函数上的属性在子类自身和子类原型都存在，会导致子类本身删除本身相关的属性后在其原型依然存在。</p>
 <p>4、共享原型继承：就是子类与父类共享一个原型。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">Parent.prototype.hobbies = [<span class="string">&quot;sing&quot;</span>,<span class="string">&quot;dance&quot;</span>]</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span>(<span class="params">name,age</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.name = name</span><br><span class="line">    <span class="built_in">this</span>.age = age</span><br><span class="line">&#125;</span><br><span class="line">Child.prototype = Parent.prototype</span><br></pre></td></tr></table></figure>
 
@@ -714,23 +719,6 @@
 <p>可以持久化存储与分析用户行为。</p>
 <p>但是网站速度会变慢，成本与维护增加。</p>
 <p>个人思路：使用SSO（单站点登录）实现两个系统的免登陆跳转，然后使用session存储用户信息，将购物车，历史记录等信息存储在后端数据库，跳转之后通过用户信息查询数据库获取后实现同步，数据存放在cookie中。</p>
-<ul>
-<li>说说函数柯里化：</li>
-</ul>
-<p>柯里化：将具有多个参数的函数转换为一个单参数的函数链，这种转变称为柯里化过程。如将f(a,b,c)转换为f(a)(b)(c)的形式进行调用。</p>
-<p>作用：</p>
-<p>1、使函数的职责单一化，将每次传入的参数在单一的函数中进行处理后在下一个函数中使用处理后的结果，而不是所有的参数一次传入：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">x</span>)</span>&#123;</span><br><span class="line">	x ++</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">y</span>)</span>&#123;</span><br><span class="line">		y *= <span class="number">2</span></span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">z</span>)</span>&#123;</span><br><span class="line">			z++</span><br><span class="line">            <span class="keyword">return</span> x + y + z</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(add(<span class="number">1</span>)(<span class="number">2</span>)(<span class="number">3</span>))</span><br></pre></td></tr></table></figure>
-
-<p>2、进行参数复用，如先传入一个后续调用都需要的函数参数，在之后使用返回的函数时就不需要再传入此参数</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">num</span>)</span>&#123;</span><br><span class="line">    retrun <span class="function"><span class="keyword">function</span>(<span class="params">count</span>)</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> num - count</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br><span class="line"><span class="keyword">let</span> sub = fn(<span class="number">100</span>)</span><br><span class="line"><span class="built_in">console</span>.log(sub(<span class="number">10</span>)) <span class="comment">//90</span></span><br><span class="line"><span class="built_in">console</span>.log(sub(<span class="number">20</span>)) <span class="comment">//80</span></span><br></pre></td></tr></table></figure>
-
-<p>3、打印日志时实现柯里化：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">log</span>(<span class="params">data,importance,message</span>)</span>&#123;</span><br><span class="line">    alert(<span class="string">`[<span class="subst">$&#123;data.getHours()&#125;</span>:<span class="subst">$&#123;data.getMinutes()&#125;</span>][<span class="subst">$&#123;importance&#125;</span> <span class="subst">$&#123;message&#125;</span>]`</span>)</span><br><span class="line">    <span class="keyword">let</span> logNow = log(<span class="keyword">new</span> <span class="built_in">Date</span>())</span><br><span class="line">&#125;</span><br><span class="line">logNow(<span class="string">&quot;Info&quot;</span>,<span class="string">&quot;message&quot;</span>) <span class="comment">//[HH:MM][Info message]</span></span><br></pre></td></tr></table></figure>
-
-<p>例子：实现一个add 函数，同时支持add(1, 2, 3); add(1, 2)(3); add(1)(2, 3);</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//主要思路：要判断当前传入函数的参数个数是否大于等于原函数所需参数的个数，如果是则执行当前函数，如果是小于，则返回一个函数</span></span><br><span class="line"><span class="keyword">const</span> curry = <span class="function">(<span class="params">fn,...args</span>) =&gt;</span> &#123;</span><br><span class="line">    args.length &gt;= fn.length ? fn(...args) : <span class="function">(<span class="params">..._args</span>) =&gt;</span> curry(fn,...args,..._args)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">x,y,z</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> x + y + z</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> add = curry(add)</span><br><span class="line"><span class="built_in">console</span>.log(add(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>))</span><br><span class="line"><span class="built_in">console</span>.log(add(<span class="number">1</span>,<span class="number">2</span>)(<span class="number">3</span>))</span><br><span class="line"><span class="built_in">console</span>.log(add(<span class="number">1</span>)(<span class="number">2</span>)(<span class="number">3</span>))</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>setTimeout实际延迟时间（最小延迟：4ms）:</li>
 </ul>
@@ -951,26 +939,8 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            前端学习笔记 (6)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
-            实习相关 (3)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E7%AE%97%E6%B3%95/">
             算法 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (2)
           </a>
         </li>
       
@@ -983,6 +953,24 @@
         <li class="categorys-list-item">
           <a href="/categories/%E5%A4%A7%E5%8E%82%E7%AC%94%E8%AF%95%E9%A2%98/">
             大厂笔试题 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            前端学习笔记 (6)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
+            实习相关 (3)
           </a>
         </li>
       
