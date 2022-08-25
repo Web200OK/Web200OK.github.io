@@ -802,6 +802,20 @@
 <p>1级的DOM没有关于事件的更新</p>
 <p>DOM2：有两个方法用来添加与移除事件的处理程序（addEventListner和removeEventListner），可以为元素添加多个事件处理程序，触发时会按照添加顺序依次调用</p>
 <p>DOM3：与DOM2一样只是增加了几个事件类型，比如说键盘事件（keyup）、鼠标事件（mousedown）</p>
+<ul>
+<li>说说es6的proxyAPI：</li>
+</ul>
+<p>proxy可以用来定义对象基本操作的自定义行为，它是一个构造函数，我们可以使用它来创建一个proxy实例对象，传入的第一个参数是target就是要拦截的对象，第二个参数是一个配置对象，以函数为属性，各属性中的函数分别定义了在执行各种操作时代理的行为。比如get函数属性可以拦截对象属性的获取，set可以拦截对象属性的设置。我们可以使用Reflect来调用对象的默认行为。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    <span class="attr">name</span>:<span class="string">&quot;张三&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> proxy = <span class="keyword">new</span> <span class="built_in">Proxy</span>(obj,&#123;</span><br><span class="line">    <span class="attr">get</span> : <span class="function"><span class="keyword">function</span> (<span class="params">target,propKey,receiver</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Reflect</span>.get(target,propKey)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line">proxy.name <span class="comment">//张三</span></span><br></pre></td></tr></table></figure>
+
+<p>proxy的功能非常类似于设计模式中的代理模式，常用功能如下：</p>
+<p>1、拦截和监视外部对象的访问</p>
+<p>2、降低函数或类的复杂度</p>
+<p>3、在复杂操作前对操作进行校验或对所需资源进行管理</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用proxy保障数据类型的准确性</span></span><br><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    <span class="attr">count</span>:<span class="number">0</span>,</span><br><span class="line">    <span class="attr">amount</span>:<span class="number">2</span>,</span><br><span class="line">    <span class="attr">total</span>:<span class="number">14</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> object = <span class="keyword">new</span> proxy(obj,&#123;</span><br><span class="line">    <span class="attr">set</span> : <span class="function"><span class="keyword">function</span>(<span class="params">target,propKey,value</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">typeof</span> value !== <span class="string">&quot;number&quot;</span>)&#123;</span><br><span class="line">			<span class="keyword">throw</span> <span class="built_in">Error</span>(<span class="string">&quot;属性只能是number类型&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Reflect</span>.set(target,propKey,value)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;) </span><br><span class="line">object.count = <span class="string">&quot;3&quot;</span> <span class="comment">//报错</span></span><br><span class="line">object.amount = <span class="number">3</span> <span class="comment">//赋值成功</span></span><br></pre></td></tr></table></figure>
+
+
+
 
       </section>
 
@@ -939,18 +953,6 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
             前端学习笔记 (6)
           </a>
@@ -963,8 +965,20 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
             面试准备 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
           </a>
         </li>
       

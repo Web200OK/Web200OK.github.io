@@ -132,7 +132,7 @@
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
         <ul>
-<li>1.CSS布局单位</li>
+<li>CSS布局单位</li>
 </ul>
 <p>常用的布局单位包括像素（<code>px</code>），百分比（<code>%</code>），<code>em</code>，<code>rem</code>，<code>vw/vh</code>。</p>
 <p><strong>（1）像素</strong>（<code>px</code>）是页面布局的基础，一个像素表示终端（电脑、手机、平板等）屏幕所能显示的最小的区域。</p>
@@ -165,14 +165,15 @@
 <ul>
 <li>2.link与@import标签的区别</li>
 </ul>
-<p>link属于html标签，而@import是css提供的</p>
+<p>link属于xhtml标签，而@import是css提供的</p>
 <p>页面被加载时，link会同时被加载，而@import引用的css会等到页面加载结束后加载。</p>
 <p>link是html标签，因此没有兼容性，而@import只有IE5以上才能识别。</p>
 <p>link方式样式的权重高于@import的。</p>
+<p>link支持使用JS控制DOM去改变样式，而@import不支持</p>
 <ul>
-<li>说说盒模型：</li>
+<li>说说盒子模型：</li>
 </ul>
-<p>使用盒子模型可以对元素进行布局，包括内边距、外边距、边框与实际内容这几个部分。</p>
+<p>盒子是CSS布局的对象和基本单位，一个页面由很多个盒子组成，元素的类型与display属性决定了这个盒子的类型。不同的盒子会参与不同的Formatting Context（它是页面中的一块渲染区域，并且有一套渲染规则，它决定子元素如何定位，以及和其他元素的关系和相互作用），因此盒子内的元素会以不同的方式渲染。</p>
 <p>盒子模型有两种：</p>
 <p>标准盒子：width指的是内容区域content的宽度，盒子大小=content+padding+border+margin</p>
 <p>怪异盒子：width指的是content+padding+border，盒子大小=content+padding+border+margin</p>
@@ -180,22 +181,17 @@
 <li>3.什么是BFC</li>
 </ul>
 <p>BFC就是块级格式化上下文，可以理解为时一个独立的块，在这个块中浮动元素会被计算高度，所有元素垂直沿着父元素边框排列。</p>
-<p>BFC布局规则：</p>
-<ol>
-<li>内部的Box会在垂直方向，一个接一个地放置。</li>
-<li>Box垂直方向的距离由margin决定。属于同一个BFC的两个相邻Box的margin会发生重叠。</li>
-<li>每个盒子（块盒与行盒）的margin box的左边，与包含块border box的左边相接触(对于从左往右的格式化，否则相反)。即使存在浮动也是如此。</li>
-<li>BFC的区域不会与float box重叠。</li>
-<li>BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素。反之也如此。</li>
-<li>计算BFC的高度时，浮动元素也参与计算。</li>
-</ol>
+<p>BFC作用：</p>
+<p>1、不和浮动元素重叠</p>
+<p>2、清除元素内部浮动</p>
+<p>3、防止垂直外边距重叠</p>
 <ul>
 <li>如何开启BFC：</li>
 </ul>
-<p>1、设置元素浮动</p>
-<p>2、设置元素绝对定位</p>
-<p>3、设置元素为inline-block</p>
-<p>4、将元素的overflow设置为hidden（副作用最小）</p>
+<p>1、float设置不能为none</p>
+<p>2、overflow设置不能为visible</p>
+<p>3、display设置不能为table-cell，table-caption，inline-block</p>
+<p>4、position不能为relative，static</p>
 <ul>
 <li>4.垂直居中的方法</li>
 </ul>
@@ -438,6 +434,9 @@
 <p>3、为父元素设置边框</p>
 <p>4、为父元素设置内边距</p>
 <p>5、在子元素div前添加空的table标签</p>
+<p>如何实现自适应布局：</p>
+<p>可以使用lib-flexible插件对html根标签根据屏幕尺寸绑定不同的font-size，然后使用post-css实现px自动转化为rem的方式实现自适用。</p>
+<p>对于移动端适配，可以通过meta标签的viewpoint来将当前页面的宽度设置为device-width，还可以设置页面的最大缩放比例比例等等。</p>
 
       </section>
 
@@ -575,18 +574,6 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
             前端学习笔记 (6)
           </a>
@@ -599,8 +586,20 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
             面试准备 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
           </a>
         </li>
       
