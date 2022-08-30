@@ -132,6 +132,15 @@
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
         <ul>
+<li>vue2与vue3的区别：</li>
+</ul>
+<p>1、生命周期：vue3在大部分生命周期名称上加上<code>on</code>，功能是类似的，不过vue3在组合式API中使用生命周期需要事先引入。</p>
+<p>2、vue3允许多个根节点，vue2如果在模板中使用多个根节点会报错</p>
+<p>3、vue2是optionsAPI，vue3是ComponentAPI，可以将同一逻辑的内容写到一起，增强代码的可读性内聚性</p>
+<p>4、异步组件：vue3提供Suspense组件，允许程序在等待异步组件加载完成前渲染兜底的内容，比如loding使用户体验更平滑。</p>
+<p>5、vue3提供Teleport组件可将部分DOM移动到Vue app之外的位置，比如弹窗组件</p>
+<p>6、数据响应式原理不同，vue2是数据劫持加上发布订阅模式，vue3是使用proxyAPI</p>
+<ul>
 <li>说说路由？</li>
 </ul>
 <p>路由route就是URL到函数的一个映射，router就是管理多个路由的一个容器，当接收到一个URL需要去路由映射表中查找相应的函数。</p>
@@ -206,10 +215,6 @@
 <li>vue2为什么直接对对象新增和删除属性监听不到：</li>
 </ul>
 <p>vue对对象属性实现响应式是只会对组件实例中data里面的对象通过遍历为每个属性用Object.defineProperty绑定getter和setter来实现属性数据的监听。</p>
-<ul>
-<li>vue的diff算法：</li>
-</ul>
-<p>虚拟DOM中不同的属性有唯一的key标识，当数据发生变化时，vue会根据新数据生成新的虚拟DOM，随后进行新旧虚拟DOM的对比：它会根据key值对比新旧虚拟DOM中的内容，如果不变则直接使用之前的真实DOM，如果改变则创建新的真实DOM然后渲染到页面中。</p>
 <ul>
 <li>实现浏览器多文件并发上传怎么设置，怎么批量上传</li>
 </ul>
@@ -334,11 +339,18 @@
 <ul>
 <li>说说vue的diff算法：</li>
 </ul>
-<p>vue的diff算法是一种通过同层的树节点进行比较的高效算法，作用于虚拟DOM渲染为真实DOM的新旧节点比较。</p>
-<p><strong>diff算法的主要特点有：</strong></p>
-<p>diff会对key值相同的虚拟DOM节点进行比较，每一个虚拟的DOM节点都有一个唯一的key值；</p>
-<p>只有key值相同且选择器相同的虚拟DOM节点才会进行精细化比较；</p>
-<p>diff算法只进行同层比较，不会跨层比较。</p>
+<p>1、当数据发生变化时，vue是如何更新节点的？</p>
+<p>首先先根据真实DOM生成一颗虚拟DOM，虚拟DOM其实就是一个对象，以对象的形式模拟树形结构，当虚拟DOM中某个节点的数据发生变化时会生成一个新的虚拟DOM，然后对新旧虚拟DOM进行对比，发现有不同的地方就直接修改在真实DOM，然后对虚拟DOM进行更新。</p>
+<p>2、diff的比较方式？</p>
+<p>在采取diff算法会根据唯一的key值比较新旧节点，比较只会在同层级进行，不会跨层级比较。</p>
+<p>3、diff的流程？</p>
+<p>当数据发生改变时，会调用Dep.notify方法通知所有订阅者Watcher，订阅者就会调用patch方法给真实的DOM打补丁，更新相应的视图。</p>
+<p>patch函数接收两个参数，分别是新旧虚拟DOM：</p>
+<p>（1）判断两节点是否值得比较（key值，标签名，是否为注释节点等），值得比较则执行PatchVnode。不值得比较则用新的虚拟DOM替换旧的虚拟DOM</p>
+<p>（2）如果两个节点都是一样的，那么就深入检查他们的子节点，如果两个子节点不一样就说明新的虚拟DOM完全被改变了，直接替换掉旧的虚拟DOM。如果两个节点不一样但是子节点一样也是直接替换。</p>
+<p>（3）patchVnode：首先找到对应的真实DOM，称为el；然后判断新旧虚拟DOM是否指向同一个对象，如果是的话直接return，如果他们都有文本节点但是不相等，那么将el的文本节点设置为新虚拟DOM的文本节点，如果旧虚拟DOM有子节点而新虚拟DOM没有则删除el的子节点，如果旧虚拟DOM没有而新的有则把新虚拟DOM的子节点添加到el上。如果两者都有子节点，那么需要执行updateChildren函数比较子节点，这个函数主要做了以下这些事：</p>
+<p>将新旧虚拟DOM的子节点提取出来，各自都有两个头尾的变量，他们的两个变量相互比较，一共有四种比较方式，分别是新前与新后，新后与旧后，新后与旧前，新前与旧后。如果这四种比较都没有匹配如果设置了key就会用key进行比较 ，在比较的过程中变量会往中间靠，一旦前面的索引大于后面的就说明新旧虚拟DOM的子节点至少有一个遍历完了，就会结束比较。</p>
+<p>就这样层层递归下去知道新旧虚拟DOM的所有子节点比对完也将DOM的补丁都打好了。</p>
 <p>diff算法底层是通过四种命中查找的优化策略，即①新前节点与新后节点，②新后节点与旧后节点，③新后节点与旧前节点，④新前节点与旧后节点，当一种查找不满足之后会继续下一种查找，如果找到则中断该节点查找，进行相应的处理，例如更新索引值或者通过patch函数让虚拟节点上树。如果四个策略都不满足，会循环查找。当开始索引值大于结束索引值时，也会终止查找策略，根据新旧索引情况判定是删除旧节点还是新增新节点。</p>
 <ul>
 <li>vuex与vue的关系以及vuex的使用：</li>
@@ -616,6 +628,12 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
             前端学习笔记 (6)
           </a>
@@ -628,20 +646,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (2)
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
             面试准备 (10)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
           </a>
         </li>
       

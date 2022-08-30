@@ -457,18 +457,31 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> fragment = <span class="built_in">document</span>.certaeDocumentFragment();</span><br><span class="line"><span class="keyword">const</span> operationDomHandle = <span class="function">(<span class="params">fragment</span>) =&gt;</span>&#123;</span><br><span class="line">     <span class="comment">//操作</span></span><br><span class="line">&#125;</span><br><span class="line">operationDomHandle(fragment);</span><br><span class="line"><span class="comment">//然后最后再替换</span></span><br><span class="line">rootElem.replaceChild(fragment,oldDom);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>用innerHtml 代替高频的appendChilde</li>
+<li><strong>如何渲染几万条数据且页面不卡顿？</strong></li>
 </ul>
-<h3 id="使用rem与媒体查询实现自适应方案："><a href="#使用rem与媒体查询实现自适应方案：" class="headerlink" title="使用rem与媒体查询实现自适应方案："></a>使用rem与媒体查询实现自适应方案：</h3><p>1、使用媒体查询做出判断，当屏幕大小微多少尺寸的时候做出不同的适配</p>
+<p>渲染大数据时，合理利用creatDocumentFragment和requestAnimationFrame，将操作分为一小段一小段执行。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> total = <span class="number">100000</span></span><br><span class="line">    <span class="keyword">const</span> once = <span class="number">20</span></span><br><span class="line">    <span class="keyword">const</span> loopCount = <span class="built_in">Math</span>.ceil(total / once)</span><br><span class="line">    <span class="keyword">let</span> count = <span class="number">0</span></span><br><span class="line">    <span class="keyword">const</span> ul = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;ul&#x27;</span>)</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	    <span class="keyword">const</span> fragment = <span class="built_in">document</span>.createDocumentFragment()</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt; once;i++)&#123;</span><br><span class="line">            <span class="keyword">const</span> li = <span class="built_in">document</span>.createElement(<span class="string">&#x27;li&#x27;</span>)</span><br><span class="line">            fragment.appenChild(li)</span><br><span class="line">        &#125;</span><br><span class="line">        ul.appendChild(fragment)</span><br><span class="line">        count++</span><br><span class="line">        loop()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">loop</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(count &lt; loopCount)&#123;</span><br><span class="line">            <span class="built_in">window</span>.requestAnimationFrame(add)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    loop()</span><br><span class="line">&#125;,<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="使用rem与媒体查询实现自适应方案："><a href="#使用rem与媒体查询实现自适应方案：" class="headerlink" title="使用rem与媒体查询实现自适应方案："></a>使用rem与媒体查询实现自适应方案：</h3><p>1、使用媒体查询做出判断，当屏幕大小为多少尺寸的时候做出不同的适配</p>
 <p>2、我们需要把设计稿上的宽度平均划分为15等分（也可以是10或者20），每一份的数据就是html根标签的字体大小</p>
 <p>3、当我们得到html根标签中的字体大小后我们就可以用设计稿中元素的大小除以html字体大小，得到的数值加上rem单位可以根据屏幕大小做出适配了。</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@media</span> screen <span class="keyword">and</span> (<span class="attribute">min-width</span>:<span class="number">320px</span>) &#123;</span><br><span class="line">    <span class="selector-tag">html</span> &#123;</span><br><span class="line">		<span class="attribute">font-size</span>:<span class="number">21.3px</span> /*当前屏幕尺寸除以划分的等分：<span class="number">320</span>/<span class="number">15</span>*/</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@media</span> screen <span class="keyword">and</span> (<span class="attribute">min-width</span>:<span class="number">750px</span>)&#123;</span><br><span class="line">    <span class="selector-tag">html</span> &#123;</span><br><span class="line">        <span class="attribute">font-size</span>:<span class="number">50px</span></span><br><span class="line">    &#125;		</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">2rem</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">2rem</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>也可以使用flexible.js自动获取屏幕的宽度并平均分成10等分，然后再用px run Rem插件自动将px转化为rem单位即可。</p>
-<h3 id="event对象的常见方法与属性："><a href="#event对象的常见方法与属性：" class="headerlink" title="event对象的常见方法与属性："></a>event对象的常见方法与属性：</h3><p>event.preventDefault()：阻止默认行为</p>
+<h3 id="event对象的常见方法与属性："><a href="#event对象的常见方法与属性：" class="headerlink" title="event对象的常见方法与属性："></a>event对象的常见方法与属性：</h3><p>1、方法：</p>
+<p>event.preventDefault()：阻止默认行为</p>
 <p>event.stopPropagation()：阻止冒泡</p>
 <p>event.stopImmediatePropagation()：按钮绑定了两个响应函数，一次注册a,b两个事件，点击按钮，a事件加上这个就能阻止b事件</p>
-<p>event.currentTarget：当前的绑定事件</p>
+<p>2、属性：</p>
+<p>event.currentTarget：当前绑定事件的dom元素</p>
+<p>event.type：事件类型的字符串</p>
+<p>event.target：触发事件的dom元素</p>
+<p>eveny.data：传递给事件的额外数据</p>
+<p>event.pageX/Y：相对于页面原点的坐标</p>
+<p>event.screenX/Y：相对于显示器屏幕的水平/垂直位置</p>
+<p>event.clientX/Y：相对于页面视口（可见窗口）的水平/垂直位置</p>
 
       </section>
 
@@ -606,6 +619,12 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
             前端学习笔记 (6)
           </a>
@@ -618,20 +637,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (2)
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
             面试准备 (10)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
           </a>
         </li>
       

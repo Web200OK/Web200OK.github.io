@@ -236,7 +236,7 @@
 <p>超时重传（RTO）：超时重传时间应该略大于报文往返的RRT值。实际上RTO是经常变化的，因为我们的网络也是经常变化的。</p>
 <p>快速重传：不以时间为驱动，而是以数据为驱动重传。快速重传的工作方式就是当收到三个相同的ACK报文时吗，会在定时器过期之前，重传丢失的报文。为了解决是重传之前的一个还是重传所有的问题，于是有了SACK方法。</p>
 <p>选择性确认（SACK）：这种方式只需要在TCP头部字段中加一个SACK的东西，它可以将缓存的地图发送给发送方，这样发送方就可以知道哪些数据接收到了，然后重传丢失的数据。</p>
-<p>D-SACK：可以让发送方知道是发出去的包丢了哈市接收方回应的ACK包丢了，还可以知道是不是发送方的数据包被网络延迟了；还可以知道网络中是不是把发送方的数据包复制了。</p>
+<p>D-SACK：可以让发送方知道是发出去的包丢了还是接收方回应的ACK包丢了，还可以知道是不是发送方的数据包被网络延迟了；还可以知道网络中是不是把发送方的数据包复制了。</p>
 <ul>
 <li>TCP协议的流量控制（针对避免网络拥堵）：</li>
 </ul>
@@ -354,13 +354,6 @@
 <p>协商缓存：服务器端缓存策略，在第一次发送请求的响HTTP应头中加入资源标识，如果第二次请求发现资源并没有修改过则返回304状态码直接从缓存中获取资源。如果资源已经修改则返回200状态码和最新的资源以及最新的资源标识。资源标识有last-modified和etag，last-modified对应需要在第二次请求的请求中添加if-modified-since；etag对应需要在第二次请求的请求中中添加if-none-match。</p>
 <p>etag优先级更高，因为last-modified只能精确到秒，而且文件如果隔一段时间重复生成即使内容相同last-modified会每次返回资源文件，而etag可以判断内容相同则返回304从缓存中获取资源。</p>
 <ul>
-<li>js事件循环：</li>
-</ul>
-<p>浏览器由很多模块组成，有解析html和css的模块，有解析js的模块，有定时器模块，有ajax模块。</p>
-<p>宏任务：script标签中的整体代码、setTimeout、setInterval、I/O、UI渲染</p>
-<p>微任务：process.nextTick、Promise、MutationObserver</p>
-<p>事件循环：一开始整个脚本作为一个宏任务执行，执行过程中同步代码直接执行，宏任务进入宏任务队列，微任务进入微任务队列。当前宏任务执行完毕后立即执行微任务队列中的所有微任务。当前宏任务执行完毕开始检查渲染，然后GUI线程接管渲染（浏览器会在两个宏任务交接期间，对页面进行重新渲染）。渲染完毕后JS线程继续接管，开始下一个宏任务，依此循环，直到宏任务与微任务队列都为空。</p>
-<ul>
 <li>GET 和 POST 的区别：</li>
 </ul>
 <p>GET是通过URl传递参数，post是通过请求体传递参数</p>
@@ -420,7 +413,7 @@
 <li>http码是304多好还是不好？</li>
 </ul>
 <p>304是协商缓存中服务器向客户端返回，允许客户端调用缓存内容的状态码，它不是一种错误。</p>
-<p>但是当304状态码多了之后，搜 索引擎蜘蛛可能会降低对网站的抓取次数，相反如果每次抓取都能获取新内容，回访率也会增加。</p>
+<p>但是当304状态码多了之后，搜索引擎蜘蛛可能会降低对网站的抓取次数，相反如果每次抓取都能获取新内容，回访率也会增加。</p>
 <ul>
 <li>options的主要用途：</li>
 </ul>
@@ -436,13 +429,13 @@
 </ul>
 <p>1、新增多个响应状态码：100（在请求大量资源前的预热请求）、206（范围请求的标识码）、409（请求与当前资源的规定冲突）…</p>
 <p>2、连接方面：1.0默认使用非持久连接，1.1默认使用持久长连接，支持多个http请求使用同一个tcp连接。在1.0中，提供了长连接选项，即在请求头中加入Connection:Keep-alive;同样在1.1中如果不希望使用长连接，也可以在请求头中加入Connection:close，这样会通知服务器不需要长连接，请求结束后即可关闭。</p>
-<p>3、缓存方面：缓存技术通过避免用户与源服务器的频繁交互节约了大量的网络带宽，降低了用户接受信息的延迟。1.1则引入了Etag、if-Undified-Since、If-Match、If-None-Match等更多缓存头来控制缓存策略。</p>
+<p>3、缓存方面：缓存技术通过避免用户与源服务器的频繁交互节约了大量的网络带宽，降低了用户接受信息的延迟。1.1则引入了Etag、if-Modified-Since、If-Match、If-None-Match等更多缓存头来控制缓存策略。</p>
 <p>4、域名系统（DNS）允许多个主机名绑定到同一个IP地址中，但是1.0没有考虑到这个问题，假设我们有一个资源URL是<a target="_blank" rel="noopener" href="http://example1.org/home.html%EF%BC%8CHTTP/1.0%E7%9A%84%E8%AF%B7%E6%B1%82%E6%8A%A5%E6%96%87%E4%B8%AD%EF%BC%8C%E5%B0%86%E4%BC%9A%E8%AF%B7%E6%B1%82%E7%9A%84%E6%98%AF%60GET">http://example1.org/home.html，HTTP/1.0的请求报文中，将会请求的是`GET</a> /home.html HTTP/1.0`.也就是不会加入主机名。这样的报文送到服务器端，服务器是理解不了客户端想请求的真正网址。1.1新增了host字用来指定服务器的域名，这样服务器就可以确定客户端想要请求的真正的网址。同时新增了许多请求方法，如PUT、HEAD等</p>
 <p>5、带宽优化：1.1可以在请求中加入Range头部以请求数据的一部分，服务器端可以忽略Range头部，也可以返回若干Range响应，响应码是206。在范围响应中，Content-Range头部标志指示出了该数据块的偏移量与数据块的长度。</p>
 <p>粘包问题：</p>
 <p>HTTP/1.1是通过Content-Length这个请求头解决的，它标明了数据部分所占用的大小从而可以通过它来确定这个数据包的边界，避免粘包。</p>
 <p>分块编码：</p>
-<p>在某些动态的场景下，发送方式无法预知数据的大小的因此无法返回一个确切的Content-Length请求头信息，此时采用Transfer-Encoding:chunked这个请求头，允许服务端将数据分为多个部分。如果使用了分块编码，则请求及响应有以下特点：</p>
+<p>在某些动态的场景下，发送方是无法预知数据的大小的因此无法返回一个确切的Content-Length请求头信息，此时采用Transfer-Encoding:chunked这个请求头，允许服务端将数据分为多个部分。如果使用了分块编码，则请求及响应有以下特点：</p>
 <p>1、在Headers中加入了Transfer-Encoding:chunked表示使用分块编码</p>
 <p>2、在每个分块每一行都以/r/n结尾。第一行表示这个分块的数据长度，是一个十六进制的数，第二行则是这个分块的具体数据。</p>
 <p>3、最后一个分块长度是0，且数据没有内容，表示这个数据的结束。</p>
@@ -831,6 +824,14 @@
 <p>TCP是面向流的协议，UDP是面向消息的协议，UDO端都是一条消息，应用程序必须以消息为单位提取数据，不能一次提取任意字节的数据</p>
 <p>UDP具有保护消息边界，在每个UDP包中就有消息头，这样对于接收端来说就容易进行区分处理，传输协议把一条独立的消息在网上传输，接收端只能接收到独立的消息，接收端一次只能接受发送端发出的一个数据包，如果一次接受数据的大小小于发送端一次发送的数据大小就会丢失一部分数据，即使丢失接收端也不会分两次去接受</p>
 <ul>
+<li>说说websoket是怎么连接的以及为什么它为什么以HTTP为桥梁：</li>
+</ul>
+<p>websoket通信的双方在TCP三次握手之后还需要额外进行一次握手，该握手始于一个HTTP请求，通过HTTP协议传送Websoket支持的协议号，协议的字版本号，原始地址、主机地址等一系列字段给服务器。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">GET /chat HTTP/<span class="number">1.1</span></span><br><span class="line"><span class="attr">Host</span>: server.example.com</span><br><span class="line"><span class="attr">Upgrade</span>: websocket</span><br><span class="line"><span class="attr">Connection</span>: Upgrade</span><br><span class="line">Sec-WebSocket-Key:dGhlIHNhbXBsZSBub25jZQ==</span><br><span class="line">Origin: http:<span class="comment">//example.com</span></span><br><span class="line">Sec-WebSocket-Version: <span class="number">13</span></span><br></pre></td></tr></table></figure>
+
+<p>该处的upgrade首部是用来将当前的HTTP请求升级到websoket协议，这是HTTP为了扩展支持其他的通讯协议，如果服务器支持新的协议，则返回101.</p>
+<p>之所以基于HTTP是因为Websoket设计上本来就是为HTTP增强通信，所以在HTTP协议基础上连接是很自然的一件事，也可以因此获取HTTP的诸多便利。第二，基于HTTP连接将获得最大的一个兼容支持，比如即使服务器不支持Websoket也能建立HTTP通信，只不过返回的是error，这比服务器无响应好很多。</p>
+<ul>
 <li>websoket的安全问题：</li>
 </ul>
 <p>实际上，几乎所有的Web漏洞都有可能出现在WebSocket中。因为，WebSocket本质上就是一个通过HTTP建立连接的双向全双工的通信协议而已，但由于其相比HTTP多了一“工”的特性，可能会出现一些新的攻击场景。</p>
@@ -1012,6 +1013,12 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
             前端学习笔记 (6)
           </a>
@@ -1024,20 +1031,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (2)
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
             面试准备 (10)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
           </a>
         </li>
       
