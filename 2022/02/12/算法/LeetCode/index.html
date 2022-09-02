@@ -575,6 +575,18 @@
 <p>对于任意二进制字符串，只有形如1….0000的字符串才是2的幂</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">minCnt</span>(<span class="params">s</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">let</span> sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i =<span class="number">0</span>;i &lt; s.length;i++)&#123;</span><br><span class="line">		<span class="keyword">if</span>(s[i] === <span class="string">&quot;1&quot;</span>) sum++</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum - <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/jump-game/">跳跃游戏</a></li>
+</ul>
+<p>可以把题意理解为最多能跳多远，如果可以越过最后一格，返回true否则返回false</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> canJump = <span class="function"><span class="keyword">function</span>(<span class="params">nums</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> max = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i &lt; nums.length - <span class="number">1</span>;i++)&#123;</span><br><span class="line">        max = <span class="built_in">Math</span>.max(max,i+nums[i])</span><br><span class="line">        <span class="keyword">if</span>(max &lt;= i) <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/stone-game/">石子游戏</a></li>
+</ul>
+<p>中等题！！！先手必赢</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> stoneGame = <span class="function"><span class="keyword">function</span>(<span class="params">piles</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
 
       </section>
 
