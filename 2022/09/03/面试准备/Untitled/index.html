@@ -22,7 +22,7 @@
 
   
 
-  <title>webpack基础 | 好好学习，天天向上</title>
+  <title>好好学习，天天向上</title>
 
   
 
@@ -45,7 +45,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202204/0f829ab893fbfda172e7d31c02d61fb1--450213885.jpg)"></div>
+    <div class="post-image" style="background-image: url(http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202203/cf9820b1d260197627e24287034d80c9--3875145929.jpg)"></div>
   
 
   <!-- navbar -->
@@ -96,15 +96,13 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">webpack基础</h1>
+          <h1 class="title-wrap"></h1>
           <h2 class="title-sub-wrap">
             <strong>ChenZehong</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2022-05-07T12:19:57.190Z" itemprop="datePublished">2022-05-07</time>
+            <time  class="article-date" datetime="2022-09-03T09:31:05.276Z" itemprop="datePublished">2022-09-03</time>
           </h2>
           <ul class="wrap-list dark">
-  
-    <li><a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">📒 前端学习笔记</a></li>
   
 </ul>
           <ul class="wrap-list dark">
@@ -131,46 +129,23 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h3 id="入口起点（entry）："><a href="#入口起点（entry）：" class="headerlink" title="入口起点（entry）："></a>入口起点（entry）：</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> config = &#123;</span><br><span class="line">	<span class="comment">//单个入口写法</span></span><br><span class="line">    <span class="attr">entry</span>:<span class="string">&#x27;./main.js&#x27;</span></span><br><span class="line">    <span class="comment">//上面是下面的简写</span></span><br><span class="line">    <span class="attr">entry</span>:&#123;</span><br><span class="line">    	<span class="attr">main</span>:<span class="string">&#x27;./main.js&#x27;</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//当entry传入一个数组时，将创建多个主入口，在你想要多个依赖文件一起注入，并且将它们的依赖导向到一个chunk时，传入数组的方式就很有用</span></span><br><span class="line">	<span class="comment">//对象写法</span></span><br><span class="line">	<span class="attr">entry</span>:&#123;</span><br><span class="line">        <span class="comment">//分离应用程序和第三方库入口</span></span><br><span class="line">        <span class="attr">app</span>:<span class="string">&#x27;./src/app.js&#x27;</span>,</span><br><span class="line">        <span class="attr">vendors</span>:<span class="string">&#x27;./src/vendor.js&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="输出（output）："><a href="#输出（output）：" class="headerlink" title="输出（output）："></a>输出（output）：</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> config = &#123;</span><br><span class="line">    <span class="comment">//普通写法</span></span><br><span class="line">	<span class="attr">output</span>:&#123;</span><br><span class="line">        <span class="comment">//输出文件的文件名</span></span><br><span class="line">        <span class="attr">filename</span>:<span class="string">&#x27;bundle.js&#x27;</span>,</span><br><span class="line">        <span class="comment">//目标输出目录path的绝对路径</span></span><br><span class="line">        <span class="attr">path</span>:<span class="string">&#x27;/home/proj/public/assets&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//多个入口起点</span></span><br><span class="line">    <span class="attr">entry</span>:&#123;</span><br><span class="line">    	<span class="attr">app</span>:<span class="string">&#x27;./src/app.js&#x27;</span>,</span><br><span class="line">    	<span class="attr">search</span>:<span class="string">&#x27;./src/search.js&#x27;</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="attr">output</span>:&#123;</span><br><span class="line">        <span class="attr">filename</span>:<span class="string">&#x27;[name].js&#x27;</span>,</span><br><span class="line">        <span class="attr">path</span>:__dirname + <span class="string">&#x27;/dist&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="模式（mode）："><a href="#模式（mode）：" class="headerlink" title="模式（mode）："></a>模式（mode）：</h3><p>development：会将process.env.NODE_ENV的值设置为development</p>
-<p>production：会将process.env.NODE_ENV的值设置为production</p>
-<p>注：只设置NODE_ENV，则不会自动设置mode</p>
-
+        
       </section>
 
       
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202201/f7cef4e7fa001fd3bd654b87084230a9--1925026217.jpg"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2022/05/16/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%BF%9B%E9%98%B6%E4%BD%BF%E7%94%A8/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">react的进阶使用</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="https://pic.3gbizhi.com/2020/0627/thumb_1680_0_20200627125737754.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202112/def71a18fe51f8d911376bc713639daf--3679449604.jpg"></div>
     
     <div class="card-text">
       
-        <a href="/2022/05/06/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/%E7%8E%A9%E8%BD%ACvue3/vite.config.js/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">vue3vite.config.js配置</h2>
+        <a href="/2022/07/20/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E5%A4%A7%E5%8E%82%E7%AC%94%E8%AF%95%E9%A2%98/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">项目相关</h2>
         </a>
       
       <div class="card-text--row">Older</div>

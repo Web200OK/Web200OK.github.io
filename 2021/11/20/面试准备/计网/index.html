@@ -205,6 +205,17 @@
 <li>泛洪攻击：</li>
 </ul>
 <p>在三次握手中当服务器发送SYN-ACK包给客户端之后，可能不会接收到客户端回应的ACK包，这个就是半开放连接，服务器需要消耗一定数量的系统内存来等待这个连接。攻击者通过创建很多的半开放连接来发动泛洪攻击。</p>
+<p>防御：</p>
+<p>1、增加TCP backlog队列</p>
+<p>由于泛洪攻击原理是依赖于终端主机连接套接字的backlog溢出，因此一个显然的基于终端主机的解决方案是增加backlog队列的大小，通常是修改应用的listen函数调用和一个操作系统内核参数SOMAXCONN，它用于设置一个应用程序能够接收的backlog上限值。</p>
+<p>2、减少SYN-RECEIVE的时间</p>
+<p>缩短一个TCB（包含了数据发送双方对应的socket信息以及拥有装载数据的缓冲区。）从进入SYN-RECEIVED状态到因为进入下一个状态而被回收之间的时间。</p>
+<p>3、SYN缓存</p>
+<p>在采用SYN缓存的主机中，一个带有被限制大小的HASH表空间被用于存放那些将被分配给TCB的数据的子集，如果当握手完成的ACK接收到了，这些数据将被复制到一个完成的TCB中，否则超出存活时间的HASH值将会在需要时被回收。</p>
+<p>4、SYN Cookies</p>
+<p>对比SYN缓存的方法，该方法做到了接收到一个SYN时完全不需要分配空间，因为构成连接的最基本数据都被编码压缩进SYN-ACK的序列号比特位里。对于一个合法连接，服务端将受到一个带有序列号的ACK报文段，然后基本的TCB数据将被重新生成，一个完整的TCB通过解压确认数据将被安全的实例化。其不足之处就是不是所有的TCB数据都能被添加到32位的序列号段中，所以一些高性能要求的TCP选项不能被编码。</p>
+<p>5、混合方式</p>
+<p>将上述的两种或更多防御方式联合起来使用。</p>
 <ul>
 <li>TCP四次挥手：</li>
 </ul>
@@ -243,9 +254,14 @@
 <p>流量控制就是为了让发送方发送数据的速度不要太快，TCP采用大小可变的滑动窗口进行流量控制。</p>
 <p>当一个连接建立时，连接的每一端会分配一个缓冲区来保存输入的数据并将缓冲区的大小发送给另一端；当数据到达时接收方发送确认其中包含自己剩余的缓冲区大小（即自己的接收窗口大小rwnd）。如果接收方应用程序读数据的速度能够与数据到达的速度一样快，接收方将在每一确认中发送一个正的窗口通告；如果发送方操作的速度快于接收方，接收到的数据最终将充满接收方的缓冲区，导致接收方通告一个零窗口，发送方收到一个零窗口通告的时候必须停止发送，直到接收方重新通告一个正的窗口。但有两种情况除外，一个是可以发送紧急数据；一个是发送方可以发送一个1字节的数据包来通知接收方重新声明它希望接收的下一字节及发送方的滑动窗口大小。</p>
 <ul>
-<li>接收窗口与拥塞窗口的区别：</li>
+<li>流量控制与拥塞控制的区别：</li>
 </ul>
-<p>接收窗口由接收方管理，接收方将窗口大小发送给发送方，窗口大小表示接收方缓冲区仍然空闲的字节数。拥塞窗口是发送方强加的窗口，它的实现是为了避免网络路径中间的一些路由器溢出，拥塞窗口是发送方允许自己发送更多未完成的数据而出现，当发送方检测到数据丢失时对将窗口切成两半，背后的原理是发送方假设数据包丢失是因为某个地方的缓冲区溢出而发生的，因此发送方希望保持较少的数据“在运行中”，以避免将来进一步包的丢失。</p>
+<p>流量控制解决的是发送方和接收方速率不匹配的问题，发送方发送过快接收方来不及接收和处理，采用的机制是滑动窗口的控制，控制的是发送了但未被ACK的包数量。</p>
+<p>拥塞控制是避免网络资源被耗尽的问题，通过双方自律的采取避让的措施，来避免网络有限资源被用尽，当出现丢包时控制发送的速率达到降低网络负载的目的。</p>
+<ul>
+<li>拥塞控制中接收窗口与拥塞窗口的区别：</li>
+</ul>
+<p>接收窗口由接收方管理，接收方将窗口大小发送给发送方，窗口大小表示接收方缓冲区仍然空闲的字节数。拥塞窗口是发送方的窗口，它的实现是为了避免网络路径中间的一些路由器溢出，拥塞窗口是发送方允许自己发送更多未完成的数据而出现，当发送方检测到数据丢失时对将窗口切成两半，背后的原理是发送方假设数据包丢失是因为某个地方的缓冲区溢出而发生的，因此发送方希望保持较少的数据“在运行中”，以避免将来进一步包的丢失。</p>
 <ul>
 <li>TCP的拥塞控制（避免刚开始启动时避免一下子发送大量数据导致网络瘫痪）：</li>
 </ul>
@@ -326,6 +342,14 @@
 <p>跨域就是指浏览器不能执行其他网站的脚本，是浏览器对Javascript实施的安全限制。之所以有同源策略是浏览器对于用户安全的考虑，会导致Cookie、LocalStorage无法读取，DOM和JS对象无法获取、Ajax请求发送不出去。</p>
 <p>解决跨域的方法：</p>
 <p>1、jsonp是利用script脚本不受同源策略的限制</p>
+<p>（1）前端设置好回调函数，并把回调函数作为请求url携带的参数</p>
+<p>（2）后端接收到请求之后，返回回调函数和需要的数据</p>
+<p>（3）后端响应并返回数据后，返回的数据传入回调函数中并执行</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//通过原生使用script标签</span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">	<span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">data</span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">		<span class="built_in">console</span>.log(data)	</span></span><br><span class="line"><span class="javascript">	&#125;    </span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;http://127.0.0?callback=fn&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>也可以使用AJAX的GET方法来跨域请求</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">	<span class="function"><span class="keyword">function</span> <span class="title">jsonpCallback</span>(<span class="params">data</span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">		<span class="built_in">console</span>.log(data)</span></span><br><span class="line"><span class="javascript">    &#125; </span></span><br><span class="line"><span class="javascript">    $.ajax(&#123;</span></span><br><span class="line"><span class="javascript">        <span class="attr">type</span>:<span class="string">&quot;GET&quot;</span>,</span></span><br><span class="line"><span class="javascript">        <span class="attr">url</span>:<span class="string">&quot;http://127.0.0:3000&quot;</span>,</span></span><br><span class="line"><span class="javascript">        <span class="attr">dataType</span>:<span class="string">&quot;jsonp&quot;</span>,</span></span><br><span class="line"><span class="javascript">        <span class="attr">jsonpCallback</span>:<span class="string">&quot;jsonpCallback&quot;</span></span></span><br><span class="line"><span class="javascript">    &#125;)</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>2、CORS（跨域资源共享）</p>
 <p>对于简单请求（GET/POST/HEAD）的跨域，只需要在服务端设置Access-Control-Allow-Origin即可，在发送请求时客户端会自动在请求头中添加origin字段，当请求到达服务端时如果origin指定的源在服务器许可范围内就会返回一个正常的响应，否则返回一个错误。</p>
 <p>对于复杂请求的跨域，由于复杂请求在发送之前会使用options方法发起一个预检请求以获取服务器是否允许该请求。所以首先需要对options方法的请求添加这些响应头，它会告诉浏览器根据这些属性进行跨域限制，随后我们对正式请求添加跨域响应头:</p>
@@ -337,6 +361,22 @@
 <p>允许来自不同源的脚本采用异步方式进行有限的通信</p>
 <p>5、基于HTML5的websocket协议</p>
 <p>基于该协议可以做到浏览器与服务器全双工通信，允许跨域请求</p>
+<ul>
+<li>窗口之间的数据通信跨域怎么解决：</li>
+</ul>
+<p>1、location.hash + iframe</p>
+<p>具体流程如下：</p>
+<p>（1）不同域的a页面与b页面进行通信，在a页面通过iframe嵌入b页面，并给iframe的src添加一个hash值</p>
+<p>（2）b页面接收到了hash值后，确定a页面在尝试向自己通信，然后通过parent.location.hash的值，将要通信的数据传递给a页面的hash</p>
+<p>（3）但由于IE与Chrome下不允许子页面直接修改父页面的hash值，所以需要一个代理页面，通过与a页面同域的c页面开传递数据</p>
+<p>（4）同样的在 b页面中通过iframe嵌入c页面，将要传递的数据通过iframe的src链接的hash值传递给c页面，由于a页面与c页面同域，c页面可以直接修改a页面的hash值或者调用a页面中的全局函数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2021/webp/587100/1614011890923-856e8f43-7639-4b28-9fac-4dcc074d476b.webp?x-oss-process=image/resize,w_661,limit_0"></p>
+<p>2、document.domain + iframe</p>
+<p>只限于主域相同子域不同的资源跨域解决方案</p>
+<p>3、window.name + iframe</p>
+<p>window.name的独特之处在于在页面设置window.name的值，其实就是相当于给这个窗口设置了名称，而后在这个窗口加载其他页面（甚至不同域的页面），window.name的值依然存在，并且window.name的值支持比较大的存储（2MB）</p>
+<p>4、window.postMessage</p>
+<p>这是HTML5的新特性，用于页面之间跨域通信，接收两个必要的参数，一个是需要传的数据，一个是数据传递的目标窗口域名，值可以是具体的域名或者是通配符*</p>
 <ul>
 <li>说说跨域请求头有哪些：</li>
 </ul>
@@ -353,6 +393,19 @@
 <p>强缓存：在第一次请求返回的响应头中添加cache-control，设置max-age有效时间，这样当发送下一次请求时如果在有效期内则直接在缓存中获取资源。</p>
 <p>协商缓存：服务器端缓存策略，在第一次发送请求的响HTTP应头中加入资源标识，如果第二次请求发现资源并没有修改过则返回304状态码直接从缓存中获取资源。如果资源已经修改则返回200状态码和最新的资源以及最新的资源标识。资源标识有last-modified和etag，last-modified对应需要在第二次请求的请求中添加if-modified-since；etag对应需要在第二次请求的请求中中添加if-none-match。</p>
 <p>etag优先级更高，因为last-modified只能精确到秒，而且文件如果隔一段时间重复生成即使内容相同last-modified会每次返回资源文件，而etag可以判断内容相同则返回304从缓存中获取资源。</p>
+<ul>
+<li>JS如何清除缓存：</li>
+</ul>
+<p>1、meta方法</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;pragma&quot;</span> <span class="attr">content</span>=<span class="string">&quot;no-cache&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;Cache-control&quot;</span> <span class="attr">content</span>=<span class="string">&quot;no-cache,must-revalidate&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;expires&quot;</span> <span class="attr">content</span>=<span class="string">&quot;0&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>2、清除form表单的临时缓存</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">onLoad</span>=<span class="string">&quot;javascript:document.yourFormName.reset()&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>3、在请求头加上”If-Modified-Since”:”0”以及”Cache-Control”:”no-cache”</p>
+<p>4、在url后面加上随机数或者随机事件来避免缓存，因为增加了一个随机参数后，每次请求都不一样，服务器会将其作为一个新的请求，重新返回结果，而不会使用缓存</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">js文件，路径加上一个随机数</span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;lib/gMarker.js?random=120210&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line">css文件，加一个标识强制浏览重新加载此文件</span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">href</span>=<span class="string">&quot;css/index.css?t=1202201&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">图片，加一个标识号，使图片不被缓存</span><br><span class="line">background:url(a.png?2347239479)</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>GET 和 POST 的区别：</li>
 </ul>
@@ -525,11 +578,12 @@
 <ul>
 <li>浏览器渲染过程：</li>
 </ul>
-<p>1、根据HTML构建DOM树</p>
-<p>2、根据CSS构建stylesheet</p>
-<p>3、将DOM树与stylesheet合并为渲染树</p>
-<p>4、根据渲染树来布局，以计算每个节点的几何信息</p>
-<p>5、将各个节点绘制到屏幕上</p>
+<p>1、解析HTML，构建DOM树。网络中传输的内容其实是字节数据，先将字节转换为字符串然后转换为token（标识起始标签与结束标签的作用），一边生成token一边消耗token来生成节点对象。</p>
+<p>2、解析CSS，构建stylesheet</p>
+<p>3、将DOM树与stylesheet合并为渲染树（render tree）</p>
+<p>4、回流：根据生成的渲染树，进行回流，得到节点的几何信息（位置，大小）</p>
+<p>5、重绘：根据渲染树以及回流得到的几何信息，得到节点的绝对像素</p>
+<p>6、Display绘制：将像素发给GPU，最后调用操作系统Native GUI线程的API绘制，展示在页面上。这步其实还有很多内容，比如会将多个合成层合并为一个层，并展示在页面中。而css3硬件加速的原理则是新建合成层。</p>
 <ul>
 <li>在浏览器输入baidu.com并且按下回车之后发生了什么：</li>
 </ul>
@@ -990,7 +1044,7 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>33</span>
+        <span>34</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -1035,12 +1089,6 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
             前端学习笔记 (6)
           </a>
@@ -1049,6 +1097,12 @@
         <li class="categorys-list-item">
           <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
             实习相关 (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
           </a>
         </li>
       
