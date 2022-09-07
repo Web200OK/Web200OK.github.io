@@ -317,8 +317,8 @@
 <ul>
 <li>伪类和伪元素的区别：</li>
 </ul>
-<p>主要的区别就在于是否创建了新元素。伪类用于选择DOM树以外的信息，或者是不能用简单选择器进行表示的信息。伪元素为DOM树没有定义的虚拟元素，比如::before表示选择元素内容之前的内容。</p>
-<p>还有就是伪类是一个:开头，伪元素是两个:开头。</p>
+<p>伪类用于选择处于特定状态的元素，比如鼠标指针悬浮(:hover)、第一个子元素(:first-child)等等，它是以一个:开头的。（没有创建新的元素）</p>
+<p>伪元素是以两个:开头的，是指DOM树没有定义的虚拟元素，比如::before表示选择元素内容之前的内容。（创建了新的元素）</p>
 <ul>
 <li>实现圣杯布局（左右两边固定宽，中间自适应，使用float、负外左边距和相对定位实现）：</li>
 </ul>
@@ -574,26 +574,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            前端学习笔记 (6)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
-            实习相关 (3)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E7%AE%97%E6%B3%95/">
             算法 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
           </a>
         </li>
       
@@ -606,6 +594,18 @@
         <li class="categorys-list-item">
           <a href="/categories/%E5%A4%A7%E5%8E%82%E7%AC%94%E8%AF%95%E9%A2%98/">
             大厂笔试题 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            前端学习笔记 (6)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
+            实习相关 (3)
           </a>
         </li>
       

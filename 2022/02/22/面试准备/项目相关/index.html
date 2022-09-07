@@ -132,10 +132,6 @@
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
         <ul>
-<li>项目难点：</li>
-</ul>
-<p>在添加商品模块上传图片的时候，因为在elementUi中并没有声明上传图片并不是使用axios请求，所以在将图片发送给服务端的时候失败了，原因是因为axios有在请求拦截器中为每个请求添加服务器返回的token，所以需要手动给图片上传的请求头中添加token ，可以存在cookie，同时在后端开启http only，这样通过document.cookie就读取不到了。</p>
-<ul>
 <li>性能优化都可以从哪里入手：</li>
 </ul>
 <p><strong>Webpack构建流程优化</strong>：</p>
@@ -183,16 +179,29 @@
 <ul>
 <li>项目性能优化指标：</li>
 </ul>
-<p>1、FP（First Paint）：用于记录页面第一次绘制像素的时间</p>
-<p>2、FCP（First content Paint）：页面开始加载最大文本块内容或图片显示在页面中的时间，不超过2秒页面就算体验优秀</p>
-<p>3、LCP（Largest content Paint）：用于记录视窗内最大的元素绘制时间，该时间会随着页面渲染变化而变化，代表页面的速度指标</p>
+<p>1、LCP（Largest content Paint）：用于记录视窗内最大（指的是元素的尺寸，不包括元素的margin/padding/border）的元素绘制时间，该时间会随着页面渲染变化而变化，代表网站初始载入速度，我们应该将改制控制在2.5s以内。</p>
+<p>一般网页是分批加载的，因此最大的元素也是随时间变化的，浏览器在绘制第一帧时分发一个largest-contentful-paint类型PerformanceEntry对象，随着时间的渲染，当有更大的元素渲染完成时就会有一个PerformanceEntry对象报告。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//提供方法</span></span><br><span class="line">PerformanceObserver.observe(options)</span><br><span class="line"><span class="comment">//options是一个装了单个键值对的对象，该键值对的键名为entryTypes,当记录的性能指标在指定的entryTypes之中时，将调用性能观察期的回调函数</span></span><br><span class="line"><span class="comment">//entryTypes有以下的取值：frame/navigation：文档的地址；resource：所请求资源的已解析URL，即使重定向也不会改变；paint:FP,LCP</span></span><br><span class="line">PerformanceObserver.disconnect()</span><br><span class="line"><span class="comment">//停止性能观察者回调接收到性能指标</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> observer = <span class="keyword">new</span> PerformanceObserver(<span class="function">(<span class="params">entryList</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">const</span> entry <span class="keyword">of</span> entryList.getEntries())&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;LCP candidate&#x27;</span>,entry)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">//通过以上代码，最新的largest-contentful-paint条目的startTime值就是LCP值</span></span><br></pre></td></tr></table></figure>
+
 <p>影响因素：服务端响应时间，JS与CSS引起的渲染卡顿、资源加载时间、客户端渲染</p>
-<p>4、FID（First input delay）：首次输入延迟，代表了页面的交互指标，就是看用户交互事件触发到页面响应中间耗时多少。</p>
+<p>2、FID（First input delay）：首次输入延迟，代表了页面的交互指标，就是看用户交互事件触发到页面响应中间耗时多少。页面的FID应为100毫秒或者更短。</p>
+<p>FID只关注不连续操作对应的输入事件，例如点击、轻触、按键等，一般只测量首次输入的延迟。</p>
+<p>与上面一样通过performanceObserver对象监听first-input类型的条目，并获取条目的startTime与processingStart时间戳的差值作为结果</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> PerformanceObserver(<span class="function">(<span class="params">entryList</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> entry <span class="keyword">of</span> entryList.getEntries()) &#123;</span><br><span class="line">    <span class="keyword">const</span> delay = entry.processingStart - entry.startTime;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;FID candidate:&#x27;</span>, delay, entry);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;).observe(&#123;<span class="attr">type</span>: <span class="string">&#x27;first-input&#x27;</span>, <span class="attr">buffered</span>: <span class="literal">true</span>&#125;);</span><br></pre></td></tr></table></figure>
+
 <p>影响因素：减少第三方代码的影响、减少JS的执行时间、最小化主线程工作、减少请求数量与请求文件大小</p>
-<p>5、CLS（Cumulative Layout Shift）：代表页面的稳定指标，它能衡量页面是否排版稳定，尤其在手机上这个指标更加重要，因为手机屏幕小，CLS值大的话会让用户页面体验很差。</p>
-<p>影响因素：图片或视屏元素有大小属性或者给他们保留一个空间大小、不要在一个已存在的元素上面插入内容，除了相应用户输入、使用animation或transition而不是直接出发布局改变</p>
-<p>6、TTI（Time to interactive）：可交互时间</p>
-<p>7、TBT（Total blocking time）：总阻塞时间</p>
+<p>3、CLS（Cumulative Layout Shift）：代表页面的稳定指标，它能衡量整个页面生命周期内发生的所有意外布局偏移中最大一连串的布局偏移分数。每当一个可见元素从一个已渲染帧变更到另一个已渲染帧时，就是发生了布局偏移。CLS应保持在0.1或更少。</p>
+<p>具体的计算方式，就是首先偏移前后的两个已渲染帧的总的叠加大小（只算可视区域，重合部分只算一次），占可视区域的百分比，称为影响分数。然后取不稳定元素在一帧中的最大偏移距离（水平或者垂直取最大）占可视区域（取水平/垂直）的比例，称为距离分数。距离分数与影响分数相乘就是偏移分数。</p>
+<p>js测量CLS的原理就是创建一个PerformanceObserver对象来侦听意外偏移layout-shift条目。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> clsValue = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">let</span> clsEntries = [];</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> sessionValue = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">let</span> sessionEntries = [];</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> PerformanceObserver(<span class="function">(<span class="params">entryList</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> entry <span class="keyword">of</span> entryList.getEntries()) &#123;</span><br><span class="line">    <span class="comment">// 只将不带有最近用户输入标志的布局偏移计算在内。</span></span><br><span class="line">    <span class="keyword">if</span> (!entry.hadRecentInput) &#123;</span><br><span class="line">      <span class="keyword">const</span> firstSessionEntry = sessionEntries[<span class="number">0</span>];</span><br><span class="line">      <span class="keyword">const</span> lastSessionEntry = sessionEntries[sessionEntries.length - <span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 如果条目与上一条目的相隔时间小于 1 秒且</span></span><br><span class="line">      <span class="comment">// 与会话中第一个条目的相隔时间小于 5 秒，那么将条目</span></span><br><span class="line">      <span class="comment">// 包含在当前会话中。否则，开始一个新会话。</span></span><br><span class="line">      <span class="keyword">if</span> (sessionValue &amp;&amp;</span><br><span class="line">          entry.startTime - lastSessionEntry.startTime &lt; <span class="number">1000</span> &amp;&amp;</span><br><span class="line">          entry.startTime - firstSessionEntry.startTime &lt; <span class="number">5000</span>) &#123;</span><br><span class="line">        sessionValue += entry.value;</span><br><span class="line">        sessionEntries.push(entry);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        sessionValue = entry.value;</span><br><span class="line">        sessionEntries = [entry];</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 如果当前会话值大于当前 CLS 值，</span></span><br><span class="line">      <span class="comment">// 那么更新 CLS 及其相关条目。</span></span><br><span class="line">      <span class="keyword">if</span> (sessionValue &gt; clsValue) &#123;</span><br><span class="line">        clsValue = sessionValue;</span><br><span class="line">        clsEntries = sessionEntries;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 将更新值（及其条目）记录在控制台中。</span></span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;CLS:&#x27;</span>, clsValue, clsEntries)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;).observe(&#123;<span class="attr">type</span>: <span class="string">&#x27;layout-shift&#x27;</span>, <span class="attr">buffered</span>: <span class="literal">true</span>&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>影响因素：图片或视屏元素有大小属性或者给他们保留一个空间大小、不要在一个已存在的元素上面插入内容，除了相应用户输入、使用animation或transition而不是直接出发布局改变。</p>
+<p>也可以使用一些官方库比如web-vitals来进行性能测量。</p>
+<ul>
+<li>组件封装需要注意什么：</li>
+</ul>
+<p>组件的封装主要就是用于在多个页面实现复用，所以我们需要对一些动态数据进行抽离，通过props父子组件传参的方式将不同种类的数据传递给子组件进行渲染。如果需要传递的是父组件的一个对象，最好是把需要传递的对象属性一个个进行传递，这样可以使组件的复用性更高。同时如果需要在子组件中对父组件传递过来的数据进行修改，不能直接修改而是应该通过emit方法通知父组件进行修改。</p>
+<p>在填写信息的表单中，v-model绑定的数据层数最好是两层以内，不要出现a.b.c.xxx的情况，层数多的话可以将数据单独拆分出来，再提交表单的时候再进行拼接。</p>
 <ul>
 <li>echarts：</li>
 </ul>
@@ -456,6 +465,11 @@
 <li>为什么webpack的文件名要加hash值：</li>
 </ul>
 <p>一般去部署前端资源文件时，会启用服务器的静态资源缓存，对于用户的浏览器而言就可以缓存到我们的静态资源，后续就不需要在请求服务器得到这些静态资源文件，整体应用的相应速度就有大幅度的提升。<br>不过，开启静态资源的缓存，也有问题，如果说在缓存策略当中，失效时间设置过短的话，效果不是特别明显，如果设置过长，一旦说应用发生了更新，重新部署过后，无法及时更新到客户客户端<br>所以在生产模式下，文件名使用 Hash 值，一旦资源文件发生改变，文件名称也可以跟着一起改变，对于客户端而言，全新的文件名就是全新的请求，那也就没有缓存的问题。</p>
+<ul>
+<li>git的fetch与pull有什么区别：</li>
+</ul>
+<p>git的fetch命令是将远程分支的最新内容拉取到本地，但是fetch之后是看不到变化的，它会在本地新增一个FETCH_HEAD的分支，可以通过切换到master分支之后通过merge去合并这个分支，如果出现冲突则解决冲突。</p>
+<p>git pull的作用相当于fetch与merge，自动合并，如果出现冲突的话也是需要手动解决。</p>
 
       </section>
 
@@ -593,26 +607,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            前端学习笔记 (6)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
-            实习相关 (3)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E7%AE%97%E6%B3%95/">
             算法 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
           </a>
         </li>
       
@@ -625,6 +627,18 @@
         <li class="categorys-list-item">
           <a href="/categories/%E5%A4%A7%E5%8E%82%E7%AC%94%E8%AF%95%E9%A2%98/">
             大厂笔试题 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            前端学习笔记 (6)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
+            实习相关 (3)
           </a>
         </li>
       
