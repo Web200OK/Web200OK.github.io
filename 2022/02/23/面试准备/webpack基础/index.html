@@ -526,7 +526,7 @@
 <li>概述：有些时候，我们一个模块向外暴露了n个函数、对象、或其他一些数据，但是我们只是用到了其中的一个或几个，那在最终打包的时候，我们只希望把我们所用的打包进去，这时候就要tree-shaking，即：去除无用代码。</li>
 <li>配置：同时满足两个条件webpack会自动开启tree-shaking</li>
 </ol>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">1.</span>  使用ES6模块化</span><br><span class="line">复制代码</span><br><span class="line"><span class="bullet">2.</span>  开启production环境</span><br></pre></td></tr></table></figure>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">1.</span>  使用ES6模块化</span><br><span class="line"><span class="bullet">2.</span>  开启production环境</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>webpack打包原理：</li>
@@ -564,7 +564,7 @@
 <ul>
 <li>性能优化：</li>
 </ul>
-<h4 id="开发环境："><a href="#开发环境：" class="headerlink" title="开发环境："></a>开发环境：</h4><p>HMR：模块热替换，当一个模块发生变化只会重新打包这个莫快递，无需重新加载整个页面，将dev-serve配置中hot属性更改为true即可。HMR模块对js的处理只能处理非入口js文件的其他文件；html文件默认不能使用HMR功能。</p>
+<h4 id="开发环境："><a href="#开发环境：" class="headerlink" title="开发环境："></a>开发环境：</h4><p>HMR：模块热替换，当一个模块发生变化只会重新打包这个模块，无需重新加载整个页面，将dev-serve配置中hot属性更改为true即可。HMR模块对js的处理只能处理非入口js文件的其他文件；html文件默认不能使用HMR功能。</p>
 <p>source-map：一种可以提供源代码到构建后的代码映射的技术，有了它以后除错工具可以显示原始代码错误，而不是转换后的代码，在配置文件webpack.config.js中添加键值对：devtool:”eval-source-map”，有多个选项可以根据开发环境或生产环境进行选择。</p>
 <p>oneOf：正常来说一个文件一般只需要被一个loader处理，但是在打包过程中全部loader都会匹配一次，可以在rules中声明的oneOf数组可以用来表示不能有两个配置处理同一类型的文件。</p>
 <p>缓存：</p>
@@ -617,7 +617,7 @@
 </ul>
 <p>webpack的运行流程是一个串行的过程，从启动到结束会依次执行以下流程：</p>
 <p>1、初始化参数：从配置文件和shell语句中读取与合并参数，得出最终的参数</p>
-<p>2、开始编译：用上一次得到的参数初始爱compiler对象，加载所有配置的插件，执行对象的run方法开始执行编译</p>
+<p>2、开始编译：用上一次得到的参数初始化compiler对象，加载所有配置的插件，执行对象的run方法开始执行编译</p>
 <p>3、确定入口：根据配置中的entry找出所有的入口文件</p>
 <p>4、编译模块：从入口文件出发，调用所以配置的loader对模块进行翻译，再找出该模块依赖的模块，再递归本步骤直到所有的入口文件依赖的文件都经过本步骤的处理</p>
 <p>5、完成模块编译：在经过第四步使用loader翻译完所以模块后，得到每个模块被翻译后的最终内容以及他们之间的依赖关系</p>
@@ -716,7 +716,7 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>33</span>
+        <span>32</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -761,6 +761,18 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
             前端学习笔记 (6)
           </a>
@@ -773,20 +785,8 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
-            面试准备 (10)
+            面试准备 (9)
           </a>
         </li>
       
