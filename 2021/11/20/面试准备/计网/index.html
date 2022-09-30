@@ -22,7 +22,7 @@
 
   
 
-  <title>Category: 面试准备 | 好好学习，天天向上</title>
+  <title>计算机网络篇 | 好好学习，天天向上</title>
 
   
 
@@ -43,7 +43,7 @@
   <div class="root-container">
     
 <!-- header container -->
-<header class="header-container">
+<header class="header-container post">
   
     <div class="post-image" style="background-image: url(http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202111/19a1b73a4f201a00a3da538a73add9bd--2226138859.jpg)"></div>
   
@@ -87,17 +87,6 @@
 
   
   
-    
-    <div class="header-content">
-      <div class="post-text layout-block layout-padding">
-        <h1 class="title-wrap">面试准备</h1>
-        <h2 class="title-sub-wrap">当前分类下共有10篇文章</h2>
-      </div>
-    </div>
-  
-
-  
-  
 
   
   
@@ -105,29 +94,73 @@
   
   
     <div class="header-content">
-      <div class="post-text layout-block layout-padding">
-        <h1 class="title-wrap">计算机网络篇</h1>
-        
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">计算机网络篇</h1>
+          <h2 class="title-sub-wrap">
+            <strong>ChenZehong</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2021-11-20T12:43:32.637Z" itemprop="datePublished">2021-11-20</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">📒 面试准备</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+</ul>
+        </div>
       </div>
     </div>
+  
+
+  
   
   
 </header>
 
-    <!-- 分页(其他自定义页面) -->
+    <!-- 文章 -->
 
-<!-- 自定义页面 -->
-
+<!-- 文章内容 -->
 <div class="body-container">
   <article class="content-container layout-block post-container">
     <div class="article-info">
+      
+      
+      
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
         <ul>
 <li>知道哪些计算机网络模型？OSI 和 TCP/IP</li>
 </ul>
 <p>OSI模型一共有七层：应用层、表示层、会话层、传输层、网络层、数据链路层、物理层</p>
-<p>TCP/IP模型有五层：应用层（HTTP协议、DNS协议、FTP协议）、传输层（TCP协议、UDP协议）、网络层（IP协议）、数据链路层、物理层</p>
+<p>TCP/IP模型有四层：应用层（HTTP协议、DNS协议、FTP协议）、传输层（TCP协议、UDP协议）、网络层（IP协议）、网络接口层</p>
+<p>1、应用层：应用层主要提供两个终端设备上的应用程序之间信息交换的服务，它定义了信息交换的格式，消息会交给下一层传输层进行传输。我们把应用层传输的数据单元叫做报文。</p>
+<p>2、传输层：传输层的主要任务就是负责向两台终端设备进程之间的通信提供通用的数据传输服务，利用该服务传送应用层报文。</p>
+<p>主要使用以下两种协议：</p>
+<p>TCP协议：提供面向连接的、可靠的数据传输服务</p>
+<p>UDP协议：提供无连接的，尽最大努力的数据传输服务（不保证数据传输的可靠性）</p>
+<p>3、网络层：网络层负责为分组交换网上的不同主机提供通信服务。在发送数据时，网络层把运输层产生的报文或用户数据封装成分组或包进行传送。网络层还有一个任务就是选择合适的路由，使源主机运输层所传下来的分组，能够通过网络层中的路由器找到目的主机。</p>
+<p>4、网路接口层：可以看做是数据链路层与物理层的合体。</p>
+<p>数据链路层的作用是将网络层交下来的IP数据包组装成帧，在两个相邻节点的链路上传送帧，每一帧包括数据和必要的控制信息。</p>
+<p>物理层的作用是 实现相邻计算机节点之间比特流的透明传送，尽可能屏蔽掉传输介质与物理设备之间的差异。</p>
+<ul>
+<li>为什么网络要分层：</li>
+</ul>
+<p>1、各层之间相互独立。只需要知道自己如何调用下层提供好的功能就可以了。、</p>
+<p>2、提高了整体灵活性。每一层都可以使用最合适的技术来实现，只需要保证提供的功能以及暴露的接口规则没有改变就可以了。</p>
+<p>3、大问题化小。分层可以将复杂的网络问题分解为很多比较小的、界线比较清晰简单的小问题来处理和解决。这样使得复杂的计算机网络变得易于设计，实现与标准化。</p>
+<ul>
+<li>浏览器是单进程还是多进程的，为什么：</li>
+</ul>
+<p>浏览器是多进程的，浏览器每一个标签页都代表一个独立的进程（多个空白的标签页会合并成一个进程）。</p>
+<p>每个进程有多个线程，主要包括：</p>
+<p>1、GUI渲染线程：负责渲染页面，负责渲染页面，解析html、css构成DOM树，当页面重绘或者由于某种操作引起回流都会调用该进程。与JS引擎线程是互斥的，当js引擎线程工作时，该线程会被挂起，GUI更新被放在js任务队列中，等待js引擎线程空闲的时候继续执行。</p>
+<p>2、js引擎线程：负责解析js脚本，js运行耗时过长 就会导致页面阻塞</p>
+<p>3、事件触发线程：当事件符合触发条件被触发时，该线程会把对应的事件回调函数添加到任务队列的队尾，等待js引擎处理。</p>
+<p>4、定时器触发线程</p>
+<p>5、http请求线程：http请求的时候会开启一个请求线程，请求完成有结果之后将请求的回调函数添加到任务队列中。</p>
 <ul>
 <li>TCP协议与UDP协议的区别：</li>
 </ul>
@@ -149,26 +182,60 @@
 <ul>
 <li>TCP三次握手：</li>
 </ul>
-<p>浏览器先向服务器发送一个SYN包以及seq序列号，然后服务器接收到SYN包后也向浏览器发送一个SYN包以及ACK确认应答（seq+1），然后浏览器接收到服务器发来的包后再向服务器发送一个确认应答ACK（服务器seq+1），此包发送完毕后客户端与服务器连接成功，三次握手结束。</p>
+<p>浏览器先向服务器发送一个SYN包以及seq序列号，此时浏览器进入SYN_SENT状态，然后服务器接收到SYN包后进入SYN_RECV状态，也向浏览器发送一个SYN包以及ACK确认应答（seq+1），然后浏览器接收到服务器发来的包后再向服务器发送一个确认应答ACK（服务器seq+1），进入EATABLISHED状态，服务器接收后也进入EATABLISHED状态。此时客户端与服务器连接成功，三次握手结束。</p>
+<ul>
+<li>为什么初始序号是随机的：</li>
+</ul>
+<p>因为如果初始序号是一个固定的值，那么恶意者就可以通过这个已知的序号来伪装发送方或者是接收方其中的一方，并造成 一些破坏。</p>
+<ul>
+<li>为什么是三次握手而不是四次或者两次：</li>
+</ul>
+<p>如果我们仅仅进行了两次握手，则服务器端发送了SYN、ACK报文段后不会接收到客户端的确认，也就是说只能自动认为客户端收到了SYN、ACK报文段。</p>
+<p>如果进行了四次握手，显然第二步的发送ACK与发送SYN报文段的过程在数据来说没有交叉，并且时间几乎连续，因此是可以合并的，于是便成为了三次握手。</p>
+<ul>
+<li>三次握手中SYN、ACK丢包如何处理：</li>
+</ul>
+<p>一旦超时，服务端会重发该报文段，但如果重发了超过设定的次数服务端仍未收到ACK报文段的话服务端会自动关闭该连接。但此时客户端仍无法感知到连接的关闭，因此服务端还会向客户端发送RST报文段，让客户端感知并重置该连接。</p>
+<ul>
+<li>seq与ACK分别是什么：</li>
+</ul>
+<p>seq是表示发送方发送数据包部分的第一位应该在整个数据流中所在的位置；</p>
+<p>ACK是表示期望接收方下一次seq是多少。</p>
 <ul>
 <li>泛洪攻击：</li>
 </ul>
 <p>在三次握手中当服务器发送SYN-ACK包给客户端之后，可能不会接收到客户端回应的ACK包，这个就是半开放连接，服务器需要消耗一定数量的系统内存来等待这个连接。攻击者通过创建很多的半开放连接来发动泛洪攻击。</p>
+<p>防御：</p>
+<p>1、增加TCP backlog队列</p>
+<p>由于泛洪攻击原理是依赖于终端主机连接套接字的backlog溢出，因此一个显然的基于终端主机的解决方案是增加backlog队列的大小，通常是修改应用的listen函数调用和一个操作系统内核参数SOMAXCONN，它用于设置一个应用程序能够接收的backlog上限值。</p>
+<p>2、减少SYN-RECEIVE的时间</p>
+<p>缩短一个TCB（包含了数据发送双方对应的socket信息以及拥有装载数据的缓冲区。）从进入SYN-RECEIVED状态到因为进入下一个状态而被回收之间的时间。</p>
+<p>3、SYN缓存</p>
+<p>在采用SYN缓存的主机中，一个带有被限制大小的HASH表空间被用于存放那些将被分配给TCB的数据的子集，如果当握手完成的ACK接收到了，这些数据将被复制到一个完成的TCB中，否则超出存活时间的HASH值将会在需要时被回收。</p>
+<p>4、SYN Cookies</p>
+<p>对比SYN缓存的方法，该方法做到了接收到一个SYN时完全不需要分配空间，因为构成连接的最基本数据都被编码压缩进SYN-ACK的序列号比特位里。对于一个合法连接，服务端将受到一个带有序列号的ACK报文段，然后基本的TCB数据将被重新生成，一个完整的TCB通过解压确认数据将被安全的实例化。其不足之处就是不是所有的TCB数据都能被添加到32位的序列号段中，所以一些高性能要求的TCP选项不能被编码。</p>
+<p>5、混合方式</p>
+<p>将上述的两种或更多防御方式联合起来使用。</p>
 <ul>
 <li>TCP四次挥手：</li>
 </ul>
 <ol>
-<li>客户端进程发出连接释放报文，并且停止发送数据。释放报文首部FIN=1，序列号seq等于前面传送过来的数据最后一个字节的序号+1，此时客户端进入终止等待状态1。</li>
-<li>服务器收到连接释放报文后发出确认应答ACK，并且带上自己的序列号，然后服务器进入等待关闭状态</li>
-<li>客户端收到服务器的确认应答后客户端进入终止等待状态2，等待服务器发送连接释放报文</li>
-<li>服务器将最后的数据发送完毕后向客户端发送连接释放报文，此时服务器进入最后确认状态，等待客户端的确认</li>
-<li>客户端收到服务器的连接释放报文后向服务器发送确认应答，此时客户端进入时间等待状态，等待一段时间后才进入关闭状态</li>
-<li>服务器收到客户端的确认 应答后立即进入关闭状态，服务器结束TCP连接的时间要比客户端早一些</li>
+<li>客户端进程发出连接释放报文，并且停止发送数据。释放报文首部FIN=1，序列号seq等于前面传送过来的数据最后一个字节的序号+1，此时客户端进入FIN_WAIT1状态。</li>
+<li>服务器收到连接释放报文后发出确认应答ACK，并且带上自己的序列号，然后服务器进入FIN_WAIT2状态</li>
+<li>客户端收到服务器的确认应答后客户端进入FIN_WAIT2状态，等待服务器发送连接释放报文</li>
+<li>服务器将最后的数据发送完毕后向客户端发送连接释放报文，此时服务器进入LAST_ACK状态，等待客户端的确认</li>
+<li>客户端收到服务器的连接释放报文后向服务器发送确认应答，此时客户端进入TIME_WAIT状态，等待一段时间后才进入CLOSED状态</li>
+<li>服务器收到客户端的确认应答后立即进入CLOSED状态，服务器结束TCP连接的时间要比客户端早一些</li>
 </ol>
 <ul>
 <li>为什么需要四次挥手：</li>
 </ul>
 <p>因为当服务器接收到客户端的连接释放报文后需要发送确认应答ACK与FIN包，但是由于服务器接收到报文之后还有数据需要传输，所以先发送一个确认应答，等到数据全部发送完了才能够发送FIN报文。（FIN报文是终结连接请求）</p>
+<ul>
+<li>TCP第四次挥手为什么要等待2MSL：</li>
+</ul>
+<p>1、为了保证客户端最后发送的ACK报文能够到达服务器，因为ACK有可能丢失触发超时重传，假设直接断开一旦ACK丢失则服务器无法正常进入关闭连接状态。</p>
+<p>2、再经过2MSL时间可以使本连接中所产生的所有报文段都从网络中消失，保证在关闭连接后不会有还在网络中滞留的报文段去骚扰服务器。</p>
 <ul>
 <li>TCP如何实现可靠性：</li>
 </ul>
@@ -180,22 +247,27 @@
 <p>超时重传（RTO）：超时重传时间应该略大于报文往返的RRT值。实际上RTO是经常变化的，因为我们的网络也是经常变化的。</p>
 <p>快速重传：不以时间为驱动，而是以数据为驱动重传。快速重传的工作方式就是当收到三个相同的ACK报文时吗，会在定时器过期之前，重传丢失的报文。为了解决是重传之前的一个还是重传所有的问题，于是有了SACK方法。</p>
 <p>选择性确认（SACK）：这种方式只需要在TCP头部字段中加一个SACK的东西，它可以将缓存的地图发送给发送方，这样发送方就可以知道哪些数据接收到了，然后重传丢失的数据。</p>
-<p>D-SACK：可以让发送方知道是发出去的包丢了哈市接收方回应的ACK包丢了，还可以知道是不是发送方的数据包被网络延迟了；还可以知道网络中是不是把发送方的数据包复制了。</p>
+<p>D-SACK：可以让发送方知道是发出去的包丢了还是接收方回应的ACK包丢了，还可以知道是不是发送方的数据包被网络延迟了；还可以知道网络中是不是把发送方的数据包复制了。</p>
 <ul>
 <li>TCP协议的流量控制（针对避免网络拥堵）：</li>
 </ul>
 <p>流量控制就是为了让发送方发送数据的速度不要太快，TCP采用大小可变的滑动窗口进行流量控制。</p>
 <p>当一个连接建立时，连接的每一端会分配一个缓冲区来保存输入的数据并将缓冲区的大小发送给另一端；当数据到达时接收方发送确认其中包含自己剩余的缓冲区大小（即自己的接收窗口大小rwnd）。如果接收方应用程序读数据的速度能够与数据到达的速度一样快，接收方将在每一确认中发送一个正的窗口通告；如果发送方操作的速度快于接收方，接收到的数据最终将充满接收方的缓冲区，导致接收方通告一个零窗口，发送方收到一个零窗口通告的时候必须停止发送，直到接收方重新通告一个正的窗口。但有两种情况除外，一个是可以发送紧急数据；一个是发送方可以发送一个1字节的数据包来通知接收方重新声明它希望接收的下一字节及发送方的滑动窗口大小。</p>
 <ul>
-<li>接收窗口与拥塞窗口的区别：</li>
+<li>流量控制与拥塞控制的区别：</li>
 </ul>
-<p>接收窗口由接收方管理，接收方将窗口大小发送给发送方，窗口大小表示接收方缓冲区仍然空闲的字节数。拥塞窗口是发送方强加的窗口，它的实现是为了避免网络路径中间的一些路由器溢出，拥塞窗口是发送方允许自己发送更多未完成的数据而出现，当发送方检测到数据丢失时对将窗口切成两半，背后的原理是发送方假设数据包丢失是因为某个地方的缓冲区溢出而发生的，因此发送方希望保持较少的数据“在运行中”，以避免将来进一步包的丢失。</p>
+<p>流量控制解决的是发送方和接收方速率不匹配的问题，发送方发送过快接收方来不及接收和处理，采用的机制是滑动窗口的控制，控制的是发送了但未被ACK的包数量。</p>
+<p>拥塞控制是避免网络资源被耗尽的问题，通过双方自律的采取避让的措施，来避免网络有限资源被用尽，当出现丢包时控制发送的速率达到降低网络负载的目的。</p>
+<ul>
+<li>拥塞控制中接收窗口与拥塞窗口的区别：</li>
+</ul>
+<p>接收窗口由接收方管理，接收方将窗口大小发送给发送方，窗口大小表示接收方缓冲区仍然空闲的字节数。拥塞窗口是发送方的窗口，它的实现是为了避免网络路径中间的一些路由器溢出，拥塞窗口是发送方允许自己发送更多未完成的数据而出现，当发送方检测到数据丢失时对将窗口切成两半，背后的原理是发送方假设数据包丢失是因为某个地方的缓冲区溢出而发生的，因此发送方希望保持较少的数据“在运行中”，以避免将来进一步包的丢失。</p>
 <ul>
 <li>TCP的拥塞控制（避免刚开始启动时避免一下子发送大量数据导致网络瘫痪）：</li>
 </ul>
 <p>TCP的拥塞控制算法包含了：慢启动，拥塞避免，快速重传，快速恢复</p>
 <p>慢启动：开始的时候不要发送大量数据，先测试一下网络的拥塞程度，由小到大增加拥塞窗口（cwnd）的大小。为了防止拥塞窗口增长过大引起网络拥塞，设置一个慢开始门限（sssthresh）。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">当cwnd&lt;sssthresh时，使用慢开始算法</span><br><span class="line">当cwnd=sssthresh时，既可以使用慢开始算法，也可以使用拥塞避免算法</span><br><span class="line">当cwnd》sssthresh时，使用拥塞避免算法</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">当cwnd&lt;sssthresh时，使用慢开始算法</span><br><span class="line">当cwnd=sssthresh时，既可以使用慢开始算法，也可以使用拥塞避免算法</span><br><span class="line">当cwnd&gt;sssthresh时，使用拥塞避免算法</span><br></pre></td></tr></table></figure>
 
 <p>拥塞避免：让拥塞窗口缓慢的增大，每经过一个返回时间RRT就把发送方的拥塞控制窗口加一。无论是慢开始阶段还是拥塞避免阶段，只要发送方判断网络出现拥塞，就把慢开始门限设置为拥塞时发送窗口大小的一半，然后拥塞窗口设置为1，执行慢开始算法。</p>
 <p>快速重传：要求接收方在收到一个失序的报文段后就立即发出重复确认，发送方只要一连续收到三个重复的确认应发就立即重传对方尚未收到的报文段，而不必等待设置的重传计时器时间到期。</p>
@@ -270,9 +342,19 @@
 <p>跨域就是指浏览器不能执行其他网站的脚本，是浏览器对Javascript实施的安全限制。之所以有同源策略是浏览器对于用户安全的考虑，会导致Cookie、LocalStorage无法读取，DOM和JS对象无法获取、Ajax请求发送不出去。</p>
 <p>解决跨域的方法：</p>
 <p>1、jsonp是利用script脚本不受同源策略的限制</p>
+<p>（1）前端设置好回调函数，并把回调函数作为请求url携带的参数</p>
+<p>（2）后端接收到请求之后，返回回调函数和需要的数据</p>
+<p>（3）后端响应并返回数据后，返回的数据传入回调函数中并执行</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//通过原生使用script标签</span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">	<span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">data</span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">		<span class="built_in">console</span>.log(data)	</span></span><br><span class="line"><span class="javascript">	&#125;    </span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;http://127.0.0?callback=fn&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>也可以使用AJAX的GET方法来跨域请求</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">	<span class="function"><span class="keyword">function</span> <span class="title">jsonpCallback</span>(<span class="params">data</span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">		<span class="built_in">console</span>.log(data)</span></span><br><span class="line"><span class="javascript">    &#125; </span></span><br><span class="line"><span class="javascript">    $.ajax(&#123;</span></span><br><span class="line"><span class="javascript">        <span class="attr">type</span>:<span class="string">&quot;GET&quot;</span>,</span></span><br><span class="line"><span class="javascript">        <span class="attr">url</span>:<span class="string">&quot;http://127.0.0:3000&quot;</span>,</span></span><br><span class="line"><span class="javascript">        <span class="attr">dataType</span>:<span class="string">&quot;jsonp&quot;</span>,</span></span><br><span class="line"><span class="javascript">        <span class="attr">jsonpCallback</span>:<span class="string">&quot;jsonpCallback&quot;</span></span></span><br><span class="line"><span class="javascript">    &#125;)</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>2、CORS（跨域资源共享）</p>
-<p>当使用XMLHttpRequest发送请求时，如果浏览器发现违反了同源策略就会自动加上一个请求头origin;后端在接收到请求确定响应后会在响应头加上Access-Control-Allow-Origin。浏览器判断响应中的Access-Control-Allow-Origin与当前地址值是否相同，匹配成功则继续相应处理，否则报错。</p>
-<p>需要浏览器和服务器的支持，浏览器在发送请求时在请求头中添加origin字段，然后在服务器里面配置Access-Control-Allow-Origin，服务器接收到请求时会根据origin字段在Access-Control-Allow-Origin查找，如果有则允许跨域，没有则不允许。</p>
+<p>对于简单请求（GET/POST/HEAD）的跨域，只需要在服务端设置Access-Control-Allow-Origin即可，在发送请求时客户端会自动在请求头中添加origin字段，当请求到达服务端时如果origin指定的源在服务器许可范围内就会返回一个正常的响应，否则返回一个错误。</p>
+<p>对于复杂请求的跨域，由于复杂请求在发送之前会使用options方法发起一个预检请求以获取服务器是否允许该请求。所以首先需要对options方法的请求添加这些响应头，它会告诉浏览器根据这些属性进行跨域限制，随后我们对正式请求添加跨域响应头:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">app.use(<span class="function"><span class="keyword">function</span> (<span class="params">req, res, next</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (req.method == <span class="string">&#x27;OPTIONS&#x27;</span>) &#123;</span><br><span class="line">    res.setHeader(<span class="string">&#x27;Access-Control-Allow-Origin&#x27;</span>, <span class="string">&#x27;*&#x27;</span>);</span><br><span class="line">    res.setHeader(<span class="string">&#x27;Access-Control-Allow-Methods&#x27;</span>, <span class="string">&#x27;GET, PUT, POST, DELETE, OPTIONS&#x27;</span>);</span><br><span class="line">    res.setHeader(<span class="string">&#x27;Access-Control-Allow-Headers&#x27;</span>, <span class="string">&#x27;content-type&#x27;</span>);</span><br><span class="line">    res.status(<span class="number">200</span>).end();</span><br><span class="line">  &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">	 res.setHeader(<span class="string">&#x27;Access-Control-Allow-Origin&#x27;</span>, <span class="string">&#x27;*&#x27;</span>)</span><br><span class="line">     next()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
 <p>3、代理跨域请求</p>
 <p>前端发送请求经过代理，请求需要的服务器资源</p>
 <p>4、HTML5 postMessage方法</p>
@@ -280,19 +362,50 @@
 <p>5、基于HTML5的websocket协议</p>
 <p>基于该协议可以做到浏览器与服务器全双工通信，允许跨域请求</p>
 <ul>
+<li>窗口之间的数据通信跨域怎么解决：</li>
+</ul>
+<p>1、location.hash + iframe</p>
+<p>具体流程如下：</p>
+<p>（1）不同域的a页面与b页面进行通信，在a页面通过iframe嵌入b页面，并给iframe的src添加一个hash值</p>
+<p>（2）b页面接收到了hash值后，确定a页面在尝试向自己通信，然后通过parent.location.hash的值，将要通信的数据传递给a页面的hash</p>
+<p>（3）但由于IE与Chrome下不允许子页面直接修改父页面的hash值，所以需要一个代理页面，通过与a页面同域的c页面开传递数据</p>
+<p>（4）同样的在 b页面中通过iframe嵌入c页面，将要传递的数据通过iframe的src链接的hash值传递给c页面，由于a页面与c页面同域，c页面可以直接修改a页面的hash值或者调用a页面中的全局函数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2021/webp/587100/1614011890923-856e8f43-7639-4b28-9fac-4dcc074d476b.webp?x-oss-process=image/resize,w_661,limit_0"></p>
+<p>2、document.domain + iframe</p>
+<p>只限于主域相同子域不同的资源跨域解决方案</p>
+<p>3、window.name + iframe</p>
+<p>window.name的独特之处在于在页面设置window.name的值，其实就是相当于给这个窗口设置了名称，而后在这个窗口加载其他页面（甚至不同域的页面），window.name的值依然存在，并且window.name的值支持比较大的存储（2MB）</p>
+<p>4、window.postMessage</p>
+<p>这是HTML5的新特性，用于页面之间跨域通信，接收两个必要的参数，一个是需要传的数据，一个是数据传递的目标窗口域名，值可以是具体的域名或者是通配符*</p>
+<ul>
+<li>说说跨域请求头有哪些：</li>
+</ul>
+<p>Access-Control-Allow-Origin：在预检请求与正常请求告知浏览器被允许的源，支持通配符但是不支持用逗号分隔的多源填写方式，也可以采用下面的方式进行添加：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> origin = req.headers.origin</span><br><span class="line">res.setHeader(<span class="string">&#x27;Access-Control-Allow-Origin&#x27;</span>,origin || <span class="string">&#x27;*&#x27;</span>)</span><br><span class="line"><span class="comment">//因为会随着客户端请求的origin变化，所以标识vary让浏览器不要缓存</span></span><br><span class="line">res.setHeader(<span class="string">&#x27;Vary&#x27;</span>,<span class="string">&#x27;origin&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>Access-Control-Allow-Methods：被允许的HTTP方法，由于判断简单请求之一的HTTP方法默认为GET/POST/HEAD，所以这些方法即使不声明浏览器也是支持的。</p>
+<p>Access-Control-Allow-Headers：在预检请求告知客户端允许的请求头，像 简单请求 约定的请求头默认支持： Accept 、 Accept-Language 、 Content-Language 、 Content-Type （text/plain、multipart/form-data、application/x-www-form-urlencoded）</p>
+<p>Access-Control-Max-Age：定义预检请求告知客户端允许的请求头可以缓存多久，在这段时间内只需要发送一次预检请求即可。</p>
+<ul>
 <li>HTTP缓存：</li>
 </ul>
 <p>有效减少网络请求的体积和数量</p>
 <p>强缓存：在第一次请求返回的响应头中添加cache-control，设置max-age有效时间，这样当发送下一次请求时如果在有效期内则直接在缓存中获取资源。</p>
-<p>协商缓存：服务器端缓存策略，在第一次发送请求的响应头中加入资源标识，如果第二次请求发现资源并没有修改过则返回304状态码直接从缓存中获取资源。如果资源已经修改则返回200状态码和最新的资源以及最新的资源标识。资源标识有last-modified和etag，last-modified对应需要在第二次请求的请求中中添加if-modified-since；etag对应需要在第二次请求的请求中中添加if-none-match。</p>
+<p>协商缓存：服务器端缓存策略，在第一次发送请求的响HTTP应头中加入资源标识，如果第二次请求发现资源并没有修改过则返回304状态码直接从缓存中获取资源。如果资源已经修改则返回200状态码和最新的资源以及最新的资源标识。资源标识有last-modified和etag，last-modified对应需要在第二次请求的请求中添加if-modified-since；etag对应需要在第二次请求的请求中中添加if-none-match。</p>
 <p>etag优先级更高，因为last-modified只能精确到秒，而且文件如果隔一段时间重复生成即使内容相同last-modified会每次返回资源文件，而etag可以判断内容相同则返回304从缓存中获取资源。</p>
 <ul>
-<li>js事件循环：</li>
+<li>JS如何清除缓存：</li>
 </ul>
-<p>浏览器由很多模块组成，有解析html和css的模块，有解析js的模块，有定时器模块，有ajax模块。</p>
-<p>宏任务：script标签中的整体代码、setTimeout、setInterval、I/O、UI渲染</p>
-<p>微任务：process.nextTick、Promise、MutationObserver</p>
-<p>事件循环：一开始整个脚本作为一个宏任务执行，执行过程中同步代码直接执行，宏任务进入宏任务队列，微任务进入微任务队列。当前宏任务执行完毕后立即执行微任务队列中的所有微任务。当前宏任务执行完毕开始检查渲染，然后GUI线程接管渲染（浏览器会在两个宏任务交接期间，对页面进行重新渲染）。渲染完毕后JS线程继续接管，开始下一个宏任务，依此循环，直到宏任务与微任务队列都为空。</p>
+<p>1、meta方法</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;pragma&quot;</span> <span class="attr">content</span>=<span class="string">&quot;no-cache&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;Cache-control&quot;</span> <span class="attr">content</span>=<span class="string">&quot;no-cache,must-revalidate&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;expires&quot;</span> <span class="attr">content</span>=<span class="string">&quot;0&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>2、清除form表单的临时缓存</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">onLoad</span>=<span class="string">&quot;javascript:document.yourFormName.reset()&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>3、在请求头加上”If-Modified-Since”:”0”以及”Cache-Control”:”no-cache”</p>
+<p>4、在url后面加上随机数或者随机事件来避免缓存，因为增加了一个随机参数后，每次请求都不一样，服务器会将其作为一个新的请求，重新返回结果，而不会使用缓存</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">js文件，路径加上一个随机数</span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;lib/gMarker.js?random=120210&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line">css文件，加一个标识强制浏览重新加载此文件</span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">href</span>=<span class="string">&quot;css/index.css?t=1202201&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">图片，加一个标识号，使图片不被缓存</span><br><span class="line">background:url(a.png?2347239479)</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>GET 和 POST 的区别：</li>
 </ul>
@@ -325,22 +438,66 @@
 <p>Cache-Control：控制http缓存</p>
 <p>content-type：表示后面的文档属于什么MIME类型</p>
 <ul>
+<li>常见的conten-type有哪些：</li>
+</ul>
+<p>1、text开头：</p>
+<p>（1）text/html：HTML格式</p>
+<p>（2）text/plain：纯文本格式</p>
+<p>（3）text/xml：xml格式</p>
+<p>2、图片格式：</p>
+<p>（1）image/gif：图片格式</p>
+<p>（2）image/jpeg：jpeg格式</p>
+<p>（3）image/png：png格式</p>
+<p>3、application开头</p>
+<p>（1）application/xhtml+xml：XHTML格式</p>
+<p>（2）application/xml：xml数据格式</p>
+<p>（3）application/json：JSON数据格式</p>
+<p>（4）application/pdf：pdf格式</p>
+<p>（5）application/octet-stream：二进制格式</p>
+<p>（6）application/x-www-form-urlencoded：表单发送默认格式</p>
+<p>4、媒体文件</p>
+<p>（1）audio/x-wav：wav文件</p>
+<p>（2）audio/x-ms-wma：w文件</p>
+<p>（3）audio/mp3：mp3文件</p>
+<p>（4）video/x-ms-wmv：wmv文件</p>
+<p>（5）video/mpeg4：mp4文件</p>
+<p>（6）video/avi：avi文件</p>
+<ul>
 <li>http码是304多好还是不好？</li>
 </ul>
 <p>304是协商缓存中服务器向客户端返回，允许客户端调用缓存内容的状态码，它不是一种错误。</p>
-<p>但是当304状态码多了之后，搜 索引擎蜘蛛可能会降低对网站的抓取次数，相反如果每次抓取都能获取新内容，回访率也会增加。</p>
+<p>但是当304状态码多了之后，搜索引擎蜘蛛可能会降低对网站的抓取次数，相反如果每次抓取都能获取新内容，回访率也会增加。</p>
 <ul>
 <li>options的主要用途：</li>
 </ul>
 <p>获取服务器支持的所有http请求方法</p>
-<p>用来检查访问权限，例如在进行CORS进行跨域资源共享时，对于复杂请求就是使用options方法发送嗅探请求，以判断是否有对指定资源的访问权限</p>
+<p>用来检查访问权限，例如在进行CORS进行跨域资源共享时，对于复杂请求(除了GET/POST/HEAD之外的请求)就是使用options方法发送嗅探请求，以判断是否有对指定资源的访问权限</p>
+<ul>
+<li>HTTP/1.0及以前：</li>
+</ul>
+<p>由于TCP连接的数据之间没有数据边界从而容易导致数据包粘连，无法处理，因此在HTTP/1.0及以前，采用了一种非常暴力的方式进行解决：</p>
+<p>每进行一次HTTP通信就要先建立一条TCP连接，在通信结束后，就需要断开一次TCP连接，这非常浪费资源。</p>
 <ul>
 <li>http1.0与http1.1之间的区别：</li>
 </ul>
-<p>连接方面：1.0使用非持久连接，1.1使用持久长连接，支持多个http请求使用同一个tcp连接</p>
-<p>资源请求方面：1.0中当客户端需要某个对象的一部分，服务器只能一整个对象，而1.1中引入range允许只请求资源的某个部分，返回码是206</p>
-<p>缓存方面：1.0主要使用If-Modified-Since、Expries来作为缓存判断的标准，1.1则引入了Etag、if-Undified-Since、If-Match、If-None-Match等更多缓存头来控制缓存策略</p>
-<p>1.1新增了host字用来指定服务器的域名，同时新增了许多请求方法，如PUT、HEAD等</p>
+<p>1、新增多个响应状态码：100（在请求大量资源前的预热请求）、206（范围请求的标识码）、409（请求与当前资源的规定冲突）…</p>
+<p>2、连接方面：1.0默认使用非持久连接，1.1默认使用持久长连接，支持多个http请求使用同一个tcp连接。在1.0中，提供了长连接选项，即在请求头中加入Connection:Keep-alive;同样在1.1中如果不希望使用长连接，也可以在请求头中加入Connection:close，这样会通知服务器不需要长连接，请求结束后即可关闭。</p>
+<p>3、缓存方面：缓存技术通过避免用户与源服务器的频繁交互节约了大量的网络带宽，降低了用户接受信息的延迟。1.1则引入了Etag、if-Modified-Since、If-Match、If-None-Match等更多缓存头来控制缓存策略。</p>
+<p>4、域名系统（DNS）允许多个主机名绑定到同一个IP地址中，但是1.0没有考虑到这个问题，假设我们有一个资源URL是<a target="_blank" rel="noopener" href="http://example1.org/home.html%EF%BC%8CHTTP/1.0%E7%9A%84%E8%AF%B7%E6%B1%82%E6%8A%A5%E6%96%87%E4%B8%AD%EF%BC%8C%E5%B0%86%E4%BC%9A%E8%AF%B7%E6%B1%82%E7%9A%84%E6%98%AF%60GET">http://example1.org/home.html，HTTP/1.0的请求报文中，将会请求的是`GET</a> /home.html HTTP/1.0`.也就是不会加入主机名。这样的报文送到服务器端，服务器是理解不了客户端想请求的真正网址。1.1新增了host字用来指定服务器的域名，这样服务器就可以确定客户端想要请求的真正的网址。同时新增了许多请求方法，如PUT、HEAD等</p>
+<p>5、带宽优化：1.1可以在请求中加入Range头部以请求数据的一部分，服务器端可以忽略Range头部，也可以返回若干Range响应，响应码是206。在范围响应中，Content-Range头部标志指示出了该数据块的偏移量与数据块的长度。</p>
+<p>粘包问题：</p>
+<p>HTTP/1.1是通过Content-Length这个请求头解决的，它标明了数据部分所占用的大小从而可以通过它来确定这个数据包的边界，避免粘包。</p>
+<p>分块编码：</p>
+<p>在某些动态的场景下，发送方是无法预知数据的大小的因此无法返回一个确切的Content-Length请求头信息，此时采用Transfer-Encoding:chunked这个请求头，允许服务端将数据分为多个部分。如果使用了分块编码，则请求及响应有以下特点：</p>
+<p>1、在Headers中加入了Transfer-Encoding:chunked表示使用分块编码</p>
+<p>2、在每个分块每一行都以/r/n结尾。第一行表示这个分块的数据长度，是一个十六进制的数，第二行则是这个分块的具体数据。</p>
+<p>3、最后一个分块长度是0，且数据没有内容，表示这个数据的结束。</p>
+<ul>
+<li>HTTP/1.1的问题：</li>
+</ul>
+<p>1、如果客户端想要发起并行的请求，则必须建立多个TCP连接，这对网络资源的消耗是十分严重的</p>
+<p>2、不会对请求及响应的请求头进行压缩，造成了网络流量的浪费</p>
+<p>3、不支持资源优先级导致TCP连接利用率低下</p>
 <ul>
 <li>1.1与2.0的区别：</li>
 </ul>
@@ -349,6 +506,22 @@
 <p><strong>头部压缩</strong>：由于1.1协议不带状态，每次请求都必须附上全部信息，所以请求的很多字段都是重复的，这既浪费带宽也影响速度。http2使用encoder来减少需要传输的请求头大小，通讯双方各自缓存一份头部字段表，既避免了重复请求头的传输，也减小了需要传输的大小。对于相同的数据，不再需要每次请求和响应发送，通信期间几乎不会改变通用键值对。如果首部发生了变化则只需将变化的部分加入到请求头中，改变的部分会加入到头部字段表中。</p>
 <p><strong>请求优先级</strong>：把http消息分为很多独立帧之后可以通过优化这些帧的交错与传输顺序进一步优化性能，每个流可以带有优先值。服务器根据流的优先级控制资源分配，而在响应数据准备好之后优先将最高优先级的帧发送给客户端。一般html文件优先级最高，css文件次之，之后是js文件等资源。</p>
 <p><strong>服务端推送</strong>：服务器可以对一个客户端请求发送多个响应，服务器向客户端推送资源无需客户端明确的请求，服务器能把客户端需要的资源伴随着index.html一起发送给客户端。这种服务器推送的是基于客户端的请求响应确定的。</p>
+<ul>
+<li>资源缓存：</li>
+</ul>
+<p>1、Expires：</p>
+<p>Expires是1.0所提供的对缓存的支持，通过这个请求头服务端可以告诉客户端缓存的过期时间，表示在过期时间内该资源都不会被更改，可以不用再向自己请求了。它记录了一个具体的时间，浏览器等客户端应用会根据本地的时间与该具体时间进行对比，那么如果我们对本地的时间进行了修改，则Expires的功能显然会受影响。</p>
+<p>2、Cache-Control：</p>
+<p>由于Expires存在上述的问题，因此在1.1中引入了Cache-Control机制，通过这个Headers可以在服务端与客户端之间沟通缓存信息。对于请求头，存在一种请求缓存指令，对于响应头，则存在一种响应缓存指令：</p>
+<p>同时出现了max-age以及Expires会以max-age为准。</p>
+<p>3、Last-Modified / If-Modified-Since：</p>
+<p>这两个字段需要配合Cache-Control进行使用，Last-Modified 位于响应头，If-Modified-Since位于请求头，它们的含义分别是</p>
+<p>Last-Modified ：该响应资源最后的修改时间，服务器在响应请求的时候可以填入这个字段</p>
+<p>If-Modified-Since：客户端缓存过期时间（max-age到达），发现该资源具有Last-Modified字段可以在请求头中填入If-Modified-Since字段并填入当前时间。服务端收到该时间后会与资源的最后修改时间进行比较。若修改则对这个资源响应，否则返回304告知客户端可以使用缓存的资源。</p>
+<p>4、Etag / If-None-Match：</p>
+<p>同样需要配合Cache-Control使用，Etag位于响应头，If-None-Match位于请求头，并且它们的优先级高于Last-Modified / If-Modified-Since。他们的含义分别是：</p>
+<p>Etag ：请求的资源在服务器中的唯一标识，规则由服务器决定，通过修改时间与文件大小生成。</p>
+<p>If-None-Match：若客户端在缓存过期时（max-age到达），发现该资源具有Etag字段，就可以添加If-None-Match请求头，并传入Etag中的值，之后服务器就会根据这个唯一标识来寻找对应的资源，根据其更新与否情况返回给客户端200或304</p>
 <ul>
 <li>http协议与https协议的区别：</li>
 </ul>
@@ -405,11 +578,12 @@
 <ul>
 <li>浏览器渲染过程：</li>
 </ul>
-<p>1、根据HTML构建DOM树</p>
-<p>2、根据CSS构建stylesheet</p>
-<p>3、将DOM树与stylesheet合并为渲染树</p>
-<p>4、根据渲染树来布局，以计算每个节点的几何信息</p>
-<p>5、将各个节点绘制到屏幕上</p>
+<p>1、解析HTML，构建DOM树。网络中传输的内容其实是字节数据，先将字节转换为字符串然后转换为token（标识起始标签与结束标签的作用），一边生成token一边消耗token来生成节点对象。</p>
+<p>2、解析CSS，构建stylesheet</p>
+<p>3、将DOM树与stylesheet合并为渲染树（render tree）</p>
+<p>4、回流：根据生成的渲染树，进行回流，得到节点的几何信息（位置，大小）</p>
+<p>5、重绘：根据渲染树以及回流得到的几何信息，得到节点的绝对像素</p>
+<p>6、Display绘制：将像素发给GPU，最后调用操作系统Native GUI线程的API绘制，展示在页面上。这步其实还有很多内容，比如会将多个合成层合并为一个层，并展示在页面中。而css3硬件加速的原理则是新建合成层。</p>
 <ul>
 <li>在浏览器输入baidu.com并且按下回车之后发生了什么：</li>
 </ul>
@@ -423,6 +597,22 @@
 <p>8、页面渲染：浏览器首先会根据html文件构建DOM树，根据解析到的css文件构建 CSSOM树，如果遇到script标签则判断是否含有defer或者async属性，不然script标签的加载和执行会造成页面的渲染的阻塞。当DOM数和CSSOM树建立好之后根据他们来构建渲染树。渲染树构建好之后会根据渲染树进行布局。布局完成后最后使用浏览器的ui接口对页面进行绘制，这个时候页面就显示出来了。</p>
 <p>9、TCP四次挥手：最后一步是TCP断开连接的四次挥手过程。若客户端认为数据发送完毕需要向服务器发送连接释放请求，服务器收到连接释放请求后会告诉应用层要释放TCP连接，然后发送ACK包，并进入CLOSE_WAIT状态，此时表明客户端到服务器的连接已经释放不再接受客户端发来的数据。因为TCP连接是双向的所以服务器仍旧可以发送数据给客户端。服务器如果此时还有没发完的数据会继续发送完毕后向客户端发送释放连接请求，然后服务器进入LAST-ACK状态，客户端收到释放请求后向服务器发送确认应答，此时客户端进入TIME-WAIT状态，该状态会持续2MSL（最大段生存期，指报文段在网络中生存的时间超时会被抛弃）时间。若时间段内没有服务器的重发请求的话就进入CLOSED状态，当服务器收到确认应答后也进入CLOSED状态。</p>
 <ul>
+<li>DNS的解析形式：</li>
+</ul>
+<p>1、主机向本地域名服务器的查询一般采用递归查询</p>
+<p>如果主机所询问的本地服务器不知道被查询的域名的IP地址，那么本地域名服务器就会以DNS客户的身份向其他根域名服务器继续发出查询请求报文，而不是让主机自己进行下一步查询。因此，递归查询返回的查询结果要么是所要查询的IP地址要么是报错，表示无法查到所需的IP地址。</p>
+<p>2、本地域名服务器向根域名服务器的查询一般采用迭代查询</p>
+<p>当根域名服务器收到本地域名服务器发出的迭代查询请求报文时，要么给出要查询的IP地址，要么告诉服务器下一步该往哪个域名服务器进行查询。然后让本地服务器进行后续的查询，根域名服务器通常是把自己知道的顶级域名服务器的IP地址告诉本地域名服务器，让本地服务器再向顶级域名服务器查询。</p>
+<p>顶级域名服务器在收到本地域名服务器的查询请求后，要么给出所查询的IP地址，要么告诉本地服务器应当向哪一个权威服务器进行查询。</p>
+<p>最后知道了所要解析的IP地址或报错就把这个结果返回给发起查询的主机。</p>
+<ul>
+<li>为什么DNS默认情况下使用UDP协议进行传输，什么情况下会用到TCP：</li>
+</ul>
+<p>主要原因还是DNS解析并不是那么在意数据传输的可靠性而是需要以更快的速度获取到域名对应的IP地址，即使出现了丢包，只需要重新发起一个DNS请求就可以了。</p>
+<p>用到TCP的情况：</p>
+<p>1、UDP报文不足以承载对应的响应资源（UDP被限制了最大512字节）</p>
+<p>2、进行DNS区域传输时（对DNS数据迁移），要保证可靠的数据交付</p>
+<ul>
 <li>页面中有多张图片，http是怎样加载的：</li>
 </ul>
 <p>在http1下，浏览器对一个域名下最大TCP连接数是6，可以使用多域名部署解决，这样可以提高同时请求的数目，加快页面图片的获取速度</p>
@@ -435,6 +625,21 @@
 <p>在客户端与服务器使用首部表来跟踪和存储之前发送的键值对，对于相同的数据不再通过每次请求和响应发送</p>
 <p>首部表在http2的连接存续期内始终存在，由客户端与服务器共同渐近的更新</p>
 <p>每个新的首部键值要么被追加到当前表的末尾要么替换表中之前的值</p>
+<ul>
+<li>说说QUIC协议：</li>
+</ul>
+<p>QUIC是基于UDP实现的，HTTP3.0就是基于QUIC实现的。</p>
+<p>为什么选择QUIC：</p>
+<p>1、网络环境的不适应：TCP协议在网络流行的早期推出是因为当时的网络不像现在这么发达，丢包率高，所以需要一个协议来保证数据传输的可靠性。但是现在的网络环境相对来说非常可靠，更需要网络协议能带来更高的性能</p>
+<p>2、TCP的更新成本更高：TCP协议中的一些对网络的优化其实并不是最优解，但是如果要修改TCP协议的代价很大，因为它的实现往往存在于操作系统的内核中，要对它进行修改依赖操作系统内核的更新。</p>
+<p>QUIC相对于HTTPS：</p>
+<p>1、减少了TCP三次握手以及TLS握手的时间，相对于HTTPS的3RRT握手，可以实现0RRT握手</p>
+<p>2.引入QUIC连接以及Stream的概念，相对于HTTP2的多路复用进行了改进，每条stream对应一个请求，stream之间互不影响</p>
+<p>3、对拥塞控制机制进行了改进，实现了TCP的拥塞控制算法并引入了更多的算法，同时由于位于应用层，修改、配置更加方便。</p>
+<p>4、RRT计算更为精准，PackNumber单调递增解决了TCP重传导致的RRT计算的歧义性，并且RRT的计算考虑了ACK延迟机制。</p>
+<p>5、通过connectionID唯一标识标示了一条QUIC连接，从而实现了两端的IP等信息变化仍能维持同一条QUIC连接</p>
+<p>6、通过引入StreamOffset字段实现了一条Stream上的按序传输能力</p>
+<p>7、引入了前向纠错机制，实现了纠错功能</p>
 <ul>
 <li>说一下http3.0：</li>
 </ul>
@@ -502,18 +707,6 @@
 <p>迭代查询：查询请求后，域名服务器返回单次查询的结果，下一级查询由用户自己请求，使用迭代查询用户需要发起多次的查询请求</p>
 <p>一般我们向本地DNS服务器发送请求的方式是递归查询，而本地服务器向其他域名服务器请求的过程是迭代请求的过程。</p>
 <ul>
-<li>说说常见的content-type：</li>
-</ul>
-<p><em>text/html：html格式</em></p>
-<p><em>text/plain：纯文本格式</em></p>
-<p><em>image/gif：gif格式</em></p>
-<p><em>application/json：json数据格式</em></p>
-<p><em>application/pdf：pdf数据格式</em></p>
-<p><em>application/msword：word文档格式</em></p>
-<p><em>application/octet-stream：二进制流格式</em></p>
-<p><em>application/x-www-form-urlencoded：表单的默认提交数据格式，将键值对的参数使用&amp;连接起来，如果有空格则转换为+号，如有特殊字符则进行转义。</em></p>
-<p><em>mulitipart/form-data：需要在表单中进行二进制文件上传时，需要使用该格式，也可用于键值对参数，最后连接成一串字符传输。</em></p>
-<ul>
 <li>URL有哪些组成部分：</li>
 </ul>
 <p>协议部分、域名部分、端口部分、虚拟目录部分、文件名部分、参数部分（从？到#之间的部分都是参数部分，参数之间用&amp;作为分隔符）、锚部分（从#开始到最后都是锚部分）。</p>
@@ -542,7 +735,20 @@
 </ul>
 <p>XSS是跨站脚本攻击(Cross Site Scripting)，攻击者可以通过向Web页面里面插入script代码，当用户浏览这个页面时，就会运行被插入的script代码，达到攻击者的目的。XSS的危害一般是泄露用户的登录信息cookie，攻击者可以通过cookie绕过登录步骤直接进入站点。XSS的分类分为反射型和存储型。反射型需要欺骗用户去点击才能触发XSS代码。存储型就是将恶意代码以留言的形式保存在服务器数据库，任何访问网站的人都会受到攻击。</p>
 <p>一切用户可控并且能够输出在页面代码中的地方都可能出现XSS漏洞，比如评论区、留言区等。</p>
-<p><strong>预防</strong>：对用户输入进行过滤，对输出进行html编码。也就是对用户提交的所有内容进行过滤，对url中的参数进行过滤，过滤掉导致脚本执行的相关内容，然后对动态输出到页面的内容进行html编码使脚本无法在浏览器中执行。还可以在服务端设置会话cookie的http only属性，这样客户端的JS脚本就不能获取到cookie信息了 。</p>
+<p><strong>预防</strong>：</p>
+<p>1、输入</p>
+<p>输入指客户端请求参数，具体包括用户输入，url参数，post参数。针对HTML代码的以下六个字符进行实体转义（&amp;,&gt;,&lt;,”,’,/）；除此之外，富文本的输入需要额外注意：</p>
+<p>（1）首先例行进行输入检查，保证用户输入的是完整的HTML代码，而不是有拼接的代码</p>
+<p>（2）通过htmlParser解析出HTML代码的标签、属性、事件</p>
+<p>（3）富文本的事件需要被禁止，以及一些危险的标签需要禁止</p>
+<p>（4）利用白名单机制，只允许安全的标签嵌入</p>
+<p>（5）过滤用户CSS，检查是否有危险代码</p>
+<p>2、输出</p>
+<p>所有需要输出到HTML页面中的变量，全部需要使用编码或者转义来防御，包括在HTML/CSS/JS/URL中输出。</p>
+<p>3、其他的CSS防御方式</p>
+<p>（1）JSONP XSS防御方式：callback做长度限制、检测callback中的字符、过滤callback以及JSON数据输出</p>
+<p>（2）HTTP-only Cookie：禁止页面的JS访问带有HttpOnly属性的Cookie</p>
+<p>（3）添加验证码机制：防止脚本冒充用户提交危险的操作</p>
 <ul>
 <li>说说CSRF：</li>
 </ul>
@@ -555,6 +761,12 @@
 </ul>
 <p>CSRF不需要将恶意代码注入用户的页面，仅仅是利用服务器的漏洞和用户的登录状态来实施攻击；</p>
 <p>CSRF攻击成本比XSS低。</p>
+<ul>
+<li>说说SSRF ：</li>
+</ul>
+<p>很多web应用都提供了从其他的服务器上获取数据的功能。使用指定的URL，web应用便可以获取图片，下载文件，读取文件内容等。SSRF的实质是利用存在缺陷的web应用作为代理攻击远程和本地的服务器。一般情况下， SSRF攻击的目标是外网无法访问的内部系统，黑客可以利用SSRF漏洞获取内部系统的一些信息（正是因为它是由服务端发起的，所以它能够请求到与它相连而与外网隔离的内部系统）。</p>
+<p>SSRF形成的原因大都是由于服务端提供了从其他服务器应用获取数据的功能且没有对目标地址做过滤与限制。</p>
+<p>SSRF的主要攻击方式：攻击者想要访问主机B上的服务，但是由于存在或者主机B是属于内网主机等原因导致攻击者无法直接访问主机B。而服务器A存在SSRF，漏洞，这时攻击者可以借助服务器A来发起SSRF攻击，通过服务器A向主机B发起请求，从而获取主机B的一些信息。</p>
 <ul>
 <li>合法的IPv4 或 IPv6 地址</li>
 </ul>
@@ -651,14 +863,179 @@
 </li>
 </ul>
 <p>可以对cookie数据进行压缩，将cookie中多个键值对看成文本，用文本压缩的方式进行压缩，可以使用gzip或者deflate算法，由于cookie中key,value必须是ascii字符，不能是Unicode字符，所以需要将压缩后的数据进行base64或者base32编码。</p>
+<ul>
+<li>如何在浏览器中存储大量数据：</li>
+</ul>
+<p>使用indexDB，它是浏览器提供的本地数据库（非关系型），允许存储大量数据，提供查询接口还能创建索引。</p>
+<p>1、键值对存储：indexDB内部采用对象仓库存放数据，所有类型的数据都可以直接存入，主键不能有重复，否则会抛出错误。</p>
+<p>2、异步：indexDB操作时不会锁死浏览器，这是为了防止大量数据的读写拖慢网页的表现。</p>
+<p>3、支持事务。indexDB支持事务，这意味着一系列事务中有一步失败整个事务就会取消。</p>
+<p>4、同源限制：每一个数据库对应创建它的域名，网页只能访问自身域下的数据库不能访问跨域的数据库。</p>
+<p>5、存储空间：一般来说大于250mb甚至没有上限。</p>
+<p>6、支持二进制储存</p>
+<p>或者是使用webSQL（内嵌在浏览器的关系型数据库）</p>
+<ul>
+<li>并发与并行的区别：</li>
+</ul>
+<p>并发：分别有任务A与B，在一段时间内通过任务间的切换完成了这两个任务，这种情况称为并发</p>
+<p>并行：假设CPU存在两个核心，那么可以同时完成任务A、B，同时完成多个任务的情况就是并行。</p>
+<ul>
+<li>说说TCP粘包，如何处理：</li>
+</ul>
+<p>TCP粘包就是指发送方的若干数据到达接收方时粘成了一包，从接收缓冲区来看，后一包数据的头紧接着前一包数据的尾，出现粘包的原因如下：</p>
+<p>（1）发送方原因：</p>
+<p>TCP默认使用Nagle算法减少网络中报文段的数量，在数据发送之前缓存他们. 如果短时间有多个数据发送, 会缓冲到⼀起作⼀次发送</p>
+<p>（2）接收方原因：</p>
+<p>TCP接收到数据包时，并不会马上交到应用层进行处理，或者说应用层不会立即处理，TCP将接收到的数据包保存在接收缓存里，然后应用程序主动从缓存读取收到的分组，这样一来如果TCP接收数据包到缓存的速度大于应用程序从缓存中读取数据包的速度，多个包就会被缓存，应用程序就有可能读取到多个收尾相黏连在一起的包</p>
+<p>1、什么时候需要处理粘包的现象：</p>
+<p>（1）如果发送方发送的多组数据本来就是同一块数据下的不同部分，不需要处理</p>
+<p>（2）如果多个分组毫不相干，甚至是并列关系，那么这时候就要处理</p>
+<p>2、处理方法：</p>
+<p>（1）多次发送之前间隔一个等待时间</p>
+<p>（2）关闭Nagle算法</p>
+<p>（3）进行封包</p>
+<ul>
+<li>为什么UDP不会粘包：</li>
+</ul>
+<p>TCP是面向流的协议，UDP是面向消息的协议，UDO端都是一条消息，应用程序必须以消息为单位提取数据，不能一次提取任意字节的数据</p>
+<p>UDP具有保护消息边界，在每个UDP包中就有消息头，这样对于接收端来说就容易进行区分处理，传输协议把一条独立的消息在网上传输，接收端只能接收到独立的消息，接收端一次只能接受发送端发出的一个数据包，如果一次接受数据的大小小于发送端一次发送的数据大小就会丢失一部分数据，即使丢失接收端也不会分两次去接受</p>
+<ul>
+<li>说说websoket是怎么连接的以及为什么它为什么以HTTP为桥梁：</li>
+</ul>
+<p>websoket通信的双方在TCP三次握手之后还需要额外进行一次握手，该握手始于一个HTTP请求，通过HTTP协议传送Websoket支持的协议号，协议的字版本号，原始地址、主机地址等一系列字段给服务器。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">GET /chat HTTP/<span class="number">1.1</span></span><br><span class="line"><span class="attr">Host</span>: server.example.com</span><br><span class="line"><span class="attr">Upgrade</span>: websocket</span><br><span class="line"><span class="attr">Connection</span>: Upgrade</span><br><span class="line">Sec-WebSocket-Key:dGhlIHNhbXBsZSBub25jZQ==</span><br><span class="line">Origin: http:<span class="comment">//example.com</span></span><br><span class="line">Sec-WebSocket-Version: <span class="number">13</span></span><br></pre></td></tr></table></figure>
+
+<p>该处的upgrade首部是用来将当前的HTTP请求升级到websoket协议，这是HTTP为了扩展支持其他的通讯协议，如果服务器支持新的协议，则返回101.</p>
+<p>之所以基于HTTP是因为Websoket设计上本来就是为HTTP增强通信，所以在HTTP协议基础上连接是很自然的一件事，也可以因此获取HTTP的诸多便利。第二，基于HTTP连接将获得最大的一个兼容支持，比如即使服务器不支持Websoket也能建立HTTP通信，只不过返回的是error，这比服务器无响应好很多。</p>
+<ul>
+<li>websoket的安全问题：</li>
+</ul>
+<p>实际上，几乎所有的Web漏洞都有可能出现在WebSocket中。因为，WebSocket本质上就是一个通过HTTP建立连接的双向全双工的通信协议而已，但由于其相比HTTP多了一“工”的特性，可能会出现一些新的攻击场景。</p>
+<p>常见的攻击场景如下：</p>
+<ol>
+<li>用户的输入被服务器以不安全的方式进行处理，导致了例如SQL注入、XXE等注入攻击。</li>
+<li>一些盲注漏洞可能会通过WebSocket引起，可以利用<a target="_blank" rel="noopener" href="https://portswigger.net/blog/oast-out-of-band-application-security-testing">带外技术 (opens new window)</a>进行探测。</li>
+<li>如果攻击者控制的数据通过WebSocket传输到了其它用户的客户端处，这可能会引起XSS或者其它客户端类型的漏洞。</li>
+</ol>
+<p>如何预防WebSocket的安全问题：</p>
+<ol>
+<li>将通过 WebSocket 接收的数据在两个方向都视为不可信的。在服务器端和客户端安全地处理数据，以防止基于输入的漏洞，如 SQL 注入和跨网站脚本。</li>
+<li>使用CSRF Token、请求头令牌等方案保护WebSocket握手流程，防止WebSocket握手流程被CSRF攻击所利用。</li>
+<li>使用<code>wss://</code>协议，（基于TLS的Websockets）</li>
+<li>硬编码WebSockets的URL接口，以保证用户的输入无法篡改此URL。</li>
+</ol>
+<ul>
+<li>说说主流的服务器推送技术有哪些：</li>
+</ul>
+<p>1、短连接轮询</p>
+<p>前端用定时器，每间隔一段时间发送请求来获取数据是否更新，这种方式兼容ie与高级浏览器。</p>
+<p>2、长轮询</p>
+<p>客户端像传统轮询一样从服务器请求数据，服务器端会阻塞请求不会立刻返回，直到有数据或超时才返回给客户端，然后关闭连接，客户端处理完响应信息后再向服务器发送新的请求。</p>
+<p>3、iframe流</p>
+<p>在页面中插入一个隐藏的iframe，利用其src属性在服务器与客户端之间创建一条长连接，服务器向iframe传输数据，来实时更新页面</p>
+<p>前端实现步骤：</p>
+<p>（1）Iframe设置为不显示。</p>
+<p>（2）src设为请求的数据地址。</p>
+<p>（3）定义个父级函数用户让iframe子页面调用传数据给父页面。</p>
+<p>（4）定义onload事件，服务器timeout后再次重新加载iframe。</p>
+<p>后端输出内容：</p>
+<p>当有新消息时服务端会向iframe中输入一段js代码.：<code>println(&quot;&lt;script&gt;父级函数(&#39;&quot; + 数据 +&quot;&lt;br&gt;&#39;)&lt;/script&gt;”)</code>;用于调用父级函数传数据。</p>
+<p>4、websocket</p>
+<p>5、SSE长连接</p>
+<p>sse与长轮询类似，但是区别是每个连接不止发送一个消息，客户端发送一个请求，服务端保持这个连接直到有新消息发送给客户端，仍然保持着连接，这样连接就可以支持消息的再次发送，由服务器单向发送给客户端。</p>
+<p><img src="https://s3.bmp.ovh/imgs/2022/08/08/8a316f7082d6e128.png"></p>
+<ul>
+<li>说说CDN：</li>
+</ul>
+<p>CDN指的是一组分布在各个地区的服务器。这些服务器存储着数据的副本，因此服务器可以根据哪些服务器与用户距离更近，来满足数据的请求，提高请求的响应速度。</p>
+<p>CDN的两个核心功能分别是缓存与回源：</p>
+<p>1、缓存：把资源推送备份到CDN服务器上的过程</p>
+<p>2、回源：发现CDN上的资源已经过期，向根服务器或上层服务器请求资源的过程。一般是源站内容有更新的时候源站主动把内容推送到CDN节点，CDN不会主动向源站拿。</p>
+<p>静态资源本身具有访问频率高、承接流量大的特点，因此静态资源加载速度始终是前端性能的一个非常关键的指标。<code>CDN</code> 是静态资源提速的重要手段。</p>
+<ul>
+<li>如何实现定时器同步执行：</li>
+</ul>
+<p>可以通过promise的链式调用来实现，在promise中创建一个定时器，将改变promise状态的resolve函数或者是reject函数放在定时器的回调函数中，这样就可以实现先执行前面的定时器，然后再在then回调函数中开启下一个定时器。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">delayFn</span>(<span class="params">delay</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">await</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(delay)</span><br><span class="line">      resolve()</span><br><span class="line">    &#125;, delay)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">delayFn(<span class="number">5000</span>).then(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  delayFn(<span class="number">4000</span>).then(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    delayFn(<span class="number">3000</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>no-cache与no-store的区别：</li>
+</ul>
+<p>no-store表示永远不在客户端存储资源，每一次都去跟服务器去获取资源</p>
+<p>no-cache表示协商缓存，可以在客户端存储资源，但是每一次需要去询问服务器当前存储资源是否在有效期内。</p>
 
       </section>
 
       
       
+        <nav class="article-nav">
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202107/6c6c2317050c2adfbd8f0fe2f41d2e59--2227376625.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2021/11/20/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/Vue/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">Vue篇</h2>
+        </a>
+      
+      <div class="card-text--row">Newer</div>
+    </div>
+  </article>
+</div>
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202105/8cdc6ed3420d690280e291bb30f0adda--2098717666.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2021/11/20/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/JavaScript/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">JavaScript篇</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
 
-      
-      
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+    <div class="valine-container comments-container content-padding--primary soft-size--large soft-style--box">
+      <div id="valine_thread" class="valine-thread"></div>
+    </div>
+    <script type="text/javascript" src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script type="text/javascript" src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <script type="text/javascript">
+      new Valine({
+        el: "#valine_thread",
+        appId: "zPxT1BH5qC6JYqXmizvClRGk-gzGzoHsz",
+        appKey: "kU1QKKjUJco1Gyjj0Usl4bwM",
+        avatar: "ChenZehong",
+        placeholder: "随便说点什么叭～",
+        notify: true,
+        visitor: true,
+        pageSize: 10,
+      });
+    </script>
+  
+
+  
+  
+
+
+      </section>
     </div>
     <div class="widget-info">
       <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -695,6 +1072,8 @@
     </div>
   </div>
 </section>
+
+      
 
       
 
@@ -788,7 +1167,6 @@
     </div>
   </article>
 </div>
-
 
     <!-- footer container -->
 <footer id="footer" class="footer">

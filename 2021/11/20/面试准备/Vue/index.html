@@ -447,8 +447,10 @@
 </ul>
 <p>keep-alive是vue提供的一个抽象组件，用来对组件进行缓存，从而节省性能。被keep-alive包裹的动态组件或者是router-view会缓存不活动的实例，再次被调用这些被缓存的实例会被再次复用，对于不需要实时更新的页面来说大大减少了性能上的消耗。</p>
 <p>当组件子keep-alive中被切换时组件的activated，deactivated这两个生命周期构子函数会被执行。</p>
+<p>首次进入组件时：beforeRouterEnter &gt; beforeCreate &gt; created &gt; beforeMount &gt; mounted &gt; actived &gt; … &gt; beforeRouterLeave &gt; deactived</p>
+<p>再次进入组件时：beforeRouterEnter &gt; actived &gt; … &gt; beforeRouterLeave &gt; deactived</p>
 <p>由于被包裹的组件我们请求获取的数据不会再重新渲染页面，只会保持第一次请求数据的渲染结果，所以在某些特定环境下需要强制刷新组件：</p>
-<p>1、利用include、exclude属性（匹配组件的name属性）</p>
+<p>1、利用include（字符串或者正则，只有名称匹配的组件会被缓存）、exclude属性（字符串或者正则，任何名称匹配的组件不会被缓存）</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;keep-alive exclude=&quot;indexLists&quot;&gt;</span><br><span class="line">      &lt;router-view&gt;&lt;/router-view&gt;</span><br><span class="line">&lt;/keep-alive&gt;</span><br></pre></td></tr></table></figure>
 
 <p>2、利用meta属性</p>
@@ -461,6 +463,13 @@
 <li>Vue样式隔离是怎么实现的？</li>
 </ul>
 <p>使用<code>vue</code>SFC的时候，在<code>&lt;style&gt;</code> 标签加上<code>scoped</code>就可以实现样式隔离，只会作用在当前组件。</p>
+<ul>
+<li>Vue实现样式隔离的原理：</li>
+</ul>
+<p>vue通过在DOM结构以及css样式上加上唯一的标记，保证唯一，达到样式私有化，不污染全局的作用。主要做了以下处理：</p>
+<p>1、给HTML的DOM节点加一个不重复属性标志唯一性</p>
+<p>2、在添加了scpoed属性的组件的每个样式选择器后添加一个等同于‘不重复属性’相同的字段，实现类似于作用域的效果，不影响全局。</p>
+<p>3、如果组件内部还有组件，只会给最外层的组件里的标签加上唯一属性字段，不影响组件内部引用的组件。</p>
 <ul>
 <li>说说v-model语法糖以及具体绑定什么属性：</li>
 </ul>
@@ -518,12 +527,12 @@
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202105/8cdc6ed3420d690280e291bb30f0adda--2098717666.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202111/19a1b73a4f201a00a3da538a73add9bd--2226138859.jpg"></div>
     
     <div class="card-text">
       
-        <a href="/2021/11/20/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/JavaScript/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">JavaScript篇</h2>
+        <a href="/2021/11/20/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E8%AE%A1%E7%BD%91/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">计算机网络篇</h2>
         </a>
       
       <div class="card-text--row">Older</div>
@@ -583,7 +592,7 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>32</span>
+        <span>33</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -616,14 +625,26 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
+          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
+            网站介绍 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/TensorFlow-js/">
             TensorFlow.js (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
-            网站介绍 (1)
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            前端学习笔记 (6)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
+            实习相关 (3)
           </a>
         </li>
       
@@ -641,25 +662,13 @@
       
         <li class="categorys-list-item">
           <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
-            面试准备 (9)
+            面试准备 (10)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/%E5%A4%A7%E5%8E%82%E7%AC%94%E8%AF%95%E9%A2%98/">
             大厂笔试题 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            前端学习笔记 (6)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
-            实习相关 (3)
           </a>
         </li>
       
