@@ -22,7 +22,7 @@
 
   
 
-  <title>SASS学习笔记 | 好好学习，天天向上</title>
+  <title>实习日报 | 好好学习，天天向上</title>
 
   
 
@@ -45,7 +45,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202109/6d553467f03a8d88f4a1b4dc8113da3c--228599339.jpg)"></div>
+    <div class="post-image" style="background-image: url(https://imgse.com/i/xqwabF)"></div>
   
 
   <!-- navbar -->
@@ -96,15 +96,15 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">SASS学习笔记</h1>
+          <h1 class="title-wrap">实习日报</h1>
           <h2 class="title-sub-wrap">
             <strong>ChenZehong</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2022-04-06T02:57:35.184Z" itemprop="datePublished">2022-04-06</time>
+            <time  class="article-date" datetime="2022-11-03T13:35:29.389Z" itemprop="datePublished">2022-11-03</time>
           </h2>
           <ul class="wrap-list dark">
   
-    <li><a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">📒 前端学习笔记</a></li>
+    <li><a href="/categories/%E6%97%A5%E6%8A%A5/">📒 日报</a></li>
   
 </ul>
           <ul class="wrap-list dark">
@@ -131,28 +131,7 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h2 id="SASS学习笔记"><a href="#SASS学习笔记" class="headerlink" title="SASS学习笔记"></a>SASS学习笔记</h2><h3 id="1、定义变量："><a href="#1、定义变量：" class="headerlink" title="1、定义变量："></a>1、定义变量：</h3><p>使用$定义变量，可以在之后的选择器样式中进行复用：</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$exam: rgb(111,222,123)</span><br><span class="line"></span><br><span class="line">//复用</span><br><span class="line">.box &#123;</span><br><span class="line">    <span class="attribute">color</span>: $exam</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//也可以在一个变量中使用另一个变量：</span></span><br><span class="line">$exam2: 1px solid $exam</span><br><span class="line">.box2 &#123;</span><br><span class="line">    <span class="attribute">border</span>: $exam2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="2、嵌套选择器："><a href="#2、嵌套选择器：" class="headerlink" title="2、嵌套选择器："></a>2、嵌套选择器：</h3><p>父选择器里面可以直接写子选择器</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.grandfather</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="selector-class">.father</span> &#123;</span><br><span class="line">		<span class="attribute">display</span>: flex;</span><br><span class="line">        <span class="selector-class">.son</span> &#123;</span><br><span class="line">			<span class="attribute">font-size</span>: <span class="number">10px</span>；</span><br><span class="line">            <span class="comment">//如果需要表示伪类，则使用&amp;表示当前元素，如：</span></span><br><span class="line">            &amp;<span class="attribute">hover</span>: &#123;</span><br><span class="line">				<span class="attribute">font-size</span>: <span class="number">15px</span></span><br><span class="line">            &#125; </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在SASS中，属性也可以嵌套使用：</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.exam</span> &#123;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">1px</span> solid red &#123;</span><br><span class="line">        <span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">        <span class="attribute">top</span>: <span class="number">0</span></span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="3、mixin混合："><a href="#3、mixin混合：" class="headerlink" title="3、mixin混合："></a>3、mixin混合：</h3><p>即将需要多次使用的样式组合写在mixin混合中，用法为：</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用@mixin声明</span></span><br><span class="line"><span class="variable">@mixin</span> 名字 (参数<span class="number">1</span>，参数<span class="number">2</span>)&#123;</span><br><span class="line">	...样式</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//参数可使用可不用，使用参数可以根据实际需求在使用混合时灵猴更换</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="4、样式继承："><a href="#4、样式继承：" class="headerlink" title="4、样式继承："></a>4、样式继承：</h3><p>使用@extend来继承某个选择器中的全部样式</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.exam</span> &#123;</span><br><span class="line">	<span class="attribute">font-size</span>:<span class="number">10px</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.exam2</span> &#123;</span><br><span class="line">	<span class="variable">@extend:</span> .exam</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="5、计算功能："><a href="#5、计算功能：" class="headerlink" title="5、计算功能："></a>5、计算功能：</h3><p>在sass中允许在样式中进行计算：</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$a: 10px</span><br><span class="line">.exam &#123;</span><br><span class="line">	<span class="attribute">font-size</span>: $a + <span class="number">10px</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="6、if判断与for循环："><a href="#6、if判断与for循环：" class="headerlink" title="6、if判断与for循环："></a>6、if判断与for循环：</h3><p>跟js一样，sass允许使用@if与@for执行判断与循环语句，用法如下：</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//if语句</span></span><br><span class="line"><span class="variable">@if</span> <span class="number">2</span> &gt; <span class="number">3</span> &#123;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">10px</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="variable">@else</span> &#123;</span><br><span class="line">	<span class="attribute">font-size</span>: <span class="number">15px</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//for循环</span></span><br><span class="line"><span class="comment">//结束值不执行</span></span><br><span class="line"><span class="variable">@for</span> 变量 from 开始值 through 结束值 &#123;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//结束值也执行</span></span><br><span class="line"><span class="variable">@for</span> 变量 from 开始值 to 结束值 &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>除此之外，sass还支持列表循环、while循环以及自定义函数等功能，感兴趣可以自行了解。</p>
+        <h3 id="2022-11-3"><a href="#2022-11-3" class="headerlink" title="2022-11-3"></a>2022-11-3</h3><p>将毕业设计《学生成绩管理系统》并同步到远程仓库，技术栈为vue3+vite+ts+element-plus</p>
 
       </section>
 
@@ -160,32 +139,16 @@
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202110/921025192ec1b3ddd2d91bf4eabb4bc0--3931551020.jpg"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2022/04/06/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/%E7%8E%A9%E8%BD%ACvue3/%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E7%BB%84%E4%BB%B6%E5%8C%96%E5%BC%80%E5%8F%91/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">为什么需要组价化开发</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202109/a31e61a8d55d87b5a729d8643ef60929--4198607505.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202112/def71a18fe51f8d911376bc713639daf--3679449604.jpg"></div>
     
     <div class="card-text">
       
-        <a href="/2022/04/06/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/%E5%89%8D%E7%AB%AF%E6%B5%8B%E8%AF%95/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">什么是前端测试</h2>
+        <a href="/2022/07/20/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E5%A4%A7%E5%8E%82%E7%AC%94%E8%AF%95%E9%A2%98/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">项目相关</h2>
         </a>
       
       <div class="card-text--row">Older</div>
