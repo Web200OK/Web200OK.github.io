@@ -22,7 +22,7 @@
 
   
 
-  <title>前端项目自动化部署 | 好好学习，天天向上</title>
+  <title>SASS学习笔记 | 好好学习，天天向上</title>
 
   
 
@@ -45,7 +45,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(https://pic.3gbizhi.com/2021/1118/thumb_1680_0_20211118091821767.jpg)"></div>
+    <div class="post-image" style="background-image: url(http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202109/6d553467f03a8d88f4a1b4dc8113da3c--228599339.jpg)"></div>
   
 
   <!-- navbar -->
@@ -96,11 +96,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">前端项目自动化部署</h1>
+          <h1 class="title-wrap">SASS学习笔记</h1>
           <h2 class="title-sub-wrap">
             <strong>ChenZehong</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2022-05-17T08:21:51.308Z" itemprop="datePublished">2022-05-17</time>
+            <time  class="article-date" datetime="2022-04-06T02:57:35.184Z" itemprop="datePublished">2022-04-06</time>
           </h2>
           <ul class="wrap-list dark">
   
@@ -131,70 +131,28 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h2 id="使用Github-Actions实现前端项目自动化部署"><a href="#使用Github-Actions实现前端项目自动化部署" class="headerlink" title="使用Github Actions实现前端项目自动化部署"></a>使用Github Actions实现前端项目自动化部署</h2><h3 id="什么是部署："><a href="#什么是部署：" class="headerlink" title="什么是部署："></a>什么是部署：</h3><p>部署就是在开发结束后使得软件在某一环境下运行起来，这个过程汇总会将源代码生成可运行的软件包，然后将软件包放到要部署的环境中，通过一些配置使得这个软件包在目标环境下也能够正常工作。例如前端项目部署就是将项目代码打包生成一个文件包，我们可以将该文件包放到nginx托管，使得可以通过服务器地址进行访问。</p>
-<h3 id="传统的前端项目开发流程："><a href="#传统的前端项目开发流程：" class="headerlink" title="传统的前端项目开发流程："></a>传统的前端项目开发流程：</h3><ol>
-<li>前端人员完成所有开发</li>
-<li>推送代码</li>
-<li>打包生成静态资源文件</li>
-<li>推送到服务端</li>
-<li>依次循环</li>
-</ol>
-<h3 id="使用自动化部署的前端项目开发流程："><a href="#使用自动化部署的前端项目开发流程：" class="headerlink" title="使用自动化部署的前端项目开发流程："></a>使用自动化部署的前端项目开发流程：</h3><ol>
-<li>前端人员那完成所有开发</li>
-<li>推送代码</li>
-<li>自动化部署工具自动部署</li>
-<li>依次循环</li>
-</ol>
-<p>使用自动化部署可以使得工作人员专注开发，每次推送完代码后便自动完成了部署，免去了很多繁琐的操作。</p>
-<h3 id="什么是CI-CD-服务："><a href="#什么是CI-CD-服务：" class="headerlink" title="什么是CI / CD 服务："></a>什么是<strong>CI / CD</strong> 服务：</h3><p>CI/CD是一种在应用开发阶段引入自动化来频繁向客户交付应用的方法，CI/CD的核心概念是持续集成、持续交付和持续部署。CI/CD可让持续自动化和持续监控贯穿应用的整个生命周期。</p>
-<h3 id="实操例子：使用Github-Actions实现前端项目自动化部署"><a href="#实操例子：使用Github-Actions实现前端项目自动化部署" class="headerlink" title="实操例子：使用Github Actions实现前端项目自动化部署"></a>实操例子：使用Github Actions实现前端项目自动化部署</h3><h4 id="基本概念："><a href="#基本概念：" class="headerlink" title="基本概念："></a>基本概念：</h4><ul>
-<li>Workflows（工作流程）：持续集成的运行过程称为一次工作流程，一个工作流程由一个或多个任务组成。</li>
-<li>Jobs（任务）：一次自动部署的过程中，需要完成一个或多个任务，这些任务中又包含了多个步骤</li>
-<li>Steps（步骤）</li>
-<li>Action（动作）：每次步骤可以包含一个或多个动作</li>
-</ul>
-<p>以上四点是Github Actions几个大的概念，可以把它想象成一条完整的流水线，流水线包含的操作要点如下：workflow -&gt; job -&gt; step -&gt; action。</p>
-<p>准备工作：前端项目（vue）、服务器（使用nginx托管资源）、github账号</p>
-<p>1、在本地初始化一个前端项目然后进行打包，然后将打包后的dist文件托管到nginx服务器中</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//初始化项目</span></span><br><span class="line">vue create myproject</span><br><span class="line"><span class="comment">//切换到项目目录下，开始打包</span></span><br><span class="line">npm run build</span><br><span class="line"><span class="comment">//将dist文件上传到nginx中托管</span></span><br><span class="line">scp -r dist/ root@服务器地址:<span class="regexp">/home/</span>www(文件位置)</span><br></pre></td></tr></table></figure>
+        <h2 id="SASS学习笔记"><a href="#SASS学习笔记" class="headerlink" title="SASS学习笔记"></a>SASS学习笔记</h2><h3 id="1、定义变量："><a href="#1、定义变量：" class="headerlink" title="1、定义变量："></a>1、定义变量：</h3><p>使用$定义变量，可以在之后的选择器样式中进行复用：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$exam: rgb(111,222,123)</span><br><span class="line"></span><br><span class="line">//复用</span><br><span class="line">.box &#123;</span><br><span class="line">    <span class="attribute">color</span>: $exam</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//也可以在一个变量中使用另一个变量：</span></span><br><span class="line">$exam2: 1px solid $exam</span><br><span class="line">.box2 &#123;</span><br><span class="line">    <span class="attribute">border</span>: $exam2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>2、在云服务器中配置nginx：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//安装nginx</span></span><br><span class="line">yum install -y nginx</span><br><span class="line"><span class="comment">//切换到nginx目录</span></span><br><span class="line">cd /etc/nginx</span><br><span class="line"><span class="comment">//可在nginx.conf中更改配置（更改默认端口以及配置文件存放位置）</span></span><br><span class="line">vim nginx.conf</span><br><span class="line"><span class="comment">//启动nginx </span></span><br><span class="line">nginx</span><br><span class="line"><span class="comment">//重启nginx</span></span><br><span class="line">nginx -s reload</span><br></pre></td></tr></table></figure>
+<h3 id="2、嵌套选择器："><a href="#2、嵌套选择器：" class="headerlink" title="2、嵌套选择器："></a>2、嵌套选择器：</h3><p>父选择器里面可以直接写子选择器</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.grandfather</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="selector-class">.father</span> &#123;</span><br><span class="line">		<span class="attribute">display</span>: flex;</span><br><span class="line">        <span class="selector-class">.son</span> &#123;</span><br><span class="line">			<span class="attribute">font-size</span>: <span class="number">10px</span>；</span><br><span class="line">            <span class="comment">//如果需要表示伪类，则使用&amp;表示当前元素，如：</span></span><br><span class="line">            &amp;<span class="attribute">hover</span>: &#123;</span><br><span class="line">				<span class="attribute">font-size</span>: <span class="number">15px</span></span><br><span class="line">            &#125; </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>3、在github中新建.yml文件</p>
-<p>（1）进入GitHub Actions菜单</p>
-<p>（2）点击set up a workflow yourself：点击start commit则会自动在我们项目目录下新建.github/workflows/main.yml文件，yml文件内容默认即可，先不用管。此时会发现，我们的提交记录旁边有一个小绿点，其实那就代表着我们的action正在执行，切换到actions菜单，会发现actions已经执行了一次了，且成功了。</p>
-<p>（3）我们更新以下本地的代码，在本地修改yml配置文件。</p>
-<p>（4）修改.yml文件</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">name: Build app and deploy to Tencent</span><br><span class="line"><span class="attr">on</span>:</span><br><span class="line">  #监听push操作</span><br><span class="line">  <span class="attr">push</span>:</span><br><span class="line">    branches:</span><br><span class="line">      # mian分支，你也可以改成其他分支</span><br><span class="line">      - main</span><br><span class="line"><span class="attr">jobs</span>:</span><br><span class="line">  # 任务ID</span><br><span class="line">  <span class="attr">build</span>:</span><br><span class="line">    # 运行环境</span><br><span class="line">    runs-on: ubuntu-latest</span><br><span class="line">    # 步骤</span><br><span class="line">    <span class="attr">steps</span>:</span><br><span class="line">    # 使用别人的action</span><br><span class="line">    - uses: actions/checkout@v2</span><br><span class="line">    # 步骤名称</span><br><span class="line">    - name: npm install</span><br><span class="line">      # 步骤执行指令</span><br><span class="line">      <span class="attr">run</span>: npm install</span><br><span class="line">    - name: npm run build</span><br><span class="line">      <span class="attr">run</span>: npm run build</span><br><span class="line">    # 命名这个任务为发布Deploy</span><br><span class="line">    - name: Deploy</span><br><span class="line">      # 因为构建之后，需要把代码上传到服务器上，所以需要连接到ssh，并且做一个拷贝操作</span><br><span class="line">      <span class="attr">uses</span>: cross-the-world/scp-pipeline@master</span><br><span class="line">      <span class="attr">env</span>:</span><br><span class="line">        WELCOME: <span class="string">&quot;ssh scp ssh pipelines&quot;</span></span><br><span class="line">        <span class="attr">LASTSSH</span>: <span class="string">&quot;Doing something after copying&quot;</span></span><br><span class="line">      <span class="attr">with</span>:</span><br><span class="line">        host: $&#123;&#123; secrets.USER_HOST &#125;&#125;</span><br><span class="line">        <span class="attr">user</span>: $&#123;&#123; secrets.USER_NAME &#125;&#125;</span><br><span class="line">        <span class="attr">pass</span>: $&#123;&#123; secrets.USER_PASS &#125;&#125;</span><br><span class="line">        <span class="attr">connect_timeout</span>: 10s</span><br><span class="line">        <span class="attr">local</span>: <span class="string">&#x27;./dist/*&#x27;</span></span><br><span class="line">        <span class="attr">remote</span>: <span class="regexp">/home/</span>www/dist</span><br></pre></td></tr></table></figure>
+<p>在SASS中，属性也可以嵌套使用：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.exam</span> &#123;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">1px</span> solid red &#123;</span><br><span class="line">        <span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">        <span class="attribute">top</span>: <span class="number">0</span></span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>上面的代码是在默认的yml文件上修改的，重点需要关注的是jobs，这里我们只有一个任务，任务id就是build，该任务里面有3个步骤，也就是我们项目部署通常的3个步骤：</p>
-<ul>
-<li>npm install 安装项目依赖</li>
-<li>npm run build 打包项目</li>
-<li>deploy 将打包好的静态资源推送到服务端</li>
-</ul>
-<p>在deploy这个步骤中，使用了一个别人写好的action，主要目的就是推送静态资源到服务端，几个重点字段解释：</p>
-<ul>
-<li>host：服务器ip</li>
-<li>user：服务器登录用户</li>
-<li>pass：服务器登录密码</li>
-<li>connect_timeout：登陆超时限制</li>
-<li>local：本地的静态资源文件，Vue项目打包后会生成dist文件夹</li>
-<li>remote：服务端静态资源文件存放路径</li>
-</ul>
-<p>【注意】更改yml文件后可能会触发actions，如果没有配置密钥，应该是会部署失败的。</p>
-<p>（5）配置部署密钥</p>
-<p>在yml文件的部署步骤中，服务器的ip、用户名和密码我们都没有直接写在文件里面，这也是为了安全考虑，所以从secrets中读取的，那么接下来我们就去远程仓库settings的secrets中设置：</p>
-<ol>
-<li>进入secrets：点击setting-&gt;选择secrets-&gt;点击新建</li>
-<li>设置相关密钥信息，要跟.yml文件中的相对应</li>
-<li>更改代码并推送：当我们yml文件和密钥都准备完成之后，这个时候便可以任意修改 一点代码然后push到分支上了，push成功之后，actions便会运行，可以点击进去查看详情</li>
-</ol>
-<p>部署完成！只要本地修改完代码推送到远程仓库就会自动部署！</p>
-<p><strong>参考文章：</strong></p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/433426848">GitHub Actions自动化部署前端项目指南 - 知乎 (zhihu.com)</a></p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/431796992">前端Vue项目打包部署实战教程 - 知乎 (zhihu.com)</a></p>
+<h3 id="3、mixin混合："><a href="#3、mixin混合：" class="headerlink" title="3、mixin混合："></a>3、mixin混合：</h3><p>即将需要多次使用的样式组合写在mixin混合中，用法为：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用@mixin声明</span></span><br><span class="line"><span class="variable">@mixin</span> 名字 (参数<span class="number">1</span>，参数<span class="number">2</span>)&#123;</span><br><span class="line">	...样式</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//参数可使用可不用，使用参数可以根据实际需求在使用混合时灵猴更换</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4、样式继承："><a href="#4、样式继承：" class="headerlink" title="4、样式继承："></a>4、样式继承：</h3><p>使用@extend来继承某个选择器中的全部样式</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.exam</span> &#123;</span><br><span class="line">	<span class="attribute">font-size</span>:<span class="number">10px</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.exam2</span> &#123;</span><br><span class="line">	<span class="variable">@extend:</span> .exam</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5、计算功能："><a href="#5、计算功能：" class="headerlink" title="5、计算功能："></a>5、计算功能：</h3><p>在sass中允许在样式中进行计算：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$a: 10px</span><br><span class="line">.exam &#123;</span><br><span class="line">	<span class="attribute">font-size</span>: $a + <span class="number">10px</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6、if判断与for循环："><a href="#6、if判断与for循环：" class="headerlink" title="6、if判断与for循环："></a>6、if判断与for循环：</h3><p>跟js一样，sass允许使用@if与@for执行判断与循环语句，用法如下：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//if语句</span></span><br><span class="line"><span class="variable">@if</span> <span class="number">2</span> &gt; <span class="number">3</span> &#123;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">10px</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="variable">@else</span> &#123;</span><br><span class="line">	<span class="attribute">font-size</span>: <span class="number">15px</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//for循环</span></span><br><span class="line"><span class="comment">//结束值不执行</span></span><br><span class="line"><span class="variable">@for</span> 变量 from 开始值 through 结束值 &#123;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//结束值也执行</span></span><br><span class="line"><span class="variable">@for</span> 变量 from 开始值 to 结束值 &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>除此之外，sass还支持列表循环、while循环以及自定义函数等功能，感兴趣可以自行了解。</p>
 
       </section>
 
@@ -205,12 +163,12 @@
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202112/def71a18fe51f8d911376bc713639daf--3679449604.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202110/921025192ec1b3ddd2d91bf4eabb4bc0--3931551020.jpg"></div>
     
     <div class="card-text">
       
-        <a href="/2022/07/20/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E5%A4%A7%E5%8E%82%E7%AC%94%E8%AF%95%E9%A2%98/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">项目相关</h2>
+        <a href="/2022/04/06/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/%E7%8E%A9%E8%BD%ACvue3/%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E7%BB%84%E4%BB%B6%E5%8C%96%E5%BC%80%E5%8F%91/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">为什么需要组价化开发</h2>
         </a>
       
       <div class="card-text--row">Newer</div>
@@ -222,12 +180,12 @@
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202201/f7cef4e7fa001fd3bd654b87084230a9--1925026217.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202110/48361a546d400feaf5017938c7d8917b--8563423.jpg"></div>
     
     <div class="card-text">
       
-        <a href="/2022/05/16/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%BF%9B%E9%98%B6%E4%BD%BF%E7%94%A8/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">react的进阶使用</h2>
+        <a href="/2022/04/05/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/%E7%8E%A9%E8%BD%ACvue3/vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">vue3学习笔记</h2>
         </a>
       
       <div class="card-text--row">Older</div>
@@ -293,7 +251,7 @@
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
 </svg>
-        10
+        11
       </div>
       <div class="count-box--item">
         <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -320,26 +278,14 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/TensorFlow-js/">
-            TensorFlow.js (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
             网站介绍 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            前端学习笔记 (6)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
-            实习相关 (3)
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
           </a>
         </li>
       
@@ -350,14 +296,20 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
-            面试准备 (10)
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            前端学习笔记 (6)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/%E7%AE%97%E6%B3%95/">
             算法 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+            面试准备 (10)
           </a>
         </li>
       
@@ -370,6 +322,18 @@
         <li class="categorys-list-item">
           <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
             react学习笔记 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
+            实习相关 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">
+            前端工程化 (2)
           </a>
         </li>
       

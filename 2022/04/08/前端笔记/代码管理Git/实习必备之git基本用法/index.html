@@ -22,7 +22,7 @@
 
   
 
-  <title>webpack基础 | 好好学习，天天向上</title>
+  <title>git基本用法 | 好好学习，天天向上</title>
 
   
 
@@ -45,7 +45,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202204/0f829ab893fbfda172e7d31c02d61fb1--450213885.jpg)"></div>
+    <div class="post-image" style="background-image: url(http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202112/180de74451d1b5d0947407a31931a986--326110675.jpg)"></div>
   
 
   <!-- navbar -->
@@ -96,15 +96,15 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">webpack基础</h1>
+          <h1 class="title-wrap">git基本用法</h1>
           <h2 class="title-sub-wrap">
             <strong>ChenZehong</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2022-05-07T12:19:57.190Z" itemprop="datePublished">2022-05-07</time>
+            <time  class="article-date" datetime="2022-04-08T03:26:22.108Z" itemprop="datePublished">2022-04-08</time>
           </h2>
           <ul class="wrap-list dark">
   
-    <li><a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">📒 前端学习笔记</a></li>
+    <li><a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">📒 实习相关</a></li>
   
 </ul>
           <ul class="wrap-list dark">
@@ -131,13 +131,18 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h3 id="入口起点（entry）："><a href="#入口起点（entry）：" class="headerlink" title="入口起点（entry）："></a>入口起点（entry）：</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> config = &#123;</span><br><span class="line">	<span class="comment">//单个入口写法</span></span><br><span class="line">    <span class="attr">entry</span>:<span class="string">&#x27;./main.js&#x27;</span></span><br><span class="line">    <span class="comment">//上面是下面的简写</span></span><br><span class="line">    <span class="attr">entry</span>:&#123;</span><br><span class="line">    	<span class="attr">main</span>:<span class="string">&#x27;./main.js&#x27;</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//当entry传入一个数组时，将创建多个主入口，在你想要多个依赖文件一起注入，并且将它们的依赖导向到一个chunk时，传入数组的方式就很有用</span></span><br><span class="line">	<span class="comment">//对象写法</span></span><br><span class="line">	<span class="attr">entry</span>:&#123;</span><br><span class="line">        <span class="comment">//分离应用程序和第三方库入口</span></span><br><span class="line">        <span class="attr">app</span>:<span class="string">&#x27;./src/app.js&#x27;</span>,</span><br><span class="line">        <span class="attr">vendors</span>:<span class="string">&#x27;./src/vendor.js&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="输出（output）："><a href="#输出（output）：" class="headerlink" title="输出（output）："></a>输出（output）：</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> config = &#123;</span><br><span class="line">    <span class="comment">//普通写法</span></span><br><span class="line">	<span class="attr">output</span>:&#123;</span><br><span class="line">        <span class="comment">//输出文件的文件名</span></span><br><span class="line">        <span class="attr">filename</span>:<span class="string">&#x27;bundle.js&#x27;</span>,</span><br><span class="line">        <span class="comment">//目标输出目录path的绝对路径</span></span><br><span class="line">        <span class="attr">path</span>:<span class="string">&#x27;/home/proj/public/assets&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//多个入口起点</span></span><br><span class="line">    <span class="attr">entry</span>:&#123;</span><br><span class="line">    	<span class="attr">app</span>:<span class="string">&#x27;./src/app.js&#x27;</span>,</span><br><span class="line">    	<span class="attr">search</span>:<span class="string">&#x27;./src/search.js&#x27;</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="attr">output</span>:&#123;</span><br><span class="line">        <span class="attr">filename</span>:<span class="string">&#x27;[name].js&#x27;</span>,</span><br><span class="line">        <span class="attr">path</span>:__dirname + <span class="string">&#x27;/dist&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="模式（mode）："><a href="#模式（mode）：" class="headerlink" title="模式（mode）："></a>模式（mode）：</h3><p>development：会将process.env.NODE_ENV的值设置为development</p>
-<p>production：会将process.env.NODE_ENV的值设置为production</p>
-<p>注：只设置NODE_ENV，则不会自动设置mode</p>
+        <h2 id="git基本使用："><a href="#git基本使用：" class="headerlink" title="git基本使用："></a>git基本使用：</h2><h3 id="git-commit："><a href="#git-commit：" class="headerlink" title="git commit："></a>git commit：</h3><p>通过git commit命令向仓库中提交当前版本记录，git仓库的提交记录保存的是目录下所有文件的快照，但是它不会盲目赋值整个目录，而是将当前版本与上一个版本进行对比，并将所有差异打包到一起作为一个提交记录。</p>
+<h3 id="git-branch："><a href="#git-branch：" class="headerlink" title="git branch："></a>git branch：</h3><p>通过git branch newBranch命令可以新建一个名为newBranch的分支，分支名字是由自己取的，没有强制要求。当我们建立分支之后，如果我们需要提交记录，我们需要先使用git checkout newBranch切换到新的分支上，再进行提交。使用git checkout -b newBranch可以将新建分支与切换分支在一个命令里面完成。</p>
+<h2 id="合并分支的两种方法："><a href="#合并分支的两种方法：" class="headerlink" title="合并分支的两种方法："></a>合并分支的两种方法：</h2><h3 id="git-merge："><a href="#git-merge：" class="headerlink" title="git merge："></a>git merge：</h3><p>通过git merge命令来将两个分支合并在一起，比如我们新建一个新的分支开发某个功能，开发完成之后再合并到主线上。</p>
+<h3 id="git-rebase："><a href="#git-rebase：" class="headerlink" title="git rebase："></a>git rebase：</h3><p>git rebase命令实际上就是取出当前分支一系列的提交记录，复制它们然后在指定分支逐个放下去。比如当在bugFix分支使用git rebase main就是将bugFix分支的提交记录复制然后放在main分支下面，接下来还需要更新main分支，就是切换到main分支，然后使用git rebase bugFix命令即可。</p>
+<h2 id="git的HEAD："><a href="#git的HEAD：" class="headerlink" title="git的HEAD："></a>git的HEAD：</h2><p>git的HEAD就是对当前检出记录的符号引用，它总是指向正在其基础上进行工作的最近一次提交记录，大多数修改提交树的git指令都是从改变HEAD的指向开始的。</p>
+<p>查看HEAD指向可以通过<code>cat.git/HEAD</code>查看，如果HEAD指向的是一个引用，还可以使用<code>git symbolic-ref HEAD</code>查看它的指向。</p>
+<p>通过git checkout 提交记录哈希值来改变HEAD的指向，通过git log可以查看提交记录的哈希值，在git中只需要提供能够唯一标识记录的前几个字符即可。也可以通过相对引用来改变HEAD的指向。</p>
+<p>使用<code>^</code>操作符是寻找提交记录的父提交，比如 git checkout main^。也可以使用HEAD作为相对引用的参照，比如git checkout HEAD^就是在提交树上移动一次。</p>
+<p>使用<code>~</code>操作符可以在提交树上一次性移动多步，在后面加一个数字指定移动的次数。</p>
+<p>使用git branch -f main HEAD~3可以强制让main分支指向HEAD的第三级提交。</p>
+<h2 id="git撤销变更："><a href="#git撤销变更：" class="headerlink" title="git撤销变更："></a>git撤销变更：</h2><h3 id="git-reset："><a href="#git-reset：" class="headerlink" title="git reset："></a>git reset：</h3><p>通过git reset 命令可以把分支回退几个提交记录来实现撤销功能，撤销后原来所做的变更还在，知识处于未加入暂存区的状态。</p>
+<h3 id="git-revert："><a href="#git-revert：" class="headerlink" title="git revert："></a>git revert：</h3><p>在本地分支使用git reset来撤销变更，但在远程分支上需要使用git revert，它可以把你的更改推送到远程仓库与别人分享。</p>
 
       </section>
 
@@ -148,12 +153,12 @@
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202201/f7cef4e7fa001fd3bd654b87084230a9--1925026217.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202110/a604d8c868f55ab1b38ac10f6eace137--3896894952.jpg"></div>
     
     <div class="card-text">
       
-        <a href="/2022/05/16/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E8%BF%9B%E9%98%B6%E4%BD%BF%E7%94%A8/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">react的进阶使用</h2>
+        <a href="/2022/04/11/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/%E7%8E%A9%E8%BD%ACvue3/vue3%E4%B8%AD%E7%9A%84%E8%BF%87%E6%B8%A1%E5%92%8C%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">vue3中的过渡与动画</h2>
         </a>
       
       <div class="card-text--row">Newer</div>
@@ -165,12 +170,12 @@
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="https://pic.3gbizhi.com/2020/0627/thumb_1680_0_20200627125737754.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202108/252f597136bf552b865b717067c415c4--3941478634.jpg"></div>
     
     <div class="card-text">
       
-        <a href="/2022/05/06/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/%E7%8E%A9%E8%BD%ACvue3/vite.config.js/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">vue3vite.config.js配置</h2>
+        <a href="/2022/04/07/%E8%BF%9B%E7%AB%99%E5%BF%85%E8%AF%BB/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">进站必读</h2>
         </a>
       
       <div class="card-text--row">Older</div>
@@ -236,7 +241,7 @@
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
 </svg>
-        10
+        11
       </div>
       <div class="count-box--item">
         <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -263,26 +268,14 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/TensorFlow-js/">
-            TensorFlow.js (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
             网站介绍 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            前端学习笔记 (6)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
-            实习相关 (3)
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
           </a>
         </li>
       
@@ -293,14 +286,20 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
-            面试准备 (10)
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            前端学习笔记 (6)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/%E7%AE%97%E6%B3%95/">
             算法 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+            面试准备 (10)
           </a>
         </li>
       
@@ -313,6 +312,18 @@
         <li class="categorys-list-item">
           <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
             react学习笔记 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
+            实习相关 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">
+            前端工程化 (2)
           </a>
         </li>
       

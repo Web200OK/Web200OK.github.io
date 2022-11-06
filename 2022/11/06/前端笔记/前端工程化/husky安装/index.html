@@ -22,7 +22,7 @@
 
   
 
-  <title>实习笔记 | 好好学习，天天向上</title>
+  <title>husky安装 | 好好学习，天天向上</title>
 
   
 
@@ -45,7 +45,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202203/0a3c7fa44b181ca3a9e0818d9f8ce267--2557607760.jpg)"></div>
+    <div class="post-image" style="background-image: url(https://s1.ax1x.com/2022/11/06/xjNSfA.jpg)"></div>
   
 
   <!-- navbar -->
@@ -96,15 +96,15 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">实习笔记</h1>
+          <h1 class="title-wrap">husky安装</h1>
           <h2 class="title-sub-wrap">
             <strong>ChenZehong</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2022-04-13T06:58:47.092Z" itemprop="datePublished">2022-04-13</time>
+            <time  class="article-date" datetime="2022-11-06T14:20:54.926Z" itemprop="datePublished">2022-11-06</time>
           </h2>
           <ul class="wrap-list dark">
   
-    <li><a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">📒 实习相关</a></li>
+    <li><a href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">📒 前端工程化</a></li>
   
 </ul>
           <ul class="wrap-list dark">
@@ -131,24 +131,47 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h3 id="git使用场景："><a href="#git使用场景：" class="headerlink" title="git使用场景："></a>git使用场景：</h3><p>1、当我们在本地仓库中进行开发，已经修改代码，然后被通知远程仓库代码已更新，需要拉取代码，为了不让拉取后的代码覆盖我们已修改的代码，我们可以使用git stash命令将本地修改暂存起来：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//暂存代码</span><br><span class="line">git stash save &quot;注释&quot;</span><br><span class="line">//拉取远程仓库代码</span><br><span class="line">git pull</span><br><span class="line">//将暂存区代码取出</span><br><span class="line">git stash pop</span><br></pre></td></tr></table></figure>
+        <h1 id="前端基于husky通过eslint检测提交代码"><a href="#前端基于husky通过eslint检测提交代码" class="headerlink" title="前端基于husky通过eslint检测提交代码"></a>前端基于husky通过eslint检测提交代码</h1><p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2e3ea3f4d3044b909a8f68d00fcb58a3~tplv-k3u1fbpfcp-zoom-crop-mark:3024:3024:3024:1702.awebp" alt="前端基于husky通过eslint检测提交代码"></p>
+<h2 id="What’s-husky"><a href="#What’s-husky" class="headerlink" title="What’s husky"></a>What’s husky</h2><p>当您提交或推送时，您可以使用 husky 来检查<strong>您的提交消息</strong>、<strong>运行测试</strong>、检查<strong>代码</strong>等Husky 支持<a href="https://link.juejin.cn/?target=https://git-scm.com/docs/githooks">所有 Git 钩子</a>。</p>
+<h2 id="How-it-works"><a href="#How-it-works" class="headerlink" title="How it works"></a>How it works</h2><p>以一种非常 Linux 的方式，要配置 Git 挂钩，您只需将可执行文本文件放入<code>.git/hooks/</code>, 为了能够运行用户在 <code>.huskyrc.js</code>中创建的任何 Git 钩子，husky 正在将所有可能的钩子安装在<code>.git/hooks/</code>.</p>
+<p>例如，当提交时，每个 Git 钩子都会检查是否有相应的钩子定义<code>.huskyrc.js</code>：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>git commit</span><br><span class="line"></span><br><span class="line">pre-commit (native) → husky/runner.js (node)</span><br><span class="line">  → is a pre-commit <span class="keyword">defined</span> <span class="keyword">in</span> <span class="string">`.huskyrc.js`</span>? → YES, run it</span><br><span class="line"></span><br><span class="line">prepare-commit-msg (native) → husky/runner.js (node)</span><br><span class="line">  → is a prepare-commit-msg <span class="keyword">defined</span> <span class="keyword">in</span> <span class="string">`.huskyrc.js`</span>? → NO, <span class="keyword">do</span> nothing</span><br><span class="line"></span><br><span class="line">commit-msg (native) → husky/runner.js (node)</span><br><span class="line">  → is a commit-msg <span class="keyword">defined</span> <span class="keyword">in</span> <span class="string">`.huskyrc.js`</span>? → NO, <span class="keyword">do</span> nothing</span><br><span class="line"></span><br><span class="line">post-commit (native) → husky/runner.js (node)</span><br><span class="line">  → is a post-commit <span class="keyword">defined</span> <span class="keyword">in</span> <span class="string">`.huskyrc.js`</span>? → NO, <span class="keyword">do</span> nothing</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
 
+<p><strong>它的好处：用户可以添加、更新和删除钩子，<code>.huskyrc.js</code>并且会自动选择更改。</strong></p>
+<p>不利的一面是，即使没有任何东西可以运行，节点也会启动。</p>
+<h2 id="How-to-use"><a href="#How-to-use" class="headerlink" title="How to use"></a>How to use</h2><p>接下来我会使用 <code>eslint</code> <code>prettier</code> <code>husky</code> 来完成一个提交代码时触发自动化检测代码的demo</p>
+<h3 id="置代码风格"><a href="#置代码风格" class="headerlink" title="置代码风格"></a>置代码风格</h3><p><code>eslint</code> 配置代码风格、质量的校验，<code>prettier</code>用于代码格式的校验，<code>lint-staged</code> 过滤文件</p>
+<p>首先明确一下，Lint-staged 仅仅是文件过滤器，不会帮你格式化任何东西，所以没有代码规则配置文件，需要自己配置一下，如：<code>.eslintrc</code>、<code>.stylelintrc</code>等，然后在<code>package.json</code>中引入。</p>
+<p>eslint 和 prettier两者配合使用，即 使用 prettier 做格式化， eslint 做代码校验。</p>
+<p>第一，ESLint 推出 –fix 参数前，ESLint 并没有自动格式化代码的功能，而 Prettier 可以自动格式化代码。</p>
+<p>第二，虽然 ESLint 也可以校验代码格式，但 Prettier 更擅长。</p>
+<p>所以还需要 <code>eslint-config-prettier</code>,<code>eslint-plugin-prettier</code> 加强两者的配合</p>
+<p><code>eslint-plugin-prettier</code> 是一个 ESLint 插件， 由 Prettier 生态提供，用于报告错误给 ESLint</p>
+<p><code>eslint-config-prettier</code> 的作用是使用 Prettier 默认推荐配置，并且关闭 eslint 自身的格式化功能，防止 Prettier 和 ESLint 的自动格式化冲突</p>
+<h4 id="安装所需的NPM包"><a href="#安装所需的NPM包" class="headerlink" title="安装所需的NPM包"></a>安装所需的NPM包</h4><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm i eslint prettier lint-staged eslint-plugin-prettier eslint-config-prettier</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
 
+<p>常用的配置<code>.prettier.js</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span>.<span class="keyword">exports</span> = &#123;</span><br><span class="line">  printWidth: <span class="number">120</span>, <span class="comment">// 换行字符串阈值</span></span><br><span class="line">  tabWidth: <span class="number">2</span>, <span class="comment">// 设置工具每一个水平缩进的空格数</span></span><br><span class="line">  useTabs: <span class="keyword">false</span>,</span><br><span class="line">  semi: <span class="keyword">false</span>, <span class="comment">// 句末是否加分号</span></span><br><span class="line">  vueIndentScriptAndStyle: <span class="keyword">true</span>,</span><br><span class="line">  singleQuote: <span class="keyword">true</span>, <span class="comment">// 用单引号</span></span><br><span class="line">  trailingComma: <span class="string">&#x27;none&#x27;</span>, <span class="comment">// 最后一个对象元素加逗号</span></span><br><span class="line">  bracketSpacing: <span class="keyword">true</span>, <span class="comment">// 对象，数组加空格</span></span><br><span class="line">  jsxBracketSameLine: <span class="keyword">true</span>, <span class="comment">// jsx &gt; 是否另起一行</span></span><br><span class="line">  arrowParens: <span class="string">&#x27;always&#x27;</span>, <span class="comment">// (x) =&gt; &#123;&#125; 是否要有小括号</span></span><br><span class="line">  requirePragma: <span class="keyword">false</span>, <span class="comment">// 不需要写文件开头的 @prettier</span></span><br><span class="line">  insertPragma: <span class="keyword">false</span> <span class="comment">// 不需要自动在文件开头插入 @prettier</span></span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
 
-<h3 id="组件封装："><a href="#组件封装：" class="headerlink" title="组件封装："></a>组件封装：</h3><p><strong>踩雷</strong>：在封装组件的时候把父组件的一整个对象作为参数传递，并且在封装的组件中对对象属性进行了修改，虽然代码跑得动，但是组件的复用性低！</p>
-<p>对于页面中需要重复使用的功能代码可以进行封装复用，再使用时将需要的参数通过父子组件间通信（比如props）传输然后在封装组件中使用，这样可以保证封装的组件复用性高。切记在封装组件中对传输进来的props数据进行修改，而应该把需要修改的数据用$emit重新传回父组件中，触发父组件的函数并进行修改。组件接收的参数应该尽量简单，这样才可以适用于大多数应用场景~~~</p>
-<p>在填写信息的表单中，无论是选择器还是输入框，v-model双向绑定的值最多层数是两层最好，尽量不要出现a.b.c.xxx的情况。层数多的情况下可以将数据单独拆分出来，在提交表单的时候再拼接上去即可。</p>
-<h3 id="什么是探针："><a href="#什么是探针：" class="headerlink" title="什么是探针："></a>什么是探针：</h3><p>探针埋点，通过对生产服务器上的应用部署或者嵌入探针进行应用性能数据采集。这种方式能够提供非常完整与细粒度的监控数据采集，提供代码级的问题定位。但此方式对应用有侵入性，如果埋点代码异常，会对应用本身的性能和稳定性产生影响。</p>
-<h3 id="什么是数据脱敏："><a href="#什么是数据脱敏：" class="headerlink" title="什么是数据脱敏："></a>什么是数据脱敏：</h3><p>数据脱敏也叫数据的去隐私化，在我们给定脱敏规则和策略的情况下，对敏感数据比如 <code>手机号</code>、<code>银行卡号</code> 等信息，进行转换或者修改的一种技术手段，防止敏感数据直接在不可靠的环境下使用。</p>
-<p><strong>静态数据脱敏</strong></p>
-<p>静态数据脱敏（SDM）：适用于将数据抽取出生产环境脱敏后分发至测试、开发、培训、数据分析等场景。</p>
-<p>有时我们可能需要将生产环境的数据  copy 到测试、开发库中，以此来排查问题或进行数据分析，但出于安全考虑又不能将敏感数据存储于非生产环境，此时就要把敏感数据从生产环境脱敏完毕之后再在非生产环境使用。</p>
-<p>这样脱敏后的数据与生产环境隔离，满足业务需要的同时又保障了生产数据的安全。</p>
-<p><strong>动态数据脱敏</strong></p>
-<p>动态数据脱敏（DDM）：一般用在生产环境，访问敏感数据时实时进行脱敏，因为有时在不同情况下对于同一敏感数据的读取，需要做不同级别的脱敏处理，例如：不同角色、不同权限所执行的脱敏方案会不同。</p>
-<p>注意：在抹去数据中的敏感内容同时，也需要保持原有的数据特征、业务规则和数据关联性，保证我们在开发、测试以及数据分析类业务不会受到脱敏的影响，使脱敏前后的数据一致性和有效性。</p>
-<p>脱敏方案：通过替换、无效化、乱序和对称加密等方式。</p>
+<p><code>.eslintrc.js</code>建议采用自己的项目配置</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">module.exports</span> <span class="string">=</span> &#123;</span><br><span class="line">  <span class="attr">root:</span> <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">env:</span> &#123;</span><br><span class="line">    <span class="attr">browser:</span> <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">node:</span> <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">es6:</span> <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">extends:</span> [</span><br><span class="line">    <span class="string">&#x27;prettier&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;plugin:prettier/recommended&#x27;</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">rules:</span> &#123;<span class="string">...yourselfConfig</span>&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="string">复制代码</span></span><br></pre></td></tr></table></figure>
+
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4><h3 id="自动配置-husky"><a href="#自动配置-husky" class="headerlink" title="自动配置 husky"></a>自动配置 husky</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">yarn <span class="keyword">add</span> husky --dev   <span class="meta"># must install</span></span><br><span class="line"></span><br><span class="line">npx husky-<span class="keyword">init</span> install <span class="meta"># npm </span></span><br><span class="line">npx husky-<span class="keyword">init</span> <span class="meta"># Yarn 1 </span></span><br><span class="line">yarn dlx husky-<span class="keyword">init</span>  <span class="meta"># Yarn 2+ </span></span><br><span class="line">pnpm dlx husky-<span class="keyword">init</span>  <span class="meta"># pnpm</span></span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>它将设置 husky，修改<code>package.json</code>并创建一个<code>pre-commit</code>您可以编辑的示例挂钩。默认情况下，它将<code>npm test</code>在您提交时运行。 例如：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8ec8d192582b4ff3b35b5809ed9c9fde~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.image" alt="image.png"></p>
+<p>把示例 npm test 修改成 <code>yarn lint-staged</code> 或者 您自己定义的命令</p>
+<p>在 <code>package.json</code>中添加 lint-staged命令</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;lint-staged&quot;</span>: <span class="string">&quot;lint-staged --allow-empty&quot;</span>,</span><br><span class="line"><span class="string">&quot;lint-staged:js&quot;</span>: <span class="string">&quot;eslint --ext .js,.jsx,.ts,.tsx &quot;</span>,</span><br><span class="line"><span class="string">&quot;lint-staged&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;**/*.&#123;js,jsx,ts,tsx&#125;&quot;</span>: <span class="string">&quot;yarn run lint-staged:js&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;**/*.&#123;js,jsx,tsx,ts,less,md,json&#125;&quot;</span>: [</span><br><span class="line">      <span class="string">&quot;prettier --write&quot;</span></span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>例如</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6f4d8ef299be47febb39c77493932498~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.image" alt="image.png"></p>
+<p>在 git commit 的时候，就会触发 <code>.husky/pre-commit</code> 文件下 的命令行 yarn lint-staged或者 您自己定义的命令</p>
+<p>在检查代码成功的时候会自动格式化代码然后帮您提交，如果检测到错误就会停止提交并告知错误行，及时改正后可以再次提交</p>
+<p>例如</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4e2d6470cbef43f08baeea829cbd334a~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.image" alt="image.png"></p>
+<p>当我<code>git commit</code>时，它会自动检测到不符合规范的代码，如果无法自主修复 则会抛出错误文件给您！</p>
+<p>在此之前，配置好 eslint 和 prettier 是有必要的~</p>
 
       </section>
 
@@ -156,32 +179,16 @@
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202110/4a92f954929bdf9d9ecd92bbfb1f95cd--1941302434.jpg"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2022/04/14/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/%E6%AF%8F%E6%97%A5ts%E5%AD%A6%E4%B9%A0/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">每日ts学习</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202110/a604d8c868f55ab1b38ac10f6eace137--3896894952.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202110/48361a546d400feaf5017938c7d8917b--8563423.jpg"></div>
     
     <div class="card-text">
       
-        <a href="/2022/04/11/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/%E7%8E%A9%E8%BD%ACvue3/vue3%E4%B8%AD%E7%9A%84%E8%BF%87%E6%B8%A1%E5%92%8C%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">vue3中的过渡与动画</h2>
+        <a href="/2022/11/06/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">vue3学习笔记</h2>
         </a>
       
       <div class="card-text--row">Older</div>
@@ -247,7 +254,7 @@
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
 </svg>
-        10
+        11
       </div>
       <div class="count-box--item">
         <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -274,26 +281,14 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/TensorFlow-js/">
-            TensorFlow.js (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
             网站介绍 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            前端学习笔记 (6)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
-            实习相关 (3)
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
           </a>
         </li>
       
@@ -304,14 +299,20 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
-            面试准备 (10)
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            前端学习笔记 (6)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/%E7%AE%97%E6%B3%95/">
             算法 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+            面试准备 (10)
           </a>
         </li>
       
@@ -324,6 +325,18 @@
         <li class="categorys-list-item">
           <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
             react学习笔记 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
+            实习相关 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">
+            前端工程化 (2)
           </a>
         </li>
       
