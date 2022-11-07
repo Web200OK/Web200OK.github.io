@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+  
+  <meta name="generator" content="Hexo 5.4.0">
+
+  
+
+  
+
+  
+    <meta name="author" content="ChenZehong">
+  
+
+  
+
+  
+
+  <title>eslint配置 | 好好学习，天天向上</title>
+
+  
+
+  
+    <link rel="shortcut icon" href="/happy.ico">
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@1.1.3/index.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/monokai.css">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+  <div class="root-container">
+    
+<!-- header container -->
+<header class="header-container post">
+  
+    <div class="post-image" style="background-image: url(https://s1.ax1x.com/2022/11/07/xvhcYd.jpg)"></div>
+  
+
+  <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          好好学习，天天向上
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+          <li class="navbar-list-item"><a href="/">首页</a></li>
+        
+          <li class="navbar-list-item"><a href="/links">友链</a></li>
+        
+          <li class="navbar-list-item"><a href="/about">关于</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">eslint配置</h1>
+          <h2 class="title-sub-wrap">
+            <strong>ChenZehong</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2022-11-07T13:50:05.458Z" itemprop="datePublished">2022-11-07</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">📒 前端工程化</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+</ul>
+        </div>
+      </div>
+    </div>
+  
+
+  
+  
+  
+</header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+<div class="body-container">
+  <article class="content-container layout-block post-container">
+    <div class="article-info">
+      
+      
+      
+      
+      <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
+        <h3 id="一、Eslint配置"><a href="#一、Eslint配置" class="headerlink" title="一、Eslint配置"></a>一、Eslint配置</h3><blockquote>
+<ul>
+<li><strong>全局安装的好处是，在任何项目我们都可以使用eslint的全局命令进行代码规则操作，但是这对我们的意义并不大，后续会详细介绍；</strong></li>
+<li><strong>全局安装之后，要求相关的eslint插件页必须全局安装，这对多人开发项目来说会比项目安装更加繁琐。所以，我们这里采用在项目上安装eslint：</strong></li>
+</ul>
+</blockquote>
+<h5 id="2、项目安装"><a href="#2、项目安装" class="headerlink" title="2、项目安装"></a>2、项目安装</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i -D eslint</span><br></pre></td></tr></table></figure>
+
+<h5 id="3、编辑器安装，后续文章会有介绍"><a href="#3、编辑器安装，后续文章会有介绍" class="headerlink" title="3、编辑器安装，后续文章会有介绍"></a>3、编辑器安装，后续文章会有介绍</h5><h3 id="二、eslint-定义规则"><a href="#二、eslint-定义规则" class="headerlink" title="二、eslint 定义规则"></a>二、eslint 定义规则</h3><h5 id="1、创建-eslintrc-js-文件"><a href="#1、创建-eslintrc-js-文件" class="headerlink" title="1、创建 .eslintrc.js 文件"></a>1、创建 .eslintrc.js 文件</h5><blockquote>
+<ul>
+<li><strong>可以使用 ./node_modules/.bin/eslint –init 创建文件</strong></li>
+<li><strong>.eslintrc.* 文件支持 .js .yaml .yal .json等格式的配置文件，这里使用 .js文件</strong></li>
+<li><strong>在 package.json 里创建一个 eslintConfig 属性，在那里，同样可以定义你的配置</strong></li>
+<li><strong>如果 .eslintrc.js 和 package.json里的 eslintConfig 同时存在，则只读取 .eslintrc.js文件</strong></li>
+</ul>
+</blockquote>
+<h4 id="2、eslint-选项说明"><a href="#2、eslint-选项说明" class="headerlink" title="2、eslint 选项说明"></a>2、eslint 选项说明</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;root&quot;</span>: <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>默认情况下，ESLint 会在所有父级目录里寻找配置文件，一直到根目录。如果发现配置文件中有 “root”: true，它就会停止在父级目录中寻找。</strong></p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;parserOptions&quot;</span>: &#123;</span><br><span class="line">	<span class="string">&quot;parser&quot;</span>: <span class="string">&quot;babel-eslint&quot;</span>, <span class="comment">// 解析器，默认使用Espree</span></span><br><span class="line">    <span class="string">&quot;ecmaVersion&quot;</span>: <span class="number">6</span>, <span class="comment">// 支持es6语法，但并不意味着同时支持新的 ES6 全局变量或类型（比如 Set 等新类型）</span></span><br><span class="line">    <span class="string">&quot;sourceType&quot;</span>: <span class="string">&quot;module&quot;</span>,	<span class="comment">// 指定来源的类型，&quot;script&quot; (默认) 或 &quot;module&quot;（如果你的代码是 ECMAScript 模块)</span></span><br><span class="line">    <span class="comment">// 使用的额外的语言特性</span></span><br><span class="line">    <span class="string">&quot;ecmaFeatures&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;jsx&quot;</span>: <span class="literal">true</span>, <span class="comment">// 启用 JSX</span></span><br><span class="line">        <span class="string">&quot;globalReturn&quot;</span>: <span class="literal">true</span>, <span class="comment">// 允许在全局作用域下使用 return 语句</span></span><br><span class="line">        <span class="string">&quot;impliedStrict&quot;</span>: <span class="literal">true</span>, <span class="comment">// 启用全局 strict mode (如果 ecmaVersion 是 5 或更高)</span></span><br><span class="line">        <span class="string">&quot;experimentalObjectRestSpread&quot;</span>: <span class="literal">true</span>,	<span class="comment">// 启用实验性的 object rest/spread properties 支持。(重要：这是一个实验性的功能,在未来可能会有明显改变。 建议你写的规则 不要 依赖该功能，除非当它发生改变时你愿意承担维护成本。)</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>解析器选项可以在 parserOptions 属性设置。设置解析器选项能帮助 ESLint 确定什么是解析错误，所有语言选项默认都是 false。如上：</strong></p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;env&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">es6</span>: <span class="literal">true</span>, <span class="comment">// 启用 ES6 语法支持以及新的 ES6 全局变量或类型</span></span><br><span class="line">    <span class="attr">node</span>: <span class="literal">true</span>, <span class="comment">// Node.js 全局变量和 Node.js 作用域</span></span><br><span class="line">    <span class="attr">browser</span>: <span class="literal">true</span>, <span class="comment">// 浏览器全局变量</span></span><br><span class="line">    <span class="attr">jquery</span>: <span class="literal">true</span> <span class="comment">// jQuery 全局变量</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>使用 env 关键字指定你想启用的环境。如上：</strong><br><strong>更多环境设置请参考：<a target="_blank" rel="noopener" href="https://cn.eslint.org/docs/user-guide/configuring#specifying-environments">https://cn.eslint.org/docs/user-guide/configuring#specifying-environments</a></strong></p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;globals&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">template</span>: <span class="literal">false</span>, <span class="comment">// false 不允许被重写</span></span><br><span class="line">    <span class="attr">_util</span>: <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>当访问当前源文件内未定义的变量时，no-undef 规则将发出警告。如果你想在一个源文件里使用全局变量，推荐你在 ESLint 中定义这些全局变量，这样 ESLint 就不会发出警告了。如上：</strong></p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;plugins&quot;</span>: [</span><br><span class="line">    <span class="string">&quot;html&quot;</span> <span class="comment">// 此插件用来识别.html 和 .vue文件中的js代码</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>ESLint 支持使用第三方插件。在使用插件之前，你必须使用 npm 安装它。如：npm i -D eslint-plugin-html。在配置文件里配置插件时，可以使用 plugins 关键字来存放插件名字的列表。插件名称可以省略 eslint-plugin- 前缀。如上：</strong></p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;extends&quot;</span>: <span class="string">&quot;eslint:recommended&quot;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>一个配置文件可以从基础配置中继承已启用的规则。如上，如果值为字符串数组则每个配置继承它前面的配置。值为 “eslint:recommended” 的 extends 属性启用了eslint默认的规则，请参考：<a target="_blank" rel="noopener" href="https://cn.eslint.org/docs/rules/">https://cn.eslint.org/docs/rules/</a></strong></p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;rules&quot;</span>: &#123;</span><br><span class="line">	<span class="string">&#x27;indent&#x27;</span>: [<span class="number">2</span>, <span class="number">4</span>], <span class="comment">// 强制使用一致的缩进</span></span><br><span class="line">    <span class="string">&#x27;eqeqeq&#x27;</span>: [<span class="number">2</span>, <span class="string">&#x27;always&#x27;</span>], <span class="comment">// 要求使用 === 和 !==</span></span><br><span class="line">    <span class="string">&#x27;semi&#x27;</span>: [<span class="number">2</span>, <span class="string">&#x27;never&#x27;</span>], <span class="comment">// 要求或禁止使用分号代替 ASI </span></span><br><span class="line">    <span class="string">&#x27;quotes&#x27;</span>: [<span class="number">2</span>, <span class="string">&#x27;single&#x27;</span>]  <span class="comment">// 强制使用一致的反勾号、双引号或单引号</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>ESLint 附带有大量的规则。你可以在rules选项中设置，设置的规则将覆盖上面继承的默认规则。要改变一个规则设置，你必须将规则 ID 设置为下列值之一：</strong></p>
+<ul>
+<li>“off” 或 0 - 关闭规则</li>
+<li>“warn” 或 1 - 开启规则，使用警告级别的错误：warn (不会导致程序退出)</li>
+<li>“error” 或 2 - 开启规则，使用错误级别的错误：error (当被触发的时候，程序会退出)</li>
+</ul>
+</blockquote>
+<h3 id="三、eslint-代码检测和修复"><a href="#三、eslint-代码检测和修复" class="headerlink" title="三、eslint 代码检测和修复"></a>三、eslint 代码检测和修复</h3><blockquote>
+<p><strong>这里讲的是使用 eslint 命令行来操作，后续会讲到如何用编辑器提升代码效率</strong></p>
+</blockquote>
+<h5 id="1、代码检测"><a href="#1、代码检测" class="headerlink" title="1、代码检测"></a>1、代码检测</h5><p><strong>项目根目录运行 eslint</strong>，检测指定文件，支持 glob 模式</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./node_modules/.bin/eslint index.js</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>检测index.js文件，如下，有一个错误：多余的分号（基于semi规则）。并告诉我们此规则可以通过 –fix 命令修复。</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20190515142859574.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2d1YW5nX3M=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>指定文件后缀名</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./node_modules/.bin/eslint --ext .js,.html src</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>目前，告诉 ESLint 哪个文件扩展名要检测的唯一方法是使用 –ext 命令行选项指定一个逗号分隔的扩展名列表。注意，该标记只在与目录一起使用时有效，如果使用文件名或 glob 模式，它将会被忽略。</strong></p>
+</blockquote>
+<h5 id="2、代码修复"><a href="#2、代码修复" class="headerlink" title="2、代码修复"></a>2、代码修复</h5><p><strong>项目根目录运行</strong>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./node_modules/.bin/eslint index.js --fix</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>会自动修复代码，当然不是所有的规则都能实现自动修复的，具体说明请参照：<a target="_blank" rel="noopener" href="https://cn.eslint.org/docs/rules/">https://cn.eslint.org/docs/rules/</a></strong></p>
+</blockquote>
+<h2 id="四、eslint更多配置方式"><a href="#四、eslint更多配置方式" class="headerlink" title="四、eslint更多配置方式"></a>四、eslint更多配置方式</h2><p>完整的 <strong>配置层次结构</strong>，从最高优先级最低的优先级，如下：</p>
+<h5 id="1、行内配置"><a href="#1、行内配置" class="headerlink" title="1、行内配置"></a>1、行内配置</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*eslint-disable*/</span> 、 <span class="comment">/*eslint-enable*/</span></span><br><span class="line"><span class="comment">/*global*/</span></span><br><span class="line"><span class="comment">/*eslint*/</span></span><br><span class="line"><span class="comment">/*eslint-env*/</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="2、命令行选项"><a href="#2、命令行选项" class="headerlink" title="2、命令行选项"></a>2、命令行选项</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">--<span class="built_in">global</span></span><br><span class="line">--rule</span><br><span class="line">--env</span><br><span class="line">-c、--config</span><br></pre></td></tr></table></figure>
+
+<h5 id="3、项目级配置"><a href="#3、项目级配置" class="headerlink" title="3、项目级配置"></a>3、项目级配置</h5><blockquote>
+<ul>
+<li>与要检测的文件在同一目录下的 .<code>eslintrc.\*</code> 或 <code>package.json</code> 文件</li>
+<li>继续在父级目录寻找 <code>.eslintrc</code> 或 <code>package.json</code>文件，直到根目录（包括根目录）或直到发现一个有<code>&quot;root&quot;: true</code>的配置。</li>
+</ul>
+</blockquote>
+<h5 id="4、如果不是（1）到（3）中的任何一种情况，退回到-eslintrc-中自定义的默认配置。"><a href="#4、如果不是（1）到（3）中的任何一种情况，退回到-eslintrc-中自定义的默认配置。" class="headerlink" title="4、如果不是（1）到（3）中的任何一种情况，退回到 ~/.eslintrc 中自定义的默认配置。"></a>4、如果不是（1）到（3）中的任何一种情况，退回到 <code>~/.eslintrc</code> 中自定义的默认配置。</h5><h3 id="五、-eslintignore-忽略文件"><a href="#五、-eslintignore-忽略文件" class="headerlink" title="五、.eslintignore 忽略文件"></a>五、.eslintignore 忽略文件</h3><h5 id="1、定义及作用"><a href="#1、定义及作用" class="headerlink" title="1、定义及作用"></a>1、定义及作用</h5><p>在项目根目录创建一个 <code>.eslintignore</code> 文件告诉 ESLint 去忽略特定的文件和目录。</p>
+<h5 id="2、忽略规则"><a href="#2、忽略规则" class="headerlink" title="2、忽略规则"></a>2、忽略规则</h5><ul>
+<li><p>.eslintignore 文件是一个纯文本文件，其中的每一行都是一个 glob 模式表明哪些路径应该忽略检测。如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/dist/</span><br><span class="line">/*.js</span><br></pre></td></tr></table></figure></li>
+<li><p>eslint总是忽略 <code>/node_modules/\*</code> 和 <code>/bower_components/\*</code> 中的文件</p>
+</li>
+</ul>
+<h5 id="3、用eslint命令检查忽略文件"><a href="#3、用eslint命令检查忽略文件" class="headerlink" title="3、用eslint命令检查忽略文件"></a>3、用eslint命令检查忽略文件</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./node_modules/.bin/eslint index.js</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/20190517114517539.png" alt="在这里插入图片描述"></p>
+<h3 id="六、创建自己的规则风格文件"><a href="#六、创建自己的规则风格文件" class="headerlink" title="六、创建自己的规则风格文件"></a>六、创建自己的规则风格文件</h3><h5 id="1、命名"><a href="#1、命名" class="headerlink" title="1、命名"></a>1、命名</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eslint-config-* <span class="comment">// 如：eslint-config-vui</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="2、上传"><a href="#2、上传" class="headerlink" title="2、上传"></a>2、上传</h5><blockquote>
+<p><strong>参照</strong>：<a target="_blank" rel="noopener" href="https://blog.csdn.net/guang_s/article/details/84991304">发布一个自己的npm包</a></p>
+</blockquote>
+<h5 id="3、下载"><a href="#3、下载" class="headerlink" title="3、下载"></a>3、下载</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i -D eslint-config-vui</span><br></pre></td></tr></table></figure>
+
+<h5 id="4、使用"><a href="#4、使用" class="headerlink" title="4、使用"></a>4、使用</h5><p>在继承规则 <code>extends</code> 属性中定义自己上传的规则名，可以忽略 <code>eslint-config-</code> 字符，如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extends</span>: [<span class="string">&#x27;vui&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="七、使用编辑器插件标识错误以及自动修复代码"><a href="#七、使用编辑器插件标识错误以及自动修复代码" class="headerlink" title="七、使用编辑器插件标识错误以及自动修复代码"></a>七、使用编辑器插件标识错误以及自动修复代码</h3><p><strong>为什么使用编辑器插件</strong>：上述讲到的使用 eslint 命令来检测和修复代码的操作显然非常繁琐，我们需要能够自动修复代码的工具，相关编辑器都提供了 eslint 插件。</p>
+<h3 id="八、使用构建工具检测代码"><a href="#八、使用构建工具检测代码" class="headerlink" title="八、使用构建工具检测代码"></a>八、使用构建工具检测代码</h3><p><strong>为什么</strong>：以上方式，包括后续讲到的使用编辑器修复代码，都只是自我书写代码的规范意识而已，在多人开发时如何强制性的要求提交的代码是符合我们自定的规范呢？这就需要在构建工具做相应的配置。</p>
+
+      </section>
+
+      
+      
+        <nav class="article-nav">
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://s1.ax1x.com/2022/11/07/xvf0aQ.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2022/11/07/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/node/npm/%E8%BF%90%E8%A1%8C%E5%A4%9A%E4%B8%AA%20npm%20script%20%E7%9A%84%E5%90%84%E7%A7%8D%E5%A7%BF%E5%8A%BF/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">运行多个 npm script 的各种姿势</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
+
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+    <div class="valine-container comments-container content-padding--primary soft-size--large soft-style--box">
+      <div id="valine_thread" class="valine-thread"></div>
+    </div>
+    <script type="text/javascript" src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script type="text/javascript" src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <script type="text/javascript">
+      new Valine({
+        el: "#valine_thread",
+        appId: "zPxT1BH5qC6JYqXmizvClRGk-gzGzoHsz",
+        appKey: "kU1QKKjUJco1Gyjj0Usl4bwM",
+        avatar: "ChenZehong",
+        placeholder: "随便说点什么叭～",
+        notify: true,
+        visitor: true,
+        pageSize: 10,
+      });
+    </script>
+  
+
+  
+  
+
+
+      </section>
+    </div>
+    <div class="widget-info">
+      <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-body">
+    
+      <img src="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202007/f9c696aa27edaddf87257e5e70d1eb62--1437661584.jpg" class="soft-size--round soft-style--box" alt="ChenZehong">
+    
+    
+      <h2>ChenZehong</h2>
+    
+    
+      <p>贵在坚持</p>
+    
+
+    <div class="count-box">
+      <div class="count-box--item">
+        <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
+</svg>
+        <span>37</span>
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+        12
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+        1
+      </div>
+    </div>
+  </div>
+</section>
+
+      
+
+      
+
+      <section class="widget-categorys widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+    <span>CATEGORYS</span>
+  </div>
+  <div class="widget-body">
+    <ul class="categorys-list">
+      
+        <li class="categorys-list-item">
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%BD%91%E7%AB%99%E4%BB%8B%E7%BB%8D/">
+            网站介绍 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            前端学习笔记 (6)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+            面试准备 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%A4%A7%E5%8E%82%E7%AC%94%E8%AF%95%E9%A2%98/">
+            大厂笔试题 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
+            实习相关 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">
+            前端工程化 (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            react学习笔记 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            Vue3学习笔记 (5)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/npm-script/">
+            npm script (2)
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+</section>
+
+      <section class="widget-tags widget-item  layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+    <span>TAGS</span>
+  </div>
+  <div class="widget-body">
+    <div class="tags-cloud">
+      <a href="/tags/%E4%BB%8B%E7%BB%8D/" style="font-size: 10px;" class="tags-cloud-0">介绍</a>
+    </div>
+  </div>
+</section>
+    </div>
+  </article>
+</div>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+    
+    <div class="social-icons">
+      
+        
+      
+        
+      
+        
+      
+        
+          <a href="https://github.com/Web200OK" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-github" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M64.6 512c0 195.6 125.4 361.9 300.1 422.9 23.5 5.9 19.9-10.8 19.9-22.2v-77.6c-135.8 15.9-141.3-74-150.5-89-18.5-31.5-61.9-39.5-49-54.5 31-15.9 62.5 4 98.9 58 26.4 39.1 77.9 32.5 104.1 26 5.7-23.5 17.9-44.5 34.7-60.9-140.7-25.2-199.4-111.1-199.4-213.3 0-49.5 16.4-95.1 48.4-131.8-20.4-60.6 1.9-112.4 4.9-120.1 58.2-5.2 118.5 41.6 123.3 45.3 33.1-8.9 70.8-13.7 112.9-13.7 42.4 0 80.3 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.4-43.9 2.9 7.7 24.7 58.3 5.5 118.1 32.5 36.8 49 82.8 49 132.4 0 102.3-59 188.3-200.2 213.2 23.5 23.3 38.1 55.5 38.1 91.1v112.7c0.8 9 0 17.9 15.1 17.9C832.7 877 960.4 709.4 960.4 512.1c0-247.5-200.6-447.9-447.9-447.9C265 64.1 64.6 264.5 64.6 512z"></path>
+</svg>
+          </a>
+        
+      
+        
+      
+    </div>
+     
+    <p>&copy; 2022 <a href="/" target="_blank">ChenZehong</a></p>
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+
+    <p>
+      <a href="javascript:;" id="theme-light">🌞 浅色</a>
+      <a href="javascript:;" id="theme-dark">🌛 深色</a>
+      <a href="javascript:;" id="theme-auto">🤖️ 自动</a>
+    </p>
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed soft-size--round soft-style--box">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+      <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+      <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+    </svg>
+  </div>
+
+  
+  <!-- aplayer -->
+
+
+<!-- dplayer -->
+
+
+
+
+  
+
+
+  
+
+
+  <!-- Baidu Analytics START -->
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      if (window.location.hostname === "localhost" || window.location.hostname.startsWith("192.168")) {
+        return console.log("本地调试");
+      }
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8a923e14e6dbf862c2b287e6c1266764";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  <!-- Baidu Analytics End -->
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+</body>
+</html>
