@@ -22,7 +22,7 @@
 
   
 
-  <title>Category: 网站介绍 | 好好学习，天天向上</title>
+  <title>给 npm script 传递参数和添加注释 | 好好学习，天天向上</title>
 
   
 
@@ -43,9 +43,9 @@
   <div class="root-container">
     
 <!-- header container -->
-<header class="header-container">
+<header class="header-container post">
   
-    <div class="post-image" style="background-image: url(http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202108/252f597136bf552b865b717067c415c4--3941478634.jpg)"></div>
+    <div class="post-image" style="background-image: url(https://s1.ax1x.com/2022/11/08/xzQHzV.jpg)"></div>
   
 
   <!-- navbar -->
@@ -87,17 +87,6 @@
 
   
   
-    
-    <div class="header-content">
-      <div class="post-text layout-block layout-padding">
-        <h1 class="title-wrap">网站介绍</h1>
-        <h2 class="title-sub-wrap">当前分类下共有1篇文章</h2>
-      </div>
-    </div>
-  
-
-  
-  
 
   
   
@@ -105,42 +94,152 @@
   
   
     <div class="header-content">
-      <div class="post-text layout-block layout-padding">
-        <h1 class="title-wrap">网站介绍</h1>
-        
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">给 npm script 传递参数和添加注释</h1>
+          <h2 class="title-sub-wrap">
+            <strong>ChenZehong</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2022-11-08T14:08:17.717Z" itemprop="datePublished">2022-11-08</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/npm-script/">📒 npm script</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+</ul>
+        </div>
       </div>
     </div>
+  
+
+  
   
   
 </header>
 
-    <!-- 分页(其他自定义页面) -->
+    <!-- 文章 -->
 
-<!-- 自定义页面 -->
-
+<!-- 文章内容 -->
 <div class="body-container">
   <article class="content-container layout-block post-container">
     <div class="article-info">
       
+      
+      
+      
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <p>欢迎来到我的博客，该网站目前只作为前端学习过程中记录笔记之用，往后会一步步完善功能与主题。</p>
-<h2>学习历程</h2>
+        <h1 id="1-3-给-npm-script-传递参数和添加注释"><a href="#1-3-给-npm-script-传递参数和添加注释" class="headerlink" title="1.3 给 npm script 传递参数和添加注释"></a>1.3 给 npm script 传递参数和添加注释</h1><p>本小节会介绍 3 个知识点：给 npm script 传递参数以减少重复的 npm script；增加注释提高 npm script 脚本的可读性；控制运行时日志输出能让你专注在重要信息上。</p>
+<h2 id="给-npm-script-传递参数"><a href="#给-npm-script-传递参数" class="headerlink" title="给 npm script 传递参数"></a>给 npm script 传递参数</h2><p>eslint 内置了代码风格自动修复模式，只需给它传入 <code>--fix</code> 参数即可，在 scripts 中声明检查代码命令的同时你可能也需要声明修复代码的命令，面对这种需求，大多数同学可能会忍不住复制粘贴，如下：</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">diff --git a/package.json b/package.json</span></span><br><span class="line"><span class="comment">index c32da1c..b6fb03e 100644</span></span><br><span class="line"><span class="comment">--- a/package.json</span></span><br><span class="line"><span class="comment">+++ b/package.json</span></span><br><span class="line"><span class="meta">@@ -5,6 +5,7 @@</span></span><br><span class="line">     &quot;lint:js&quot;: &quot;eslint *.js&quot;,</span><br><span class="line"><span class="addition">+    &quot;lint:js:fix&quot;: &quot;eslint *.js --fix&quot;,</span></span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>学习起始时间：2021/07</li>
-<li>已学课程：<code>HTML、CSS、Javascript、ES6、AJAX、axios、Echart、vue...</code></li>
-<li>已完成项目：网易云小程序、<code>Vue</code>后台管理网站</li>
-<li>近期目标：顺利找到实习</li>
-<li>博客错误或者不理解欢迎交流，vx：al1691929357</li>
-</ul>
+<p>在 <code>lint:js</code> 命令比较短的时候复制粘贴的方法简单粗暴有效，但是当 <code>lint:js</code> 命令变的很长之后，难免后续会有人改了 <code>lint:js</code> 而忘记修改 <code>lint:js:fix</code>（<strong>别问我为啥，我就是踩着坑过来的</strong>），更健壮的做法是，在运行 npm script 时给定额外的参数，代码修改如下：</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">diff --git a/package.json b/package.json</span></span><br><span class="line"><span class="comment">--- a/package.json</span></span><br><span class="line"><span class="comment">+++ b/package.json</span></span><br><span class="line"><span class="meta">@@ -5,6 +5,7 @@</span></span><br><span class="line">     &quot;lint:js&quot;: &quot;eslint *.js&quot;,</span><br><span class="line"><span class="addition">+    &quot;lint:js:fix&quot;: &quot;npm run lint:js -- --fix&quot;,</span></span><br></pre></td></tr></table></figure>
+
+<p>要格外注意 <code>--fix</code> 参数前面的 <code>--</code> 分隔符，意指要给 <code>npm run lint:js</code> 实际指向的命令传递额外的参数。</p>
+<p>运行效果如下图：</p>
+<p><img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2017/11/27/15ffa71dbf43d9ff~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" alt="img"></p>
+<p>上图第2个红色框里面是实际执行的命令，可以看到 <code>--fix</code> 参数附加在了后面。</p>
+<blockquote>
+<p><strong>TIP#6</strong>：如果你不想单独声明 <code>lint:js:fix</code> 命令，在需要的时候直接运行： <code>npm run lint:js -- --fix</code> 来实现同样的效果。</p>
+</blockquote>
+<p>问题来了，如果我想为 mocha 命令增加 <code>--watch</code> 模式方便在开发时立即看到测试结果，该怎么做呢？相信读到这里你心中已经有了答案。</p>
+<p>:stuck_out_tongue:</p>
+<h2 id="给-npm-script-添加注释"><a href="#给-npm-script-添加注释" class="headerlink" title="给 npm script 添加注释"></a>给 npm script 添加注释</h2><p>如果 package.json 中的 scripts 越来越多，或者出现复杂的编排命令，你可能需要给它们添加注释以保障代码可读性，但 json 天然是不支持添加注释的，下面是 2 种比较 trick 的方式。</p>
+<p>第一种方式是，package.json 中可以增加 <code>//</code> 为键的值，注释就可以写在对应的值里面，npm 会忽略这种键，比如，我们想要给 test 命令添加注释，按如下方式添加：</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">diff --git a/package.json b/package.json</span></span><br><span class="line"><span class="comment">--- a/package.json</span></span><br><span class="line"><span class="comment">+++ b/package.json</span></span><br><span class="line"><span class="meta">@@ -10,6 +10,7 @@</span></span><br><span class="line"><span class="addition">+    &quot;//&quot;: &quot;运行所有代码检查和单元测试&quot;,</span></span><br><span class="line">     &quot;test&quot;: &quot;npm-run-all --parallel lint:* mocha&quot;</span><br></pre></td></tr></table></figure>
+
+<p>这种方式的明显不足是，npm run 列出来的命令列表不能把注释和实际命令对应上，如果你声明了多个，npm run 只会列出最后那个，如下图：</p>
+<p><img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2017/11/27/15ffa7295bd69b87~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" alt="img"></p>
+<p>另外一种方式是直接在 script 声明中做手脚，因为命令的本质是 shell 命令（适用于 linux 平台），我们可以在命令前面加上注释，具体做法如下：</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">diff --git a/package.json b/package.json</span></span><br><span class="line"><span class="comment">--- a/package.json</span></span><br><span class="line"><span class="comment">+++ b/package.json</span></span><br><span class="line"><span class="meta">@@ -10,8 +10,7 @@</span></span><br><span class="line"><span class="deletion">-    &quot;//&quot;: &quot;运行所有代码检查和单元测试&quot;,</span></span><br><span class="line"><span class="deletion">-    &quot;test&quot;: &quot;npm-run-all --parallel lint:* mocha&quot;</span></span><br><span class="line"><span class="addition">+    &quot;test&quot;: &quot;# 运行所有代码检查和单元测试 \n    npm-run-all --parallel lint:* mocha&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>注意注释后面的换行符 <code>\n</code> 和多余的空格，换行符是用于将注释和命令分隔开，这样命令就相当于微型的 shell 脚本，多余的空格是为了控制缩进，也可以用制表符 <code>\t</code> 替代。这种做法能让 npm run 列出来的命令更美观，但是 scripts 声明阅读起来不那么整齐美观。</p>
+<p><img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2017/11/27/15ffa72c247900f5~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" alt="img"></p>
+<p>上面两种方式都有明显的缺陷，个人建议的更优方案还是把复杂的命令剥离到单独的文件中管理，在单独的文件中可以自由给它添加注释，详见后续章节。</p>
+<h2 id="调整-npm-script-运行时日志输出"><a href="#调整-npm-script-运行时日志输出" class="headerlink" title="调整 npm script 运行时日志输出"></a>调整 npm script 运行时日志输出</h2><p>在运行 npm script 出现问题时你需要有能力去调试它，某些情况下你需要让 npm script 以静默的方式运行，这类需求可通过控制运行时日志输出级别来实现。</p>
+<p>日志级别控制参数有好几个，简单举例如下：</p>
+<h3 id="默认日志输出级别"><a href="#默认日志输出级别" class="headerlink" title="默认日志输出级别"></a>默认日志输出级别</h3><p>即不加任何日志控制参数得到的输出，可能是你最常用的，能看到执行的命令、命令执行的结果。</p>
+<h3 id="显示尽可能少的有用信息"><a href="#显示尽可能少的有用信息" class="headerlink" title="显示尽可能少的有用信息"></a>显示尽可能少的有用信息</h3><p>结合其他工具调用 npm script 的时候比较有用，需要使用 <code>--loglevel silent</code>，或者 <code>--silent</code>，或者更简单的 <code>-s</code> 来控制，这个日志级别的输出实例如下（只有命令本身的输出，读起来非常的简洁）：</p>
+<p><img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2017/11/27/15ffa73279c8a9e8~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" alt="img"></p>
+<p>如果执行各种 lint script 的时候启用了 <code>-s</code> 配置，代码都符合规范的话，你不会看到任何输出，这就是<strong>没有消息是最好的消息</strong>的由来，哈哈！</p>
+<h3 id="显示尽可能多的运行时状态"><a href="#显示尽可能多的运行时状态" class="headerlink" title="显示尽可能多的运行时状态"></a>显示尽可能多的运行时状态</h3><p>排查脚本问题的时候比较有用，需要使用 <code>--loglevel verbose</code>，或者 <code>--verbose</code>，或者更简单的 <code>-d</code> 来控制，这个日志级别的输出实例如下（详细打印出了每个步骤的参数、返回值，下面的截图只是部分）：</p>
+<p><img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2017/11/27/15ffa734d9168dff~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" alt="img"></p>
 
       </section>
 
       
       
+        <nav class="article-nav">
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://s1.ax1x.com/2022/11/08/xz17uT.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2022/11/08/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/node/npm/%E4%BD%BF%E7%94%A8%20npm%20script%20%E7%9A%84%E9%92%A9%E5%AD%90/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">使用 npm script 的钩子</h2>
+        </a>
+      
+      <div class="card-text--row">Newer</div>
+    </div>
+  </article>
+</div>
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://s1.ax1x.com/2022/11/07/xvhcYd.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2022/11/07/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/eslint%E9%85%8D%E7%BD%AE/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">eslint配置</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
 
-      
-      
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+    <div class="valine-container comments-container content-padding--primary soft-size--large soft-style--box">
+      <div id="valine_thread" class="valine-thread"></div>
+    </div>
+    <script type="text/javascript" src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script type="text/javascript" src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <script type="text/javascript">
+      new Valine({
+        el: "#valine_thread",
+        appId: "zPxT1BH5qC6JYqXmizvClRGk-gzGzoHsz",
+        appKey: "kU1QKKjUJco1Gyjj0Usl4bwM",
+        avatar: "ChenZehong",
+        placeholder: "随便说点什么叭～",
+        notify: true,
+        visitor: true,
+        pageSize: 10,
+      });
+    </script>
+  
+
+  
+  
+
+
+      </section>
     </div>
     <div class="widget-info">
       <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -177,6 +276,8 @@
     </div>
   </div>
 </section>
+
+      
 
       
 
@@ -282,7 +383,6 @@
     </div>
   </article>
 </div>
-
 
     <!-- footer container -->
 <footer id="footer" class="footer">

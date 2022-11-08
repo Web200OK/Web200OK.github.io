@@ -22,7 +22,7 @@
 
   
 
-  <title>Category: 网站介绍 | 好好学习，天天向上</title>
+  <title>使用 npm script 的钩子 | 好好学习，天天向上</title>
 
   
 
@@ -43,9 +43,9 @@
   <div class="root-container">
     
 <!-- header container -->
-<header class="header-container">
+<header class="header-container post">
   
-    <div class="post-image" style="background-image: url(http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202108/252f597136bf552b865b717067c415c4--3941478634.jpg)"></div>
+    <div class="post-image" style="background-image: url(https://s1.ax1x.com/2022/11/08/xz17uT.jpg)"></div>
   
 
   <!-- navbar -->
@@ -87,17 +87,6 @@
 
   
   
-    
-    <div class="header-content">
-      <div class="post-text layout-block layout-padding">
-        <h1 class="title-wrap">网站介绍</h1>
-        <h2 class="title-sub-wrap">当前分类下共有1篇文章</h2>
-      </div>
-    </div>
-  
-
-  
-  
 
   
   
@@ -105,42 +94,138 @@
   
   
     <div class="header-content">
-      <div class="post-text layout-block layout-padding">
-        <h1 class="title-wrap">网站介绍</h1>
-        
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">使用 npm script 的钩子</h1>
+          <h2 class="title-sub-wrap">
+            <strong>ChenZehong</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2022-11-08T14:42:05.711Z" itemprop="datePublished">2022-11-08</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/npm-script/">📒 npm script</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+</ul>
+        </div>
       </div>
     </div>
+  
+
+  
   
   
 </header>
 
-    <!-- 分页(其他自定义页面) -->
+    <!-- 文章 -->
 
-<!-- 自定义页面 -->
-
+<!-- 文章内容 -->
 <div class="body-container">
   <article class="content-container layout-block post-container">
     <div class="article-info">
       
+      
+      
+      
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <p>欢迎来到我的博客，该网站目前只作为前端学习过程中记录笔记之用，往后会一步步完善功能与主题。</p>
-<h2>学习历程</h2>
-
+        <h1 id="2-1-使用-npm-script-的钩子"><a href="#2-1-使用-npm-script-的钩子" class="headerlink" title="2.1 使用 npm script 的钩子"></a>2.1 使用 npm script 的钩子</h1><p>为了方便开发者自定义，npm script 的设计者为命令的执行增加了类似生命周期的机制，具体来说就是 <code>pre</code> 和 <code>post</code> 钩子脚本。这种特性在某些操作前需要做检查、某些操作后需要做清理的情况下非常有用。</p>
+<p>举例来说，运行 npm run test 的时候，分 3 个阶段：</p>
+<ol>
+<li>检查 scripts 对象中是否存在 pretest 命令，如果有，先执行该命令；</li>
+<li>检查是否有 test 命令，有的话运行 test 命令，没有的话报错；</li>
+<li>检查是否存在 posttest 命令，如果有，执行 posttest 命令；</li>
+</ol>
+<p>到目前为止我们所覆盖的前端工作流包含了代码检查和测试自动化运行环节，<strong>衡量测试效果的重要指标是测试覆盖率</strong>，而收集覆盖率也非常的简单，<strong>下面逐步讲解如何把代码检查、测试运行、覆盖率收集这些步骤串起来</strong>。</p>
+<h2 id="改造-test-命令"><a href="#改造-test-命令" class="headerlink" title="改造 test 命令"></a>改造 test 命令</h2><p>首先，我们基于钩子机制对现有的 scripts 做以下 3 点重构，把代码检查和测试运行串起来：</p>
 <ul>
-<li>学习起始时间：2021/07</li>
-<li>已学课程：<code>HTML、CSS、Javascript、ES6、AJAX、axios、Echart、vue...</code></li>
-<li>已完成项目：网易云小程序、<code>Vue</code>后台管理网站</li>
-<li>近期目标：顺利找到实习</li>
-<li>博客错误或者不理解欢迎交流，vx：al1691929357</li>
+<li>增加简单的 lint 命令，并行运行所有的 lint 子命令；</li>
+<li>增加 pretest 钩子，在其中运行 lint 命令；</li>
+<li>把 test 替换为更简单的 <code>mocha tests/</code>；</li>
 </ul>
+<p>代码 diff 如下：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">diff --git <span class="selector-tag">a</span>/package<span class="selector-class">.json</span> <span class="selector-tag">b</span>/package<span class="selector-class">.json</span></span><br><span class="line">index <span class="number">8</span>f67810.<span class="selector-class">.d297f2e</span> <span class="number">100644</span></span><br><span class="line">--- <span class="selector-tag">a</span>/package<span class="selector-class">.json</span></span><br><span class="line">+++ <span class="selector-tag">b</span>/package<span class="selector-class">.json</span></span><br><span class="line">@@ -<span class="number">4</span>,<span class="number">13</span> +<span class="number">4</span>,<span class="number">17</span> @@</span><br><span class="line">+    <span class="string">&quot;lint&quot;</span>: <span class="string">&quot;npm-run-all --parallel lint:*&quot;</span>,</span><br><span class="line">     <span class="string">&quot;lint:js&quot;</span>: <span class="string">&quot;eslint *.js&quot;</span>,</span><br><span class="line">     <span class="string">&quot;lint:js:fix&quot;</span>: <span class="string">&quot;npm run lint:js -- --fix&quot;</span>,</span><br><span class="line">     <span class="string">&quot;lint:css&quot;</span>: <span class="string">&quot;stylelint *.less&quot;</span>,</span><br><span class="line">     <span class="string">&quot;lint:json&quot;</span>: <span class="string">&quot;jsonlint --quiet *.json&quot;</span>,</span><br><span class="line">     <span class="string">&quot;lint:markdown&quot;</span>: <span class="string">&quot;markdownlint --config .markdownlint.json *.md&quot;</span>,</span><br><span class="line">-    <span class="string">&quot;mocha&quot;</span>: <span class="string">&quot;mocha tests/&quot;</span>,</span><br><span class="line">-    <span class="string">&quot;test&quot;</span>: <span class="string">&quot;# 运行所有代码检查和单元测试 \n    npm-run-all --parallel lint:* mocha&quot;</span></span><br><span class="line">+    <span class="string">&quot;pretest&quot;</span>: <span class="string">&quot;npm run lint&quot;</span>,</span><br><span class="line">+    <span class="string">&quot;test&quot;</span>: <span class="string">&quot;mocha tests/&quot;</span>,</span><br></pre></td></tr></table></figure>
+
+<p>当我们运行 npm test 的时候，会先自动执行 pretest 里面的 lint，实际输出如下：</p>
+<p><img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2017/11/29/160052621691a0b7~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" alt="img"></p>
+<h2 id="增加覆盖率收集"><a href="#增加覆盖率收集" class="headerlink" title="增加覆盖率收集"></a>增加覆盖率收集</h2><p>接下来，我们把运行测试和覆盖率收集串起来，具体做法是：增加覆盖率收集的命令，并且覆盖率收集完毕之后自动打开 html 版本的覆盖率报告。要实现目标，我们需要引入两个新工具：</p>
+<ol>
+<li>覆盖率收集工具 <a href="https://link.juejin.cn/?target=https://github.com/istanbuljs/nyc">nyc</a>，是覆盖率收集工具 <a href="https://link.juejin.cn/?target=https://istanbul.js.org">istanbul</a> 的命令行版本，istanbul 支持生成各种格式的覆盖率报告，我已经使用多年；</li>
+<li>打开 html 文件的工具 <a href="https://link.juejin.cn/?target=https://github.com/sindresorhus/opn-cli">opn-cli</a>，是能够打开任意程序的工具 <a href="https://link.juejin.cn/?target=https://github.com/sindresorhus/opn">opn</a> 的命令行版本，作者是前端社区非常高产的 <a href="https://link.juejin.cn/?target=https://github.com/sindresorhus">Sindre Sorhus</a>，它在 npm 上发布了超过 1000 个包，并且质量都很不错。</li>
+</ol>
+<p>使用如下命令安装依赖：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="selector-tag">i</span> nyc opn-cli -D</span><br></pre></td></tr></table></figure>
+
+<p>然后在 package.json 增加 nyc 的配置，告诉 nyc 该忽略哪些文件。最后是在 scripts 中新增 3 条命令：</p>
+<ol>
+<li>precover，收集覆盖率之前把之前的覆盖率报告目录清理掉；</li>
+<li>cover，直接调用 nyc，让其生成 html 格式的覆盖率报告；</li>
+<li>postcover，清理掉临时文件，并且在浏览器中预览覆盖率报告；</li>
+</ol>
+<p>具体 diff 如下：</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">diff --git a/package.json b/package.json</span></span><br><span class="line"><span class="comment">index 8f67810..d297f2e 100644</span></span><br><span class="line"><span class="comment">--- a/package.json</span></span><br><span class="line"><span class="comment">+++ b/package.json</span></span><br><span class="line"><span class="meta">@@ -4,13 +4,17 @@</span></span><br><span class="line">   scripts: &#123;</span><br><span class="line"><span class="addition">+    &quot;precover&quot;: &quot;rm -rf coverage&quot;,</span></span><br><span class="line"><span class="addition">+    &quot;cover&quot;: &quot;nyc --reporter=html npm test&quot;,</span></span><br><span class="line"><span class="addition">+    &quot;postcover&quot;: &quot;rm -rf .nyc_output &amp;&amp; opn coverage/index.html&quot;</span></span><br><span class="line">   &#125;,</span><br><span class="line"><span class="meta">@@ -22,7 +26,15 @@</span></span><br><span class="line">   &quot;devDependencies&quot;: &#123;</span><br><span class="line">     &quot;npm-run-all&quot;: &quot;^4.1.2&quot;,</span><br><span class="line"><span class="addition">+    &quot;nyc&quot;: &quot;^11.3.0&quot;,</span></span><br><span class="line"><span class="addition">+    &quot;opn-cli&quot;: &quot;^3.1.0&quot;,</span></span><br><span class="line">     &quot;stylelint&quot;: &quot;^8.2.0&quot;,</span><br><span class="line">     &quot;stylelint-config-standard&quot;: &quot;^17.0.0&quot;</span><br><span class="line"><span class="addition">+  &#125;,</span></span><br><span class="line"><span class="addition">+  &quot;nyc&quot;: &#123;</span></span><br><span class="line"><span class="addition">+    &quot;exclude&quot;: [</span></span><br><span class="line"><span class="addition">+      &quot;**/*.spec.js&quot;,</span></span><br><span class="line"><span class="addition">+      &quot;.*.js&quot;</span></span><br><span class="line"><span class="addition">+    ]</span></span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>改完之后，我们可以直接运行 npm run cover，运行的详细截图如下：</p>
+<p><img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2017/11/29/16005264d5d3aef6~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" alt="img"></p>
 
       </section>
 
       
       
+        <nav class="article-nav">
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://s1.ax1x.com/2022/11/08/xzQHzV.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2022/11/08/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/node/npm/%E7%BB%99%20npm%20script%20%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0%E5%92%8C%E6%B7%BB%E5%8A%A0%E6%B3%A8%E9%87%8A/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">给 npm script 传递参数和添加注释</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
 
-      
-      
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+    <div class="valine-container comments-container content-padding--primary soft-size--large soft-style--box">
+      <div id="valine_thread" class="valine-thread"></div>
+    </div>
+    <script type="text/javascript" src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script type="text/javascript" src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <script type="text/javascript">
+      new Valine({
+        el: "#valine_thread",
+        appId: "zPxT1BH5qC6JYqXmizvClRGk-gzGzoHsz",
+        appKey: "kU1QKKjUJco1Gyjj0Usl4bwM",
+        avatar: "ChenZehong",
+        placeholder: "随便说点什么叭～",
+        notify: true,
+        visitor: true,
+        pageSize: 10,
+      });
+    </script>
+  
+
+  
+  
+
+
+      </section>
     </div>
     <div class="widget-info">
       <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -177,6 +262,8 @@
     </div>
   </div>
 </section>
+
+      
 
       
 
@@ -282,7 +369,6 @@
     </div>
   </article>
 </div>
-
 
     <!-- footer container -->
 <footer id="footer" class="footer">
