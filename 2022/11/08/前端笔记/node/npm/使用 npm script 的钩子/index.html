@@ -22,7 +22,7 @@
 
   
 
-  <title>使用 npm script 的钩子 | 好好学习，天天向上</title>
+  <title>npm script | 好好学习，天天向上</title>
 
   
 
@@ -96,7 +96,7 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">使用 npm script 的钩子</h1>
+          <h1 class="title-wrap">npm script</h1>
           <h2 class="title-sub-wrap">
             <strong>ChenZehong</strong>
             <span>发布于</span>
@@ -131,44 +131,19 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h1 id="2-1-使用-npm-script-的钩子"><a href="#2-1-使用-npm-script-的钩子" class="headerlink" title="2.1 使用 npm script 的钩子"></a>2.1 使用 npm script 的钩子</h1><p>为了方便开发者自定义，npm script 的设计者为命令的执行增加了类似生命周期的机制，具体来说就是 <code>pre</code> 和 <code>post</code> 钩子脚本。这种特性在某些操作前需要做检查、某些操作后需要做清理的情况下非常有用。</p>
-<p>举例来说，运行 npm run test 的时候，分 3 个阶段：</p>
-<ol>
-<li>检查 scripts 对象中是否存在 pretest 命令，如果有，先执行该命令；</li>
-<li>检查是否有 test 命令，有的话运行 test 命令，没有的话报错；</li>
-<li>检查是否存在 posttest 命令，如果有，执行 posttest 命令；</li>
-</ol>
-<p>到目前为止我们所覆盖的前端工作流包含了代码检查和测试自动化运行环节，<strong>衡量测试效果的重要指标是测试覆盖率</strong>，而收集覆盖率也非常的简单，<strong>下面逐步讲解如何把代码检查、测试运行、覆盖率收集这些步骤串起来</strong>。</p>
-<h2 id="改造-test-命令"><a href="#改造-test-命令" class="headerlink" title="改造 test 命令"></a>改造 test 命令</h2><p>首先，我们基于钩子机制对现有的 scripts 做以下 3 点重构，把代码检查和测试运行串起来：</p>
-<ul>
-<li>增加简单的 lint 命令，并行运行所有的 lint 子命令；</li>
-<li>增加 pretest 钩子，在其中运行 lint 命令；</li>
-<li>把 test 替换为更简单的 <code>mocha tests/</code>；</li>
-</ul>
-<p>代码 diff 如下：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">diff --git <span class="selector-tag">a</span>/package<span class="selector-class">.json</span> <span class="selector-tag">b</span>/package<span class="selector-class">.json</span></span><br><span class="line">index <span class="number">8</span>f67810.<span class="selector-class">.d297f2e</span> <span class="number">100644</span></span><br><span class="line">--- <span class="selector-tag">a</span>/package<span class="selector-class">.json</span></span><br><span class="line">+++ <span class="selector-tag">b</span>/package<span class="selector-class">.json</span></span><br><span class="line">@@ -<span class="number">4</span>,<span class="number">13</span> +<span class="number">4</span>,<span class="number">17</span> @@</span><br><span class="line">+    <span class="string">&quot;lint&quot;</span>: <span class="string">&quot;npm-run-all --parallel lint:*&quot;</span>,</span><br><span class="line">     <span class="string">&quot;lint:js&quot;</span>: <span class="string">&quot;eslint *.js&quot;</span>,</span><br><span class="line">     <span class="string">&quot;lint:js:fix&quot;</span>: <span class="string">&quot;npm run lint:js -- --fix&quot;</span>,</span><br><span class="line">     <span class="string">&quot;lint:css&quot;</span>: <span class="string">&quot;stylelint *.less&quot;</span>,</span><br><span class="line">     <span class="string">&quot;lint:json&quot;</span>: <span class="string">&quot;jsonlint --quiet *.json&quot;</span>,</span><br><span class="line">     <span class="string">&quot;lint:markdown&quot;</span>: <span class="string">&quot;markdownlint --config .markdownlint.json *.md&quot;</span>,</span><br><span class="line">-    <span class="string">&quot;mocha&quot;</span>: <span class="string">&quot;mocha tests/&quot;</span>,</span><br><span class="line">-    <span class="string">&quot;test&quot;</span>: <span class="string">&quot;# 运行所有代码检查和单元测试 \n    npm-run-all --parallel lint:* mocha&quot;</span></span><br><span class="line">+    <span class="string">&quot;pretest&quot;</span>: <span class="string">&quot;npm run lint&quot;</span>,</span><br><span class="line">+    <span class="string">&quot;test&quot;</span>: <span class="string">&quot;mocha tests/&quot;</span>,</span><br></pre></td></tr></table></figure>
-
-<p>当我们运行 npm test 的时候，会先自动执行 pretest 里面的 lint，实际输出如下：</p>
-<p><img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2017/11/29/160052621691a0b7~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" alt="img"></p>
-<h2 id="增加覆盖率收集"><a href="#增加覆盖率收集" class="headerlink" title="增加覆盖率收集"></a>增加覆盖率收集</h2><p>接下来，我们把运行测试和覆盖率收集串起来，具体做法是：增加覆盖率收集的命令，并且覆盖率收集完毕之后自动打开 html 版本的覆盖率报告。要实现目标，我们需要引入两个新工具：</p>
-<ol>
-<li>覆盖率收集工具 <a href="https://link.juejin.cn/?target=https://github.com/istanbuljs/nyc">nyc</a>，是覆盖率收集工具 <a href="https://link.juejin.cn/?target=https://istanbul.js.org">istanbul</a> 的命令行版本，istanbul 支持生成各种格式的覆盖率报告，我已经使用多年；</li>
-<li>打开 html 文件的工具 <a href="https://link.juejin.cn/?target=https://github.com/sindresorhus/opn-cli">opn-cli</a>，是能够打开任意程序的工具 <a href="https://link.juejin.cn/?target=https://github.com/sindresorhus/opn">opn</a> 的命令行版本，作者是前端社区非常高产的 <a href="https://link.juejin.cn/?target=https://github.com/sindresorhus">Sindre Sorhus</a>，它在 npm 上发布了超过 1000 个包，并且质量都很不错。</li>
-</ol>
-<p>使用如下命令安装依赖：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="selector-tag">i</span> nyc opn-cli -D</span><br></pre></td></tr></table></figure>
-
-<p>然后在 package.json 增加 nyc 的配置，告诉 nyc 该忽略哪些文件。最后是在 scripts 中新增 3 条命令：</p>
-<ol>
-<li>precover，收集覆盖率之前把之前的覆盖率报告目录清理掉；</li>
-<li>cover，直接调用 nyc，让其生成 html 格式的覆盖率报告；</li>
-<li>postcover，清理掉临时文件，并且在浏览器中预览覆盖率报告；</li>
-</ol>
-<p>具体 diff 如下：</p>
-<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">diff --git a/package.json b/package.json</span></span><br><span class="line"><span class="comment">index 8f67810..d297f2e 100644</span></span><br><span class="line"><span class="comment">--- a/package.json</span></span><br><span class="line"><span class="comment">+++ b/package.json</span></span><br><span class="line"><span class="meta">@@ -4,13 +4,17 @@</span></span><br><span class="line">   scripts: &#123;</span><br><span class="line"><span class="addition">+    &quot;precover&quot;: &quot;rm -rf coverage&quot;,</span></span><br><span class="line"><span class="addition">+    &quot;cover&quot;: &quot;nyc --reporter=html npm test&quot;,</span></span><br><span class="line"><span class="addition">+    &quot;postcover&quot;: &quot;rm -rf .nyc_output &amp;&amp; opn coverage/index.html&quot;</span></span><br><span class="line">   &#125;,</span><br><span class="line"><span class="meta">@@ -22,7 +26,15 @@</span></span><br><span class="line">   &quot;devDependencies&quot;: &#123;</span><br><span class="line">     &quot;npm-run-all&quot;: &quot;^4.1.2&quot;,</span><br><span class="line"><span class="addition">+    &quot;nyc&quot;: &quot;^11.3.0&quot;,</span></span><br><span class="line"><span class="addition">+    &quot;opn-cli&quot;: &quot;^3.1.0&quot;,</span></span><br><span class="line">     &quot;stylelint&quot;: &quot;^8.2.0&quot;,</span><br><span class="line">     &quot;stylelint-config-standard&quot;: &quot;^17.0.0&quot;</span><br><span class="line"><span class="addition">+  &#125;,</span></span><br><span class="line"><span class="addition">+  &quot;nyc&quot;: &#123;</span></span><br><span class="line"><span class="addition">+    &quot;exclude&quot;: [</span></span><br><span class="line"><span class="addition">+      &quot;**/*.spec.js&quot;,</span></span><br><span class="line"><span class="addition">+      &quot;.*.js&quot;</span></span><br><span class="line"><span class="addition">+    ]</span></span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-
-<p>改完之后，我们可以直接运行 npm run cover，运行的详细截图如下：</p>
-<p><img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2017/11/29/16005264d5d3aef6~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" alt="img"></p>
+        <h1 id="npm-script"><a href="#npm-script" class="headerlink" title="npm script"></a>npm script</h1><h4 id="npm基础篇"><a href="#npm基础篇" class="headerlink" title="npm基础篇"></a>npm基础篇</h4><p>1、初始化npm包：npm init</p>
+<p>2、npm初始化生成的package.json基本配置信息：<br>package name: 包名称<br>version: 版本号<br>author: 作者<br>description: 描述<br>entry point: 入口文件<br>test command: 执行命令<br>git repository: 仓库地址<br>keywords: 项目关键字<br>license: 许可协议</p>
+<p>3、scripts字段：<br>使用npm run xxx或者npm xxx（xxx是指scripts对象中的键名）<br>运行基本步骤：<br>（1）从package.json中读取scripts对象中的所有配置<br>（2）以传给npm run的第一个参数作为键名在scripts对象中进行查找，如果没找到则报错<br>（3）在系统默认的shell中执行对应的命令<br>如果不带参数直接执行npm run则会列出所有可以执行的命令</p>
+<p>4、常见的scripts中的执行命令<br>eslint:可定制的js代码检查<br>stylelint:可定制的样式文件检查<br>jsonlint:json文件语法检查<br>…</p>
+<p>5、多个script命令共同执行<br>多个script命令串行：使用&amp;&amp;（例子:npm run eslint &amp;&amp; npm run test）<br>多个scripts命令并行，使用&amp;（例子:npm run eslint &amp; npm run test）<br>也可以使用npm-run-all实现更轻量和简洁的多命令运行</p>
+<h4 id="进阶篇"><a href="#进阶篇" class="headerlink" title="进阶篇"></a>进阶篇</h4><p>1、npm script为命令执行增加了钩子脚本，即pre与post钩子脚本<br>如运行npm run test的时候，分为三个阶段：<br>（1）检查是否存在pretest命令，有则执行<br>（2）检查是否存在test命令，有则执行<br>（3）检查是否存在posttest命令，有则执行</p>
+<p>2、在npm script中使用预定义变量<br>可以通过运行npm run env查看完整的变量列表，变量的使用遵循shel里面的语法<br>直接在npm script中给想要引用的变量前面加上$符号即可，如$npm_package_name</p>
+<p>3、在npm script中使用自定义变量<br>可以在package.json中添加自定义变量并且进行使用，如下：<br>“config”:{“port”:3000}<br>“scripts”:{“test”:”opn <a target="_blank" rel="noopener" href="http://localhost/$npm_package_config_port&quot;%7D">http://localhost:/$npm_package_config_port&quot;}</a></p>
+<p>4、实现npm script跨平台兼容（linux、mac、windows平台命令不相同）<br>（1）文件系统操作的跨平台兼容<br>rimraf或del-cli用来删除文件与目录，实现类似于rm -rf的功能<br>cpr用于拷贝文件和目录，实现类似于cp -r的功能<br>make-dir-cli用于创建吗目录，实现类似于mkdir -p的功能<br>（2）用cross-var引用变量<br>在linux与windows中引用变量的方式是不同的<br>linux是$npm_package_name，windows是%npm_package_name%<br>安装cross-var依赖后只需要在原始命令之前加上cross-var，然后用引号将整个命令包起来就可以<br>（3）用cross-env设置环境变量<br>不同平台的环境变量语法也是不相同的<br>安装cross-env依赖后之间在命令行之前加上cross-env即可</p>
+<h4 id="实战篇"><a href="#实战篇" class="headerlink" title="实战篇"></a>实战篇</h4><p>1、npm script为命令执行增加了钩子脚本，即pre与post钩子脚本<br>如运行npm run test的时候，分为三个阶段：<br>（1）检查是否存在pretest命令，有则执行<br>（2）检查是否存在test命令，有则执行<br>（3）检查是否存在posttest命令，有则执行</p>
+<p>2、在npm script中使用预定义变量<br>可以通过运行npm run env查看完整的变量列表，变量的使用遵循shel里面的语法<br>直接在npm script中给想要引用的变量前面加上$符号即可，如$npm_package_name</p>
+<p>3、在npm script中使用自定义变量<br>可以在package.json中添加自定义变量并且进行使用，如下：<br>“config”:{“port”:3000}<br>“scripts”:{“test”:”opn <a target="_blank" rel="noopener" href="http://localhost/$npm_package_config_port&quot;%7D">http://localhost:/$npm_package_config_port&quot;}</a></p>
+<p>4、实现npm script跨平台兼容（linux、mac、windows平台命令不相同）<br>（1）文件系统操作的跨平台兼容<br>rimraf或del-cli用来删除文件与目录，实现类似于rm -rf的功能<br>cpr用于拷贝文件和目录，实现类似于cp -r的功能<br>make-dir-cli用于创建吗目录，实现类似于mkdir -p的功能<br>（2）用cross-var引用变量<br>在linux与windows中引用变量的方式是不同的<br>linux是$npm_package_name，windows是%npm_package_name%<br>安装cross-var依赖后只需要在原始命令之前加上cross-var，然后用引号将整个命令包起来就可以<br>（3）用cross-env设置环境变量<br>不同平台的环境变量语法也是不相同的<br>安装cross-env依赖后之间在命令行之前加上cross-env即可</p>
 
       </section>
 
@@ -176,16 +151,32 @@
       
         <nav class="article-nav">
           
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://s1.ax1x.com/2022/11/11/zPpC0x.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2022/11/11/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/node/ES%20module%E4%B8%8ECommonJs%E7%9A%84%E5%8C%BA%E5%88%AB/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">ES module与CommonJs的区别</h2>
+        </a>
+      
+      <div class="card-text--row">Newer</div>
+    </div>
+  </article>
+</div>
+          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="https://s1.ax1x.com/2022/11/08/xzQHzV.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="https://s1.ax1x.com/2022/11/07/xvhcYd.jpg"></div>
     
     <div class="card-text">
       
-        <a href="/2022/11/08/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/node/npm/%E7%BB%99%20npm%20script%20%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0%E5%92%8C%E6%B7%BB%E5%8A%A0%E6%B3%A8%E9%87%8A/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">给 npm script 传递参数和添加注释</h2>
+        <a href="/2022/11/07/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/eslint%E9%85%8D%E7%BD%AE/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">eslint配置</h2>
         </a>
       
       <div class="card-text--row">Older</div>
@@ -245,13 +236,13 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>39</span>
+        <span>38</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
 </svg>
-        12
+        13
       </div>
       <div class="count-box--item">
         <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -320,8 +311,8 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
-            实习相关 (1)
+          <a href="/categories/node/">
+            node (1)
           </a>
         </li>
       
@@ -338,6 +329,12 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
+            实习相关 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
             Vue3学习笔记 (5)
           </a>
@@ -345,7 +342,7 @@
       
         <li class="categorys-list-item">
           <a href="/categories/npm-script/">
-            npm script (4)
+            npm script (2)
           </a>
         </li>
       
