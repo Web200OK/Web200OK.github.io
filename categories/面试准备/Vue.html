@@ -135,7 +135,7 @@
 <ul>
 <li>vue2响应式实现</li>
 </ul>
-<p>vue2采用数据劫持结合发布订阅模式，通过Object.defineproperty来劫持各个属性的setter和getter,在数据变动时发布消息给订阅者，触发响应的监听回调。</p>
+<p>vue2采用数据劫持结合发布 订阅模式，通过Object.defineproperty来劫持各个属性的setter和getter,在数据变动时发布消息给订阅者，触发响应的监听回调。</p>
 <p>当创建Vue实例时，vue会遍历data的所有选项的属性，利用Object,defineproperty为属性添加getter和setter对数据的读取进行劫持，并且在内部追踪依赖，在属性被访问和修改时通知变化。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//订阅器模型</span></span><br><span class="line"><span class="keyword">let</span> dingyue = &#123;</span><br><span class="line">	<span class="attr">container</span>: &#123;&#125;</span><br><span class="line">	<span class="comment">//订阅函数</span></span><br><span class="line">	<span class="attr">listen</span> : <span class="function"><span class="keyword">function</span>(<span class="params">key,fn</span>)</span>&#123;</span><br><span class="line">		(container[key] || (container[key] = [])).push(fn) </span><br><span class="line">	&#125; </span><br><span class="line">	<span class="comment">//发布函数</span></span><br><span class="line">	<span class="attr">trigger</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!container[key])&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span> </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">let</span> fns = container[key]</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;fn;fn = fns[i++])&#123;</span><br><span class="line">            fn.apply(<span class="built_in">this</span>,<span class="built_in">arguments</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//数据劫持</span></span><br><span class="line"><span class="comment">//data是一个对象,datakey是键值，tag是标记</span></span><br><span class="line"><span class="keyword">let</span> dataHi = <span class="function"><span class="keyword">function</span>(<span class="params">&#123;data,tag,datakey,selector&#125;</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> value = <span class="string">&quot;&quot;</span></span><br><span class="line">    el = <span class="built_in">document</span>.queryselector(selector)</span><br><span class="line">    <span class="built_in">Object</span>.defineproperty(data,datakey,&#123;</span><br><span class="line">        <span class="attr">get</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(“赋值”)</span><br><span class="line">            <span class="keyword">return</span> value</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="attr">setter</span> : <span class="function"><span class="keyword">function</span>(<span class="params">val</span>)</span>&#123;</span><br><span class="line">        	value = val</span><br><span class="line">        	<span class="built_in">console</span>.log(<span class="string">&quot;改值&quot;</span>)</span><br><span class="line">        	dingyue.trigger(tag,val)</span><br><span class="line">    	&#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    dingyue.listen(tag,fn)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -487,14 +487,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/npm-script/">
-            npm script (1)
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">
+            前端工程化 (3)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">
-            前端工程化 (3)
+          <a href="/categories/npm-script/">
+            npm script (1)
           </a>
         </li>
       
