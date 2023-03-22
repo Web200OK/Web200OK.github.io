@@ -206,7 +206,7 @@
 <p>1、vue把nextTick源码单独放到一个next-tick.js中，在nextTick函数外层定义三个变量callbacks,pending,timeFunc，一个是callbacks就是队列，每次调用$nextTick函数就是在向callbacks中新增回调函数的过程。</p>
 <p>callbacks新增回调函数后又执行了timeFunc函数，pending用来标识同一个时间只能执行一次，在timeFunc函数中使用isNative函数用来判断所传参数是否在当前环境原生就支持。vue在代码中做了四个判断，对当前环境进行了不断的降级处理，尝试使用原生的Promise.then,MutationObserver和setImmediate，上述三个都不支持最后使用serTimeout。降级处理的目的都是将flushCallbacks函数放入到微任务（判断1和2）或者是宏任务（判断3,4），等待下一次事件循环时执行。</p>
 <p>flushCallbacks就是把callbacks数组复制一份之后把callbacks置为空，最后用for循环把数组中的函数依次执行一遍。</p>
-<p>使用vue的时候，在**<style>** 标签加上scoped就可以实现样式隔离，只会作用在当前组件。</p>
+<p>使用vue的时候，在style标签加上scoped就可以实现样式隔离，只会作用在当前组件。</p>
 <ul>
 <li>vue和react的区别：</li>
 </ul>
@@ -625,20 +625,14 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/TensorFlow-js/">
-            TensorFlow.js (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            前端学习笔记 (6)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E6%97%A5%E6%8A%A5/">
             日报 (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
           </a>
         </li>
       
@@ -657,6 +651,12 @@
         <li class="categorys-list-item">
           <a href="/categories/%E7%AE%97%E6%B3%95/">
             算法 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            前端学习笔记 (6)
           </a>
         </li>
       
