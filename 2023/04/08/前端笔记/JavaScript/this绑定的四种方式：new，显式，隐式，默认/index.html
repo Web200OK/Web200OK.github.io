@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+  
+  <meta name="generator" content="Hexo 5.4.0">
+
+  
+
+  
+
+  
+    <meta name="author" content="ChenZehong">
+  
+
+  
+
+  
+
+  <title>this的四种绑定方式 | 好好学习，天天向上</title>
+
+  
+
+  
+    <link rel="shortcut icon" href="/happy.ico">
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@1.1.3/index.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/monokai.css">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+  <div class="root-container">
+    
+<!-- header container -->
+<header class="header-container post">
+  
+    <div class="post-image" style="background-image: url(http://cdn-hw-static.shanhutech.cn/bizhi/staticwp/202208/c33e7bed189ec1826fe8348a598a351d--2659355936.jpg)"></div>
+  
+
+  <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          好好学习，天天向上
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+          <li class="navbar-list-item"><a href="/">首页</a></li>
+        
+          <li class="navbar-list-item"><a href="/links">友链</a></li>
+        
+          <li class="navbar-list-item"><a href="/about">关于</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">this的四种绑定方式</h1>
+          <h2 class="title-sub-wrap">
+            <strong>ChenZehong</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2023-04-08T01:33:36.456Z" itemprop="datePublished">2023-04-08</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/Javascript%E7%AC%94%E8%AE%B0/">📒 Javascript笔记</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+</ul>
+        </div>
+      </div>
+    </div>
+  
+
+  
+  
+  
+</header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+<div class="body-container">
+  <article class="content-container layout-block post-container">
+    <div class="article-info">
+      
+      
+      
+      
+      <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
+        <h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>this用好了可以让你的代码简洁而又灵活，但用不好可以让你的bug难以追踪。最近做题的时候总是遇到关于this指向的问题，而偏偏我还就做不对。</p>
+<p>为了永诀后患特地花了一天时间好好总结了一下。本文内容参考自《你不知道的JavaScript》上卷，在阅读理解的基础上加工而成。</p>
+<p>听没听懂都给个赞吧😄</p>
+<h3 id="一道试题"><a href="#一道试题" class="headerlink" title="一道试题"></a>一道试题</h3><p>正如标题所说，this绑定的方式一共有四种。也许日常使用你可以凭借经验用的很6，但真的做起题目来，未必得心应手，甚至连蒙带猜。下面先看一道题目:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">&#x27;global&#x27;</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.name = <span class="string">&#x27;foo&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;local&#x27;</span>,</span><br><span class="line">    <span class="attr">bar</span>: foo.bind(<span class="built_in">window</span>),</span><br><span class="line">    <span class="attr">foo</span>: foo</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> baz = <span class="keyword">new</span> obj.bar();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.name); <span class="comment">// global</span></span><br><span class="line"><span class="built_in">console</span>.log(baz.name); <span class="comment">// foo (new 绑定)</span></span><br><span class="line">obj.bar()</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.name) <span class="comment">// foo（显示绑定）</span></span><br><span class="line">obj.foo()</span><br><span class="line"><span class="built_in">console</span>.log(obj.name) <span class="comment">// foo (隐式绑定)</span></span><br></pre></td></tr></table></figure>
+
+<p>如果你能爽快答出，并且正确，那你可以走了。如果不能，那么继续。</p>
+<h3 id="默认绑定"><a href="#默认绑定" class="headerlink" title="默认绑定"></a>默认绑定</h3><p>默认绑定作用于函数直接调用的情况下，此时this指向全局对象，但严格模式下this指向undefined。</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function foo () &#123;</span><br><span class="line">    console<span class="selector-class">.log</span>(this)</span><br><span class="line">&#125;</span><br><span class="line">foo() <span class="comment">// =&gt; window</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 严格模式</span></span><br><span class="line">function bar () &#123;</span><br><span class="line">    &#x27;use strict&#x27;</span><br><span class="line">    console<span class="selector-class">.log</span>(this)</span><br><span class="line">&#125;</span><br><span class="line">bar() <span class="comment">// =&gt; undefined</span></span><br></pre></td></tr></table></figure>
+
+<p>注意函数直接调用，不跟前缀，该方式容易和隐式绑定弄混。</p>
+<h3 id="隐式绑定"><a href="#隐式绑定" class="headerlink" title="隐式绑定"></a>隐式绑定</h3><p>this指向它的调用者，即谁调用函数，他就指向谁。</p>
+<p>示例：</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function foo () &#123;</span><br><span class="line">    console<span class="selector-class">.log</span>(this)</span><br><span class="line">&#125;</span><br><span class="line">const obj = &#123;</span><br><span class="line">    foo: foo</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">obj.foo() // =&gt; obj调用foo，则this指向obj</span><br><span class="line">foo() // =&gt; window。这是默认绑定还是隐式绑定？</span><br></pre></td></tr></table></figure>
+
+<p>这里如果直接调用foo，结果将会是window，那这种方式算作默认绑定，还是隐式绑定呢？请看下面：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">    <span class="attr">a</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        consooe.log(<span class="built_in">this</span>) <span class="comment">// ① obj（隐式）</span></span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">b</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="built_in">this</span>) <span class="comment">// ② window（默认）</span></span><br><span class="line">        &#125;</span><br><span class="line">        b()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">obj.a()</span><br></pre></td></tr></table></figure>
+
+<p>出乎意料的是，②处的结果是window，并不是obj。原因很简单，因为b()是直接调用的（没有前缀）。</p>
+<h3 id="区分隐式绑定和默认绑定"><a href="#区分隐式绑定和默认绑定" class="headerlink" title="区分隐式绑定和默认绑定"></a>区分隐式绑定和默认绑定</h3><p>在第一段代码中直接调用<code>foo()</code>，this之所以指向window，是因为foo是直接调用的并不依附于谁。</p>
+<p>但是由于全局变量的特殊性（全局变量是window的属性），<code>foo()</code>等价于<code>window.foo()</code>，所以这里可以有两种解释方式：</p>
+<ol>
+<li>window调用了foo()，this指向window。隐式绑定</li>
+<li>foo是直接调用的，this默认绑定为window。默认绑定</li>
+</ol>
+<p>但在第二段代码中就不一样了，②处的结果就是默认绑定</p>
+<h3 id="隐式绑定的this丢失问题"><a href="#隐式绑定的this丢失问题" class="headerlink" title="隐式绑定的this丢失问题"></a>隐式绑定的this丢失问题</h3><p>常见于传入回调函数时。如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">    <span class="attr">foo</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="built_in">this</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">setTimeout</span>(obj.foo, <span class="number">0</span>) <span class="comment">// =&gt; window</span></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    obj.foo() <span class="comment">// =&gt; obj</span></span><br><span class="line">&#125;, <span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+
+<p>为什么做回调函数时就不对了？这两段代码有什么不一样？</p>
+<p>函数也是引用类型，obj.foo作为参数传递给其他函数时，传递的是引用，所以传递的就是这个标识对应的匿名函数本身，和其所处的位置无关，在不在obj中都无所谓，哪怕n层嵌套。</p>
+<p>明白这点我们就可以很好地解释：第一个setTimeout，obj.foo引用的是匿名函数本身，<strong>这其实是一个不带任何修饰的函数调用，因此应用了默认绑定</strong>，导致我们意料之外的this丢失。</p>
+<p>由于this会丢失，很大程度上限制了我们的应用场景，但我们可以使用显式绑定来解决这个问题，如：</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(obj.foo.bind(obj), 0) <span class="comment">// =&gt; obj</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="显示绑定"><a href="#显示绑定" class="headerlink" title="显示绑定"></a>显示绑定</h3><p>就像我们刚才看到的那样，在分析隐式绑定时，我们必须在一个对象内部包含一个指向函数的属性，并通过这个属性间接引用函数，从而把 this间接（隐式）绑定到这个对象上。</p>
+<p>那么如果我们不想在对象内部包含函数引用，而想在某个对象上强制调用函数，该怎么做呢？答案是<strong>通过call、apply或bind实现</strong>。</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function foo() &#123;</span><br><span class="line">    console<span class="selector-class">.log</span>( this.a );</span><br><span class="line">&#125; </span><br><span class="line"> </span><br><span class="line"><span class="selector-tag">var</span> obj = &#123;</span><br><span class="line">    <span class="selector-tag">a</span>: <span class="number">2</span></span><br><span class="line">&#125;; </span><br><span class="line"> </span><br><span class="line">foo<span class="selector-class">.call</span>( obj ); <span class="comment">// =&gt; 2</span></span><br><span class="line">foo<span class="selector-class">.apply</span>( obj ); <span class="comment">// =&gt; 2</span></span><br><span class="line"></span><br><span class="line"><span class="selector-tag">var</span> tmp = foo<span class="selector-class">.bind</span>(obj)</span><br><span class="line">tmp() <span class="comment">// =&gt; 2</span></span><br></pre></td></tr></table></figure>
+
+<p>这些都是常规操作，但是有三点需要注意：</p>
+<ol>
+<li>call和apply是立即执行，bind则是返回一个绑定了this的新函数，只有你调用了这个新函数才真的调用了目标函数</li>
+<li>bind函数存在多次绑定的问题，如果多次绑定this，则以第一次为准。</li>
+<li>bind函数实际上是显示绑定（call、apply）的一个变种，称为硬绑定。由于硬绑定是一种非常常用的模式，所以在 ES5 中提供了内置的方法<code>Function.prototype.bind</code></li>
+</ol>
+<h3 id="硬绑定"><a href="#硬绑定" class="headerlink" title="硬绑定"></a>硬绑定</h3><p>简单解释下第二点，为什么以第一次为准</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function foo() &#123;</span><br><span class="line">    console<span class="selector-class">.log</span>( this.a );</span><br><span class="line">&#125; </span><br><span class="line"><span class="selector-tag">var</span> obj1 = &#123;</span><br><span class="line">    <span class="selector-tag">a</span>: <span class="string">&#x27;obj1&#x27;</span></span><br><span class="line">&#125;; </span><br><span class="line"><span class="selector-tag">var</span> obj2 = &#123;</span><br><span class="line">    <span class="selector-tag">a</span>: <span class="string">&#x27;obj2&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var tmp = foo.bind(obj1).bind(obj2)</span><br><span class="line">tmp() // =&gt; <span class="string">&#x27;obj1&#x27;</span></span><br><span class="line">tmp.call(obj2) // =&gt; <span class="string">&#x27;obj1&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>为什么以第一次为准？实际的bind函数大家可以参考<a href="https://link.juejin.cn/?target=https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/bind">MDN的polyfill</a>，为了便于理解，bind函数可以简化为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.bind = <span class="function"><span class="keyword">function</span> (<span class="params">context, ...args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> fn = <span class="built_in">this</span> <span class="comment">// 这个this就是我们绑定的函数，如上例即foo</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">...props</span>) </span>&#123;</span><br><span class="line">        fn.call(context, ...args, ...props)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，bind就是给函数套一层函数，利用柯里化，提前设置好上下文对象。根据这个原理，可以知道，无论你外面包裹了多少层，目标函数不会变。且由于闭包的存在，最初的这个context对象也不会变，所以当包裹在外层的函数一层层褪去后，<strong>最终使用到的context对象依旧是第一次绑定的对象</strong>。</p>
+<p>bind函数只能绑定一次，多次绑定是没有用的，绑定后的函数this无法改变，即使call也不行，所以才称作硬绑定。</p>
+<p>不过凡事总有例外，且看new绑定。</p>
+<h3 id="new绑定"><a href="#new绑定" class="headerlink" title="new绑定"></a>new绑定</h3><blockquote>
+<p>在传统的面向类的语言中，“构造函数”是类中的一些特殊方法，使用 new初始化类时会 调用类中的构造函数。JavaScript 也有一个 new操作符，使用方法看起来也和那些面向类的语言一样，绝大多数开 发者都认为 JavaScript 中 new 的机制也和那些语言一样。然而，JavaScript 中 new 的机制实 际上和面向类的语言完全不同。</p>
+</blockquote>
+<p>使用new操作符时实际做了四件事：</p>
+<ol>
+<li>创建一个全新的对象</li>
+<li>执行原型链接</li>
+<li>这个新对象会被绑定到构造函数中的this</li>
+<li>执行构造函数，判断返回值，如果为对象，则返回这个值，否则返回默认创建的对象</li>
+</ol>
+<h3 id="优先级"><a href="#优先级" class="headerlink" title="优先级"></a>优先级</h3><p>如果某个调用位置可以应用多条规则该怎么办？为了解决这个问题就必须给这些规则设定优先级，这就是我们接下来要介绍的内容。</p>
+<p>毫无疑问，默认绑定的优先级是最低的，显式绑定和隐式绑定的优先级，通过上面的例子也可以证明，显式大于隐式。所以目前顺序是：<code>显式 &gt; 隐式 &gt; 默认</code></p>
+<p>那我们来测试下显示绑定和new绑定的优先级顺序。由于call/apply无法和new一起使用，我们可以使用bind（硬绑定）来验证。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.a = <span class="string">&#x27;哈哈哈&#x27;</span>;</span><br><span class="line">&#125; </span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    <span class="attr">a</span>: <span class="string">&#x27;obj&#x27;</span></span><br><span class="line">&#125;; </span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> tmp = foo.bind(obj)</span><br><span class="line"><span class="keyword">var</span> result = <span class="keyword">new</span> tmp()</span><br><span class="line"><span class="built_in">console</span>.log(obj.a) <span class="comment">// =&gt; &#x27;obj&#x27;</span></span><br><span class="line"><span class="built_in">console</span>.log(result.a) <span class="comment">// =&gt; &#x27;哈哈哈&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>显而易见的，new的优先级，大于显示绑定。<strong>最终顺序为：new &gt; 显式 &gt; 隐式 &gt; 默认</strong>。</p>
+<p>于是我们判断this，就有了一个顺序：</p>
+<ol>
+<li>函数是否在new中调用？</li>
+<li>是否通过call、apply、bind等调用？</li>
+<li>是否在某个上下文对象中调用？</li>
+<li>都不是则是默认绑定。且严格模式下绑定到undefined。</li>
+</ol>
+<p>对于正常的函数调用来说，理解了这些知识你就可以明白 this的远离了，不过，同样的，凡是总有例外嘛。</p>
+<h3 id="例外情况"><a href="#例外情况" class="headerlink" title="例外情况"></a>例外情况</h3><h4 id="null或undefined"><a href="#null或undefined" class="headerlink" title="null或undefined"></a>null或undefined</h4><p>若将null、undefined等值作为call、apply的第一个参数，那么实际调用时会被忽略，从而应用到默认绑定规则，即绑定到window上，有些时候我们不关心上下文，只关心参数时，可以这样做。</p>
+<p>但这样其实存在这一些潜在的风险，绑定到window很可能无意中添加或修改了全局变量，造成一些隐蔽的bug。所以为了防止这种情况出现，可以将第一个参数绑定为一个空对象。当然具体还是看需求，这只是建议。</p>
+<h4 id="软绑定"><a href="#软绑定" class="headerlink" title="软绑定"></a>软绑定</h4><p>关于软绑定，其实就是用来解决硬绑定后this无法再修改的问题，可以看看这篇<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903609126092813">关于软绑定</a>的文章。其实现如下（摘自《你不知道的JavaScript》上卷）：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.softBind = <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> fn = <span class="built_in">this</span>;</span><br><span class="line">    <span class="keyword">var</span> args = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>,<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">var</span> bound = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> fn.apply(</span><br><span class="line">            (!<span class="built_in">this</span> || <span class="built_in">this</span> === (<span class="built_in">window</span> || <span class="built_in">global</span>)) ? obj : <span class="built_in">this</span>,</span><br><span class="line">            args.concat.apply(args,<span class="built_in">arguments</span>)</span><br><span class="line">        );</span><br><span class="line">    &#125;;</span><br><span class="line">    bound.prototype = <span class="built_in">Object</span>.create(fn.prototype);</span><br><span class="line">    <span class="keyword">return</span> bound;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>主要关注这一行：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 判定当前this，如果绑定到了全局对象或undefined，null，</span></span><br><span class="line"><span class="comment">// 则修改this为传入的obj，否则什么也不做。</span></span><br><span class="line">(!<span class="keyword">this</span> || <span class="keyword">this</span> === (window || global)) ? obj : <span class="keyword">this</span></span><br></pre></td></tr></table></figure>
+
+<p>意义何在？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">&#x27;global&#x27;</span></span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;obj&#x27;</span>,</span><br><span class="line">    <span class="attr">foo</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="built_in">this</span>.name)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> obj1 = &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;obj1&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">obj.foo() <span class="comment">// =&gt; obj // 常规方式</span></span><br><span class="line"><span class="built_in">setTimeout</span>(obj.foo, <span class="number">0</span>) <span class="comment">// this丢失，global</span></span><br><span class="line"><span class="comment">// 现在我们使用软绑定</span></span><br><span class="line"><span class="keyword">const</span> softFoo = obj.foo.softBind(obj)</span><br><span class="line"><span class="built_in">setTimeout</span>(softFoo, <span class="number">0</span>) <span class="comment">// obj</span></span><br><span class="line">softFoo.call(obj1) <span class="comment">// obj1，可以使用call显式改变this</span></span><br><span class="line">obj1.foo = softFoo</span><br><span class="line">obj1.foo() <span class="comment">// obj1，也可以隐式改变this</span></span><br></pre></td></tr></table></figure>
+
+<p><code>setTimeout(softFoo, 0)</code>中softFoo同样会丢失this，但丢失后，通过内部判断我们将取上一步绑定的obj。</p>
+<p>如果是硬绑定，则softFoo的this将被固定为obj，固定体现在始终应用第一次传入的这个上下文。</p>
+<p>但是由于有了上面的判断，所以在应用隐式或显式规则时，由于this既不是全局对象也不是undefined或null，所以判断为false，取后者this，而在我们调用<code>softFoo.call(obj1)</code>时，this又被改变了，变成了obj1，然后就修改成功了。</p>
+<p>这里这里的设计非常巧妙，需要仔细品味。注意我们的softFoo是调用softBind函数后返回的内部函数bound。还要注意softBind函数中第一行的this，和bound中的this，他们是不相等的。</p>
+<p>可以看出，这个判断条件可以防止应用默认绑定规则，当应用了默认规则时，取前者。前者就是我们传入的目标上下文。否则便使用软绑定传入的上下文，就是我们的obj。</p>
+<p>有了软绑定之后，排序为：<strong>new &gt; 显式 &gt; 隐式 &gt; 软绑定 &gt; 默认</strong></p>
+<h4 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h4><ol>
+<li>函数体内的this就是定义时所在的对象，而非调用时所在的对象，和普通函数相反。</li>
+<li>箭头函数无法用做构造函数，即不能使用new调用</li>
+<li>不能使用arguments对象，函数中不存在这个对象。</li>
+<li>不可使用yield命令，即无法用做Generator函数。</li>
+</ol>
+<p>其中第一点尤其值得注意，之所以this是固定的，是因为箭头函数本身没有this，箭头函数的this不是自己的。所以不能修改，也正因为没有this，所以不能用作构造函数。这些限制都是因为没有this导致的。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>判断this主要有以下步骤：</p>
+<ol>
+<li>函数是否在new中调用？</li>
+<li>是否通过call、apply、bind等调用？</li>
+<li>是否在某个上下文对象中调用？</li>
+<li>都不是则是默认绑定。且严格模式下绑定到undefined。</li>
+</ol>
+<p>另外还要注意箭头函数的特殊性以及undefined和null会被忽略这一特性。</p>
+
+      </section>
+
+      
+      
+        <nav class="article-nav">
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="http://cdn-hw-static.shanhutech.cn/bizhi/staticwp/202208/030a1ad0f81088a9e049a58634aad92e--734415544.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2023/04/06/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/JavaScript/Promise%E7%9A%84%E9%93%BE%E5%BC%8F%E8%B0%83%E7%94%A8%E4%B8%8E%E5%BC%82%E5%B8%B8%E7%A9%BF%E9%80%8F/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">Promise的链式调用与异常穿透</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
+
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+    <div class="valine-container comments-container content-padding--primary soft-size--large soft-style--box">
+      <div id="valine_thread" class="valine-thread"></div>
+    </div>
+    <script type="text/javascript" src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script type="text/javascript" src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <script type="text/javascript">
+      new Valine({
+        el: "#valine_thread",
+        appId: "zPxT1BH5qC6JYqXmizvClRGk-gzGzoHsz",
+        appKey: "kU1QKKjUJco1Gyjj0Usl4bwM",
+        avatar: "ChenZehong",
+        placeholder: "随便说点什么叭～",
+        notify: true,
+        visitor: true,
+        pageSize: 10,
+      });
+    </script>
+  
+
+  
+  
+
+
+      </section>
+    </div>
+    <div class="widget-info">
+      <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-body">
+    
+      <img src="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202007/f9c696aa27edaddf87257e5e70d1eb62--1437661584.jpg" class="soft-size--round soft-style--box" alt="ChenZehong">
+    
+    
+      <h2>ChenZehong</h2>
+    
+    
+      <p>贵在坚持</p>
+    
+
+    <div class="count-box">
+      <div class="count-box--item">
+        <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
+</svg>
+        <span>39</span>
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+        14
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+        0
+      </div>
+    </div>
+  </div>
+</section>
+
+      
+
+      
+
+      <section class="widget-categorys widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+    <span>CATEGORYS</span>
+  </div>
+  <div class="widget-body">
+    <ul class="categorys-list">
+      
+        <li class="categorys-list-item">
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            前端学习笔记 (6)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+            面试准备 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%A4%A7%E5%8E%82%E7%AC%94%E8%AF%95%E9%A2%98/">
+            大厂笔试题 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Javascript%E7%AC%94%E8%AE%B0/">
+            Javascript笔记 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            react学习笔记 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Vue%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">
+            Vue源码解析 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/npm-script/">
+            npm script (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/node/">
+            node (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            Vue3学习笔记 (5)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
+            实习相关 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">
+            前端工程化 (3)
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+</section>
+
+      <section class="widget-tags widget-item  layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+    <span>TAGS</span>
+  </div>
+  <div class="widget-body">
+    <div class="tags-cloud">
+      
+    </div>
+  </div>
+</section>
+    </div>
+  </article>
+</div>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+    
+    <div class="social-icons">
+      
+        
+      
+        
+      
+        
+      
+        
+          <a href="https://github.com/Web200OK" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-github" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M64.6 512c0 195.6 125.4 361.9 300.1 422.9 23.5 5.9 19.9-10.8 19.9-22.2v-77.6c-135.8 15.9-141.3-74-150.5-89-18.5-31.5-61.9-39.5-49-54.5 31-15.9 62.5 4 98.9 58 26.4 39.1 77.9 32.5 104.1 26 5.7-23.5 17.9-44.5 34.7-60.9-140.7-25.2-199.4-111.1-199.4-213.3 0-49.5 16.4-95.1 48.4-131.8-20.4-60.6 1.9-112.4 4.9-120.1 58.2-5.2 118.5 41.6 123.3 45.3 33.1-8.9 70.8-13.7 112.9-13.7 42.4 0 80.3 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.4-43.9 2.9 7.7 24.7 58.3 5.5 118.1 32.5 36.8 49 82.8 49 132.4 0 102.3-59 188.3-200.2 213.2 23.5 23.3 38.1 55.5 38.1 91.1v112.7c0.8 9 0 17.9 15.1 17.9C832.7 877 960.4 709.4 960.4 512.1c0-247.5-200.6-447.9-447.9-447.9C265 64.1 64.6 264.5 64.6 512z"></path>
+</svg>
+          </a>
+        
+      
+        
+      
+    </div>
+     
+    <p>&copy; 2023 <a href="/" target="_blank">ChenZehong</a></p>
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+
+    <p>
+      <a href="javascript:;" id="theme-light">🌞 浅色</a>
+      <a href="javascript:;" id="theme-dark">🌛 深色</a>
+      <a href="javascript:;" id="theme-auto">🤖️ 自动</a>
+    </p>
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed soft-size--round soft-style--box">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+      <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+      <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+    </svg>
+  </div>
+
+  
+  <!-- aplayer -->
+
+
+<!-- dplayer -->
+
+
+
+
+  
+
+
+  
+
+
+  <!-- Baidu Analytics START -->
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      if (window.location.hostname === "localhost" || window.location.hostname.startsWith("192.168")) {
+        return console.log("本地调试");
+      }
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8a923e14e6dbf862c2b287e6c1266764";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  <!-- Baidu Analytics End -->
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+</body>
+</html>
