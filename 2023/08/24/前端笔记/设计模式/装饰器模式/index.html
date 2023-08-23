@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+  
+  <meta name="generator" content="Hexo 5.4.0">
+
+  
+
+  
+
+  
+    <meta name="author" content="ChenZehong">
+  
+
+  
+
+  
+
+  <title>装饰器模式 | 好好学习，天天向上</title>
+
+  
+
+  
+    <link rel="shortcut icon" href="/happy.ico">
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@1.1.3/index.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/monokai.css">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+  <div class="root-container">
+    
+<!-- header container -->
+<header class="header-container post">
+  
+    <div class="post-image" style="background-image: url(http://cdn-hw-static.shanhutech.cn/bizhi/staticwp/202305/cb42a64dd80a3e815ec0931f1d0507ce--3898618229.jpg)"></div>
+  
+
+  <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          好好学习，天天向上
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+          <li class="navbar-list-item"><a href="/">首页</a></li>
+        
+          <li class="navbar-list-item"><a href="/links">友链</a></li>
+        
+          <li class="navbar-list-item"><a href="/about">关于</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">装饰器模式</h1>
+          <h2 class="title-sub-wrap">
+            <strong>ChenZehong</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2023-08-23T23:04:48.415Z" itemprop="datePublished">2023-08-24</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">📒 设计模式</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+</ul>
+        </div>
+      </div>
+    </div>
+  
+
+  
+  
+  
+</header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+<div class="body-container">
+  <article class="content-container layout-block post-container">
+    <div class="article-info">
+      
+      
+      
+      
+      <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
+        <h1 id="装饰器模式"><a href="#装饰器模式" class="headerlink" title="装饰器模式"></a>装饰器模式</h1><ol>
+<li>什么是装饰器模式？ </li>
+</ol>
+<p>装饰器模式，又名装饰者模式。它的定义是“在不改变原对象的基础上，通过对其进行包装拓展，使得原有对象可以动态具有更多功能，从而满足用户的更复杂需求”。</p>
+<p>装饰器模式的本质是功能动态组合，即动态地给一个对象添加额外的职责，就增加功能角度来看，使用装饰器模式比用继承更为灵活。好处就是有效地把对象的核心职责和装饰功能区分开，并且通过动态增删装饰去除目标对象中重复的装饰逻辑。</p>
+<p>我们在买房之后，就可以居住了。但是，往往会对房屋进行装饰，通水电、刷漆、铺地板、购置家具，安装家电等等。这样，就让房屋就有了各种各样的特性，刷漆、铺地板之后房子变的更美观了；摆放家具、家电之后，房屋就更加便捷了等等。但是，我们并没有改变房子是用来居住的基本功能，这就是装饰的作用。</p>
+<p>我们好多人喜欢给手机买手机壳，装上手机壳之后，手机就变得更加耐磨，耐摔，更加好看等，但是并没有改变手机的功能，只是对其进行了装饰。</p>
+<p>这两个例子中，都有以下特点：</p>
+<p>●装饰不影响原有的功能，原有功能可以照常使用；</p>
+<p>●装饰可以增加多个，共同给目标对象添加额外功能。</p>
+<ol start="2">
+<li>装饰器模式的原理 </li>
+</ol>
+<p>装饰器模式的原理：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/1500604/1604733212306-bc3ad000-1f22-4877-bd4d-347d67a67f2e.png?x-oss-process=image/resize,w_388,limit_0" alt="img"></p>
+<p>可以从上图看出，在表现形式上，装饰器模式和适配器模式比较类似，都属于包装模式。在装饰器模式中，一个对象被另一个对象包装起来，形成一条包装链，并增加了原先对象的功能。</p>
+<ol start="3">
+<li>装饰器模式的使用场景 </li>
+</ol>
+<p> （1）给浏览器事件添加新功能 </p>
+<p>添加装饰器函数常被用来给原有浏览器或 DOM 绑定事件上绑定新的功能，比如在 onload 上增加新的事件，或在原来的事件绑定函数上增加新的功能，或者在原本的操作上增加用户行为埋点：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;原先的 onload 事件 &#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* 发送埋点信息 */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sendUserOperation</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;埋点：用户当前行为路径为 ...&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* 将新的功能添加到 onload 事件上 */</span></span><br><span class="line"><span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> originOnload = <span class="built_in">window</span>.onload</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        originOnload &amp;&amp; originOnload()</span><br><span class="line">        sendUserOperation()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;()</span><br><span class="line"><span class="comment">// 输出： 原先的 onload 事件</span></span><br><span class="line"><span class="comment">// 输出： 埋点：用户当前行为路径为 ...</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到通过添加装饰函数，为 onload 事件回调增加新的方法，且并不影响原本的功能，可以把上面的方法提取出来作为一个工具方法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;原先的 onload 事件 &#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* 发送埋点信息 */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sendUserOperation</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;埋点：用户当前行为路径为 ...&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* 给原生事件添加新的装饰方法 */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">originDecorateFn</span>(<span class="params">originObj, originKey, fn</span>) </span>&#123;</span><br><span class="line">    originObj[originKey] = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> originFn = originObj[originKey]</span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            originFn &amp;&amp; originFn()</span><br><span class="line">            fn()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;()</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 添加装饰功能</span></span><br><span class="line">originDecorateFn(<span class="built_in">window</span>, <span class="string">&#x27;onload&#x27;</span>, sendUserOperation)</span><br><span class="line"><span class="comment">// 输出： 原先的 onload 事件</span></span><br><span class="line"><span class="comment">// 输出： 埋点：用户当前行为路径为 ...</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p> （2）给浏览器事件添加新功能 </p>
+<p>下面再看一个场景：点击一个按钮后，如果用户还未登录，就弹窗提示用户“您还未登录哦~”。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;button id=&#x27;open&#x27;&gt;点击打开&lt;/button&gt;</span><br><span class="line">    &lt;button id=&#x27;close&#x27;&gt;关闭弹框&lt;/button&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    // 弹框创建逻辑，这里我们复用了单例模式面试题的例子</span><br><span class="line">    const Modal = (function() &#123;</span><br><span class="line">        let modal = null</span><br><span class="line">        return function() &#123;</span><br><span class="line">            if(!modal) &#123;</span><br><span class="line">                modal = document.createElement(&#x27;div&#x27;)</span><br><span class="line">                modal.innerHTML = &#x27;您还未登录哦~&#x27;</span><br><span class="line">                modal.id = &#x27;modal&#x27;</span><br><span class="line">                modal.style.display = &#x27;none&#x27;</span><br><span class="line">                document.body.appendChild(modal)</span><br><span class="line">            &#125;</span><br><span class="line">            return modal</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)()</span><br><span class="line">    </span><br><span class="line">    // 点击打开按钮展示模态框</span><br><span class="line">    document.getElementById(&#x27;open&#x27;).addEventListener(&#x27;click&#x27;, function() &#123;</span><br><span class="line">        // 未点击则不创建modal实例，避免不必要的内存占用</span><br><span class="line">        const modal = new Modal()</span><br><span class="line">        modal.style.display = &#x27;block&#x27;</span><br><span class="line">    &#125;)</span><br><span class="line">    </span><br><span class="line">    // 点击关闭按钮隐藏模态框</span><br><span class="line">    document.getElementById(&#x27;close&#x27;).addEventListener(&#x27;click&#x27;, function() &#123;</span><br><span class="line">        const modal = document.getElementById(&#x27;modal&#x27;)</span><br><span class="line">        if(modal) &#123;</span><br><span class="line">            modal.style.display = &#x27;none&#x27;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>后来因为业务需求的变更，要求在弹框被关闭后把按钮的文案改为“快去登录”，同时把按钮置灰。</p>
+<p>这个需求更改看起来比较简单，但是，可能不止有一个按钮有这个需求，那有可能还要更该很多代码。况且，直接去修改已有的函数体的话，就违背了“开放封闭原则”；在一个函数体中写很多逻辑，就违背了“单一职责原则”。</p>
+<p>我们要做的就是将原来的逻辑与新的逻辑分离，将旧的逻辑抽离出来：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将展示Modal的逻辑单独封装</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">openModal</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> modal = <span class="keyword">new</span> Modal()</span><br><span class="line">    modal.style.display = <span class="string">&#x27;block&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编写新逻辑：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 按钮文案修改逻辑</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">changeButtonText</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;open&#x27;</span>)</span><br><span class="line">    btn.innerText = <span class="string">&#x27;快去登录&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 按钮置灰逻辑</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">disableButton</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> btn =  <span class="built_in">document</span>.getElementById(<span class="string">&#x27;open&#x27;</span>)</span><br><span class="line">    btn.setAttribute(<span class="string">&quot;disabled&quot;</span>, <span class="literal">true</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 新版本功能逻辑整合</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">changeButtonStatus</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    changeButtonText()</span><br><span class="line">    disableButton()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后把三个操作逐个添加open按钮的监听函数里：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.getElementById(<span class="string">&#x27;open&#x27;</span>).addEventListener(<span class="string">&#x27;click&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    openModal()</span><br><span class="line">    changeButtonStatus()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>这样，就实现了“只添加，不修改”的装饰器模式，使用changeButtonStatus的逻辑装饰了旧的按钮点击逻辑。</p>
+<p>以上是ES5中的实现，ES6中，可以以一种更加面向对象化的方式去写：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义打开按钮</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OpenButton</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 点击后展示弹框（旧逻辑）</span></span><br><span class="line">    <span class="function"><span class="title">onClick</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> modal = <span class="keyword">new</span> Modal()</span><br><span class="line">        modal.style.display = <span class="string">&#x27;block&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 定义按钮对应的装饰器</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Decorator</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 将按钮实例传入</span></span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">open_button</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.open_button = open_button</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="title">onClick</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.open_button.onClick()</span><br><span class="line">        <span class="comment">// “包装”了一层新逻辑</span></span><br><span class="line">        <span class="built_in">this</span>.changeButtonStatus()</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="title">changeButtonStatus</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.changeButtonText()</span><br><span class="line">        <span class="built_in">this</span>.disableButton()</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="title">disableButton</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> btn =  <span class="built_in">document</span>.getElementById(<span class="string">&#x27;open&#x27;</span>)</span><br><span class="line">        btn.setAttribute(<span class="string">&quot;disabled&quot;</span>, <span class="literal">true</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="title">changeButtonText</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;open&#x27;</span>)</span><br><span class="line">        btn.innerText = <span class="string">&#x27;快去登录&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> openButton = <span class="keyword">new</span> OpenButton()</span><br><span class="line"><span class="keyword">const</span> decorator = <span class="keyword">new</span> Decorator(openButton)</span><br><span class="line"><span class="built_in">document</span>.getElementById(<span class="string">&#x27;open&#x27;</span>).addEventListener(<span class="string">&#x27;click&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// openButton.onClick()</span></span><br><span class="line">    <span class="comment">// 此处可以分别尝试两个实例的onClick方法，验证装饰器是否生效</span></span><br><span class="line">    decorator.onClick()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>这里把按钮实例传给了 Decorator，以便于后续 Decorator 可以对它进行逻辑的拓展。</p>
+<ol start="4">
+<li>装饰器模式的优缺点 </li>
+</ol>
+<p>装饰器模式的优点：</p>
+<p>●可维护性高： 我们经常使用继承的方式来实现功能的扩展，但这样会给系统中带来很多的子类和复杂的继承关系，装饰器模式允许用户在不引起子类数量暴增的前提下动态地修饰对象，添加功能，装饰器和被装饰器之间松耦合，可维护性好；</p>
+<p>●灵活性好： 被装饰器可以使用装饰器动态地增加和撤销功能，可以在运行时选择不同的装饰器，实现不同的功能，灵活性好；</p>
+<p>●复用性高： 装饰器模式把一系列复杂的功能分散到每个装饰器当中，一般一个装饰器只实现一个功能，可以给一个对象增加多个同样的装饰器，也可以把一个装饰器用来装饰不同的对象，有利于装饰器功能的复用；</p>
+<p>●多样性： 可以通过选择不同的装饰器的组合，创造不同行为和功能的结合体，原有对象的代码无须改变，就可以使得原有对象的功能变得更强大和更多样化，符合开闭原则；</p>
+<p>装饰器模式的缺点：</p>
+<p>●使用装饰器模式时会产生很多细粒度的装饰器对象，这些装饰器对象由于接口和功能的多样化导致系统复杂度增加，功能越复杂，需要的细粒度对象越多；</p>
+<p>●由于更大的灵活性，也就更容易出错，特别是对于多级装饰的场景，错误定位会更加繁琐；</p>
+<ol start="5">
+<li>装饰器模式的适用场景 </li>
+</ol>
+<p>●如果不希望系统中增加很多子类，那么可以考虑使用装饰器模式；</p>
+<p>●需要通过对现有的一组基本功能进行排列组合而产生非常多的功能时，采用继承关系很难实现，这时采用装饰器模式可以很好实现；</p>
+<p>●当对象的功能要求可以动态地添加，也可以动态地撤销，可以考虑使用装饰器模式；</p>
+<ol start="6">
+<li>其他相关模式 </li>
+</ol>
+<p>（1）装饰器模式与适配器模式</p>
+<p>装饰器模式和适配器模式都是属于包装模式，然而他们的意图有些不一样：</p>
+<p>●装饰器模式： 扩展功能，原有功能还可以直接使用，一般可以给目标对象多次叠加使用多个装饰器；</p>
+<p>●适配器模式： 功能不变，但是转换了原有接口的访问格式，一般只给目标对象使用一次；</p>
+<p>（2）装饰器模式与组合模式</p>
+<p>这两个模式有相似之处，都涉及到对象的递归调用，从某个角度来说，可以把装饰器模式看做是只有一个组件的组合模式。</p>
+<p>●装饰器模式： 动态地给对象增加功能；</p>
+<p>●组合模式： 管理组合对象和叶子对象，为它们提供一致的操作接口给客户端，方便客户端的使用；</p>
+<p>（3）装饰器模式与策略模式</p>
+<p>装饰器模式和策略模式都包含有许多细粒度的功能模块，但是他们的使用思路不同：</p>
+<p>●装饰器模式： 可以递归调用，使用多个功能模式，功能之间可以叠加组合使用；</p>
+<p>●策略模式： 只有一层选择，选择某一个功能；</p>
+
+      </section>
+
+      
+      
+        <nav class="article-nav">
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="http://cdn-hw-static.shanhutech.cn/bizhi/staticwp/202308/afbb3a257c25b3d6206f1b9a7556d9d6--1816725542.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2023/08/24/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">代理模式</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
+
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+    <div class="valine-container comments-container content-padding--primary soft-size--large soft-style--box">
+      <div id="valine_thread" class="valine-thread"></div>
+    </div>
+    <script type="text/javascript" src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script type="text/javascript" src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <script type="text/javascript">
+      new Valine({
+        el: "#valine_thread",
+        appId: "zPxT1BH5qC6JYqXmizvClRGk-gzGzoHsz",
+        appKey: "kU1QKKjUJco1Gyjj0Usl4bwM",
+        avatar: "ChenZehong",
+        placeholder: "随便说点什么叭～",
+        notify: true,
+        visitor: true,
+        pageSize: 10,
+      });
+    </script>
+  
+
+  
+  
+
+
+      </section>
+    </div>
+    <div class="widget-info">
+      <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-body">
+    
+      <img src="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202007/f9c696aa27edaddf87257e5e70d1eb62--1437661584.jpg" class="soft-size--round soft-style--box" alt="ChenZehong">
+    
+    
+      <h2>ChenZehong</h2>
+    
+    
+      <p>贵在坚持</p>
+    
+
+    <div class="count-box">
+      <div class="count-box--item">
+        <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
+</svg>
+        <span>54</span>
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+        17
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+        0
+      </div>
+    </div>
+  </div>
+</section>
+
+      
+
+      
+
+      <section class="widget-categorys widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+    <span>CATEGORYS</span>
+  </div>
+  <div class="widget-body">
+    <ul class="categorys-list">
+      
+        <li class="categorys-list-item">
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            前端学习笔记 (5)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+            面试准备 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%A4%A7%E5%8E%82%E7%AC%94%E8%AF%95%E9%A2%98/">
+            大厂笔试题 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AFCSS%E7%AC%94%E8%AE%B0/">
+            前端CSS笔记 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/three%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            three学习笔记 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Javascript%E7%AC%94%E8%AE%B0/">
+            Javascript笔记 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            react学习笔记 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/npm-script/">
+            npm script (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/node/">
+            node (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Vue%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">
+            Vue源码解析 (7)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
+            实习相关 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">
+            前端工程化 (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            设计模式 (7)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            Vue3学习笔记 (5)
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+</section>
+
+      <section class="widget-tags widget-item  layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+    <span>TAGS</span>
+  </div>
+  <div class="widget-body">
+    <div class="tags-cloud">
+      
+    </div>
+  </div>
+</section>
+    </div>
+  </article>
+</div>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+    
+    <div class="social-icons">
+      
+        
+      
+        
+      
+        
+      
+        
+          <a href="https://github.com/Web200OK" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-github" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M64.6 512c0 195.6 125.4 361.9 300.1 422.9 23.5 5.9 19.9-10.8 19.9-22.2v-77.6c-135.8 15.9-141.3-74-150.5-89-18.5-31.5-61.9-39.5-49-54.5 31-15.9 62.5 4 98.9 58 26.4 39.1 77.9 32.5 104.1 26 5.7-23.5 17.9-44.5 34.7-60.9-140.7-25.2-199.4-111.1-199.4-213.3 0-49.5 16.4-95.1 48.4-131.8-20.4-60.6 1.9-112.4 4.9-120.1 58.2-5.2 118.5 41.6 123.3 45.3 33.1-8.9 70.8-13.7 112.9-13.7 42.4 0 80.3 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.4-43.9 2.9 7.7 24.7 58.3 5.5 118.1 32.5 36.8 49 82.8 49 132.4 0 102.3-59 188.3-200.2 213.2 23.5 23.3 38.1 55.5 38.1 91.1v112.7c0.8 9 0 17.9 15.1 17.9C832.7 877 960.4 709.4 960.4 512.1c0-247.5-200.6-447.9-447.9-447.9C265 64.1 64.6 264.5 64.6 512z"></path>
+</svg>
+          </a>
+        
+      
+        
+      
+    </div>
+     
+    <p>&copy; 2023 <a href="/" target="_blank">ChenZehong</a></p>
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+
+    <p>
+      <a href="javascript:;" id="theme-light">🌞 浅色</a>
+      <a href="javascript:;" id="theme-dark">🌛 深色</a>
+      <a href="javascript:;" id="theme-auto">🤖️ 自动</a>
+    </p>
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed soft-size--round soft-style--box">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+      <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+      <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+    </svg>
+  </div>
+
+  
+  <!-- aplayer -->
+
+
+<!-- dplayer -->
+
+
+
+
+  
+
+
+  
+
+
+  <!-- Baidu Analytics START -->
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      if (window.location.hostname === "localhost" || window.location.hostname.startsWith("192.168")) {
+        return console.log("本地调试");
+      }
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8a923e14e6dbf862c2b287e6c1266764";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  <!-- Baidu Analytics End -->
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+</body>
+</html>

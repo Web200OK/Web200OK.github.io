@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+  
+  <meta name="generator" content="Hexo 5.4.0">
+
+  
+
+  
+
+  
+    <meta name="author" content="ChenZehong">
+  
+
+  
+
+  
+
+  <title>工厂模式 | 好好学习，天天向上</title>
+
+  
+
+  
+    <link rel="shortcut icon" href="/happy.ico">
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@1.1.3/index.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/monokai.css">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+  <div class="root-container">
+    
+<!-- header container -->
+<header class="header-container post">
+  
+    <div class="post-image" style="background-image: url(http://cdn-hw-static.shanhutech.cn/bizhi/staticwp/202306/65dd83f0f0600aa172c67b4db89b5c8f--2032768543.jpg)"></div>
+  
+
+  <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          好好学习，天天向上
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+          <li class="navbar-list-item"><a href="/">首页</a></li>
+        
+          <li class="navbar-list-item"><a href="/links">友链</a></li>
+        
+          <li class="navbar-list-item"><a href="/about">关于</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">工厂模式</h1>
+          <h2 class="title-sub-wrap">
+            <strong>ChenZehong</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2023-08-12T10:14:57.582Z" itemprop="datePublished">2023-08-12</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">📒 设计模式</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+</ul>
+        </div>
+      </div>
+    </div>
+  
+
+  
+  
+  
+</header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+<div class="body-container">
+  <article class="content-container layout-block post-container">
+    <div class="article-info">
+      
+      
+      
+      
+      <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
+        <h1 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h1><ol>
+<li>什么是工厂模式？ </li>
+</ol>
+<p>工厂模式就是根据不用的输入返回不同的实例，一般用来创建同一类对象，它的主要思想就是将对象的创建与对象的实现分离。</p>
+<p>在创建对象时，不暴露具体的逻辑，而是将逻辑封装在函数中，那么这个函数就可以被视为一个工厂。工厂模式根据抽象程度的不同可以分为：简单工厂、工厂方法、抽象工厂。</p>
+<p>一个简单的例子，我们去餐馆吃饭，只需要按照菜单上的菜名进行点餐，然后菜做出来之后，不需要知道这些菜是怎么做的，只管吃就好了。在这里面，餐馆就相当于工厂，负责生产菜品，访问者通过餐馆就可以拿到产品。</p>
+<p>这个例子有一个特点，访问者只需要产品名就可以从工厂获得实例，访问者不需要关心实例创建的过程。工厂模式其实就是将创建对象的过程单独封装，它的目的，就是为了实现无脑传参。</p>
+<ol start="2">
+<li>工厂模式的实现方式 </li>
+</ol>
+<p>下面就分别看一下简单工厂模式、工厂方法模式、抽象工厂模式这三种工厂模式的实现方式。</p>
+<p> （1）简单工厂模式 </p>
+<p>简单工厂模式又叫静态工厂模式，由一个工厂对象决定创建某一种产品对象类的实例。主要用来创建同一类对象。</p>
+<p>下面来看一个权限管理的例子，需要根据用户的权限进行页面的渲染。所以，在不同用户权限等级的构造函数中，需要保存该用户可以访问到的页面，再根据权限进行实例化用户。</p>
+<p>在ES6中，这里不再使用构造函数来创建对象，而是使用ES6中的class关键字来创建类，并使用static关键字将简单工厂封装到User类的静态方法下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//User类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">  <span class="comment">//构造器</span></span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params">opt</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.name = opt.name;</span><br><span class="line">    <span class="built_in">this</span>.viewPage = opt.viewPage;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//静态方法</span></span><br><span class="line">  <span class="keyword">static</span> <span class="function"><span class="title">getInstance</span>(<span class="params">role</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">switch</span> (role) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">&#x27;superAdmin&#x27;</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> User(&#123; <span class="attr">name</span>: <span class="string">&#x27;超级管理员&#x27;</span>, <span class="attr">viewPage</span>: [<span class="string">&#x27;首页&#x27;</span>, <span class="string">&#x27;应用数据&#x27;</span>, <span class="string">&#x27;权限管理&#x27;</span>] &#125;);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">&#x27;admin&#x27;</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> User(&#123; <span class="attr">name</span>: <span class="string">&#x27;管理员&#x27;</span>, <span class="attr">viewPage</span>: [<span class="string">&#x27;首页&#x27;</span>, <span class="string">&#x27;应用数据&#x27;</span>] &#125;);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">&#x27;user&#x27;</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> User(&#123; <span class="attr">name</span>: <span class="string">&#x27;普通用户&#x27;</span>, <span class="attr">viewPage</span>: [<span class="string">&#x27;首页&#x27;</span>] &#125;);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;参数错误, 可选参数:superAdmin、admin、user&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 实例化对象</span></span><br><span class="line"><span class="keyword">let</span> superAdmin = User.getInstance(<span class="string">&#x27;superAdmin&#x27;</span>);</span><br><span class="line"><span class="keyword">let</span> admin = User.getInstance(<span class="string">&#x27;admin&#x27;</span>);</span><br><span class="line"><span class="keyword">let</span> normalUser = User.getInstance(<span class="string">&#x27;user&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>User就是一个简单工厂，在该函数中有3个实例中分别对应不同的权限的用户。当调用工厂函数时，只需要传递superAdmin, admin, user这三个可选参数中的一个获取对应的实例对象。</p>
+<p>简单工厂模式的优势就在于，只需要一个参数，就可以获得所需的对象，无需知道对象创建的具体细节。但是，在函数内部包含了对象所有的创建逻辑，和判断逻辑的代码，如果判断逻辑很多，或者代码逻辑很复杂，这样工厂函数就会变的很复杂，很庞大，难以维护。所以，简单工厂只适合以下情况：</p>
+<p>●创建的对象数量较少；</p>
+<p>●创建的对象的逻辑不是很复杂。</p>
+<p> （2）工厂方法模式 </p>
+<p>工厂方法模式本意是将实际创建对象的工作放在子类中，这样核心类就变成了抽象类。但是在JavaScript中，我们无法像传统面向对象语言那样去实现创建类，所以，只要遵循它的主要思想即可。</p>
+<p>虽然ES6也没有实现abstract，但是可以使用new.target来模拟出抽象类。new.target指向直接被new执行的构造函数，对new.target进行判断，如果指向了该类则抛出错误来使得该类成为抽象类。</p>
+<p>new.target属性允许你检测函数或构造方法是否是通过new运算符被调用的。在通过new运算符被初始化的函数或构造方法中，new.target返回一个指向构造方法或函数的引用。在普通的函数调用中，new.target 的值是undefined。</p>
+<p>在上面的简单工厂模式中。每次添加一个构造函数都要修改两处代码，现在对它加以改造：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params">name = <span class="string">&#x27;&#x27;</span>, viewPage = []</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">new</span>.target === User) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;抽象类不能实例化!&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">this</span>.name = name;</span><br><span class="line">    <span class="built_in">this</span>.viewPage = viewPage;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserFactory</span> <span class="keyword">extends</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params">name, viewPage</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>(name, viewPage)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="title">create</span>(<span class="params">role</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">switch</span> (role) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">&#x27;superAdmin&#x27;</span>: </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> UserFactory( <span class="string">&#x27;超级管理员&#x27;</span>, [<span class="string">&#x27;首页&#x27;</span>, <span class="string">&#x27;应用数据&#x27;</span>, <span class="string">&#x27;权限管理&#x27;</span>] );</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">&#x27;admin&#x27;</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> User(&#123; <span class="attr">name</span>: <span class="string">&#x27;管理员&#x27;</span>, <span class="attr">viewPage</span>: [<span class="string">&#x27;首页&#x27;</span>, <span class="string">&#x27;应用数据&#x27;</span>] &#125;);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">&#x27;user&#x27;</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> UserFactory( <span class="string">&#x27;普通用户&#x27;</span>, [<span class="string">&#x27;首页&#x27;</span>] );</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;参数错误, 可选参数:superAdmin、admin、user&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> userFactory = <span class="keyword">new</span> UserFactory();</span><br><span class="line"><span class="keyword">let</span> superAdmin = userFactory.create(<span class="string">&#x27;superAdmin&#x27;</span>);</span><br><span class="line"><span class="keyword">let</span> admin = userFactory.create(<span class="string">&#x27;admin&#x27;</span>);</span><br><span class="line"><span class="keyword">let</span> user = userFactory.create(<span class="string">&#x27;user&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>工厂方法可以看做是一个实例化对象的工厂，它需要做的就是实例化对象。</p>
+<p> （3）抽象工厂模式 </p>
+<p>上面两种方式都是直接生成实例，而抽象工厂模式并不能直接生成实例，而是用于产品类簇的创建</p>
+<p>在网站登录中，上面实例中的user可能使用不用的第三方登录，例如微信、QQ、微博，这三类账号就是对应的类簇。在抽象工厂中，类簇一般用于父类的定义，并在父类中定义一些抽象的方法（声明但不能使用的方法），在通过抽象工厂让子类继承父类，所以，抽象工厂实际上就是实现子类继承父类的方法。</p>
+<p>在传统面向对象的语言中常用abstract进行声明，但是在JavaScript中，abstract是属于保留字，可以通过在类的方法中抛出错误来模拟抽象类。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getAbstractUserFactory</span>(<span class="params">type</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">switch</span> (type) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">&#x27;wechat&#x27;</span>:</span><br><span class="line">      <span class="keyword">return</span> UserOfWechat;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">&#x27;qq&#x27;</span>:</span><br><span class="line">      <span class="keyword">return</span> UserOfQq;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">&#x27;weibo&#x27;</span>:</span><br><span class="line">      <span class="keyword">return</span> UserOfWeibo;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;参数错误, 可选参数:wechat、qq、weibo&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> WechatUserClass = getAbstractUserFactory(<span class="string">&#x27;wechat&#x27;</span>);</span><br><span class="line"><span class="keyword">let</span> QqUserClass = getAbstractUserFactory(<span class="string">&#x27;qq&#x27;</span>);</span><br><span class="line"><span class="keyword">let</span> WeiboUserClass = getAbstractUserFactory(<span class="string">&#x27;weibo&#x27;</span>);</span><br><span class="line"><span class="keyword">let</span> wechatUser = <span class="keyword">new</span> WechatUserClass(<span class="string">&#x27;微信张三&#x27;</span>);</span><br><span class="line"><span class="keyword">let</span> qqUser = <span class="keyword">new</span> QqUserClass(<span class="string">&#x27;QQ张三&#x27;</span>);</span><br><span class="line"><span class="keyword">let</span> weiboUser = <span class="keyword">new</span> WeiboUserClass(<span class="string">&#x27;微博张三&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>总结：</p>
+<p>●简单工厂模式又叫静态工厂方法，用来创建某一种产品对象的实例，用来创建单一对象；</p>
+<p>●工厂方法模式是将创建实例推迟到子类中进行；</p>
+<p>●抽象工厂模式是对类的工厂抽象用来创建产品类簇，不负责创建某一类产品的实例。</p>
+<p>在实际的业务中，需要根据实际的业务复杂度来选择合适的模式。对于非大型的前端应用来说，灵活使用简单工厂其实就能解决大部分问题。</p>
+<ol start="3">
+<li>工厂模式的通用实现 </li>
+</ol>
+<p>注意： 这里所说的工厂模式是指简单工厂模式。在工厂模式中，主要有两个重要的概念：</p>
+<p>●Factory ：工厂，负责返回产品实例</p>
+<p>●Product ：产品，访问者从工厂拿到产品实例</p>
+<p>其结构如下：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/1500604/1604733018364-b3d9c599-ae13-4c47-a8bc-4e5f5430271a.png?x-oss-process=image/resize,w_834,limit_0" alt="img"></p>
+<p>下面用通用的方法实现，这里直接用 class 语法：</p>
+<p>需要注意，由于 JavaScript 很灵活，简单工厂模式返回的产品对象不一定非要是类实例，也可以是字面量形式的对象，所以可以根据场景灵活选择返回的产品对象形式。</p>
+<ol start="4">
+<li>Vue中的工厂模式 </li>
+</ol>
+<p>在Vue中，很多地方也是用到了工厂模式，下面来看下其中的两个例子。</p>
+<p> （1）VNode </p>
+<p>和原生的 document.createElement 类似，Vue 这种具有虚拟 DOM 树（Virtual Dom Tree）机制的框架在生成虚拟 DOM 的时候，提供了 createElement 方法用来生成 VNode，用来作为真实 DOM 节点的映射：</p>
+<p>createElement 函数结构大概如下：</p>
+<p>可以看到，createElement 函数内会进行 VNode 的具体创建，创建的过程是很复杂的，而框架提供的 createElement 工厂方法封装了复杂的创建与验证过程，对于使用者来说就很方便了。</p>
+<p> （2）vue-router </p>
+<p>在Vue在路由创建模式中，也多次用到了工厂模式：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">VueRouter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">options</span>)</span> &#123;</span><br><span class="line"></span><br><span class="line">       <span class="built_in">this</span>.mode = mode	<span class="comment">// 路由模式</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">switch</span> (mode) &#123;           <span class="comment">// 简单工厂</span></span><br><span class="line"></span><br><span class="line">	            <span class="keyword">case</span> <span class="string">&#x27;history&#x27;</span>:       <span class="comment">// history 方式</span></span><br><span class="line"></span><br><span class="line">                <span class="built_in">this</span>.history = <span class="keyword">new</span> HTML5History(<span class="built_in">this</span>, options.base)</span><br><span class="line"></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">case</span> <span class="string">&#x27;hash&#x27;</span>:          <span class="comment">// hash 方式</span></span><br><span class="line"></span><br><span class="line">                <span class="built_in">this</span>.history = <span class="keyword">new</span> HashHistory(<span class="built_in">this</span>, options.base, <span class="built_in">this</span>.fallback)</span><br><span class="line"></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">case</span> <span class="string">&#x27;abstract&#x27;</span>:      <span class="comment">// abstract 方式</span></span><br><span class="line"></span><br><span class="line">                <span class="built_in">this</span>.history = <span class="keyword">new</span> AbstractHistory(<span class="built_in">this</span>, options.base)</span><br><span class="line"></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">           <span class="attr">default</span>:</span><br><span class="line"></span><br><span class="line">                <span class="comment">// ... 初始化失败报错</span></span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，mode 是路由创建的模式，这里有三种 History、Hash、Abstract，其中，History 是 H5 的路由方式，Hash 是路由中带 # 的路由方式，Abstract 代表非浏览器环境中路由方式，比如 Node、weex 等；this.history 用来保存路由实例，vue-router 中使用了工厂模式的思想来获得响应路由控制类的实例。</p>
+<p>Vue-Router没有把工厂方法的产品创建流程封装出来，而是直接将产品实例的创建流程暴露在 VueRouter 的构造函数中，在被 new 的时候创建对应产品实例，相当于 VueRouter 的构造函数就是一个工厂方法。</p>
+<p>如果一个系统不是单页面应用，而是多页面应用，那么就需要创建多个 VueRouter 的实例，此时 VueRouter 的构造函数也就是工厂方法将会被多次执行，以分别获得不同实例。</p>
+<ol start="5">
+<li>工厂模式的优缺点 </li>
+</ol>
+<p>工厂模式将对象的创建和实现进行了分离，其优点如下：</p>
+<p>●良好的封装，代码结构清晰，访问者无需知道对象的创建流程，特别是创建比较复杂的情况下；</p>
+<p>●扩展性优良，通过工厂方法隔离了用户和创建流程隔离，符合开放封闭原则；</p>
+<p>●解耦了高层逻辑和底层产品类，符合最少知识原则，不需要的就不要去交流；</p>
+<p>工厂模式的缺点如下：带来了额外的系统复杂度，增加了抽象性；</p>
+<ol start="6">
+<li>工厂模式的使用场景 </li>
+</ol>
+<p>那么什么时候使用工厂模式呢：</p>
+<p>●对象的创建比较复杂，而访问者无需知道创建的具体流程；</p>
+<p>●处理大量具有相同属性的小对象；</p>
+
+      </section>
+
+      
+      
+        <nav class="article-nav">
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="http://cdn-hw-static.shanhutech.cn/bizhi/staticwp/202305/a28a152ce7e2a782f602e486eaaaaac4--1846085994.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2023/08/22/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">状态模式</h2>
+        </a>
+      
+      <div class="card-text--row">Newer</div>
+    </div>
+  </article>
+</div>
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="http://cdn-hw-static.shanhutech.cn/bizhi/staticwp/202307/8fcf913bba1a703714e2dc7cd1bdba3e--2133436291.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2023/08/11/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">单例模式</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
+
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+    <div class="valine-container comments-container content-padding--primary soft-size--large soft-style--box">
+      <div id="valine_thread" class="valine-thread"></div>
+    </div>
+    <script type="text/javascript" src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script type="text/javascript" src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <script type="text/javascript">
+      new Valine({
+        el: "#valine_thread",
+        appId: "zPxT1BH5qC6JYqXmizvClRGk-gzGzoHsz",
+        appKey: "kU1QKKjUJco1Gyjj0Usl4bwM",
+        avatar: "ChenZehong",
+        placeholder: "随便说点什么叭～",
+        notify: true,
+        visitor: true,
+        pageSize: 10,
+      });
+    </script>
+  
+
+  
+  
+
+
+      </section>
+    </div>
+    <div class="widget-info">
+      <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-body">
+    
+      <img src="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202007/f9c696aa27edaddf87257e5e70d1eb62--1437661584.jpg" class="soft-size--round soft-style--box" alt="ChenZehong">
+    
+    
+      <h2>ChenZehong</h2>
+    
+    
+      <p>贵在坚持</p>
+    
+
+    <div class="count-box">
+      <div class="count-box--item">
+        <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
+</svg>
+        <span>54</span>
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+        17
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+        0
+      </div>
+    </div>
+  </div>
+</section>
+
+      
+
+      
+
+      <section class="widget-categorys widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+    <span>CATEGORYS</span>
+  </div>
+  <div class="widget-body">
+    <ul class="categorys-list">
+      
+        <li class="categorys-list-item">
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            前端学习笔记 (5)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+            面试准备 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%A4%A7%E5%8E%82%E7%AC%94%E8%AF%95%E9%A2%98/">
+            大厂笔试题 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AFCSS%E7%AC%94%E8%AE%B0/">
+            前端CSS笔记 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/three%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            three学习笔记 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Javascript%E7%AC%94%E8%AE%B0/">
+            Javascript笔记 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            react学习笔记 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/npm-script/">
+            npm script (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/node/">
+            node (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Vue%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">
+            Vue源码解析 (7)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
+            实习相关 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">
+            前端工程化 (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            设计模式 (7)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            Vue3学习笔记 (5)
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+</section>
+
+      <section class="widget-tags widget-item  layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+    <span>TAGS</span>
+  </div>
+  <div class="widget-body">
+    <div class="tags-cloud">
+      
+    </div>
+  </div>
+</section>
+    </div>
+  </article>
+</div>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+    
+    <div class="social-icons">
+      
+        
+      
+        
+      
+        
+      
+        
+          <a href="https://github.com/Web200OK" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-github" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M64.6 512c0 195.6 125.4 361.9 300.1 422.9 23.5 5.9 19.9-10.8 19.9-22.2v-77.6c-135.8 15.9-141.3-74-150.5-89-18.5-31.5-61.9-39.5-49-54.5 31-15.9 62.5 4 98.9 58 26.4 39.1 77.9 32.5 104.1 26 5.7-23.5 17.9-44.5 34.7-60.9-140.7-25.2-199.4-111.1-199.4-213.3 0-49.5 16.4-95.1 48.4-131.8-20.4-60.6 1.9-112.4 4.9-120.1 58.2-5.2 118.5 41.6 123.3 45.3 33.1-8.9 70.8-13.7 112.9-13.7 42.4 0 80.3 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.4-43.9 2.9 7.7 24.7 58.3 5.5 118.1 32.5 36.8 49 82.8 49 132.4 0 102.3-59 188.3-200.2 213.2 23.5 23.3 38.1 55.5 38.1 91.1v112.7c0.8 9 0 17.9 15.1 17.9C832.7 877 960.4 709.4 960.4 512.1c0-247.5-200.6-447.9-447.9-447.9C265 64.1 64.6 264.5 64.6 512z"></path>
+</svg>
+          </a>
+        
+      
+        
+      
+    </div>
+     
+    <p>&copy; 2023 <a href="/" target="_blank">ChenZehong</a></p>
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+
+    <p>
+      <a href="javascript:;" id="theme-light">🌞 浅色</a>
+      <a href="javascript:;" id="theme-dark">🌛 深色</a>
+      <a href="javascript:;" id="theme-auto">🤖️ 自动</a>
+    </p>
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed soft-size--round soft-style--box">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+      <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+      <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+    </svg>
+  </div>
+
+  
+  <!-- aplayer -->
+
+
+<!-- dplayer -->
+
+
+
+
+  
+
+
+  
+
+
+  <!-- Baidu Analytics START -->
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      if (window.location.hostname === "localhost" || window.location.hostname.startsWith("192.168")) {
+        return console.log("本地调试");
+      }
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8a923e14e6dbf862c2b287e6c1266764";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  <!-- Baidu Analytics End -->
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+</body>
+</html>
