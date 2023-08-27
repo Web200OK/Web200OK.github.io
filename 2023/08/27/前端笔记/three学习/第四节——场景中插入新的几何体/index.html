@@ -22,7 +22,7 @@
 
   
 
-  <title>three学习第一天 | 好好学习，天天向上</title>
+  <title>第四节——场景中插入新的几何体 | 好好学习，天天向上</title>
 
   
 
@@ -45,7 +45,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(http://cdn-hw-static.shanhutech.cn/bizhi/staticwp/202210/adcd49a837601deb2498421adb125213--1359003020.jpg)"></div>
+    <div class="post-image" style="background-image: url(http://cdn-hw-static.shanhutech.cn/bizhi/staticwp/202308/747fb31699c4f50492e227627efd6198--3371423199.jpg)"></div>
   
 
   <!-- navbar -->
@@ -96,11 +96,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">three学习第一天</h1>
+          <h1 class="title-wrap">第四节——场景中插入新的几何体</h1>
           <h2 class="title-sub-wrap">
             <strong>ChenZehong</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2023-08-23T13:38:06.430Z" itemprop="datePublished">2023-08-23</time>
+            <time  class="article-date" datetime="2023-08-27T08:16:36.076Z" itemprop="datePublished">2023-08-27</time>
           </h2>
           <ul class="wrap-list dark">
   
@@ -131,7 +131,18 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> THREE <span class="keyword">from</span> <span class="string">&#x27;../../node_modules/three&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; OrbitControls &#125; <span class="keyword">from</span> <span class="string">&#x27;../../node_modules/three/examples/jsm/controls/OrbitControls.js&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> scene = <span class="keyword">new</span> THREE.Scene()</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> camera = <span class="keyword">new</span> THREE.PerspectiveCamera(</span><br><span class="line">    <span class="number">45</span>, <span class="comment">//视角</span></span><br><span class="line">    <span class="built_in">window</span>.innerWidth / <span class="built_in">window</span>.innerHeight, <span class="comment">//宽高比</span></span><br><span class="line">    <span class="number">0.1</span>, <span class="comment">//近平面</span></span><br><span class="line">    <span class="number">1000</span> <span class="comment">//远平面</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//点光源</span></span><br><span class="line"><span class="keyword">var</span> point = <span class="keyword">new</span> THREE.PointLight(<span class="number">0xffffff</span>);</span><br><span class="line">point.position.set(<span class="number">400</span>, <span class="number">200</span>, <span class="number">300</span>); <span class="comment">//点光源位置</span></span><br><span class="line">scene.add(point); <span class="comment">//点光源添加到场景中</span></span><br><span class="line"><span class="comment">//环境光</span></span><br><span class="line"><span class="keyword">var</span> ambient = <span class="keyword">new</span> THREE.AmbientLight(<span class="number">0x444444</span>);</span><br><span class="line">scene.add(ambient);</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建渲染器</span></span><br><span class="line"><span class="keyword">const</span> renderer = <span class="keyword">new</span> THREE.WebGLRenderer()</span><br><span class="line">renderer.setSize(<span class="built_in">window</span>.innerWidth,<span class="built_in">window</span>.innerHeight)</span><br><span class="line"><span class="built_in">document</span>.body.appendChild(renderer.domElement)</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建几何体</span></span><br><span class="line"><span class="keyword">const</span> geometry = <span class="keyword">new</span> THREE.BoxGeometry(<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line"><span class="comment">//创建材质</span></span><br><span class="line"><span class="keyword">const</span> material = <span class="keyword">new</span> THREE.MeshBasicMaterial(&#123; <span class="attr">color</span>: <span class="string">&#x27;white&#x27;</span> &#125;)</span><br><span class="line"><span class="comment">//创建网格</span></span><br><span class="line"><span class="keyword">const</span> cube = <span class="keyword">new</span> THREE.Mesh(geometry,material)</span><br><span class="line"></span><br><span class="line"><span class="comment">//将网格添加到场景中</span></span><br><span class="line">scene.add(cube)</span><br><span class="line"></span><br><span class="line"><span class="comment">//设置相机位置</span></span><br><span class="line">camera.position.z = <span class="number">5</span></span><br><span class="line">camera.position.y = <span class="number">2</span></span><br><span class="line">camera.position.x = <span class="number">2</span></span><br><span class="line">camera.lookAt(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//添加事件坐标辅助器</span></span><br><span class="line"><span class="keyword">const</span> axesHelper = <span class="keyword">new</span> THREE.AxesHelper(<span class="number">5</span>)</span><br><span class="line">scene.add(axesHelper)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> controls = <span class="keyword">new</span> OrbitControls( camera, renderer.domElement );</span><br><span class="line"><span class="comment">//设置阻尼惯性</span></span><br><span class="line">controls.enableDamping = <span class="literal">true</span></span><br><span class="line"><span class="comment">//设置阻尼系数</span></span><br><span class="line">controls.dampingFactor = <span class="number">0.05</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//重复旋转几何体</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">animate</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    requestAnimationFrame(animate)</span><br><span class="line">    cube.rotation.x += <span class="number">0.01</span></span><br><span class="line">    cube.rotation.y += <span class="number">0.01</span></span><br><span class="line">    controls.update();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//渲染</span></span><br><span class="line">    renderer.render(scene,camera)</span><br><span class="line">&#125; </span><br><span class="line">animate()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        <h4>更多几何体模型</h4>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//长方体，参数：长、宽、高</span></span><br><span class="line"><span class="keyword">var</span> geometry = <span class="keyword">new</span> THREE.BoxGeometry(<span class="number">100</span>,<span class="number">100</span>,<span class="number">100</span>)</span><br><span class="line"><span class="comment">//球体，参数：半径，经纬度细分数</span></span><br><span class="line"><span class="keyword">var</span> geometry = <span class="keyword">new</span> THREE.SphereGeometry(<span class="number">60</span>,<span class="number">40</span>,<span class="number">40</span>)</span><br><span class="line"><span class="comment">//圆柱，参数：圆柱面顶部、底部直径，高度、圆周分段数</span></span><br><span class="line"><span class="keyword">var</span> geometry = <span class="keyword">new</span> THREE.CylinderGeometry(<span class="number">50</span>,<span class="number">50</span>,<span class="number">100</span>,<span class="number">25</span>)</span><br><span class="line"><span class="comment">//正八面体</span></span><br><span class="line"><span class="keyword">var</span> geometry = <span class="keyword">new</span> THREE.OctahedronGeometry(<span class="number">50</span>)</span><br><span class="line"><span class="comment">//正十二面体</span></span><br><span class="line"><span class="keyword">var</span> geometry = <span class="keyword">new</span> THREE.DodecahedronGeometry(<span class="number">50</span>)</span><br><span class="line"><span class="comment">//正二十面体</span></span><br><span class="line"><span class="keyword">var</span> geometry = <span class="keyword">new</span> THREE.IcosahedronGeometry(<span class="number">50</span>)</span><br></pre></td></tr></table></figure>
+
+<h4>同时绘制多个几何体</h4>
+
+<p>需要创建多个几何体对象和多个材质对象，然后把两个参数作为网路模型构造函数Mesh()的参数创建一个网络模型，然后再使用场景对象的add方法把网路模型mesh加进场景中。</p>
+<p>three.js的几何体默认位于场景世界坐标原点，所以在创建多个几何体的时候主要是它们的位置设置。</p>
+<h4>辅助三维坐标系</h4>
+
+<p>为了方便调试three.js提供了一个辅助三维坐标系：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//辅助坐标系，参数表示坐标系大小</span></span><br><span class="line"><span class="keyword">var</span> AxesHelper = <span class="keyword">new</span> THREE.AxesHelper(<span class="number">50</span>)</span><br></pre></td></tr></table></figure>
 
 
       </section>
@@ -143,12 +154,12 @@
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="http://cdn-hw-static.shanhutech.cn/bizhi/staticwp/202308/afbb3a257c25b3d6206f1b9a7556d9d6--1816725542.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="http://cdn-hw-static.shanhutech.cn/bizhi/staticwp/202308/708806f3e7eb8741c88b8ddcc52a4716--1407890146.jpg"></div>
     
     <div class="card-text">
       
-        <a href="/2023/08/24/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">代理模式</h2>
+        <a href="/2023/08/27/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/three%E5%AD%A6%E4%B9%A0/%E7%AC%AC%E4%BA%94%E8%8A%82%E2%80%94%E2%80%94%E6%9D%90%E8%B4%A8%E6%95%88%E6%9E%9C/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">第五节——材质效果</h2>
         </a>
       
       <div class="card-text--row">Newer</div>
@@ -160,12 +171,12 @@
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="http://cdn-hw-static.shanhutech.cn/bizhi/staticwp/202304/8a71f5f55ae4a6d09310b798dbcba963--3754472394.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="http://cdn-hw-static.shanhutech.cn/bizhi/staticwp/202307/6f5c3611d4b319d2b2041ef16ccc3688--1672222001.jpg"></div>
     
     <div class="card-text">
       
-        <a href="/2023/08/23/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/css/CSS%E5%8F%98%E9%87%8F/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">CSS变量</h2>
+        <a href="/2023/08/27/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/three%E5%AD%A6%E4%B9%A0/%E7%AC%AC%E5%85%AD%E8%8A%82%E2%80%94%E2%80%94%E5%85%89%E6%BA%90/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">第六节——光源</h2>
         </a>
       
       <div class="card-text--row">Older</div>
@@ -225,7 +236,7 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>58</span>
+        <span>66</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -264,14 +275,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E6%97%A5%E6%8A%A5/">
-            日报 (3)
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            前端学习笔记 (5)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            前端学习笔记 (5)
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (3)
           </a>
         </li>
       
@@ -294,20 +305,8 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/Vue%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">
-            Vue源码解析 (10)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/Javascript%E7%AC%94%E8%AE%B0/">
             Javascript笔记 (3)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/three%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            three学习笔记 (1)
           </a>
         </li>
       
@@ -318,8 +317,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            react学习笔记 (2)
+          <a href="/categories/npm-script/">
+            npm script (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Vue%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">
+            Vue源码解析 (10)
           </a>
         </li>
       
@@ -330,14 +335,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
-            实习相关 (1)
+          <a href="/categories/three%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            three学习笔记 (6)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/npm-script/">
-            npm script (1)
+          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            react学习笔记 (2)
           </a>
         </li>
       
@@ -348,8 +353,14 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
+            实习相关 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
-            设计模式 (7)
+            设计模式 (10)
           </a>
         </li>
       

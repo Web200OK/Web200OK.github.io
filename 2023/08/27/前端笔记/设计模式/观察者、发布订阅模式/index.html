@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+  
+  <meta name="generator" content="Hexo 5.4.0">
+
+  
+
+  
+
+  
+    <meta name="author" content="ChenZehong">
+  
+
+  
+
+  
+
+  <title>观察者模式/发布-订阅模式 | 好好学习，天天向上</title>
+
+  
+
+  
+    <link rel="shortcut icon" href="/happy.ico">
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@1.1.3/index.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/monokai.css">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+  <div class="root-container">
+    
+<!-- header container -->
+<header class="header-container post">
+  
+    <div class="post-image" style="background-image: url(http://cdn-hw-static.shanhutech.cn/bizhi/staticwp/202308/613f3267e64f12b9fdbf3a7b4ba95d6f--1965239597.jpg)"></div>
+  
+
+  <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          好好学习，天天向上
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+          <li class="navbar-list-item"><a href="/">首页</a></li>
+        
+          <li class="navbar-list-item"><a href="/links">友链</a></li>
+        
+          <li class="navbar-list-item"><a href="/about">关于</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">观察者模式/发布-订阅模式</h1>
+          <h2 class="title-sub-wrap">
+            <strong>ChenZehong</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2023-08-27T03:20:04.697Z" itemprop="datePublished">2023-08-27</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">📒 设计模式</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+</ul>
+        </div>
+      </div>
+    </div>
+  
+
+  
+  
+  
+</header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+<div class="body-container">
+  <article class="content-container layout-block post-container">
+    <div class="article-info">
+      
+      
+      
+      
+      <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
+        <h1 id="观察者模式-发布-订阅模式"><a href="#观察者模式-发布-订阅模式" class="headerlink" title="观察者模式/发布-订阅模式"></a>观察者模式/发布-订阅模式</h1><ol>
+<li>什么是观察者模式/发布-订阅模式？ </li>
+</ol>
+<p> （1）观察者模式： </p>
+<p>观察者模式（Observer Pattern）定义了一种一对多的关系，让多个订阅者对象同时监听某一个发布者，或者叫主题对象，这个主题对象的状态发生变化时就会通知所有订阅自己的订阅者对象，使得它们能够自动更新自己。</p>
+<p>观察者模式属于行为型模式，行为型模式关注的是对象之间的通讯，观察者模式就是观察者和被观察者之间的通讯。</p>
+<p> （2）发布-订阅模式： </p>
+<p>在23种设计模式中没有发布-订阅模式的，其实它是发布订阅模式的一个别名，但两者又有所不同。这个别名非常形象地诠释了观察者模式里两个核心的角色要素——发布者和订阅者。</p>
+<p>很多人在微博上关注了A，那么当A发布微博动态的时候微博就会为我们推送这个动态。在这个例子中，A就是发布者，我们是订阅者，微博就是调度中心，我们和A之间是没有直接信息来往的，都是通过微博平台来协调的，这就是发布-订阅模式。</p>
+<p>虽然发布-订阅模式是观察者模式的一个别名，但是发布-订阅模式经过发展，已经独立于观察者模式，成为一种比较重要的设计模式。</p>
+<p>这两种模式的最大区别就是发布-订阅模式有一个调度中心：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/1500604/1604733354263-c2cff394-e08c-40c7-b045-ac11d917bd5e.jpeg?x-oss-process=image/resize,w_605,limit_0/interlace,1" alt="img"></p>
+<p>可以看到，观察者模式是由具体目标调度的，而发布-订阅模式是统一由调度中心调的，所以观察者模式的订阅者与发布者之间是存在依赖的，而发布-订阅模式则不会，这就实现了解耦。</p>
+<ol start="2">
+<li>观察者模式的实现 </li>
+</ol>
+<p>发布者：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义发布者类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Publisher</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.observers = []</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;Publisher created&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 增加订阅者</span></span><br><span class="line">  <span class="function"><span class="title">add</span>(<span class="params">observer</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;Publisher.add invoked&#x27;</span>)</span><br><span class="line">    <span class="built_in">this</span>.observers.push(observer)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 移除订阅者</span></span><br><span class="line">  <span class="function"><span class="title">remove</span>(<span class="params">observer</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;Publisher.remove invoked&#x27;</span>)</span><br><span class="line">    <span class="built_in">this</span>.observers.forEach(<span class="function">(<span class="params">item, i</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (item === observer) &#123;</span><br><span class="line">        <span class="built_in">this</span>.observers.splice(i, <span class="number">1</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 通知所有订阅者</span></span><br><span class="line">  <span class="function"><span class="title">notify</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;Publisher.notify invoked&#x27;</span>)</span><br><span class="line">    <span class="built_in">this</span>.observers.forEach(<span class="function">(<span class="params">observer</span>) =&gt;</span> &#123;</span><br><span class="line">      observer.update(<span class="built_in">this</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>订阅者：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义订阅者类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Observer</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;Observer created&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">update</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;Observer.update invoked&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ol start="3">
+<li>发布-订阅模式的实现 </li>
+</ol>
+<p>在 DOM 上绑定的事件处理函数 addEventListener就是使用的发布-订阅模式。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">&#x27;load&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">&#x27;loaded!&#x27;</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>我们经常将一些操作挂载在 onload 事件上执行，当页面元素加载完毕，就会触发注册在 onload 事件上的回调。我们无法预知页面元素何时加载完毕，但是通过订阅 window 的 onload 事件，window 会在加载完毕时向订阅者发布消息，也就是执行回调函数。</p>
+<p>下面就来实现一下发布-订阅模式，在实现之前，下来看几个概念：</p>
+<p>●Publisher ：发布者，当消息发生时负责通知对应订阅者</p>
+<p>●Subscriber ：订阅者，当消息发生时被通知的对象</p>
+<p>●SubscriberMap ：持有不同 type 的数组，存储有所有订阅者的数组</p>
+<p>●type ：消息类型，订阅者可以订阅的不同消息类型</p>
+<p>●subscribe ：该方法为将订阅者添加到 SubscriberMap 中对应的数组中</p>
+<p>●unSubscribe ：该方法为在 SubscriberMap 中删除订阅者</p>
+<p>●notify ：该方法遍历通知 SubscriberMap 中对应 type 的每个订阅者</p>
+<p>其结构如下：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/1500604/1604733354292-130a127d-1035-4ff8-8305-4692ab4213bb.png?x-oss-process=image/resize,w_834,limit_0" alt="img"></p>
+<p>这里以在商城订阅鞋的消息为例：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Publisher</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>._subsMap = &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 消息订阅 </span></span><br><span class="line">    <span class="function"><span class="title">subscribe</span>(<span class="params">type, cb</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">this</span>._subsMap[type]) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!<span class="built_in">this</span>._subsMap[type].includes(cb))</span><br><span class="line">                <span class="built_in">this</span>._subsMap[type].push(cb)</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="built_in">this</span>._subsMap[type] = [cb]</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 消息退订 </span></span><br><span class="line">    <span class="function"><span class="title">unsubscribe</span>(<span class="params">type, cb</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (!<span class="built_in">this</span>._subsMap[type] ||</span><br><span class="line">            !<span class="built_in">this</span>._subsMap[type].includes(cb)) <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">const</span> idx = <span class="built_in">this</span>._subsMap[type].indexOf(cb)</span><br><span class="line">        <span class="built_in">this</span>._subsMap[type].splice(idx, <span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 消息发布 </span></span><br><span class="line">    <span class="function"><span class="title">notify</span>(<span class="params">type, ...payload</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (!<span class="built_in">this</span>._subsMap[type]) <span class="keyword">return</span></span><br><span class="line">        <span class="built_in">this</span>._subsMap[type].forEach(<span class="function"><span class="params">cb</span> =&gt;</span> cb(...payload))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> adadis = <span class="keyword">new</span> Publisher()</span><br><span class="line">adadis.subscribe(<span class="string">&#x27;运动鞋&#x27;</span>, <span class="function"><span class="params">message</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;152xxx&#x27;</span> + message))    <span class="comment">// 订阅运动鞋</span></span><br><span class="line">adadis.subscribe(<span class="string">&#x27;运动鞋&#x27;</span>, <span class="function"><span class="params">message</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;138yyy&#x27;</span> + message))</span><br><span class="line">adadis.subscribe(<span class="string">&#x27;帆布鞋&#x27;</span>, <span class="function"><span class="params">message</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;139zzz&#x27;</span> + message))    <span class="comment">// 订阅帆布鞋</span></span><br><span class="line">adadis.notify(<span class="string">&#x27;运动鞋&#x27;</span>, <span class="string">&#x27; 运动鞋到货了 &#x27;</span>)   <span class="comment">// 打电话通知买家运动鞋消息</span></span><br><span class="line">adadis.notify(<span class="string">&#x27;帆布鞋&#x27;</span>, <span class="string">&#x27; 帆布鞋售罄了 &#x27;</span>) <span class="comment">// 打电话通知买家帆布鞋消息</span></span><br><span class="line"><span class="comment">// 输出:  152xxx 运动鞋到货了 </span></span><br><span class="line"><span class="comment">// 输出:  138yyy 运动鞋到货了 </span></span><br><span class="line"><span class="comment">// 输出:  139zzz 帆布鞋售罄了 </span></span><br></pre></td></tr></table></figure>
+
+
+
+<ol start="4">
+<li>Vue中的发布-订阅模式</li>
+</ol>
+<p> （1）EventBus </p>
+<p>在Vue中有一套事件机制，其中一个用法是 EventBus。在多层组件的事件处理中，如果你觉得一层层 $on、$emit 比较麻烦，那就可以使用 EventBus 来解决组件间的数据通信问题。</p>
+<p>eventBus事件总线适用于父子组件、非父子组件等之间的通信，使用步骤如下：</p>
+<p>（1）创建事件中心管理组件之间的通信</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// event-bus.js</span></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> EventBus = <span class="keyword">new</span> Vue()</span><br></pre></td></tr></table></figure>
+
+<p>（2）发送事件</p>
+<p>假设有两个兄弟组件firstCom和secondCom：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">first-com</span>&gt;</span><span class="tag">&lt;/<span class="name">first-com</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">second-com</span>&gt;</span><span class="tag">&lt;/<span class="name">second-com</span>&gt;</span></span></span><br><span class="line"><span class="xml">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span></span><br><span class="line"><span class="javascript"><span class="xml"><span class="keyword">import</span> firstCom <span class="keyword">from</span> <span class="string">&#x27;./firstCom.vue&#x27;</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml"><span class="keyword">import</span> secondCom <span class="keyword">from</span> <span class="string">&#x27;./secondCom.vue&#x27;</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">  <span class="attr">components</span>: &#123; firstCom, secondCom &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">&#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<p>在firstCom组件中发送事件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;add&quot;</span>&gt;</span>加法<span class="tag">&lt;/<span class="name">button</span>&gt;</span>    </span></span><br><span class="line"><span class="xml">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span></span><br><span class="line"><span class="javascript"><span class="xml"><span class="keyword">import</span> &#123;EventBus&#125; <span class="keyword">from</span> <span class="string">&#x27;./event-bus.js&#x27;</span> <span class="comment">// 引入事件中心</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">  <span class="function"><span class="title">data</span>(<span class="params"></span>)</span>&#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="keyword">return</span>&#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">      <span class="attr">num</span>:<span class="number">0</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml">    &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">  &#125;,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">  <span class="attr">methods</span>:&#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="function"><span class="title">add</span>(<span class="params"></span>)</span>&#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">      EventBus.$emit(<span class="string">&#x27;addition&#x27;</span>, &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        <span class="attr">num</span>:<span class="built_in">this</span>.num++</span></span></span><br><span class="line"><span class="javascript"><span class="xml">      &#125;)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">  &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">&#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<p>（3）接收事件</p>
+<p>在secondCom组件中发送事件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>求和: &#123;&#123;count&#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span></span><br><span class="line"><span class="javascript"><span class="xml"><span class="keyword">import</span> &#123; EventBus &#125; <span class="keyword">from</span> <span class="string">&#x27;./event-bus.js&#x27;</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">  <span class="function"><span class="title">data</span>(<span class="params"></span>)</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="keyword">return</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">      <span class="attr">count</span>: <span class="number">0</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml">    &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">  &#125;,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">  <span class="function"><span class="title">mounted</span>(<span class="params"></span>)</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    EventBus.$on(<span class="string">&#x27;addition&#x27;</span>, <span class="function"><span class="params">param</span> =&gt;</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">      <span class="built_in">this</span>.count = <span class="built_in">this</span>.count + param.num;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    &#125;)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">  &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">&#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<p>在上述代码中，这就相当于将num值存贮在了事件总线中，在其他组件中可以直接访问。事件总线就相当于一个桥梁，不用组件通过它来通信。</p>
+<p>实现组件间的消息传递时，如果是中大型项目还是推荐使用 Vuex，因为如果 Bus 上的事件挂载过多，就可能分不清消息的来源和先后顺序，对可维护性是一种破坏，后期维护起来会很困难。</p>
+<p> （2）Vue源码 </p>
+<p>发布-订阅模式在源码中应用很多，特别是现在很多前端框架都会有的双向绑定机制的场景，这里以现在很火的 Vue 为例，来分析一下 Vue 是如何利用发布-订阅模式来实现视图层和数据层的双向绑定。先借用官网的双向绑定原理图：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/1500604/1604733354289-ca48fd18-ee68-4dc1-8887-e88fc705032d.png?x-oss-process=image/resize,w_726,limit_0" alt="img"></p>
+<p>组件渲染函数（Component Render Function）被执行前，会对数据层的数据进行响应式化。响应式化大致就是使用 Object.defineProperty 把数据转为 getter/setter，并为每个数据添加一个订阅者列表的过程。这个列表是 getter 闭包中的属性，将会记录所有依赖这个数据的组件。也就是说，响应式化后的数据相当于发布者。</p>
+<p>每个组件都对应一个 Watcher 订阅者。当每个组件的渲染函数被执行时，都会将本组件的 Watcher 放到自己所依赖的响应式数据的订阅者列表里，这就相当于完成了订阅，一般这个过程被称为依赖收集（Dependency Collect）。</p>
+<p>组件渲染函数执行的结果是生成虚拟 DOM 树（Virtual DOM Tree），这个树生成后将被映射为浏览器上的真实的 DOM树，也就是用户所看到的页面视图。</p>
+<p>当响应式数据发生变化的时候，也就是触发了 setter 时，setter 会负责通知（Notify）该数据的订阅者列表里的 Watcher，Watcher 会触发组件重渲染（Trigger re-render）来更新（update）视图。</p>
+<p>Vue 的源码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/core/observer/index.js 响应式化过程</span></span><br><span class="line"><span class="built_in">Object</span>.defineProperty(obj, key, &#123;</span><br><span class="line">    <span class="attr">enumerable</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">configurable</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">get</span>: <span class="function"><span class="keyword">function</span> <span class="title">reactiveGetter</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        <span class="keyword">const</span> value = getter ? getter.call(obj) : val <span class="comment">// 如果原本对象拥有getter方法则执行</span></span><br><span class="line">        dep.depend()                     <span class="comment">// 进行依赖收集，dep.addSub</span></span><br><span class="line">        <span class="keyword">return</span> value</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">set</span>: <span class="function"><span class="keyword">function</span> <span class="title">reactiveSetter</span>(<span class="params">newVal</span>) </span>&#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        <span class="keyword">if</span> (setter) &#123; setter.call(obj, newVal) &#125;    <span class="comment">// 如果原本对象拥有setter方法则执行</span></span><br><span class="line">        dep.notify()               <span class="comment">// 如果发生变更，则通知更新</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>这个 dep 上的 depend 和 notify 就是订阅和发布通知的具体方法。简单来说，响应式数据是消息的发布者，而视图层是消息的订阅者，如果数据更新了，那么发布者会发布数据更新的消息来通知视图更新，从而实现数据层和视图层的双向绑定。</p>
+<ol start="5">
+<li>观察者模式的优缺点 </li>
+</ol>
+<p>观察者模式有以下优点：</p>
+<p>●观察者模式在被观察者和观察者之间建立一个抽象的耦合。被观察者角色所知道的只是一个具体观察者列表，每一个具体观察者都符合一个抽象观察者的接口。被观察者并不认识任何一个具体观察者，它只知道它们都有一个共同的接口。 由于被观察者和观察者没有紧密地耦合在一起，因此它们可以属于不同的抽象化层次。如果被观察者和观察者都被扔到一起，那么这个对象必然跨越抽象化和具体化层次。</p>
+<p>●观察者模式支持广播通讯。被观察者会向所有的登记过的观察者发出通知，</p>
+<p>观察者模式有以下缺点：</p>
+<p>●如果一个被观察者对象有很多的直接和间接的观察者的话，将所有的观察者都通知到会花费很多时间。</p>
+<p>●如果在被观察者之间有循环依赖的话，被观察者会触发它们之间进行循环调用，导致系统崩溃。在使用观察者模式是要特别注意这一点。</p>
+<p>●如果对观察者的通知是通过另外的线程进行异步投递的话，系统必须保证投递是以自恰的方式进行的。</p>
+<p>●虽然观察者模式可以随时使观察者知道所观察的对象发生了变化，但是观察者模式没有相应的机制使观察者知道所观察的对象是怎么发生变化的。</p>
+<ol start="6">
+<li>发布-订阅模式的优缺点 </li>
+</ol>
+<p>发布-订阅模式最大的优点就是解耦：</p>
+<p>●时间上的解耦 ：注册的订阅行为由消息的发布方来决定何时调用，订阅者不用持续关注，当消息发生时发布者会负责通知；</p>
+<p>●对象上的解耦 ：发布者不用提前知道消息的接受者是谁，发布者只需要遍历处理所有订阅该消息类型的订阅者发送消息即可（迭代器模式），由此解耦了发布者和订阅者之间的联系，互不持有，都依赖于抽象，不再依赖于具体；</p>
+<p>由于它的解耦特性，发布-订阅模式的使用场景一般是：当一个对象的改变需要同时改变其它对象，并且它不知道具体有多少对象需要改变。发布-订阅模式还可以帮助实现一些其他的模式，比如中介者模式。</p>
+<p>发布-订阅模式也有缺点：</p>
+<p>●增加消耗 ：创建结构和缓存订阅者这两个过程需要消耗计算和内存资源，即使订阅后始终没有触发，订阅者也会始终存在于内存；</p>
+<p>●增加复杂度 ：订阅者被缓存在一起，如果多个订阅者和发布者层层嵌套，那么程序将变得难以追踪和调试。</p>
+<p>缺点主要在于理解成本、运行效率、资源消耗，特别是在多级发布-订阅时，情况会变得更复杂。</p>
+
+      </section>
+
+      
+      
+        <nav class="article-nav">
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="http://cdn-hw-static.shanhutech.cn/bizhi/staticwp/202209/c2b79a180733ad044cb9ebb59b5a4227.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2023/08/27/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/three%E5%AD%A6%E4%B9%A0/%E7%AC%AC%E4%BA%8C%E8%8A%82%E2%80%94%E2%80%94%E6%B8%B2%E6%9F%93%E5%8A%A8%E7%94%BB%E4%B8%8E%E5%91%A8%E6%9C%9F%E6%80%A7%E6%B8%B2%E6%9F%93/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">第二节——渲染动画与周期性渲</h2>
+        </a>
+      
+      <div class="card-text--row">Newer</div>
+    </div>
+  </article>
+</div>
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="http://cdn-hw-static.shanhutech.cn/bizhi/staticwp/202308/570011c0e8cee78ddacc059a4616906e--1220927807.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2023/08/27/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">迭代器模式</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
+
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+    <div class="valine-container comments-container content-padding--primary soft-size--large soft-style--box">
+      <div id="valine_thread" class="valine-thread"></div>
+    </div>
+    <script type="text/javascript" src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script type="text/javascript" src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <script type="text/javascript">
+      new Valine({
+        el: "#valine_thread",
+        appId: "zPxT1BH5qC6JYqXmizvClRGk-gzGzoHsz",
+        appKey: "kU1QKKjUJco1Gyjj0Usl4bwM",
+        avatar: "ChenZehong",
+        placeholder: "随便说点什么叭～",
+        notify: true,
+        visitor: true,
+        pageSize: 10,
+      });
+    </script>
+  
+
+  
+  
+
+
+      </section>
+    </div>
+    <div class="widget-info">
+      <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-body">
+    
+      <img src="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202007/f9c696aa27edaddf87257e5e70d1eb62--1437661584.jpg" class="soft-size--round soft-style--box" alt="ChenZehong">
+    
+    
+      <h2>ChenZehong</h2>
+    
+    
+      <p>贵在坚持</p>
+    
+
+    <div class="count-box">
+      <div class="count-box--item">
+        <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
+</svg>
+        <span>66</span>
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+        17
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+        0
+      </div>
+    </div>
+  </div>
+</section>
+
+      
+
+      
+
+      <section class="widget-categorys widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+    <span>CATEGORYS</span>
+  </div>
+  <div class="widget-body">
+    <ul class="categorys-list">
+      
+        <li class="categorys-list-item">
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            前端学习笔记 (5)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+            面试准备 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%A4%A7%E5%8E%82%E7%AC%94%E8%AF%95%E9%A2%98/">
+            大厂笔试题 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Javascript%E7%AC%94%E8%AE%B0/">
+            Javascript笔记 (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AFCSS%E7%AC%94%E8%AE%B0/">
+            前端CSS笔记 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/npm-script/">
+            npm script (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Vue%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">
+            Vue源码解析 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/node/">
+            node (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/three%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            three学习笔记 (6)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            react学习笔记 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">
+            前端工程化 (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
+            实习相关 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            设计模式 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            Vue3学习笔记 (5)
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+</section>
+
+      <section class="widget-tags widget-item  layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+    <span>TAGS</span>
+  </div>
+  <div class="widget-body">
+    <div class="tags-cloud">
+      
+    </div>
+  </div>
+</section>
+    </div>
+  </article>
+</div>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+    
+    <div class="social-icons">
+      
+        
+      
+        
+      
+        
+      
+        
+          <a href="https://github.com/Web200OK" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-github" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M64.6 512c0 195.6 125.4 361.9 300.1 422.9 23.5 5.9 19.9-10.8 19.9-22.2v-77.6c-135.8 15.9-141.3-74-150.5-89-18.5-31.5-61.9-39.5-49-54.5 31-15.9 62.5 4 98.9 58 26.4 39.1 77.9 32.5 104.1 26 5.7-23.5 17.9-44.5 34.7-60.9-140.7-25.2-199.4-111.1-199.4-213.3 0-49.5 16.4-95.1 48.4-131.8-20.4-60.6 1.9-112.4 4.9-120.1 58.2-5.2 118.5 41.6 123.3 45.3 33.1-8.9 70.8-13.7 112.9-13.7 42.4 0 80.3 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.4-43.9 2.9 7.7 24.7 58.3 5.5 118.1 32.5 36.8 49 82.8 49 132.4 0 102.3-59 188.3-200.2 213.2 23.5 23.3 38.1 55.5 38.1 91.1v112.7c0.8 9 0 17.9 15.1 17.9C832.7 877 960.4 709.4 960.4 512.1c0-247.5-200.6-447.9-447.9-447.9C265 64.1 64.6 264.5 64.6 512z"></path>
+</svg>
+          </a>
+        
+      
+        
+      
+    </div>
+     
+    <p>&copy; 2023 <a href="/" target="_blank">ChenZehong</a></p>
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+
+    <p>
+      <a href="javascript:;" id="theme-light">🌞 浅色</a>
+      <a href="javascript:;" id="theme-dark">🌛 深色</a>
+      <a href="javascript:;" id="theme-auto">🤖️ 自动</a>
+    </p>
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed soft-size--round soft-style--box">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+      <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+      <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+    </svg>
+  </div>
+
+  
+  <!-- aplayer -->
+
+
+<!-- dplayer -->
+
+
+
+
+  
+
+
+  
+
+
+  <!-- Baidu Analytics START -->
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      if (window.location.hostname === "localhost" || window.location.hostname.startsWith("192.168")) {
+        return console.log("本地调试");
+      }
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8a923e14e6dbf862c2b287e6c1266764";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  <!-- Baidu Analytics End -->
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+</body>
+</html>
