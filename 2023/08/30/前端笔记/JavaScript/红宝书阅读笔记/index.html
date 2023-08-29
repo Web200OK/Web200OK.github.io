@@ -22,7 +22,7 @@
 
   
 
-  <title>node.js | 好好学习，天天向上</title>
+  <title>红宝书阅读笔记 | 好好学习，天天向上</title>
 
   
 
@@ -45,7 +45,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202202/2c1fcb88de7ea4a1f12d4f23f3142056--1023256475.jpg)"></div>
+    <div class="post-image" style="background-image: url(http://cdn-hw-static.shanhutech.cn/bizhi/staticwp/202210/3d58bbebf7874ec5ce649b3d79ae5a87--880627703.jpg)"></div>
   
 
   <!-- navbar -->
@@ -96,15 +96,15 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">node.js</h1>
+          <h1 class="title-wrap">红宝书阅读笔记</h1>
           <h2 class="title-sub-wrap">
             <strong>ChenZehong</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2022-03-08T00:56:35.313Z" itemprop="datePublished">2022-03-08</time>
+            <time  class="article-date" datetime="2023-08-29T22:54:50.800Z" itemprop="datePublished">2023-08-30</time>
           </h2>
           <ul class="wrap-list dark">
   
-    <li><a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">📒 面试准备</a></li>
+    <li><a href="/categories/Javascript%E7%AC%94%E8%AE%B0/">📒 Javascript笔记</a></li>
   
 </ul>
           <ul class="wrap-list dark">
@@ -131,10 +131,39 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <ul>
-<li>在node中使用axios：</li>
+        <p>1、调用<code>typeof null</code>返回的是<code>Object</code>，这是因为特殊值null被认为是一个对空对象的引用。</p>
+<p>2、在对为初始化的变量调用typeof时，返回的结果是undefined，但对未声明的变量调用它时，返回的结果还是undefined：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> message <span class="comment">//声明message变量</span></span><br><span class="line"><span class="comment">//let age </span></span><br><span class="line"><span class="comment">//age变量未声明</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(messgae) <span class="comment">//输出：&#x27;undefined&#x27;</span></span><br><span class="line"><span class="built_in">console</span>.log(age) <span class="comment">//输出：&#x27;undefined&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>无论是声明还是未声明，typeof返回的字符串都是undefined，因为虽然严格意义上这两个变量存在根本性差异，但是它们都无法执行实际操作。</p>
+<p>3、undefined值是由null值派生出来的，因此ECMA-262将它们定义为表面上相等。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="literal">undefined</span> == <span class="literal">null</span>) <span class="comment">//输出：true</span></span><br></pre></td></tr></table></figure>
+
+<p>任何时候，只要变量保存对象，而当时又没有那个对象可保存，就要用null来填充变量。</p>
+<p>4、ECMAScript中科学计数法的格式要求是一个数值（整数或浮点数）后跟一个大写或小写字母<code>e</code>，再加上一个要乘的10的几次幂。</p>
+<p>5、要测定一个值是不是有无限大，可以使用<code>isFinite()</code>函数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> result = <span class="built_in">Number</span>.MMAX_VALUE</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">isFinite</span>(result)) <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+<p>6、任何涉及NaN的操作始终返回NaN，NaN不等于包括NaN在内的任何值。</p>
+<p>7、把一个值传给<code>isNaN()</code>后，该函数会尝试把它转换为数值，某些非数值的值可以直接转换为数值。任何不能转换为数值的值都会导致这个函数返回true。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="built_in">isNaN</span>(<span class="literal">NaN</span>)) <span class="comment">//true</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">isNaN</span>(<span class="number">10</span>)) <span class="comment">//false</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">isNaN</span>(<span class="string">&#x27;10&#x27;</span>)) <span class="comment">//false</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">isNaN</span>(<span class="string">&#x27;blue&#x27;</span>)) <span class="comment">//true</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">isNaN</span>(<span class="literal">true</span>)) <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+<p>8、<code>parseInt()</code>函数更专注于字符串是否包含数值模式。字符串最前面的空格会被忽略，从第一个非空字符开始转换，如果第一个字符不是数值字符、加号或者减号，parseInt函数会立即返回NaN。这意味着空字符也会返回NaN（这一点跟<code>Number()</code>不一样，它返回0）。如果第一个字符是数值字符，则继续依次检测每个字符，知道字符串末尾，或碰到非数字字符。</p>
+<p>9、<code>parseFloat()</code>函数的工作方式跟<code>parseInt()</code>函数类似，都是从位置0开始检测每个字符，解析到字符串末尾或者解析到一个无效的浮点数值字符为止，这也意味着第一次出现的小数点是有效的，但第二次出现的小数点就无效了。</p>
+<p>10、<code>parseFloat()</code>函数只解析十进制值，所以不能指定底数。</p>
+<p>11、ECMAScript中的字符串是不可变的，意思是一旦创建，他们的值就不变了。要修改某个变量中的字符串值，必须先销毁原始的字符串，然后将包含新值的另一个字符串保存到该变量。如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> lang = <span class="string">&quot;Java&quot;</span></span><br><span class="line">lang = lang + <span class="string">&quot;Script&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>整个过程首先会分配一个足够容纳10个字符串的空间，然后填充上”Java”和”Script”，最后销毁原始的字符串”Java”和字符串”Script”，因为两个字符串都没有用了。</p>
+<p>12、字符串值也有<code>toString()</code>方法，该方法只是简单的返回自身的一个副本，null和undefined值没有<code>toString()</code>方法</p>
+<p>13、如果你不确定一个值是不是null或者undefined，可以使用<code>String()</code>转型函数，它始终返回表示响应类型值的字符串。<code>String()</code>函数遵循以下规则：</p>
+<ul>
+<li>如果值有<code>toString()</code>方法，则调用该方法并返回结果。</li>
+<li>如果值是null，则返回”null”</li>
+<li>如果值是undefined，则返回”undefined”</li>
 </ul>
-<p>axios是基于promise的http请求库，可以用在浏览器和node.js中，一般使用node.js来开发接口，但是当我们需要对第三方的接口进行测试时，除了可以使用一些app比如postman进行测试之外，还可以在node中使用axios向第三方接口发送请求。</p>
+<p>14、用加号操作符给一个值加上空字符<code>&quot;&quot;</code>也可以将其转换为字符串。</p>
+<p>15、模板字面量中所有插入的值都会使用<code>toString()</code>强制转型为字符串，而且任何JavaSciript表达式都可用于插值。嵌套的字符串无需转义。</p>
 
       </section>
 
@@ -142,32 +171,16 @@
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202106/87ad8b2009c489546b5d0a9482b5f08a--164538143.jpg"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2022/03/12/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">数据库</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202202/a369311326142d610c24c4bf7501ec5d--1143487034.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="http://cdn-hw-static.shanhutech.cn/bizhi/staticwp/202308/708806f3e7eb8741c88b8ddcc52a4716--1407890146.jpg"></div>
     
     <div class="card-text">
       
-        <a href="/2022/02/23/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/webpack%E5%9F%BA%E7%A1%80/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">webpack基础</h2>
+        <a href="/2023/08/27/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/three%E5%AD%A6%E4%B9%A0/%E7%AC%AC%E4%BA%94%E8%8A%82%E2%80%94%E2%80%94%E6%9D%90%E8%B4%A8%E6%95%88%E6%9E%9C/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">第五节——材质效果</h2>
         </a>
       
       <div class="card-text--row">Older</div>
