@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+  
+  <meta name="generator" content="Hexo 5.4.0">
+
+  
+
+  
+
+  
+    <meta name="author" content="ChenZehong">
+  
+
+  
+
+  
+
+  <title>组件二次封装技巧 | 好好学习，天天向上</title>
+
+  
+
+  
+    <link rel="shortcut icon" href="/happy.ico">
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@1.1.3/index.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/monokai.css">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+  <div class="root-container">
+    
+<!-- header container -->
+<header class="header-container post">
+  
+    <div class="post-image" style="background-image: url(http://cdn-hw-static2.shanhutech.cn/bizhi/staticwp/202211/b7b72ba32b15ca32a626c0dcbb5d22ac--3712831563.jpg)"></div>
+  
+
+  <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          好好学习，天天向上
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+          <li class="navbar-list-item"><a href="/">首页</a></li>
+        
+          <li class="navbar-list-item"><a href="/links">友链</a></li>
+        
+          <li class="navbar-list-item"><a href="/about">关于</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">组件二次封装技巧</h1>
+          <h2 class="title-sub-wrap">
+            <strong>ChenZehong</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2023-09-26T01:41:02.335Z" itemprop="datePublished">2023-09-26</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">📒 前端工程化</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+</ul>
+        </div>
+      </div>
+    </div>
+  
+
+  
+  
+  
+</header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+<div class="body-container">
+  <article class="content-container layout-block post-container">
+    <div class="article-info">
+      
+      
+      
+      
+      <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
+        <h3 id="组件二次封装技巧"><a href="#组件二次封装技巧" class="headerlink" title="组件二次封装技巧"></a>组件二次封装技巧</h3><h4 id="不应该在组件中一个一个定义props"><a href="#不应该在组件中一个一个定义props" class="headerlink" title="不应该在组件中一个一个定义props"></a>不应该在组件中一个一个定义props</h4><p>$attrs：组件实例的该属性包含了父作用域中不作为prop被识别（且获取）的attribute绑定（class和style除外），当一个组件没有声明任何prop时，这里会包含所有父作用域的绑定（class和style除外），并且可以通过v-bind=”$attrs”传入内部的UI库组件中。</p>
+<h5 id="如何继承第三方组件的属性：使用-attrs"><a href="#如何继承第三方组件的属性：使用-attrs" class="headerlink" title="如何继承第三方组件的属性：使用$attrs"></a>如何继承第三方组件的属性：使用$attrs</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;t_select&quot;&gt;</span><br><span class="line">    &lt;el-select</span><br><span class="line">      v-model=&quot;childSelectedValue&quot;</span><br><span class="line">      :style=&quot;&#123;width: width||&#x27;100%&#x27;&#125;&quot;</span><br><span class="line">      v-bind=&quot;attrs&quot;</span><br><span class="line">    &gt;</span><br><span class="line">      &lt;el-option</span><br><span class="line">        v-for=&quot;(item,index) in optionSource&quot;</span><br><span class="line">        :key=&quot;index+&#x27;i&#x27;&quot;</span><br><span class="line">        :label=&quot;item[labelKey]&quot;</span><br><span class="line">        :value=&quot;item[valueKey]&quot;</span><br><span class="line">      &gt;&lt;/el-option&gt;</span><br><span class="line">    &lt;/el-select&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;TSelect&#x27;,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    attrs() &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        // &#x27;popper-append-to-body&#x27;: false,</span><br><span class="line">        clearable: true, // 默认开启清空</span><br><span class="line">        filterable: true, // 默认开启过滤</span><br><span class="line">        ...this.$attrs</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="不应该在组件中一个一个的-emit"><a href="#不应该在组件中一个一个的-emit" class="headerlink" title="不应该在组件中一个一个的$emit"></a>不应该在组件中一个一个的$emit</h4><p>$listeners：组件实例的该属性包含了父作用域中的（不含.native修饰器的）v-on事件监听器，它可以通过v-on=”listeners”转发传入内部组件，进行对事件的监听处理。</p>
+<h5 id="如何继承第三方组件的Event事件：使用-listeners"><a href="#如何继承第三方组件的Event事件：使用-listeners" class="headerlink" title="如何继承第三方组件的Event事件：使用$listeners"></a>如何继承第三方组件的Event事件：使用$listeners</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;t_select&quot;&gt;</span><br><span class="line">    &lt;el-select</span><br><span class="line">      v-model=&quot;childSelectedValue&quot;</span><br><span class="line">      :style=&quot;&#123;width: width||&#x27;100%&#x27;&#125;&quot;</span><br><span class="line">      v-bind=&quot;attrs&quot;</span><br><span class="line">      v-on=&quot;$listeners&quot;</span><br><span class="line">    &gt;</span><br><span class="line">      &lt;el-option</span><br><span class="line">        v-for=&quot;(item,index) in optionSource&quot;</span><br><span class="line">        :key=&quot;index+&#x27;i&#x27;&quot;</span><br><span class="line">        :label=&quot;item[labelKey]&quot;</span><br><span class="line">        :value=&quot;item[valueKey]&quot;</span><br><span class="line">      &gt;&lt;/el-option&gt;</span><br><span class="line">    &lt;/el-select&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="插槽Slot"><a href="#插槽Slot" class="headerlink" title="插槽Slot"></a>插槽Slot</h4><p>slot会在组件模板中占好位置，当使用组件标签的时候，组件标签里面的内容就会自动替换组件模板中slot的位置，并且可以作为承载分发内容的出口。</p>
+<h5 id="编译作用域（父组件在子组件-lt-slot-gt-lt-slot-gt-处插入内容）"><a href="#编译作用域（父组件在子组件-lt-slot-gt-lt-slot-gt-处插入内容）" class="headerlink" title="编译作用域（父组件在子组件&lt;slot&gt;&lt;/slot&gt;处插入内容）"></a>编译作用域（父组件在子组件<code>&lt;slot&gt;&lt;/slot&gt;</code>处插入内容）</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//父组件：（引用子组件 ebutton）</span></span><br><span class="line"></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  <span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>= <span class="string">&#x27;app&#x27;</span>&gt;</span></span></span><br><span class="line"><span class="xml">     <span class="tag">&lt;<span class="name">ebutton</span>&gt;</span> &#123;&#123; parent &#125;&#125;<span class="tag">&lt;/<span class="name">ebutton</span>&gt;</span></span></span><br><span class="line"><span class="xml">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  <span class="attr">el</span>:<span class="string">&#x27;.app&#x27;</span>,</span><br><span class="line">  <span class="attr">data</span>:&#123;</span><br><span class="line">    <span class="attr">parent</span>:<span class="string">&#x27;父组件&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>使用数据的语法完全没有变，但是，我们能否直接使用子组件内的数据呢？显然不行！！</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 子组件 ： (假设名为：ebutton)</span></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  <span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>= <span class="string">&#x27;button&#x27;</span>&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">button</span>&gt;</span> <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="xml">       <span class="tag">&lt;<span class="name">slot</span>&gt;</span><span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span></span><br><span class="line"><span class="xml">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  <span class="attr">el</span>:<span class="string">&#x27;.button&#x27;</span>,</span><br><span class="line">  <span class="attr">data</span>:&#123;</span><br><span class="line">    <span class="attr">child</span>:<span class="string">&#x27;子组件&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 父组件：（引用子组件 ebutton）</span></span><br><span class="line"></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  <span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>= <span class="string">&#x27;app&#x27;</span>&gt;</span></span></span><br><span class="line"><span class="xml">     <span class="tag">&lt;<span class="name">ebutton</span>&gt;</span> &#123;&#123; child &#125;&#125;<span class="tag">&lt;/<span class="name">ebutton</span>&gt;</span></span></span><br><span class="line"><span class="xml">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+
+<p>直接传入子组件内的数据是不可以的。因为：父级模板里的所有内容都是在父级作用域中编译的；子模板里的所有内容都是在子作用域中编译的。</p>
+<h5 id="后备内容-子组件-lt-slot-gt-lt-slot-gt-设置默认值"><a href="#后备内容-子组件-lt-slot-gt-lt-slot-gt-设置默认值" class="headerlink" title="后备内容 (子组件&lt;slot&gt; &lt;/slot&gt;设置默认值)"></a>后备内容 (子组件<code>&lt;slot&gt; &lt;/slot&gt;</code>设置默认值)</h5><p>所谓的后备内容，其实就是slot的默认值，有时我没有在父组件内添加内容，那么 slot就会显示默认值，如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//子组件 ： (假设名为：ebutton)</span></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  <span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>= <span class="string">&#x27;button&#x27;</span>&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">button</span>&gt;</span>  <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">slot</span>&gt;</span> 这就是默认值 <span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span></span><br><span class="line"><span class="xml">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="具名插槽-（子组件-多个-lt-slot-gt-lt-slot-gt-lt-slot-gt-lt-slot-gt-对应插入内容）"><a href="#具名插槽-（子组件-多个-lt-slot-gt-lt-slot-gt-lt-slot-gt-lt-slot-gt-对应插入内容）" class="headerlink" title="具名插槽 （子组件 多个&lt;slot &gt;&lt;/slot&gt; &lt;slot&gt;&lt;/slot&gt; 对应插入内容）"></a>具名插槽 （子组件 多个<code>&lt;slot &gt;&lt;/slot&gt; &lt;slot&gt;&lt;/slot&gt; </code>对应插入内容）</h5><p>有时候，也许子组件内的slot不止一个，那么我们如何在父组件中，精确的在想要的位置，插入对应的内容呢？ 给插槽命一个名即可，即添加name属性。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//子组件 ： (假设名为：ebutton)</span></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  <span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>= <span class="string">&#x27;button&#x27;</span>&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">button</span>&gt;</span>  <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">slot</span> <span class="attr">name</span>= <span class="string">&#x27;one&#x27;</span>&gt;</span> 这就是默认值1<span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">slot</span> <span class="attr">name</span>=<span class="string">&#x27;two&#x27;</span>&gt;</span> 这就是默认值2 <span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">slot</span> <span class="attr">name</span>=<span class="string">&#x27;three&#x27;</span>&gt;</span> 这就是默认值3 <span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span></span><br><span class="line"><span class="xml">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+
+<p>父组件通过v-slot : name 的方式添加内容：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//父组件：（引用子组件 ebutton）</span></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  <span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>= <span class="string">&#x27;app&#x27;</span>&gt;</span></span></span><br><span class="line"><span class="xml">     <span class="tag">&lt;<span class="name">ebutton</span>&gt;</span> </span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">template</span> <span class="attr">v-slot:one</span>&gt;</span> 这是插入到one插槽的内容 <span class="tag">&lt;/<span class="name">template</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">template</span> <span class="attr">v-slot:two</span>&gt;</span> 这是插入到two插槽的内容 <span class="tag">&lt;/<span class="name">template</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">template</span> <span class="attr">v-slot:three</span>&gt;</span> 这是插入到three插槽的内容 <span class="tag">&lt;/<span class="name">template</span>&gt;</span></span></span><br><span class="line"><span class="xml">     <span class="tag">&lt;/<span class="name">ebutton</span>&gt;</span></span></span><br><span class="line"><span class="xml">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+
+<p>当然 vue 为了方便，书写 v-slot:one 的形式时，可以简写为 #one</p>
+<h5 id="作用域插槽-父组件-在子组件-lt-slot-gt-lt-slot-gt-处使用子组件-data"><a href="#作用域插槽-父组件-在子组件-lt-slot-gt-lt-slot-gt-处使用子组件-data" class="headerlink" title="作用域插槽 ( 父组件 在子组件 &lt;slot&gt; &lt;/slot&gt; 处使用子组件 data)"></a>作用域插槽 ( 父组件 在子组件 <code>&lt;slot&gt; &lt;/slot&gt;</code> 处使用子组件 data)</h5><p>通过slot 我们可以在父组件为子组件添加内容，通过给slot命名的方式，我们可以添加不止一个位置的内容。但是我们添加的数据都是父组件内的。上面我们说过不能直接使用子组件内的数据，但是我们是否有其他的方法，让我们能够使用子组件的数据呢？ 其实我们也可以使用v-slot的方式：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//子组件 ： (假设名为：ebutton)</span></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  <span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>= <span class="string">&#x27;button&#x27;</span>&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">button</span>&gt;</span>  <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">slot</span> <span class="attr">name</span>= <span class="string">&#x27;one&#x27;</span> <span class="attr">:value1</span>=<span class="string">&#x27;child1&#x27;</span>&gt;</span> 这就是默认值1<span class="tag">&lt;/<span class="name">slot</span>&gt;</span>    //绑定child1的数据</span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">slot</span> <span class="attr">:value2</span>=<span class="string">&#x27;child2&#x27;</span>&gt;</span> 这就是默认值2 <span class="tag">&lt;/<span class="name">slot</span>&gt;</span>  //绑定child2的数据，这里我没有命名slot</span></span><br><span class="line"><span class="xml">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>           </span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  <span class="attr">el</span>:<span class="string">&#x27;.button&#x27;</span>,</span><br><span class="line">  <span class="attr">data</span>:&#123;</span><br><span class="line">    <span class="attr">child1</span>:<span class="string">&#x27;数据1&#x27;</span>,</span><br><span class="line">    <span class="attr">child2</span>:<span class="string">&#x27;数据2&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//父组件：（引用子组件 ebutton）</span></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  <span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>= <span class="string">&#x27;app&#x27;</span>&gt;</span></span></span><br><span class="line"><span class="xml">     <span class="tag">&lt;<span class="name">ebutton</span>&gt;</span> </span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml">        // 通过v-slot的语法 将插槽 one 的值赋值给slotonevalue </span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">template</span> <span class="attr">v-slot:one</span> = <span class="string">&#x27;slotonevalue&#x27;</span>&gt;</span>  </span></span><br><span class="line"><span class="xml">           &#123;&#123; slotonevalue.value1 &#125;&#125;</span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;/<span class="name">template</span>&gt;</span></span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml">        // 同上，由于子组件没有给slot命名，默认值就为default</span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">template</span> <span class="attr">v-slot:default</span> = <span class="string">&#x27;slottwovalue&#x27;</span>&gt;</span> </span></span><br><span class="line"><span class="xml">           &#123;&#123; slottwovalue.value2 &#125;&#125;</span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;/<span class="name">template</span>&gt;</span></span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml">     <span class="tag">&lt;/<span class="name">ebutton</span>&gt;</span></span></span><br><span class="line"><span class="xml">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+
+<p>总结来说就是：</p>
+<ul>
+<li><p>首先在子组件的slot上动态绑定一个值( :key=’value’)</p>
+</li>
+<li><p>然后在父组件通过v-slot : name = ‘values ’的方式将这个值赋值给 values</p>
+</li>
+<li><p>最后通过的方式获取数据</p>
+</li>
+</ul>
+<h4 id="不应该在组件中一个一个的通过this-refs去获取原组件然后手动添加方法"><a href="#不应该在组件中一个一个的通过this-refs去获取原组件然后手动添加方法" class="headerlink" title="不应该在组件中一个一个的通过this.$refs去获取原组件然后手动添加方法"></a>不应该在组件中一个一个的通过this.$refs去获取原组件然后手动添加方法</h4><p>假设基于el-table进行二次封装：</p>
+<p>应该根据this.$refs获取原组件来遍历其所有的方法将其挂载在二次封装的组件上。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">mounted</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.extendMethod()</span><br><span class="line">  &#125;,</span><br><span class="line"><span class="attr">methods</span>: &#123;</span><br><span class="line">    <span class="comment">// 继承el-table的Method</span></span><br><span class="line">    <span class="function"><span class="title">extendMethod</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> refMethod = <span class="built_in">Object</span>.entries(<span class="built_in">this</span>.$refs[<span class="string">&#x27;el-table&#x27;</span>])</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">const</span> [key, value] <span class="keyword">of</span> refMethod) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!(key.includes(<span class="string">&#x27;$&#x27;</span>) || key.includes(<span class="string">&#x27;_&#x27;</span>))) &#123;</span><br><span class="line">          <span class="built_in">this</span>[key] = value</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+
+      </section>
+
+      
+      
+        <nav class="article-nav">
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="http://cdn-hw-static2.shanhutech.cn/bizhi/staticwp/202211/267a1836c06487c1cbba19dece4ea72c--2247610046.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2023/09/26/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/vue%E7%BB%84%E4%BB%B6%E7%B2%BE%E8%AE%B2%E4%B9%8B%E6%B4%BE%E5%8F%91%E4%B8%8E%E5%B9%BF%E6%92%AD%E2%80%94%E2%80%94%E8%87%AA%E8%A1%8C%E5%AE%9E%E7%8E%B0%20dispatch%20%E5%92%8C%20broadcast%20%E6%96%B9%E6%B3%95/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">vue组件精讲之派发与广播——自行实现 dispatch 和 broadcast 方法</h2>
+        </a>
+      
+      <div class="card-text--row">Newer</div>
+    </div>
+  </article>
+</div>
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+    <div class="card-text">
+      
+        <a href="/2023/09/04/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/three%E5%AD%A6%E4%B9%A0/%E9%9D%A2%E8%AF%95%E9%A2%98/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">(no title)</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
+
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+    <div class="valine-container comments-container content-padding--primary soft-size--large soft-style--box">
+      <div id="valine_thread" class="valine-thread"></div>
+    </div>
+    <script type="text/javascript" src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script type="text/javascript" src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <script type="text/javascript">
+      new Valine({
+        el: "#valine_thread",
+        appId: "zPxT1BH5qC6JYqXmizvClRGk-gzGzoHsz",
+        appKey: "kU1QKKjUJco1Gyjj0Usl4bwM",
+        avatar: "ChenZehong",
+        placeholder: "随便说点什么叭～",
+        notify: true,
+        visitor: true,
+        pageSize: 10,
+      });
+    </script>
+  
+
+  
+  
+
+
+      </section>
+    </div>
+    <div class="widget-info">
+      <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-body">
+    
+      <img src="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202007/f9c696aa27edaddf87257e5e70d1eb62--1437661584.jpg" class="soft-size--round soft-style--box" alt="ChenZehong">
+    
+    
+      <h2>ChenZehong</h2>
+    
+    
+      <p>贵在坚持</p>
+    
+
+    <div class="count-box">
+      <div class="count-box--item">
+        <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
+</svg>
+        <span>74</span>
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+        17
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+        0
+      </div>
+    </div>
+  </div>
+</section>
+
+      
+
+      
+
+      <section class="widget-categorys widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+    <span>CATEGORYS</span>
+  </div>
+  <div class="widget-body">
+    <ul class="categorys-list">
+      
+        <li class="categorys-list-item">
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            前端学习笔记 (5)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+            面试准备 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%A4%A7%E5%8E%82%E7%AC%94%E8%AF%95%E9%A2%98/">
+            大厂笔试题 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Javascript%E7%AC%94%E8%AE%B0/">
+            Javascript笔记 (5)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AFCSS%E7%AC%94%E8%AE%B0/">
+            前端CSS笔记 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            react学习笔记 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/three%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            three学习笔记 (7)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/node/">
+            node (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/npm-script/">
+            npm script (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Vue%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">
+            Vue源码解析 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
+            实习相关 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">
+            前端工程化 (7)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            Vue3学习笔记 (5)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            设计模式 (10)
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+</section>
+
+      <section class="widget-tags widget-item  layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+    <span>TAGS</span>
+  </div>
+  <div class="widget-body">
+    <div class="tags-cloud">
+      
+    </div>
+  </div>
+</section>
+    </div>
+  </article>
+</div>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+    
+    <div class="social-icons">
+      
+        
+      
+        
+      
+        
+      
+        
+          <a href="https://github.com/Web200OK" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-github" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M64.6 512c0 195.6 125.4 361.9 300.1 422.9 23.5 5.9 19.9-10.8 19.9-22.2v-77.6c-135.8 15.9-141.3-74-150.5-89-18.5-31.5-61.9-39.5-49-54.5 31-15.9 62.5 4 98.9 58 26.4 39.1 77.9 32.5 104.1 26 5.7-23.5 17.9-44.5 34.7-60.9-140.7-25.2-199.4-111.1-199.4-213.3 0-49.5 16.4-95.1 48.4-131.8-20.4-60.6 1.9-112.4 4.9-120.1 58.2-5.2 118.5 41.6 123.3 45.3 33.1-8.9 70.8-13.7 112.9-13.7 42.4 0 80.3 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.4-43.9 2.9 7.7 24.7 58.3 5.5 118.1 32.5 36.8 49 82.8 49 132.4 0 102.3-59 188.3-200.2 213.2 23.5 23.3 38.1 55.5 38.1 91.1v112.7c0.8 9 0 17.9 15.1 17.9C832.7 877 960.4 709.4 960.4 512.1c0-247.5-200.6-447.9-447.9-447.9C265 64.1 64.6 264.5 64.6 512z"></path>
+</svg>
+          </a>
+        
+      
+        
+      
+    </div>
+     
+    <p>&copy; 2023 <a href="/" target="_blank">ChenZehong</a></p>
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+
+    <p>
+      <a href="javascript:;" id="theme-light">🌞 浅色</a>
+      <a href="javascript:;" id="theme-dark">🌛 深色</a>
+      <a href="javascript:;" id="theme-auto">🤖️ 自动</a>
+    </p>
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed soft-size--round soft-style--box">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+      <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+      <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+    </svg>
+  </div>
+
+  
+  <!-- aplayer -->
+
+
+<!-- dplayer -->
+
+
+
+
+  
+
+
+  
+
+
+  <!-- Baidu Analytics START -->
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      if (window.location.hostname === "localhost" || window.location.hostname.startsWith("192.168")) {
+        return console.log("本地调试");
+      }
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8a923e14e6dbf862c2b287e6c1266764";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  <!-- Baidu Analytics End -->
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+</body>
+</html>
