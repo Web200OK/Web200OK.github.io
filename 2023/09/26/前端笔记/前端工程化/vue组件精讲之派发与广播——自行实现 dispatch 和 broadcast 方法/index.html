@@ -137,7 +137,7 @@
 <li>子组件向父组件（支持跨级）传递数据。</li>
 </ul>
 <p>这种父子（含跨级）传递数据的通信方式，Vue.js 并没有提供原生的 API 来支持，而是推荐使用大型数据状态管理工具 Vuex，而我们之前已经介绍过 Vuex 的场景与在独立组件（或库）中使用的限制。本小节则介绍一种在父子组件间通信的方法 <code>dispatch</code> 和 <code>broadcast</code>。</p>
-<h2 id="emit"><a href="#emit" class="headerlink" title="emit"></a><img src="https://math.jianshu.com/math?formula=on%20%E4%B8%8E" alt="on 与">emit</h2><p>如果您使用过较早的 Vue.js 1.x 版本，肯定对 <em><img src="https://math.jianshu.com/math?formula=dispatch_%20%E5%92%8C%20_" alt="dispatch_ 和 _">broadcast</em> 这两个内置的方法很熟悉，不过它们都在 Vue.js 2.x 里废弃了。在正式介绍主角前，我们先看看 <code>$on</code> 与 <code>$emit</code> 这两个 API，因为它们是本节内容的基础。</p>
+<h2 id="on-与emit"><a href="#on-与emit" class="headerlink" title="on 与emit"></a>on 与emit</h2><p>如果您使用过较早的 Vue.js 1.x 版本，肯定对 <em><img src="https://math.jianshu.com/math?formula=dispatch_%20%E5%92%8C%20_" alt="dispatch_ 和 _">broadcast</em> 这两个内置的方法很熟悉，不过它们都在 Vue.js 2.x 里废弃了。在正式介绍主角前，我们先看看 <code>$on</code> 与 <code>$emit</code> 这两个 API，因为它们是本节内容的基础。</p>
 <p><code>$emit</code> 会在<strong>当前组件</strong>实例上触发自定义事件，并传递一些参数给监听器的回调，一般来说，都是在父级调用这个组件时，使用 <code>@on</code> 的方式来监听自定义事件的，比如在子组件中触发事件：</p>
 <figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// child.vue，部分代码省略</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  methods: &#123;</span><br><span class="line">    handleEmitEvent () &#123;</span><br><span class="line">      <span class="keyword">this</span>.$emit(<span class="string">&#x27;test&#x27;</span>, <span class="string">&#x27;Hello Vue.js&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -153,7 +153,7 @@
 <p>仅上面的示例，的确是多此一举的，因为大可在 handleEmitEvent 里直接写 window.alert(text)，没必要绕一圈。</p>
 <p>之所以多此一举，是因为 handleEmitEvent 是当前组件内的 <code>&lt;button&gt;</code> 调用的，如果这个方法不是它自己调用，而是其它组件调用的，那这个用法就大有可为了。</p>
 <p>了解了 <code>$on</code> 和 <code>$emit</code> 的用法后，我们再来看两个“过时的” API。</p>
-<h2 id="Vue-js-1-x-的-broadcast"><a href="#Vue-js-1-x-的-broadcast" class="headerlink" title="Vue.js 1.x 的 broadcast"></a>Vue.js 1.x 的 <img src="https://math.jianshu.com/math?formula=dispatch%20%E4%B8%8E" alt="dispatch 与">broadcast</h2><p>虽然 Vue.js 1.x 已经成为过去时，但为了充分理解本节通信方法的使用场景，还是有必要来了解一点它的历史。</p>
+<h2 id="Vue-js-1-x-的-dispatch-与broadcast"><a href="#Vue-js-1-x-的-dispatch-与broadcast" class="headerlink" title="Vue.js 1.x 的 dispatch 与broadcast"></a>Vue.js 1.x 的 dispatch 与broadcast</h2><p>虽然 Vue.js 1.x 已经成为过去时，但为了充分理解本节通信方法的使用场景，还是有必要来了解一点它的历史。</p>
 <p>在 Vue.js 1.x 中，提供了两个方法：<code>$dispatch</code> 和 <code>$broadcast</code> ，前者用于向上级派发事件，只要是它的父级（一级或多级以上），都可以在组件内通过 <code>$on</code> （或 events，2.x 已废弃）监听到，后者相反，是由上级向下级广播事件的。</p>
 <p>来看一个简单的示例：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 注意：该示例为 Vue.js 1.x 版本 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 子组件 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;handleDispatch&quot;</span>&gt;</span></span><br><span class="line">    派发事件</span><br><span class="line">  <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">methods</span>: &#123;</span></span><br><span class="line"><span class="javascript">    handleDispatch () &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">this</span>.$dispatch(<span class="string">&#x27;test&#x27;</span>, <span class="string">&#x27;Hello, Vue.js&#x27;</span>);</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript">&#125;</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
@@ -289,13 +289,13 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>74</span>
+        <span>77</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
 </svg>
-        17
+        18
       </div>
       <div class="count-box--item">
         <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -340,6 +340,12 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
             面试准备 (10)
           </a>
@@ -352,32 +358,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AE%97%E6%B3%95/">
-            算法 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/Javascript%E7%AC%94%E8%AE%B0/">
-            Javascript笔记 (5)
+            Javascript笔记 (6)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/%E5%89%8D%E7%AB%AFCSS%E7%AC%94%E8%AE%B0/">
             前端CSS笔记 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            react学习笔记 (2)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/three%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-            three学习笔记 (7)
           </a>
         </li>
       
@@ -394,8 +382,20 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            react学习笔记 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/Vue%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">
             Vue源码解析 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/three%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            three学习笔记 (7)
           </a>
         </li>
       
@@ -406,8 +406,14 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E6%8F%90%E5%8D%87/">
+            前端提升 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">
-            前端工程化 (7)
+            前端工程化 (8)
           </a>
         </li>
       

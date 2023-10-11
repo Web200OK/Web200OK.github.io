@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+  
+  <meta name="generator" content="Hexo 5.4.0">
+
+  
+
+  
+
+  
+    <meta name="author" content="ChenZehong">
+  
+
+  
+
+  
+
+  <title>vue组件精讲之组合多选框组件——CheckboxGroup &amp; Checkbox | 好好学习，天天向上</title>
+
+  
+
+  
+    <link rel="shortcut icon" href="/happy.ico">
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@1.1.3/index.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/monokai.css">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+  <div class="root-container">
+    
+<!-- header container -->
+<header class="header-container post">
+  
+    <div class="post-image" style="background-image: url(http://cdn-hw-static2.shanhutech.cn/bizhi/staticwp/202309/62257519ea1f70061f7ae2354df9c593--2839199481.jpg)"></div>
+  
+
+  <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          好好学习，天天向上
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+          <li class="navbar-list-item"><a href="/">首页</a></li>
+        
+          <li class="navbar-list-item"><a href="/links">友链</a></li>
+        
+          <li class="navbar-list-item"><a href="/about">关于</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">vue组件精讲之组合多选框组件——CheckboxGroup &amp; Checkbox</h1>
+          <h2 class="title-sub-wrap">
+            <strong>ChenZehong</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2023-09-27T07:31:25.716Z" itemprop="datePublished">2023-09-27</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">📒 前端工程化</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+</ul>
+        </div>
+      </div>
+    </div>
+  
+
+  
+  
+  
+</header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+<div class="body-container">
+  <article class="content-container layout-block post-container">
+    <div class="article-info">
+      
+      
+      
+      
+      <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
+        <h2 id="Checkbox-组件概览"><a href="#Checkbox-组件概览" class="headerlink" title="Checkbox 组件概览"></a>Checkbox 组件概览</h2><p>多选框组件也是由两个组件组成：CheckboxGroup 和 Checkbox。单独使用时，只需要一个 Checkbox，组合使用时，两者都要用到。效果如下图所示：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/7927136-7e3b07583b9b905a?imageMogr2/auto-orient/strip%7CimageView2/2/w/562/format/webp" alt="img"></p>
+<p>image</p>
+<p>单独使用，常见的场景有注册时勾选以同意注册条款，它只有一个独立的 Checkbox 组件，并且绑定一个布尔值，示例如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">i-checkbox</span> <span class="attr">v-model</span>=<span class="string">&quot;single&quot;</span>&gt;</span>单独选项<span class="tag">&lt;/<span class="name">i-checkbox</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">  <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">    data () &#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="javascript">        <span class="attr">single</span>: <span class="literal">false</span></span></span><br><span class="line"><span class="javascript">      &#125;</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>而组合使用的场景就很多了，填写表单时会经常用到，它的结构如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">i-checkbox-group</span> <span class="attr">v-model</span>=<span class="string">&quot;multiple&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">i-checkbox</span> <span class="attr">label</span>=<span class="string">&quot;option1&quot;</span>&gt;</span>选项 1<span class="tag">&lt;/<span class="name">i-checkbox</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">i-checkbox</span> <span class="attr">label</span>=<span class="string">&quot;option2&quot;</span>&gt;</span>选项 2<span class="tag">&lt;/<span class="name">i-checkbox</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">i-checkbox</span> <span class="attr">label</span>=<span class="string">&quot;option3&quot;</span>&gt;</span>选项 3<span class="tag">&lt;/<span class="name">i-checkbox</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">i-checkbox</span> <span class="attr">label</span>=<span class="string">&quot;option4&quot;</span>&gt;</span>选项 4<span class="tag">&lt;/<span class="name">i-checkbox</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">i-checkbox-group</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">  <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">    data () &#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="javascript">        <span class="attr">multiple</span>: [<span class="string">&#x27;option1&#x27;</span>, <span class="string">&#x27;option3&#x27;</span>]</span></span><br><span class="line"><span class="javascript">      &#125;</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>v-model</code> 用在了 CheckboxGroup 上，绑定的值为一个数组，数组的值就是内部 Checkbox 绑定的 label。</p>
+<p>用法看起来比 Form 要简单多，不过也有两个个技术难点：</p>
+<ul>
+<li>Checkbox 要同时支持单独使用和组合使用的场景；</li>
+<li>CheckboxGroup 和 Checkbox 内可能嵌套其它的布局组件。</li>
+</ul>
+<p>对于第一点，要在 Checkbox 初始化时判断是否父级有 CheckboxGroup，如果有就是组合使用的，否则就是单独使用。而第二点，正好可以用上一节的通信方法，很容易就能解决。</p>
+<p>两个组件并行开发，会容易理不清逻辑，不妨我们先开发独立的 Checkbox 组件。</p>
+<h2 id="单独使用的-Checkbox"><a href="#单独使用的-Checkbox" class="headerlink" title="单独使用的 Checkbox"></a>单独使用的 Checkbox</h2><p>设计一个组件时，还是要从它的 3 个 API 入手：prop、event、slot。</p>
+<p>因为要在 Checkbox 组件上直接使用 <code>v-model</code> 来双向绑定数据，那必不可少的一个 prop 就是 <code>value</code>，还有 event <code>input</code>，因为 v-model 本质上是一个语法糖（如果你还不清楚这种用法，可以阅读最后的扩展阅读 1）。</p>
+<p>理论上，我们只需要给 <code>value</code> 设置为布尔值即可，也就是 true / false，不过为了扩展性，我们再定义两个 props：<code>trueValue</code> 和 <code>falseValue</code>，它们允许用户指定 <code>value</code> 用什么值来判断是否选中。因为实际开发中，数据库中并不直接保存 true / false，而是 1 / 0 或其它字符串，如果强制使用 Boolean，使用者就要再额外转换一次，这样的 API 设计不太友好。</p>
+<p>除此之外，还需要一个 <code>disabled</code> 属性来表示是否禁用。</p>
+<p>自定义事件 events 上文已经说了一个 <code>input</code>，用于实现 v-model 语法糖；另一个就是 <code>on-change</code>，当选中 / 取消选中时触发，用于通知父级状态发生了变化。</p>
+<p>slot 使用默认的就好，显示辅助文本。</p>
+<p>理清楚了 API，先来写一个基础的 <code>v-model</code> 功能，这在大部分组件中都类似。</p>
+<p>在 <code>src/components</code> 下新建目录 <code>checkbox</code>，并新建两个文件 <code>checkbox.vue</code> 和 <code>checkbox-group.vue</code>。我们先来看 Checkbox：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- checkbox.vue --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">label</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span></span></span><br><span class="line"><span class="tag">             <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span></span></span><br><span class="line"><span class="tag">             <span class="attr">:disabled</span>=<span class="string">&quot;disabled&quot;</span></span></span><br><span class="line"><span class="tag">             <span class="attr">:checked</span>=<span class="string">&quot;currentValue&quot;</span></span></span><br><span class="line"><span class="tag">             @<span class="attr">change</span>=<span class="string">&quot;change&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">slot</span>&gt;</span><span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">  <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">    <span class="attr">name</span>: <span class="string">&#x27;iCheckbox&#x27;</span>,</span></span><br><span class="line"><span class="javascript">    <span class="attr">props</span>: &#123;</span></span><br><span class="line"><span class="javascript">      <span class="attr">disabled</span>: &#123;</span></span><br><span class="line"><span class="javascript">        <span class="attr">type</span>: <span class="built_in">Boolean</span>,</span></span><br><span class="line"><span class="javascript">        <span class="attr">default</span>: <span class="literal">false</span></span></span><br><span class="line"><span class="javascript">      &#125;,</span></span><br><span class="line"><span class="javascript">      <span class="attr">value</span>: &#123;</span></span><br><span class="line"><span class="javascript">        <span class="attr">type</span>: [<span class="built_in">String</span>, <span class="built_in">Number</span>, <span class="built_in">Boolean</span>],</span></span><br><span class="line"><span class="javascript">        <span class="attr">default</span>: <span class="literal">false</span></span></span><br><span class="line"><span class="javascript">      &#125;,</span></span><br><span class="line"><span class="javascript">      <span class="attr">trueValue</span>: &#123;</span></span><br><span class="line"><span class="javascript">        <span class="attr">type</span>: [<span class="built_in">String</span>, <span class="built_in">Number</span>, <span class="built_in">Boolean</span>],</span></span><br><span class="line"><span class="javascript">        <span class="attr">default</span>: <span class="literal">true</span></span></span><br><span class="line"><span class="javascript">      &#125;,</span></span><br><span class="line"><span class="javascript">      <span class="attr">falseValue</span>: &#123;</span></span><br><span class="line"><span class="javascript">        <span class="attr">type</span>: [<span class="built_in">String</span>, <span class="built_in">Number</span>, <span class="built_in">Boolean</span>],</span></span><br><span class="line"><span class="javascript">        <span class="attr">default</span>: <span class="literal">false</span></span></span><br><span class="line"><span class="javascript">      &#125;</span></span><br><span class="line"><span class="javascript">    &#125;,</span></span><br><span class="line"><span class="javascript">    data () &#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="javascript">        <span class="attr">currentValue</span>: <span class="built_in">this</span>.value</span></span><br><span class="line"><span class="javascript">      &#125;;</span></span><br><span class="line"><span class="javascript">    &#125;,</span></span><br><span class="line"><span class="javascript">    <span class="attr">methods</span>: &#123;</span></span><br><span class="line"><span class="javascript">      change (event) &#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">if</span> (<span class="built_in">this</span>.disabled) &#123;</span></span><br><span class="line"><span class="javascript">          <span class="keyword">return</span> <span class="literal">false</span>;</span></span><br><span class="line"><span class="javascript">        &#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">        <span class="keyword">const</span> checked = event.target.checked;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.currentValue = checked;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">        <span class="keyword">const</span> value = checked ? <span class="built_in">this</span>.trueValue : <span class="built_in">this</span>.falseValue;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.$emit(<span class="string">&#x27;input&#x27;</span>, value);</span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.$emit(<span class="string">&#x27;on-change&#x27;</span>, value);</span></span><br><span class="line"><span class="javascript">      &#125;</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>因为 <code>value</code> 被定义为 prop，它只能由父级修改，本身是不能修改的，在 <code>&lt;input&gt;</code> 触发 change 事件，也就是点击选择时，不能由 Checkbox 来修改这个 value，所以我们在 data 里定义了一个 <code>currentValue</code>，并把它绑定在 <code>&lt;input :checked=&quot;currentValue&quot;&gt;</code>，这样就可以在 Checkbox 内修改 <code>currentValue</code>。这是自定义组件使用 <code>v-model</code> 的“惯用伎俩”。</p>
+<p>代码看起来都很简单，但有三个细节需要额外说明：</p>
+<ol>
+<li>选中的控件，直接使用了 <code>&lt;input type=&quot;checkbox&quot;&gt;</code>，而没有用 div + css 来自己实现选择的逻辑和样式，这样的好处是，使用 input 元素，你的自定义组件仍然为 html 内置的基础组件，可以使用浏览器默认的行为和快捷键，也就是说，浏览器知道这是一个选择框，而换成 div + css，浏览器可不知道这是个什么鬼。如果你觉得原生的 input 丑，没关系，是可以用 css 美化的，不过这不是本小册的重点，在此就不介绍了。</li>
+<li><code>&lt;input&gt;</code>、<code>&lt;slot&gt;</code> 都是包裹在一个 <code>&lt;label&gt;</code> 元素内的，这样做的好处是，当点击 <code>&lt;slot&gt;</code> 里的文字时，<code>&lt;input&gt;</code> 选框也会被触发，否则只有点击那个小框才会触发，那样不太容易选中，影响用户体验。</li>
+<li><code>currentValue</code> 仍然是布尔值（true / false），因为它是组件 Checkbox 自己使用的，对于使用者无需关心，而 value 可以是 String、Number 或 Boolean，这取决于 <code>trueValue</code> 和 <code>falseValue</code> 的定义。</li>
+</ol>
+<p>现在实现的 <code>v-model</code>，只是由内而外的，也就是说，通过点击 <code>&lt;input&gt;</code>选择，会通知到使用者，而使用者手动修改了 prop <code>value</code> ，Checkbox 是没有做响应的，那继续补充代码：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- checkbox.vue，部分代码省略 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">  <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">    <span class="attr">watch</span>: &#123;</span></span><br><span class="line"><span class="javascript">      value (val) &#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">if</span> (val === <span class="built_in">this</span>.trueValue || val === <span class="built_in">this</span>.falseValue) &#123;</span></span><br><span class="line"><span class="javascript">          <span class="built_in">this</span>.updateModel();</span></span><br><span class="line"><span class="javascript">        &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="javascript">          <span class="keyword">throw</span> <span class="string">&#x27;Value should be trueValue or falseValue.&#x27;</span>;</span></span><br><span class="line"><span class="javascript">        &#125;</span></span><br><span class="line"><span class="javascript">      &#125;</span></span><br><span class="line"><span class="javascript">    &#125;,</span></span><br><span class="line"><span class="javascript">    <span class="attr">methods</span>: &#123;</span></span><br><span class="line"><span class="javascript">      updateModel () &#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.currentValue = <span class="built_in">this</span>.value === <span class="built_in">this</span>.trueValue;</span></span><br><span class="line"><span class="javascript">      &#125;</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>我们对 prop <code>value</code> 使用 watch 进行了监听，当父级修改它时，会调用 <code>updateModel</code> 方法，同步修改内部的 <code>currentValue</code> 。不过，不是所有的值父级都能修改的，所以用 if 条件判断了父级修改的值是否符合 trueValue / falseValue 所设置的，否则会抛错。</p>
+<p>Checkbox 也是一个基础的表单类组件，它完全可以集成到 Form 里，所以，我们使用 Emitter 在 change 事件触发时，向 Form 派发一个事件，这样你就可以用第 5 节的 Form 组件来做数据校验了：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- checkbox.vue，部分代码省略 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">  <span class="keyword">import</span> Emitter <span class="keyword">from</span> <span class="string">&#x27;../../mixins/emitter.js&#x27;</span>;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">  <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">    <span class="attr">mixins</span>: [ Emitter ],</span></span><br><span class="line"><span class="javascript">    <span class="attr">methods</span>: &#123;</span></span><br><span class="line"><span class="javascript">      change (event) &#123;</span></span><br><span class="line"><span class="javascript">        <span class="comment">// ... </span></span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.$emit(<span class="string">&#x27;input&#x27;</span>, value);</span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.$emit(<span class="string">&#x27;on-change&#x27;</span>, value);</span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.dispatch(<span class="string">&#x27;iFormItem&#x27;</span>, <span class="string">&#x27;on-form-change&#x27;</span>, value);</span></span><br><span class="line"><span class="javascript">      &#125;</span></span><br><span class="line"><span class="javascript">    &#125;,</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>至此，Checkbox 已经可以单独使用了，并支持 Form 的数据校验。下面来看组合使用。</p>
+<h3 id="组合使用的-CheckboxGroup"><a href="#组合使用的-CheckboxGroup" class="headerlink" title="组合使用的 CheckboxGroup"></a>组合使用的 CheckboxGroup</h3><blockquote>
+<p>友情提示：请先阅读 Vue.js 文档的 <a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://cn.vuejs.org/v2/guide/forms.html%23%E5%A4%8D%E9%80%89%E6%A1%86">https://cn.vuejs.org/v2/guide/forms.html#复选框</a> 内容。</p>
+</blockquote>
+<p>CheckboxGroup 的 API 很简单：</p>
+<ul>
+<li>props：<code>value</code>，与 Checkbox 的类似，用于 v-model 双向绑定数据，格式为数组；</li>
+<li>events：<code>on-change</code>，同 Checkbox；</li>
+<li>slots：默认，用于放置 Checkbox。</li>
+</ul>
+<p>如果写了 CheckboxGroup，那就代表你要组合使用多选框，而非单独使用，两种模式，只能用其一，而判断的依据，就是是否用了 CheckboxGroup 组件。所以在 Checkbox 组件内，我们用上一节的 <code>findComponentUpward</code> 方法判断父组件是否有 <code>CheckboxGroup</code>：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- checkbox.vue，部分代码省略 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">label</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span></span></span><br><span class="line"><span class="tag">             <span class="attr">v-if</span>=<span class="string">&quot;group&quot;</span></span></span><br><span class="line"><span class="tag">             <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span></span></span><br><span class="line"><span class="tag">             <span class="attr">:disabled</span>=<span class="string">&quot;disabled&quot;</span></span></span><br><span class="line"><span class="tag">             <span class="attr">:value</span>=<span class="string">&quot;label&quot;</span></span></span><br><span class="line"><span class="tag">             <span class="attr">v-model</span>=<span class="string">&quot;model&quot;</span></span></span><br><span class="line"><span class="tag">             @<span class="attr">change</span>=<span class="string">&quot;change&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span></span></span><br><span class="line"><span class="tag">             <span class="attr">v-else</span></span></span><br><span class="line"><span class="tag">             <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span></span></span><br><span class="line"><span class="tag">             <span class="attr">:disabled</span>=<span class="string">&quot;disabled&quot;</span></span></span><br><span class="line"><span class="tag">             <span class="attr">:checked</span>=<span class="string">&quot;currentValue&quot;</span></span></span><br><span class="line"><span class="tag">             @<span class="attr">change</span>=<span class="string">&quot;change&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">slot</span>&gt;</span><span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">  <span class="keyword">import</span> &#123; findComponentUpward &#125; <span class="keyword">from</span> <span class="string">&#x27;../../utils/assist.js&#x27;</span>;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">  <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">    <span class="attr">name</span>: <span class="string">&#x27;iCheckbox&#x27;</span>,</span></span><br><span class="line"><span class="javascript">    <span class="attr">props</span>: &#123;</span></span><br><span class="line"><span class="javascript">      <span class="attr">label</span>: &#123;</span></span><br><span class="line"><span class="javascript">        <span class="attr">type</span>: [<span class="built_in">String</span>, <span class="built_in">Number</span>, <span class="built_in">Boolean</span>]</span></span><br><span class="line"><span class="javascript">      &#125;</span></span><br><span class="line"><span class="javascript">    &#125;,</span></span><br><span class="line"><span class="javascript">    data () &#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="javascript">        <span class="attr">model</span>: [],</span></span><br><span class="line"><span class="javascript">        <span class="attr">group</span>: <span class="literal">false</span>,</span></span><br><span class="line"><span class="javascript">        <span class="attr">parent</span>: <span class="literal">null</span></span></span><br><span class="line"><span class="javascript">      &#125;;</span></span><br><span class="line"><span class="javascript">    &#125;,</span></span><br><span class="line"><span class="javascript">    mounted () &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">this</span>.parent = findComponentUpward(<span class="built_in">this</span>, <span class="string">&#x27;iCheckboxGroup&#x27;</span>);</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">      <span class="keyword">if</span> (<span class="built_in">this</span>.parent) &#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.group = <span class="literal">true</span>;</span></span><br><span class="line"><span class="javascript">      &#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">      <span class="keyword">if</span> (<span class="built_in">this</span>.group) &#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.parent.updateModel(<span class="literal">true</span>);</span></span><br><span class="line"><span class="javascript">      &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.updateModel();</span></span><br><span class="line"><span class="javascript">      &#125;</span></span><br><span class="line"><span class="javascript">    &#125;,</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在 mounted 时，通过 findComponentUpward 方法，来判断父级是否有 CheckboxGroup 组件，如果有，就将 <code>group</code> 置为 true，并触发 CheckboxGroup 的 <code>updateModel</code> 方法，下文会介绍它的作用。</p>
+<p>在 template 里，我们又写了一个 <code>&lt;input&gt;</code> 来区分是否是 group 模式。Checkbox 的 data 里新增加的 <code>model</code> 数据，其实就是父级 CheckboxGroup 的 <code>value</code>，会在下文的 <code>updateModel</code> 方法里给 Checkbox 赋值。</p>
+<p>Checkbox 新增的 prop： <code>label</code> 只会在组合使用时有效，结合 <code>model</code> 来使用，用法已在 Vue.js 文档中介绍了 <a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://cn.vuejs.org/v2/guide/forms.html%23%E5%A4%8D%E9%80%89%E6%A1%86">https://cn.vuejs.org/v2/guide/forms.html#复选框</a>。</p>
+<p>在组合模式下，Checkbox 选中，就不用对 Form 派发事件了，应该在 CheckboxGroup 中派发，所以对 Checkbox 做最后的修改：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- checkbox.vue，部分代码省略 --&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">  export default &#123;</span><br><span class="line">    methods: &#123;</span><br><span class="line">      change (event) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.disabled) &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">const</span> checked = event.target.checked;</span><br><span class="line">        <span class="keyword">this</span>.currentValue = checked;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">const</span> value = checked ? <span class="keyword">this</span>.trueValue : <span class="keyword">this</span>.falseValue;</span><br><span class="line">        <span class="keyword">this</span>.$emit(<span class="string">&#x27;input&#x27;</span>, value);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.group) &#123;</span><br><span class="line">          <span class="keyword">this</span>.parent.change(<span class="keyword">this</span>.model);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="keyword">this</span>.$emit(<span class="string">&#x27;on-change&#x27;</span>, value);</span><br><span class="line">          <span class="keyword">this</span>.dispatch(<span class="string">&#x27;iFormItem&#x27;</span>, <span class="string">&#x27;on-form-change&#x27;</span>, value);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      updateModel () &#123;</span><br><span class="line">        <span class="keyword">this</span>.currentValue = <span class="keyword">this</span>.value === <span class="keyword">this</span>.trueValue;</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>剩余的工作，就是完成 checkbox-gourp.vue 文件：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- checkbox-group.vue --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">slot</span>&gt;</span><span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">  <span class="keyword">import</span> &#123; findComponentsDownward &#125; <span class="keyword">from</span> <span class="string">&#x27;../../utils/assist.js&#x27;</span>;</span></span><br><span class="line"><span class="javascript">  <span class="keyword">import</span> Emitter <span class="keyword">from</span> <span class="string">&#x27;../../mixins/emitter.js&#x27;</span>;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">  <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">    <span class="attr">name</span>: <span class="string">&#x27;iCheckboxGroup&#x27;</span>,</span></span><br><span class="line"><span class="javascript">    <span class="attr">mixins</span>: [ Emitter ],</span></span><br><span class="line"><span class="javascript">    <span class="attr">props</span>: &#123;</span></span><br><span class="line"><span class="javascript">      <span class="attr">value</span>: &#123;</span></span><br><span class="line"><span class="javascript">        <span class="attr">type</span>: <span class="built_in">Array</span>,</span></span><br><span class="line"><span class="javascript">        <span class="keyword">default</span> () &#123;</span></span><br><span class="line"><span class="javascript">          <span class="keyword">return</span> [];</span></span><br><span class="line"><span class="javascript">        &#125;</span></span><br><span class="line"><span class="javascript">      &#125;</span></span><br><span class="line"><span class="javascript">    &#125;,</span></span><br><span class="line"><span class="javascript">    data () &#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="javascript">        <span class="attr">currentValue</span>: <span class="built_in">this</span>.value,</span></span><br><span class="line"><span class="javascript">        <span class="attr">childrens</span>: []</span></span><br><span class="line"><span class="javascript">      &#125;;</span></span><br><span class="line"><span class="javascript">    &#125;,</span></span><br><span class="line"><span class="javascript">    <span class="attr">methods</span>: &#123;</span></span><br><span class="line"><span class="javascript">      updateModel (update) &#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.childrens = findComponentsDownward(<span class="built_in">this</span>, <span class="string">&#x27;iCheckbox&#x27;</span>);</span></span><br><span class="line"><span class="javascript">        <span class="keyword">if</span> (<span class="built_in">this</span>.childrens) &#123;</span></span><br><span class="line"><span class="javascript">          <span class="keyword">const</span> &#123; value &#125; = <span class="built_in">this</span>;</span></span><br><span class="line"><span class="javascript">          <span class="built_in">this</span>.childrens.forEach(<span class="function"><span class="params">child</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">            child.model = value;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">            <span class="keyword">if</span> (update) &#123;</span></span><br><span class="line"><span class="javascript">              child.currentValue = value.indexOf(child.label) &gt;= <span class="number">0</span>;</span></span><br><span class="line"><span class="javascript">              child.group = <span class="literal">true</span>;</span></span><br><span class="line"><span class="javascript">            &#125;</span></span><br><span class="line"><span class="javascript">          &#125;);</span></span><br><span class="line"><span class="javascript">        &#125;</span></span><br><span class="line"><span class="javascript">      &#125;,</span></span><br><span class="line"><span class="javascript">      change (data) &#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.currentValue = data;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.$emit(<span class="string">&#x27;input&#x27;</span>, data);</span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.$emit(<span class="string">&#x27;on-change&#x27;</span>, data);</span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.dispatch(<span class="string">&#x27;iFormItem&#x27;</span>, <span class="string">&#x27;on-form-change&#x27;</span>, data);</span></span><br><span class="line"><span class="javascript">      &#125;</span></span><br><span class="line"><span class="javascript">    &#125;,</span></span><br><span class="line"><span class="javascript">    mounted () &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">this</span>.updateModel(<span class="literal">true</span>);</span></span><br><span class="line"><span class="javascript">    &#125;,</span></span><br><span class="line"><span class="javascript">    <span class="attr">watch</span>: &#123;</span></span><br><span class="line"><span class="javascript">      value () &#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">this</span>.updateModel(<span class="literal">true</span>);</span></span><br><span class="line"><span class="javascript">      &#125;</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">  &#125;;</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>代码很容易理解，需要介绍的就是 <code>updateModel</code> 方法。可以看到，一共有 3 个地方调用了 <code>updateModel</code>，其中两个是 CheckboxGroup 的 mounted 初始化和 watch 监听的 value 变化时调用；另一个是在 Checkbox 里的 mounted 初始化时调用。这个方法的作用就是在 CheckboxGroup 里通过 <code>findComponentsDownward</code> 方法找到所有的 Checkbox，然后把 CheckboxGroup 的 <code>value</code>，赋值给 Checkbox 的 <code>model</code>，并根据 Checkbox 的 <code>label</code>，设置一次当前 Checkbox 的选中状态。这样无论是由内而外选择，或由外向内修改数据，都是双向绑定的，而且支持动态增加 Checkbox 的数量。</p>
+
+      </section>
+
+      
+      
+        <nav class="article-nav">
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="http://cdn-hw-static2.shanhutech.cn/bizhi/staticwp/202211/dfff22c26fd92f452a99adc43de10f1b--819965716.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2023/10/09/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/JavaScript/Vue%E6%BA%90%E7%A0%81%E5%85%AC%E5%85%B1%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0%E4%BD%93%E4%BC%9A/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">Vue源码公共函数学习体会</h2>
+        </a>
+      
+      <div class="card-text--row">Newer</div>
+    </div>
+  </article>
+</div>
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="http://cdn-hw-static2.shanhutech.cn/bizhi/staticwp/202211/bda1f45441578f954ccf3eca1ac42b44--850049816.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2023/09/27/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/vue.js%E7%B2%BE%E8%AE%B2%E4%B9%8Bform%E8%A1%A8%E5%8D%95%E7%BB%84%E4%BB%B6/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">vue.js精讲之form表单组件</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
+
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+    <div class="valine-container comments-container content-padding--primary soft-size--large soft-style--box">
+      <div id="valine_thread" class="valine-thread"></div>
+    </div>
+    <script type="text/javascript" src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script type="text/javascript" src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <script type="text/javascript">
+      new Valine({
+        el: "#valine_thread",
+        appId: "zPxT1BH5qC6JYqXmizvClRGk-gzGzoHsz",
+        appKey: "kU1QKKjUJco1Gyjj0Usl4bwM",
+        avatar: "ChenZehong",
+        placeholder: "随便说点什么叭～",
+        notify: true,
+        visitor: true,
+        pageSize: 10,
+      });
+    </script>
+  
+
+  
+  
+
+
+      </section>
+    </div>
+    <div class="widget-info">
+      <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-body">
+    
+      <img src="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202007/f9c696aa27edaddf87257e5e70d1eb62--1437661584.jpg" class="soft-size--round soft-style--box" alt="ChenZehong">
+    
+    
+      <h2>ChenZehong</h2>
+    
+    
+      <p>贵在坚持</p>
+    
+
+    <div class="count-box">
+      <div class="count-box--item">
+        <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
+</svg>
+        <span>77</span>
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+        18
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+        0
+      </div>
+    </div>
+  </div>
+</section>
+
+      
+
+      
+
+      <section class="widget-categorys widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+    <span>CATEGORYS</span>
+  </div>
+  <div class="widget-body">
+    <ul class="categorys-list">
+      
+        <li class="categorys-list-item">
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            前端学习笔记 (5)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+            面试准备 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%A4%A7%E5%8E%82%E7%AC%94%E8%AF%95%E9%A2%98/">
+            大厂笔试题 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Javascript%E7%AC%94%E8%AE%B0/">
+            Javascript笔记 (6)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AFCSS%E7%AC%94%E8%AE%B0/">
+            前端CSS笔记 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/node/">
+            node (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/npm-script/">
+            npm script (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            react学习笔记 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Vue%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">
+            Vue源码解析 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/three%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            three学习笔记 (7)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
+            实习相关 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E6%8F%90%E5%8D%87/">
+            前端提升 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">
+            前端工程化 (8)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            Vue3学习笔记 (5)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            设计模式 (10)
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+</section>
+
+      <section class="widget-tags widget-item  layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+    <span>TAGS</span>
+  </div>
+  <div class="widget-body">
+    <div class="tags-cloud">
+      
+    </div>
+  </div>
+</section>
+    </div>
+  </article>
+</div>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+    
+    <div class="social-icons">
+      
+        
+      
+        
+      
+        
+      
+        
+          <a href="https://github.com/Web200OK" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-github" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M64.6 512c0 195.6 125.4 361.9 300.1 422.9 23.5 5.9 19.9-10.8 19.9-22.2v-77.6c-135.8 15.9-141.3-74-150.5-89-18.5-31.5-61.9-39.5-49-54.5 31-15.9 62.5 4 98.9 58 26.4 39.1 77.9 32.5 104.1 26 5.7-23.5 17.9-44.5 34.7-60.9-140.7-25.2-199.4-111.1-199.4-213.3 0-49.5 16.4-95.1 48.4-131.8-20.4-60.6 1.9-112.4 4.9-120.1 58.2-5.2 118.5 41.6 123.3 45.3 33.1-8.9 70.8-13.7 112.9-13.7 42.4 0 80.3 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.4-43.9 2.9 7.7 24.7 58.3 5.5 118.1 32.5 36.8 49 82.8 49 132.4 0 102.3-59 188.3-200.2 213.2 23.5 23.3 38.1 55.5 38.1 91.1v112.7c0.8 9 0 17.9 15.1 17.9C832.7 877 960.4 709.4 960.4 512.1c0-247.5-200.6-447.9-447.9-447.9C265 64.1 64.6 264.5 64.6 512z"></path>
+</svg>
+          </a>
+        
+      
+        
+      
+    </div>
+     
+    <p>&copy; 2023 <a href="/" target="_blank">ChenZehong</a></p>
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+
+    <p>
+      <a href="javascript:;" id="theme-light">🌞 浅色</a>
+      <a href="javascript:;" id="theme-dark">🌛 深色</a>
+      <a href="javascript:;" id="theme-auto">🤖️ 自动</a>
+    </p>
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed soft-size--round soft-style--box">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+      <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+      <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+    </svg>
+  </div>
+
+  
+  <!-- aplayer -->
+
+
+<!-- dplayer -->
+
+
+
+
+  
+
+
+  
+
+
+  <!-- Baidu Analytics START -->
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      if (window.location.hostname === "localhost" || window.location.hostname.startsWith("192.168")) {
+        return console.log("本地调试");
+      }
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8a923e14e6dbf862c2b287e6c1266764";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  <!-- Baidu Analytics End -->
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+</body>
+</html>
