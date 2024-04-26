@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+  
+  <meta name="generator" content="Hexo 5.4.0">
+
+  
+
+  
+
+  
+    <meta name="author" content="ChenZehong">
+  
+
+  
+
+  
+
+  <title>配置中心Apollo学习 | 好好学习，天天向上</title>
+
+  
+
+  
+    <link rel="shortcut icon" href="/happy.ico">
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@1.1.3/index.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/monokai.css">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+  <div class="root-container">
+    
+<!-- header container -->
+<header class="header-container post">
+  
+    <div class="post-image" style="background-image: url(https://s1.ax1x.com/2022/11/07/xvhcYd.jpg)"></div>
+  
+
+  <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          好好学习，天天向上
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+          <li class="navbar-list-item"><a href="/">首页</a></li>
+        
+          <li class="navbar-list-item"><a href="/links">友链</a></li>
+        
+          <li class="navbar-list-item"><a href="/about">关于</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">配置中心Apollo学习</h1>
+          <h2 class="title-sub-wrap">
+            <strong>ChenZehong</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2024-04-18T08:26:30.266Z" itemprop="datePublished">2024-04-18</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/JAVA%E5%90%8E%E7%AB%AF/">📒 JAVA后端</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+</ul>
+        </div>
+      </div>
+    </div>
+  
+
+  
+  
+  
+</header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+<div class="body-container">
+  <article class="content-container layout-block post-container">
+    <div class="article-info">
+      
+      
+      
+      
+      <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
+        <h2 id="配置中心"><a href="#配置中心" class="headerlink" title="配置中心"></a>配置中心</h2><h3 id="配置发布与客户端配置更新"><a href="#配置发布与客户端配置更新" class="headerlink" title="配置发布与客户端配置更新"></a>配置发布与客户端配置更新</h3><p>实现方式：</p>
+<blockquote>
+<ol>
+<li>Admin Service 在配置发布后会往 ReleaseMessage 表插入一条消息记录，消息内容就是配置发布的 AppId+Cluster+Namespace ，参见 DatabaseMessageSender 。</li>
+<li>Config Service 有一个线程会每秒扫描一次 ReleaseMessage 表，看看是否有新的消息记录，参见 ReleaseMessageScanner 。</li>
+<li>Config Service 如果发现有新的消息记录，那么就会通知到所有的消息监听器（ReleaseMessageListener），如 NotificationControllerV2 ，消息监听器的注册过程参见 ConfigServiceAutoConfiguration 。</li>
+<li>NotificationControllerV2 得到配置发布的 <strong>AppId+Cluster+Namespace</strong> 后，会通知对应的客户端。</li>
+</ol>
+</blockquote>
+<p><img src="https://static.iocoder.cn/images/Apollo/2018_04_05/01.png" alt="流程"></p>
+<p><code>ReleaseMessage</code>消息内容通过<code>generate</code>方法将 <code>appId</code> + <code>cluster</code> + <code>namespace</code> 拼接，使用 <code>ConfigConsts.CLUSTER_NAMESPACE_SEPARATOR = &quot;+&quot;</code> 作为<strong>间隔</strong>，例如：<code>&quot;test+default+application&quot;</code> 。</p>
+<p>因此，对于同一个 <code>Namespace</code> ，生成的<strong>消息内容</strong>是<strong>相同</strong>的。通过这样的方式，我们可以使用最新的 <code>ReleaseMessage</code> 的 <strong><code>id</code></strong> 属性，作为 <code>Namespace</code> 是否发生变更的标识。而 Apollo 确实是通过这样的方式实现，Client 通过不断使用<strong>获得到 <code>ReleaseMessage</code> 的 <code>id</code> 属性</strong>作为<strong>版本号</strong>，请求 <code>Config Service</code>判断是否<strong>配置</strong>发生了变化。</p>
+<p>正因为，<code>ReleaseMessage</code> 设计的意图是作为配置发生变化的通知，所以对于同一个 <code>Namespace</code> ，仅需要保留<strong>其最新的</strong> <code>ReleaseMessage</code> 记录即可，会有后台任务不断清理<strong>旧的</strong> <code>ReleaseMessage</code> 记录。</p>
+<h3 id="源码解析："><a href="#源码解析：" class="headerlink" title="源码解析："></a>源码解析：</h3><p><img src="https://static.iocoder.cn/images/Apollo/2018_04_01/02.png" alt="流程"></p>
+<p>1、发布配置调用<code>Portal</code>的<code>createRelease</code>方法，具体逻辑：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">1</span>: <span class="meta">@Autowired</span></span><br><span class="line"> <span class="number">2</span>: <span class="keyword">private</span> ReleaseService releaseService;</span><br><span class="line"> <span class="number">3</span>: <span class="meta">@Autowired</span></span><br><span class="line"> <span class="number">4</span>: <span class="keyword">private</span> ApplicationEventPublisher publisher;</span><br><span class="line"> <span class="number">5</span>: <span class="meta">@Autowired</span></span><br><span class="line"> <span class="number">6</span>: <span class="keyword">private</span> PortalConfig portalConfig;</span><br><span class="line"> <span class="number">7</span>: </span><br><span class="line"> <span class="number">8</span>: <span class="meta">@PreAuthorize(value = &quot;@permissionValidator.hasReleaseNamespacePermission(#appId, #namespaceName)&quot;)</span></span><br><span class="line"> <span class="number">9</span>: <span class="meta">@RequestMapping(value = &quot;/apps/&#123;appId&#125;/envs/&#123;env&#125;/clusters/&#123;clusterName&#125;/namespaces/&#123;namespaceName&#125;/releases&quot;, method = RequestMethod.POST)</span></span><br><span class="line"><span class="number">10</span>: <span class="function"><span class="keyword">public</span> ReleaseDTO <span class="title">createRelease</span><span class="params">(<span class="meta">@PathVariable</span> String appId,</span></span></span><br><span class="line"><span class="params"><span class="function"><span class="number">11</span>:                                 <span class="meta">@PathVariable</span> String env, <span class="meta">@PathVariable</span> String clusterName,</span></span></span><br><span class="line"><span class="params"><span class="function"><span class="number">12</span>:                                 <span class="meta">@PathVariable</span> String namespaceName, <span class="meta">@RequestBody</span> NamespaceReleaseModel model)</span> </span>&#123;</span><br><span class="line"><span class="number">13</span>:     <span class="comment">// 校验 NamespaceReleaseModel 非空</span></span><br><span class="line"><span class="number">14</span>:     checkModel(Objects.nonNull(model));</span><br><span class="line"><span class="number">15</span>:     <span class="comment">// 设置 PathVariable 变量到 NamespaceReleaseModel 中</span></span><br><span class="line"><span class="number">16</span>:     model.setAppId(appId);</span><br><span class="line"><span class="number">17</span>:     model.setEnv(env);</span><br><span class="line"><span class="number">18</span>:     model.setClusterName(clusterName);</span><br><span class="line"><span class="number">19</span>:     model.setNamespaceName(namespaceName);</span><br><span class="line"><span class="number">20</span>:     <span class="comment">// 若是紧急发布，但是当前环境未允许该操作，抛出 BadRequestException 异常</span></span><br><span class="line"><span class="number">21</span>:     <span class="keyword">if</span> (model.isEmergencyPublish() &amp;&amp; !portalConfig.isEmergencyPublishAllowed(Env.valueOf(env))) &#123;</span><br><span class="line"><span class="number">22</span>:         <span class="keyword">throw</span> <span class="keyword">new</span> BadRequestException(String.format(<span class="string">&quot;Env: %s is not supported emergency publish now&quot;</span>, env));</span><br><span class="line"><span class="number">23</span>:     &#125;</span><br><span class="line"><span class="number">24</span>:     <span class="comment">// 发布配置</span></span><br><span class="line"><span class="number">25</span>:     ReleaseDTO createdRelease = releaseService.publish(model);</span><br><span class="line"><span class="number">26</span>: </span><br><span class="line"><span class="number">27</span>:     <span class="comment">// 创建 ConfigPublishEvent 对象</span></span><br><span class="line"><span class="number">28</span>:     ConfigPublishEvent event = ConfigPublishEvent.instance();</span><br><span class="line"><span class="number">29</span>:     event.withAppId(appId)</span><br><span class="line"><span class="number">30</span>:             .withCluster(clusterName)</span><br><span class="line"><span class="number">31</span>:             .withNamespace(namespaceName)</span><br><span class="line"><span class="number">32</span>:             .withReleaseId(createdRelease.getId())</span><br><span class="line"><span class="number">33</span>:             .setNormalPublishEvent(<span class="keyword">true</span>)</span><br><span class="line"><span class="number">34</span>:             .setEnv(Env.valueOf(env));</span><br><span class="line"><span class="number">35</span>:     <span class="comment">// 发布 ConfigPublishEvent 事件</span></span><br><span class="line"><span class="number">36</span>:     publisher.publishEvent(event);</span><br><span class="line"><span class="number">37</span>: </span><br><span class="line"><span class="number">38</span>:     <span class="keyword">return</span> createdRelease;</span><br><span class="line"><span class="number">39</span>: &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第 14 行：<strong>校验</strong> NamespaceReleaseModel 非空。</li>
+<li>第 15 至 19 行：<strong>设置</strong> PathVariable 变量到 NamespaceReleaseModel 中。</li>
+<li>第 20 至 23 行：<strong>校验</strong>若是紧急发布，但是当前环境未允许该操作，抛出 BadRequestException 异常。<ul>
+<li><strong>紧急发布</strong>功能，可通过设置 <strong>PortalDB</strong> 的 ServerConfig 的<code>&quot;emergencyPublish.supported.envs&quot;</code> 配置开启对应的 <strong>Env 们</strong>。例如，<code>emergencyPublish.supported.envs = dev</code> 。</li>
+</ul>
+</li>
+<li>第 25 行：调用 <code>ReleaseService#publish(NamespaceReleaseModel)</code> 方法，调用 Admin Service API ，发布配置。</li>
+<li>第 27 至 36 行：创建 ConfigPublishEvent 对象，并调用 <code>ApplicationEventPublisher#publishEvent(event)</code> 方法，发布 ConfigPublishEvent 事件。这部分，我们在后续文章分享。</li>
+<li>第 38 行：返回 <strong>ReleaseDTO</strong> 对象。</li>
+</ul>
+<p>2、<code>ReleaseService</code>的<code>publish</code>方法，调用Admin Serivice API发布配置：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">1</span>: <span class="meta">@Autowired</span></span><br><span class="line"> <span class="number">2</span>: <span class="keyword">private</span> UserInfoHolder userInfoHolder;</span><br><span class="line"> <span class="number">3</span>: <span class="meta">@Autowired</span></span><br><span class="line"> <span class="number">4</span>: <span class="keyword">private</span> AdminServiceAPI.ReleaseAPI releaseAPI;</span><br><span class="line"> <span class="number">5</span>: </span><br><span class="line"> <span class="number">6</span>: <span class="function"><span class="keyword">public</span> ReleaseDTO <span class="title">publish</span><span class="params">(NamespaceReleaseModel model)</span> </span>&#123;</span><br><span class="line"> <span class="number">7</span>:     Env env = model.getEnv();</span><br><span class="line"> <span class="number">8</span>:     <span class="keyword">boolean</span> isEmergencyPublish = model.isEmergencyPublish();</span><br><span class="line"> <span class="number">9</span>:     String appId = model.getAppId();</span><br><span class="line"><span class="number">10</span>:     String clusterName = model.getClusterName();</span><br><span class="line"><span class="number">11</span>:     String namespaceName = model.getNamespaceName();</span><br><span class="line"><span class="number">12</span>:     String releaseBy = StringUtils.isEmpty(model.getReleasedBy()) ? userInfoHolder.getUser().getUserId() : model.getReleasedBy();</span><br><span class="line"><span class="number">13</span>: </span><br><span class="line"><span class="number">14</span>:     <span class="comment">// 调用 Admin Service API ，发布 Namespace 的配置。</span></span><br><span class="line"><span class="number">15</span>:     ReleaseDTO releaseDTO = releaseAPI.createRelease(appId, env, clusterName, namespaceName,</span><br><span class="line"><span class="number">16</span>:             model.getReleaseTitle(), model.getReleaseComment(),</span><br><span class="line"><span class="number">17</span>:             releaseBy, isEmergencyPublish);</span><br><span class="line"><span class="number">18</span>:     <span class="comment">// 【TODO 6001】Tracer 日志</span></span><br><span class="line"><span class="number">19</span>:     Tracer.logEvent(TracerEventType.RELEASE_NAMESPACE, String.format(<span class="string">&quot;%s+%s+%s+%s&quot;</span>, appId, env, clusterName, namespaceName));</span><br><span class="line"><span class="number">20</span>:     <span class="keyword">return</span> releaseDTO;</span><br><span class="line"><span class="number">21</span>: &#125;</span><br></pre></td></tr></table></figure>
+
+<p>3、ReleaseAPI中封装了对Admin Service的Release模块的API调用：</p>
+<p><img src="https://static.iocoder.cn/images/Apollo/2018_04_01/04.png" alt="ReleaseAPI"></p>
+<p>4、<code>Admin</code>侧<code>ReleaseController</code>接收请求，发布<code>Namespace</code> 的配置：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">1</span>: <span class="meta">@Autowired</span></span><br><span class="line"> <span class="number">2</span>: <span class="keyword">private</span> ReleaseService releaseService;</span><br><span class="line"> <span class="number">3</span>: <span class="meta">@Autowired</span></span><br><span class="line"> <span class="number">4</span>: <span class="keyword">private</span> NamespaceService namespaceService;</span><br><span class="line"> <span class="number">5</span>: <span class="meta">@Autowired</span></span><br><span class="line"> <span class="number">6</span>: <span class="keyword">private</span> MessageSender messageSender;</span><br><span class="line"> <span class="number">7</span>: </span><br><span class="line"> <span class="number">8</span>: <span class="meta">@Transactional</span></span><br><span class="line"> <span class="number">9</span>: <span class="meta">@RequestMapping(path = &quot;/apps/&#123;appId&#125;/clusters/&#123;clusterName&#125;/namespaces/&#123;namespaceName&#125;/releases&quot;, method = RequestMethod.POST)</span></span><br><span class="line"><span class="number">10</span>: <span class="function"><span class="keyword">public</span> ReleaseDTO <span class="title">publish</span><span class="params">(<span class="meta">@PathVariable(&quot;appId&quot;)</span> String appId,</span></span></span><br><span class="line"><span class="params"><span class="function"><span class="number">11</span>:                           <span class="meta">@PathVariable(&quot;clusterName&quot;)</span> String clusterName,</span></span></span><br><span class="line"><span class="params"><span class="function"><span class="number">12</span>:                           <span class="meta">@PathVariable(&quot;namespaceName&quot;)</span> String namespaceName,</span></span></span><br><span class="line"><span class="params"><span class="function"><span class="number">13</span>:                           <span class="meta">@RequestParam(&quot;name&quot;)</span> String releaseName,</span></span></span><br><span class="line"><span class="params"><span class="function"><span class="number">14</span>:                           <span class="meta">@RequestParam(name = &quot;comment&quot;, required = false)</span> String releaseComment,</span></span></span><br><span class="line"><span class="params"><span class="function"><span class="number">15</span>:                           <span class="meta">@RequestParam(&quot;operator&quot;)</span> String operator,</span></span></span><br><span class="line"><span class="params"><span class="function"><span class="number">16</span>:                           <span class="meta">@RequestParam(name = &quot;isEmergencyPublish&quot;, defaultValue = &quot;false&quot;)</span> <span class="keyword">boolean</span> isEmergencyPublish)</span> </span>&#123;</span><br><span class="line"><span class="number">17</span>:     <span class="comment">// 校验对应的 Namespace 对象是否存在。若不存在，抛出 NotFoundException 异常</span></span><br><span class="line"><span class="number">18</span>:     Namespace namespace = namespaceService.findOne(appId, clusterName, namespaceName);</span><br><span class="line"><span class="number">19</span>:     <span class="keyword">if</span> (namespace == <span class="keyword">null</span>) &#123;</span><br><span class="line"><span class="number">20</span>:         <span class="keyword">throw</span> <span class="keyword">new</span> NotFoundException(String.format(<span class="string">&quot;Could not find namespace for %s %s %s&quot;</span>, appId, clusterName, namespaceName));</span><br><span class="line"><span class="number">21</span>:     &#125;</span><br><span class="line"><span class="number">22</span>:     <span class="comment">// 发布 Namespace 的配置</span></span><br><span class="line"><span class="number">23</span>:     Release release = releaseService.publish(namespace, releaseName, releaseComment, operator, isEmergencyPublish);</span><br><span class="line"><span class="number">24</span>: </span><br><span class="line"><span class="number">25</span>:     <span class="comment">// send release message</span></span><br><span class="line"><span class="number">26</span>:     <span class="comment">// 获得 Cluster 名</span></span><br><span class="line"><span class="number">27</span>:     Namespace parentNamespace = namespaceService.findParentNamespace(namespace);</span><br><span class="line"><span class="number">28</span>:     String messageCluster;</span><br><span class="line"><span class="number">29</span>:     <span class="keyword">if</span> (parentNamespace != <span class="keyword">null</span>) &#123; <span class="comment">// 灰度发布</span></span><br><span class="line"><span class="number">30</span>:         messageCluster = parentNamespace.getClusterName();</span><br><span class="line"><span class="number">31</span>:     &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"><span class="number">32</span>:         messageCluster = clusterName; <span class="comment">// 使用请求的 ClusterName</span></span><br><span class="line"><span class="number">33</span>:     &#125;</span><br><span class="line"><span class="number">34</span>:     <span class="comment">// 发送 Release 消息</span></span><br><span class="line"><span class="number">35</span>:     messageSender.sendMessage(ReleaseMessageKeyGenerator.generate(appId, messageCluster, namespaceName), Topics.APOLLO_RELEASE_TOPIC);</span><br><span class="line"><span class="number">36</span>: </span><br><span class="line"><span class="number">37</span>:     <span class="comment">// 将 Release 转换成 ReleaseDTO 对象</span></span><br><span class="line"><span class="number">38</span>:     <span class="keyword">return</span> BeanUtils.transfrom(ReleaseDTO.class, release);</span><br><span class="line"><span class="number">39</span>: &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>POST <code>/apps/&#123;appId&#125;/clusters/&#123;clusterName&#125;/namespaces/&#123;namespaceName&#125;/releases</code> 接口</strong>，Request Body 传递 <strong>JSON</strong> 对象。</li>
+<li>第 17 至 21 行：<strong>校验</strong>对应的 Namespace 对象是否存在。若不存在，抛出 NotFoundException 异常。</li>
+<li>第 23 行：调用 <code>ReleaseService#publish(namespace, releaseName, releaseComment, operator, isEmergencyPublish)</code> 方法，发布 Namespace 的配置，返回 <strong>Release</strong> 对象。</li>
+<li>第 26 至 33 行：获得发布消息的Cluster名字。</li>
+<li>第 35 行：调用 <code>MessageSender#sendMessage(String message, String channel)</code> 方法，发送发布消息。详细实现，下一篇文章详细解析。</li>
+<li>第 38 行：调用 <code>BeanUtils#transfrom(Class&lt;T&gt; clazz, Object src)</code> 方法，将 Release <strong>转换</strong>成 ReleaseDTO 对象。</li>
+</ul>
+<p>5、调用<code>ReleaseService</code>的<code>publish</code>方法，发布<code>Namespace</code>配置：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">1</span>: <span class="keyword">private</span> Gson gson = <span class="keyword">new</span> Gson();</span><br><span class="line"> <span class="number">2</span>: </span><br><span class="line"> <span class="number">3</span>: <span class="meta">@Autowired</span></span><br><span class="line"> <span class="number">4</span>: <span class="keyword">private</span> ReleaseRepository releaseRepository;</span><br><span class="line"> <span class="number">5</span>: <span class="meta">@Autowired</span></span><br><span class="line"> <span class="number">6</span>: <span class="keyword">private</span> ItemService itemService;</span><br><span class="line"> <span class="number">7</span>: <span class="meta">@Autowired</span></span><br><span class="line"> <span class="number">8</span>: <span class="keyword">private</span> AuditService auditService;</span><br><span class="line"> <span class="number">9</span>: <span class="meta">@Autowired</span></span><br><span class="line"><span class="number">10</span>: <span class="keyword">private</span> NamespaceLockService namespaceLockService;</span><br><span class="line"><span class="number">11</span>: <span class="meta">@Autowired</span></span><br><span class="line"><span class="number">12</span>: <span class="keyword">private</span> NamespaceService namespaceService;</span><br><span class="line"><span class="number">13</span>: <span class="meta">@Autowired</span></span><br><span class="line"><span class="number">14</span>: <span class="keyword">private</span> ReleaseHistoryService releaseHistoryService;</span><br><span class="line"><span class="number">15</span>: </span><br><span class="line"><span class="number">16</span>: <span class="meta">@Transactional</span></span><br><span class="line"><span class="number">17</span>: <span class="function"><span class="keyword">public</span> Release <span class="title">publish</span><span class="params">(Namespace namespace, String releaseName, String releaseComment, String operator, <span class="keyword">boolean</span> isEmergencyPublish)</span> </span>&#123;</span><br><span class="line"><span class="number">18</span>:     <span class="comment">// 校验锁定</span></span><br><span class="line"><span class="number">19</span>:     checkLock(namespace, isEmergencyPublish, operator);</span><br><span class="line"><span class="number">20</span>:     <span class="comment">// 获得 Namespace 的普通配置 Map</span></span><br><span class="line"><span class="number">21</span>:     Map&lt;String, String&gt; operateNamespaceItems = getNamespaceItems(namespace);</span><br><span class="line"><span class="number">22</span>:     <span class="comment">// 获得父 Namespace</span></span><br><span class="line"><span class="number">23</span>:     Namespace parentNamespace = namespaceService.findParentNamespace(namespace);</span><br><span class="line"><span class="number">24</span>:     <span class="comment">// 若有父 Namespace ，则是子 Namespace ，进行灰度发布</span></span><br><span class="line"><span class="number">25</span>:     <span class="comment">// branch release</span></span><br><span class="line"><span class="number">26</span>:     <span class="keyword">if</span> (parentNamespace != <span class="keyword">null</span>) &#123;</span><br><span class="line"><span class="number">27</span>:         <span class="keyword">return</span> publishBranchNamespace(parentNamespace, namespace, operateNamespaceItems, releaseName, releaseComment, operator, isEmergencyPublish);</span><br><span class="line"><span class="number">28</span>:     &#125;</span><br><span class="line"><span class="number">29</span>:     <span class="comment">// 获得子 Namespace 对象</span></span><br><span class="line"><span class="number">30</span>:     Namespace childNamespace = namespaceService.findChildNamespace(namespace);</span><br><span class="line"><span class="number">31</span>:     <span class="comment">// 获得上一次，并且有效的 Release 对象</span></span><br><span class="line"><span class="number">32</span>:     Release previousRelease = <span class="keyword">null</span>;</span><br><span class="line"><span class="number">33</span>:     <span class="keyword">if</span> (childNamespace != <span class="keyword">null</span>) &#123;</span><br><span class="line"><span class="number">34</span>:         previousRelease = findLatestActiveRelease(namespace);</span><br><span class="line"><span class="number">35</span>:     &#125;</span><br><span class="line"><span class="number">36</span>:     <span class="comment">// 创建操作 Context</span></span><br><span class="line"><span class="number">37</span>:     <span class="comment">// master release</span></span><br><span class="line"><span class="number">38</span>:     Map&lt;String, Object&gt; operationContext = Maps.newHashMap();</span><br><span class="line"><span class="number">39</span>:     operationContext.put(ReleaseOperationContext.IS_EMERGENCY_PUBLISH, isEmergencyPublish);</span><br><span class="line"><span class="number">40</span>:     <span class="comment">// 主干发布</span></span><br><span class="line"><span class="number">41</span>:     Release release = masterRelease(namespace, releaseName, releaseComment, operateNamespaceItems, operator, ReleaseOperation.NORMAL_RELEASE, operationContext); <span class="comment">// 是否紧急发布。</span></span><br><span class="line"><span class="number">42</span>:     <span class="comment">// 若有子 Namespace 时，自动将主干合并到子 Namespace ，并进行一次子 Namespace 的发布</span></span><br><span class="line"><span class="number">43</span>:     <span class="comment">// merge to branch and auto release</span></span><br><span class="line"><span class="number">44</span>:     <span class="keyword">if</span> (childNamespace != <span class="keyword">null</span>) &#123;</span><br><span class="line"><span class="number">45</span>:         mergeFromMasterAndPublishBranch(namespace, childNamespace, operateNamespaceItems,</span><br><span class="line"><span class="number">46</span>:                 releaseName, releaseComment, operator, previousRelease,</span><br><span class="line"><span class="number">47</span>:                 release, isEmergencyPublish);</span><br><span class="line"><span class="number">48</span>:     &#125;</span><br><span class="line"><span class="number">49</span>:     <span class="keyword">return</span> release;</span><br><span class="line"><span class="number">50</span>: &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第 19 行：调用 <code>#checkLock(namespace, isEmergencyPublish, operator)</code> 方法，<strong>校验</strong> NamespaceLock 锁定。</li>
+<li>第 21 行：调用 <code>#getNamespaceItems(namespace)</code> 方法，获得 Namespace 的<strong>普通</strong>配置 Map 。</li>
+<li>第 23 行：调用 <code>#findParentNamespace(namespace)</code> 方法，获得<strong>父</strong> Namespace 对象。</li>
+<li>第 26 至 28 行：若有<strong>父</strong> Namespace 对象，<strong>灰度发布</strong>。</li>
+<li>第 30 行：调用 <code>NamespaceService#findChildNamespace(namespace)</code> 方法，获得子 Namespace 对象。</li>
+<li>第 31 至 35 行：调用 <code>#findLatestActiveRelease(Namespace)</code> 方法，获得<strong>上一次</strong>，并且有效的 Release 对象。</li>
+<li>第 36 至 39 行：创建操作 <strong>Context</strong> 。</li>
+<li>第 41 行：调用 <code>#masterRelease(namespace, releaseName, releaseComment, operateNamespaceItems, operator, releaseOperation, operationContext)</code> 方法，<strong>主干</strong>发布配置。🙂 创建的 Namespace ，默认就是<strong>主干</strong>，而<strong>灰度</strong>发布使用的是<strong>分支</strong>。</li>
+<li>第 42 至 48 行：调用 <code>#mergeFromMasterAndPublishBranch(...)</code> 方法，若有子 Namespace 时，自动将主干合并到子 Namespace ，并进行一次子 Namespace 的发布。</li>
+<li>第 49 行：返回 <strong>Release</strong> 对象。</li>
+</ul>
+<p>6、调用<code>masterRelease</code>方法，主干发布配置：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">1</span>: <span class="function"><span class="keyword">private</span> Release <span class="title">masterRelease</span><span class="params">(Namespace namespace, String releaseName, String releaseComment,</span></span></span><br><span class="line"><span class="params"><span class="function"> <span class="number">2</span>:                               Map&lt;String, String&gt; configurations, String operator,</span></span></span><br><span class="line"><span class="params"><span class="function"> <span class="number">3</span>:                               <span class="keyword">int</span> releaseOperation, Map&lt;String, Object&gt; operationContext)</span> </span>&#123;</span><br><span class="line"> <span class="number">4</span>:     <span class="comment">// 获得最后有效的 Release 对象</span></span><br><span class="line"> <span class="number">5</span>:     Release lastActiveRelease = findLatestActiveRelease(namespace);</span><br><span class="line"> <span class="number">6</span>:     <span class="keyword">long</span> previousReleaseId = lastActiveRelease == <span class="keyword">null</span> ? <span class="number">0</span> : lastActiveRelease.getId();</span><br><span class="line"> <span class="number">7</span>:     <span class="comment">// 创建 Release 对象，并保存</span></span><br><span class="line"> <span class="number">8</span>:     Release release = createRelease(namespace, releaseName, releaseComment, configurations, operator);</span><br><span class="line"> <span class="number">9</span>: </span><br><span class="line"><span class="number">10</span>:     <span class="comment">// 创建 ReleaseHistory 对象，并保存</span></span><br><span class="line"><span class="number">11</span>:     releaseHistoryService.createReleaseHistory(namespace.getAppId(), namespace.getClusterName(),</span><br><span class="line"><span class="number">12</span>:             namespace.getNamespaceName(), namespace.getClusterName(),</span><br><span class="line"><span class="number">13</span>:             release.getId(), previousReleaseId, releaseOperation,</span><br><span class="line"><span class="number">14</span>:             operationContext, operator);</span><br><span class="line"><span class="number">15</span>:     <span class="keyword">return</span> release;</span><br><span class="line"><span class="number">16</span>: &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第 5 行：调用 <code>#findLatestActiveRelease(namespace)</code> 方法，获得<strong>最后</strong>、<strong>有效</strong>的 Release 对象。</li>
+<li>第 8 行：调用 <code>#createRelease(namespace, releaseName, releaseComment, configurations, operator)</code> 方法，创建 <strong>Release</strong> 对象，并保存。</li>
+<li>第10 至 14 行：调用 <code>ReleaseHistoryService#createReleaseHistory(appId, clusterName, namespaceName, branchName, releaseId, previousReleaseId, operation, operationContext, operator)</code> 方法，创建 <strong>ReleaseHistory</strong> 对象，并保存。</li>
+</ul>
+<p>7、调用<code>createRelease</code>方法，创建<code>Release</code>对象并保存：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">1</span>: <span class="function"><span class="keyword">private</span> Release <span class="title">createRelease</span><span class="params">(Namespace namespace, String name, String comment,</span></span></span><br><span class="line"><span class="params"><span class="function"> <span class="number">2</span>:                               Map&lt;String, String&gt; configurations, String operator)</span> </span>&#123;</span><br><span class="line"> <span class="number">3</span>:     <span class="comment">// 创建 Release 对象</span></span><br><span class="line"> <span class="number">4</span>:     Release release = <span class="keyword">new</span> Release();</span><br><span class="line"> <span class="number">5</span>:     release.setReleaseKey(ReleaseKeyGenerator.generateReleaseKey(namespace)); <span class="comment">//【TODO 6006】Release Key 用途？</span></span><br><span class="line"> <span class="number">6</span>:     release.setDataChangeCreatedTime(<span class="keyword">new</span> Date());</span><br><span class="line"> <span class="number">7</span>:     release.setDataChangeCreatedBy(operator);</span><br><span class="line"> <span class="number">8</span>:     release.setDataChangeLastModifiedBy(operator);</span><br><span class="line"> <span class="number">9</span>:     release.setName(name);</span><br><span class="line"><span class="number">10</span>:     release.setComment(comment);</span><br><span class="line"><span class="number">11</span>:     release.setAppId(namespace.getAppId());</span><br><span class="line"><span class="number">12</span>:     release.setClusterName(namespace.getClusterName());</span><br><span class="line"><span class="number">13</span>:     release.setNamespaceName(namespace.getNamespaceName());</span><br><span class="line"><span class="number">14</span>:     release.setConfigurations(gson.toJson(configurations)); <span class="comment">// 使用 Gson ，将配置 Map 格式化成字符串。</span></span><br><span class="line"><span class="number">15</span>:     <span class="comment">// 保存 Release 对象</span></span><br><span class="line"><span class="number">16</span>:     release = releaseRepository.save(release);</span><br><span class="line"><span class="number">17</span>:     <span class="comment">// 释放 NamespaceLock</span></span><br><span class="line"><span class="number">18</span>:     namespaceLockService.unlock(namespace.getId());</span><br><span class="line"><span class="number">19</span>:     <span class="comment">// 记录 Audit 到数据库中</span></span><br><span class="line"><span class="number">20</span>:     auditService.audit(Release.class.getSimpleName(), release.getId(), Audit.OP.INSERT, release.getDataChangeCreatedBy());</span><br><span class="line"><span class="number">21</span>:     <span class="keyword">return</span> release;</span><br><span class="line"><span class="number">22</span>: &#125;</span><br></pre></td></tr></table></figure>
+
+<p>8、调用<code>ReleaseHistoryService</code>的<code>createReleaseHistory</code>方法创建<code>ReleaseHistory</code>对象并保存：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">1</span>: <span class="keyword">private</span> Gson gson = <span class="keyword">new</span> Gson();</span><br><span class="line"> <span class="number">2</span>: </span><br><span class="line"> <span class="number">3</span>: <span class="meta">@Autowired</span></span><br><span class="line"> <span class="number">4</span>: <span class="keyword">private</span> ReleaseHistoryRepository releaseHistoryRepository;</span><br><span class="line"> <span class="number">5</span>: <span class="meta">@Autowired</span></span><br><span class="line"> <span class="number">6</span>: <span class="keyword">private</span> AuditService auditService;</span><br><span class="line"> <span class="number">7</span>: </span><br><span class="line"> <span class="number">8</span>: <span class="meta">@Transactional</span></span><br><span class="line"> <span class="number">9</span>: <span class="function"><span class="keyword">public</span> ReleaseHistory <span class="title">createReleaseHistory</span><span class="params">(String appId, String clusterName, String namespaceName, String branchName,</span></span></span><br><span class="line"><span class="params"><span class="function"><span class="number">10</span>:                                            <span class="keyword">long</span> releaseId, <span class="keyword">long</span> previousReleaseId, <span class="keyword">int</span> operation,</span></span></span><br><span class="line"><span class="params"><span class="function"><span class="number">11</span>:                                            Map&lt;String, Object&gt; operationContext, String operator)</span> </span>&#123;</span><br><span class="line"><span class="number">12</span>:     <span class="comment">// 创建 ReleaseHistory 对象</span></span><br><span class="line"><span class="number">13</span>:     ReleaseHistory releaseHistory = <span class="keyword">new</span> ReleaseHistory();</span><br><span class="line"><span class="number">14</span>:     releaseHistory.setAppId(appId);</span><br><span class="line"><span class="number">15</span>:     releaseHistory.setClusterName(clusterName);</span><br><span class="line"><span class="number">16</span>:     releaseHistory.setNamespaceName(namespaceName);</span><br><span class="line"><span class="number">17</span>:     releaseHistory.setBranchName(branchName);</span><br><span class="line"><span class="number">18</span>:     releaseHistory.setReleaseId(releaseId); <span class="comment">// Release 编号</span></span><br><span class="line"><span class="number">19</span>:     releaseHistory.setPreviousReleaseId(previousReleaseId); <span class="comment">// 上一个 Release 编号</span></span><br><span class="line"><span class="number">20</span>:     releaseHistory.setOperation(operation);</span><br><span class="line"><span class="number">21</span>:     <span class="keyword">if</span> (operationContext == <span class="keyword">null</span>) &#123;</span><br><span class="line"><span class="number">22</span>:         releaseHistory.setOperationContext(<span class="string">&quot;&#123;&#125;&quot;</span>); <span class="comment">//default empty object</span></span><br><span class="line"><span class="number">23</span>:     &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"><span class="number">24</span>:         releaseHistory.setOperationContext(gson.toJson(operationContext));</span><br><span class="line"><span class="number">25</span>:     &#125;</span><br><span class="line"><span class="number">26</span>:     releaseHistory.setDataChangeCreatedTime(<span class="keyword">new</span> Date());</span><br><span class="line"><span class="number">27</span>:     releaseHistory.setDataChangeCreatedBy(operator);</span><br><span class="line"><span class="number">28</span>:     releaseHistory.setDataChangeLastModifiedBy(operator);</span><br><span class="line"><span class="number">29</span>:     <span class="comment">// 保存 ReleaseHistory 对象</span></span><br><span class="line"><span class="number">30</span>:     releaseHistoryRepository.save(releaseHistory);</span><br><span class="line"><span class="number">31</span>:     <span class="comment">// 记录 Audit 到数据库中</span></span><br><span class="line"><span class="number">32</span>:     auditService.audit(ReleaseHistory.class.getSimpleName(), releaseHistory.getId(), Audit.OP.INSERT, releaseHistory.getDataChangeCreatedBy());</span><br><span class="line"><span class="number">33</span>:     <span class="keyword">return</span> releaseHistory;</span><br><span class="line"><span class="number">34</span>: &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第 12 至 28 行：创建 ReleaseHistory 对象，并设置对应的属性。</li>
+<li>第 30 行：调用 <code>ReleaseHistoryRepository#save(ReleaseHistory)</code> 方法，保存 ReleaseHistory 对象。</li>
+<li>第 32 行：记录 Audit 到数据库中。</li>
+</ul>
+<p>9、Admin Service 发送 ReleaseMessage：</p>
+<p>Admin Service 在配置发布后，需要通知所有的 Config Service 有配置发布，从而 Config Service 可以通知对应的客户端来拉取最新的配置。</p>
+<p>从概念上来看，这是一个典型的<strong>消息使用场景</strong>，Admin Service 作为 <strong>producer</strong> 发出消息，各个Config Service 作为 <strong>consumer</strong> 消费消息。通过一个<strong>消息组件</strong>（Message Queue）就能很好的实现 Admin Service 和 Config Service 的解耦。</p>
+<p>在实现上，考虑到 Apollo 的实际使用场景，以及为了<strong>尽可能减少外部依赖</strong>，我们没有采用外部的消息中间件，而是通过<strong>数据库实现了一个简单的消息队列</strong>。</p>
+<p>实现方式：</p>
+<ol>
+<li>Admin Service 在配置发布后会往 ReleaseMessage 表插入一条消息记录，消息内容就是配置发布的 AppId+Cluster+Namespace ，参见 DatabaseMessageSender 。</li>
+<li>Config Service 有一个线程会每秒扫描一次 ReleaseMessage 表，看看是否有新的消息记录，参见 ReleaseMessageScanner 。</li>
+<li>Config Service 如果发现有新的消息记录，那么就会通知到所有的消息监听器（ReleaseMessageListener），如 NotificationControllerV2 ，消息监听器的注册过程参见 ConfigServiceAutoConfiguration 。</li>
+<li>NotificationControllerV2 得到配置发布的 <strong>AppId+Cluster+Namespace</strong> 后，会通知对应的客户端。</li>
+</ol>
+<p>在 ReleaseController 的 <code>#publish(...)</code> 方法中，会调用 <code>MessageSender#sendMessage(message, channel)</code> 方法，发送 Message 。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// send release message</span></span><br><span class="line"><span class="comment">// 获得 Cluster 名</span></span><br><span class="line">Namespace parentNamespace = namespaceService.findParentNamespace(namespace);</span><br><span class="line">String messageCluster;</span><br><span class="line"><span class="keyword">if</span> (parentNamespace != <span class="keyword">null</span>) &#123; <span class="comment">//  有父 Namespace ，说明是灰度发布，使用父 Namespace 的集群名</span></span><br><span class="line">    messageCluster = parentNamespace.getClusterName();</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    messageCluster = clusterName; <span class="comment">// 使用请求的 ClusterName</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 发送 Release 消息</span></span><br><span class="line">messageSender.sendMessage(ReleaseMessageKeyGenerator.generate(appId, messageCluster, namespaceName), Topics.APOLLO_RELEASE_TOPIC);</span><br></pre></td></tr></table></figure>
+
+<h2 id="DatabaseMessageSender"><a href="#DatabaseMessageSender" class="headerlink" title="DatabaseMessageSender"></a>DatabaseMessageSender</h2><p>实现 MessageSender 接口，Message 发送者<strong>实现类</strong>，基于<strong>数据库</strong>实现。</p>
+<h3 id="sendMessage"><a href="#sendMessage" class="headerlink" title="sendMessage"></a>sendMessage</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">1</span>: <span class="meta">@Override</span></span><br><span class="line"> <span class="number">2</span>: <span class="meta">@Transactional</span></span><br><span class="line"> <span class="number">3</span>: <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendMessage</span><span class="params">(String message, String channel)</span> </span>&#123;</span><br><span class="line"> <span class="number">4</span>:     logger.info(<span class="string">&quot;Sending message &#123;&#125; to channel &#123;&#125;&quot;</span>, message, channel);</span><br><span class="line"> <span class="number">5</span>:     <span class="comment">// 仅允许发送 APOLLO_RELEASE_TOPIC</span></span><br><span class="line"> <span class="number">6</span>:     <span class="keyword">if</span> (!Objects.equals(channel, Topics.APOLLO_RELEASE_TOPIC)) &#123;</span><br><span class="line"> <span class="number">7</span>:         logger.warn(<span class="string">&quot;Channel &#123;&#125; not supported by DatabaseMessageSender!&quot;</span>);</span><br><span class="line"> <span class="number">8</span>:         <span class="keyword">return</span>;</span><br><span class="line"> <span class="number">9</span>:     &#125;</span><br><span class="line"><span class="number">10</span>:     <span class="comment">// 【TODO 6001】Tracer 日志</span></span><br><span class="line"><span class="number">11</span>:     Tracer.logEvent(<span class="string">&quot;Apollo.AdminService.ReleaseMessage&quot;</span>, message);</span><br><span class="line"><span class="number">12</span>:     <span class="comment">// 【TODO 6001】Tracer 日志</span></span><br><span class="line"><span class="number">13</span>:     Transaction transaction = Tracer.newTransaction(<span class="string">&quot;Apollo.AdminService&quot;</span>, <span class="string">&quot;sendMessage&quot;</span>);</span><br><span class="line"><span class="number">14</span>:     <span class="keyword">try</span> &#123;</span><br><span class="line"><span class="number">15</span>:         <span class="comment">// 保存 ReleaseMessage 对象</span></span><br><span class="line"><span class="number">16</span>:         ReleaseMessage newMessage = releaseMessageRepository.save(<span class="keyword">new</span> ReleaseMessage(message));</span><br><span class="line"><span class="number">17</span>:         <span class="comment">// 添加到清理 Message 队列。若队列已满，添加失败，不阻塞等待。</span></span><br><span class="line"><span class="number">18</span>:         toClean.offer(newMessage.getId());</span><br><span class="line"><span class="number">19</span>:         <span class="comment">// 【TODO 6001】Tracer 日志</span></span><br><span class="line"><span class="number">20</span>:         transaction.setStatus(Transaction.SUCCESS);</span><br><span class="line"><span class="number">21</span>:     &#125; <span class="keyword">catch</span> (Throwable ex) &#123;</span><br><span class="line"><span class="number">22</span>:         <span class="comment">// 【TODO 6001】Tracer 日志</span></span><br><span class="line"><span class="number">23</span>:         logger.error(<span class="string">&quot;Sending message to database failed&quot;</span>, ex);</span><br><span class="line"><span class="number">24</span>:         transaction.setStatus(ex);</span><br><span class="line"><span class="number">25</span>:         <span class="keyword">throw</span> ex;</span><br><span class="line"><span class="number">26</span>:     &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line"><span class="number">27</span>:         <span class="comment">// 【TODO 6001】Tracer 日志</span></span><br><span class="line"><span class="number">28</span>:         transaction.complete();</span><br><span class="line"><span class="number">29</span>:     &#125;</span><br><span class="line"><span class="number">30</span>: &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第 5 至 9 行：第 5 至 9 行：仅<strong>允许</strong>发送 APOLLO_RELEASE_TOPIC 。</li>
+<li>第 16 行：调用 <code>ReleaseMessageRepository#save(ReleaseMessage)</code> 方法，保存 ReleaseMessage 对象。</li>
+<li>第 18 行：调用<code>toClean#offer(Long id)</code>方法，添加到清理 Message 队列。若队列已满，添加失败，不阻塞等待。</li>
+</ul>
+<h3 id="清理-ReleaseMessage-任务"><a href="#清理-ReleaseMessage-任务" class="headerlink" title="清理 ReleaseMessage 任务"></a>清理 ReleaseMessage 任务</h3><p><code>#initialize()</code> 方法，通知 Spring 调用，初始化<strong>清理 ReleaseMessage 任务</strong>。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">1</span>: <span class="meta">@PostConstruct</span></span><br><span class="line"> <span class="number">2</span>: <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initialize</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> <span class="number">3</span>:     cleanExecutorService.submit(() -&gt; &#123;</span><br><span class="line"> <span class="number">4</span>:         <span class="comment">// 若未停止，持续运行。</span></span><br><span class="line"> <span class="number">5</span>:         <span class="keyword">while</span> (!cleanStopped.get() &amp;&amp; !Thread.currentThread().isInterrupted()) &#123;</span><br><span class="line"> <span class="number">6</span>:             <span class="keyword">try</span> &#123;</span><br><span class="line"> <span class="number">7</span>:                 <span class="comment">// 拉取</span></span><br><span class="line"> <span class="number">8</span>:                 Long rm = toClean.poll(<span class="number">1</span>, TimeUnit.SECONDS);</span><br><span class="line"> <span class="number">9</span>:                 <span class="comment">// 队列非空，处理拉取到的消息</span></span><br><span class="line"><span class="number">10</span>:                 <span class="keyword">if</span> (rm != <span class="keyword">null</span>) &#123;</span><br><span class="line"><span class="number">11</span>:                     cleanMessage(rm);</span><br><span class="line"><span class="number">12</span>:                 <span class="comment">// 队列为空，sleep ，避免空跑，占用 CPU</span></span><br><span class="line"><span class="number">13</span>:                 &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"><span class="number">14</span>:                     TimeUnit.SECONDS.sleep(<span class="number">5</span>);</span><br><span class="line"><span class="number">15</span>:                 &#125;</span><br><span class="line"><span class="number">16</span>:             &#125; <span class="keyword">catch</span> (Throwable ex) &#123;</span><br><span class="line"><span class="number">17</span>:                 <span class="comment">// 【TODO 6001】Tracer 日志</span></span><br><span class="line"><span class="number">18</span>:                 Tracer.logError(ex);</span><br><span class="line"><span class="number">19</span>:             &#125;</span><br><span class="line"><span class="number">20</span>:         &#125;</span><br><span class="line"><span class="number">21</span>:     &#125;);</span><br><span class="line"><span class="number">22</span>: &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第 3 至 21 行：调用<code>ExecutorService#submit(Runnable)</code>方法，提交清理 ReleaseMessage 任务</li>
+<li>第 5 行：<strong>循环</strong>，直到停止。</li>
+<li>第 8 行：调用<code>BlockingQueue#poll(long timeout, TimeUnit unit)</code>方法，拉取队头的消息编号。</li>
+<li>第 10 至 11 行：若拉取到消息编号，调用 <code>#cleanMessage(Long id)</code> 方法，处理拉取到的消息，即<strong>清理老消息们</strong>。</li>
+<li>第 13 至 15 行：若<strong>未</strong>拉取到消息编号，说明队列为<strong>空</strong>，<strong>sleep</strong> ，避免空跑，占用 CPU 。</li>
+</ul>
+<hr>
+<p><code>cleanMessage(Long id)</code> 方法，清理老消息们。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">1</span>: <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">cleanMessage</span><span class="params">(Long id)</span> </span>&#123;</span><br><span class="line"> <span class="number">2</span>:     <span class="keyword">boolean</span> hasMore = <span class="keyword">true</span>;</span><br><span class="line"> <span class="number">3</span>:     <span class="comment">// 查询对应的 ReleaseMessage 对象，避免已经删除。因为，DatabaseMessageSender 会在多进程中执行。例如：1）Config Service + Admin Service ；2）N * Config Service ；3）N * Admin Service</span></span><br><span class="line"> <span class="number">4</span>:     <span class="comment">// double check in case the release message is rolled back</span></span><br><span class="line"> <span class="number">5</span>:     ReleaseMessage releaseMessage = releaseMessageRepository.findOne(id);</span><br><span class="line"> <span class="number">6</span>:     <span class="keyword">if</span> (releaseMessage == <span class="keyword">null</span>) &#123;</span><br><span class="line"> <span class="number">7</span>:         <span class="keyword">return</span>;</span><br><span class="line"> <span class="number">8</span>:     &#125;</span><br><span class="line"> <span class="number">9</span>:     <span class="comment">// 循环删除相同消息内容( `message` )的老消息</span></span><br><span class="line"><span class="number">10</span>:     <span class="keyword">while</span> (hasMore &amp;&amp; !Thread.currentThread().isInterrupted()) &#123;</span><br><span class="line"><span class="number">11</span>:         <span class="comment">// 拉取相同消息内容的 100 条的老消息</span></span><br><span class="line"><span class="number">12</span>:         <span class="comment">// 老消息的定义：比当前消息编号小，即先发送的</span></span><br><span class="line"><span class="number">13</span>:         <span class="comment">// 按照 id 升序</span></span><br><span class="line"><span class="number">14</span>:         List&lt;ReleaseMessage&gt; messages = releaseMessageRepository.findFirst100ByMessageAndIdLessThanOrderByIdAsc(</span><br><span class="line"><span class="number">15</span>:                 releaseMessage.getMessage(), releaseMessage.getId());</span><br><span class="line"><span class="number">16</span>:         <span class="comment">// 删除老消息</span></span><br><span class="line"><span class="number">17</span>:         releaseMessageRepository.delete(messages);</span><br><span class="line"><span class="number">18</span>:         <span class="comment">// 若拉取不足 100 条，说明无老消息了</span></span><br><span class="line"><span class="number">19</span>:         hasMore = messages.size() == <span class="number">100</span>;</span><br><span class="line"><span class="number">20</span>:         <span class="comment">// 【TODO 6001】Tracer 日志</span></span><br><span class="line"><span class="number">21</span>:         messages.forEach(toRemove -&gt; Tracer.logEvent(</span><br><span class="line"><span class="number">22</span>:                 String.format(<span class="string">&quot;ReleaseMessage.Clean.%s&quot;</span>, toRemove.getMessage()), String.valueOf(toRemove.getId())));</span><br><span class="line"><span class="number">23</span>:     &#125;</span><br><span class="line"><span class="number">24</span>: &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第 5 至 8 行：调用<code>ReleaseMessageRepository#findOne(id)</code>方法，查询对应的 ReleaseMessage 对象，避免已经删除。因为，<strong>DatabaseMessageSender 会在多进程中执行</strong>。例如：1）Config Service + Admin Service ；2）N * Config Service ；3）N * Admin Service 。为什么 Config Service 和 Admin Service 都会启动清理任务呢？😈 因为 DatabaseMessageSender 添加了 <code>@Component</code> 注解，而 NamespaceService 注入了 DatabaseMessageSender 。而 NamespaceService 被 <code>apollo-adminservice</code> 和 <code>apoll-configservice</code> 项目都引用了，所以都会启动该任务。</li>
+<li>第 10 至 23 行：循环删除相同消息内容，<code>ReleaseMessage.message</code>的老消息，即 Namespace 的老消息。</li>
+<li>第 14 至 15 行：调用<code>ReleaseMessageRepository#findFirst100ByMessageAndIdLessThanOrderByIdAsc(message, id)</code>方法，拉取相同消息内容的100条的老消息，按照 id升序。</li>
+<li>老消息的<strong>定义</strong>：比当前消息编号小，即先发送的。</li>
+<li>第 17 行：调用 <code>ReleaseMessageRepository#delete(messages)</code> 方法，<strong>删除</strong>老消息。</li>
+<li>第 19 行：若拉取<strong>不足</strong> 100 条，说明无老消息了。</li>
+<li>第 21 至 22 行：【TODO 6001】Tracer 日志</li>
+</ul>
+<p><code>ReleaseMessageListener</code>：ReleaseMessage <strong>监听器</strong>接口</p>
+<p><code>ReleaseMessageScanner</code>接口：ReleaseMessage 扫描器，<strong>被 Config Service 使用</strong>。</p>
+<p><code>afterPropertiesSet</code>方法：初始化Scan任务</p>
+<p><code>fireMessageScanned</code>方法：触发监听器，处理ReleaseMessage们</p>
+<h3 id="Config-Service通知配置改变"><a href="#Config-Service通知配置改变" class="headerlink" title="Config Service通知配置改变"></a>Config Service通知配置改变</h3><h4 id="NotificationControllerV2类："><a href="#NotificationControllerV2类：" class="headerlink" title="NotificationControllerV2类："></a><code>NotificationControllerV2</code>类：</h4><p>实现 ReleaseMessageListener 接口，通知 Controller ，<strong>仅</strong>提供 <code>notifications/v2</code> 接口。</p>
+<p><code>pollNotification</code>方法：用于实现长轮训功能，用于监听客户端关注的配置变化。在处理监听结果时，如果有新的配置变化，则直接返回新的配置变化通知，如果没有则注册监听，等待下一次配置变化，在超时或完成监听时取消监听。</p>
+<p><code>filterNotifications</code>方法：根据传入的通知列表，过滤出有效的Apollo配置通知，并将其存储在一个HashMap中。</p>
+<p><code>getApolloConfigNotifications</code>方法：获得新的<code>ApolloConfigNotification </code>通知数组，通过遍历命名空间和监听键，如果每个命名空间的最新通知ID，并与客户端的通知ID进行比较，如果大于则创建一个新的Apollo配置通知，将命名空间和最新通知ID以及相关监听键和通知ID添加到通知中，最后返回所有新的Apollo配置通知。</p>
+<p><code>handleMessage</code>方法：处理Apollo配置中心的发布消息，并通知相关客户端。在处理过程中，首先记录接收到的消息，然后解析消息内容，校验消息内容，获取待通知的客户端列表，最后根据客户端数量（默认100个）选择同步或异步通知客户端。</p>
+<h4 id="ApolloConfigNotification类：Apollo-配置通知-DTO-。"><a href="#ApolloConfigNotification类：Apollo-配置通知-DTO-。" class="headerlink" title="ApolloConfigNotification类：Apollo 配置通知 DTO 。"></a>ApolloConfigNotification类：Apollo 配置通知 <strong>DTO</strong> 。</h4><h4 id="ApolloNotificationMessages类：Apollo-配置通知消息集合-DTO-。"><a href="#ApolloNotificationMessages类：Apollo-配置通知消息集合-DTO-。" class="headerlink" title="ApolloNotificationMessages类：Apollo 配置通知消息集合 DTO 。"></a><code>ApolloNotificationMessages</code>类：Apollo 配置通知消息集合 <strong>DTO</strong> 。</h4><h4 id="DeferredResultWrapper类：DeferredResult-包装器，封装-DeferredResult-的公用方法。"><a href="#DeferredResultWrapper类：DeferredResult-包装器，封装-DeferredResult-的公用方法。" class="headerlink" title="DeferredResultWrapper类：DeferredResult 包装器，封装 DeferredResult 的公用方法。"></a><code>DeferredResultWrapper</code>类：DeferredResult 包装器，封装 DeferredResult 的<strong>公用</strong>方法。</h4><ol>
+<li><code>onTimeout</code>：设置超时回调函数</li>
+<li><code>onCompletion</code>：设置完成回调函数</li>
+<li><code>setResult</code>：设置结果</li>
+</ol>
+<h4 id="AppNamespaceServiceWithCache类：实现应用命名空间的缓存服务。通过定时扫描新的应用命名空间并更新缓存。"><a href="#AppNamespaceServiceWithCache类：实现应用命名空间的缓存服务。通过定时扫描新的应用命名空间并更新缓存。" class="headerlink" title="AppNamespaceServiceWithCache类：实现应用命名空间的缓存服务。通过定时扫描新的应用命名空间并更新缓存。"></a><code>AppNamespaceServiceWithCache</code>类：实现应用命名空间的缓存服务。通过定时扫描新的应用命名空间并更新缓存。</h4><p>缓存实现方式如下：</p>
+<ol>
+<li>启动时，全量初始化 AppNamespace 到缓存</li>
+<li>考虑 AppNamespace 新增，后台定时任务，定时增量初始化 AppNamespace 到缓存</li>
+<li>考虑 AppNamespace 更新与删除，后台定时任务，定时全量重建 AppNamespace 到缓存</li>
+</ol>
+<h4 id="ReleaseMessageServiceWithCache类：实现基于缓存的发布消息服务。"><a href="#ReleaseMessageServiceWithCache类：实现基于缓存的发布消息服务。" class="headerlink" title="ReleaseMessageServiceWithCache类：实现基于缓存的发布消息服务。"></a><code>ReleaseMessageServiceWithCache</code>类：实现基于缓存的发布消息服务。</h4><ol>
+<li>启动时，初始化 ReleaseMessage 到缓存。</li>
+<li>新增时，基于 ReleaseMessageListener ，通知有新的 ReleaseMessage ，根据是否有消息间隙，直接使用该 ReleaseMessage 或从数据库读取。</li>
+</ol>
+<h4 id="WatchKeysUtil类：生成监听配置变化的key集合"><a href="#WatchKeysUtil类：生成监听配置变化的key集合" class="headerlink" title="WatchKeysUtil类：生成监听配置变化的key集合"></a><code>WatchKeysUtil</code>类：生成监听配置变化的key集合</h4><h3 id="Config-Service配置读取接口"><a href="#Config-Service配置读取接口" class="headerlink" title="Config Service配置读取接口"></a>Config Service配置读取接口</h3><p><code>ConfigController</code>提供配置读取功能。</p>
+<p><code>queryConfig</code>方法：</p>
+<ol>
+<li>从传入的参数提取所需的信息，并对namespace参数进行处理，去掉.properties后缀，并将其转换为正确的命名空间格式</li>
+<li>检查clientIp和clentVersion参数是否为空，如果为空则从HttpServletRequest对象中获取相应的信息</li>
+<li>将messageAsString参数转换为ApolloNotificationMessages对象</li>
+<li>创建一个空的Release对象，用于存储查询到的发布Realse</li>
+<li>根据传入的参数查询配置，首先查询与当前应用程序相关的配置，然后查询公共配置，如果找到相关的配置则添加进Release列表中</li>
+<li>如果列表为空，则返回一个HTTP 404错误，表示未找到配置，同时记录一个审计事件</li>
+<li>方法审计查询到的发布，包括记录客户端的IP地址、版本和集群名称等信息</li>
+<li>方法合并查询到的所有发布的配置，并将它们与应用程序ID、集群名称、原始命名空间和数据中心一起组合成一个ApolloConfig对象</li>
+<li>记录一个审计事件表示找到了配置并将ApolloConfig对象返回给调用方</li>
+</ol>
+
+      </section>
+
+      
+      
+        <nav class="article-nav">
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://s1.ax1x.com/2022/11/07/xvhcYd.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2024/04/26/%E5%90%8E%E7%AB%AF%E7%AC%94%E8%AE%B0/Spring/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">Spring学习</h2>
+        </a>
+      
+      <div class="card-text--row">Newer</div>
+    </div>
+  </article>
+</div>
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://s1.ax1x.com/2022/11/07/xvhcYd.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2024/04/18/%E5%90%8E%E7%AB%AF%E7%AC%94%E8%AE%B0/Spring%20Boot/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">SpringBoot学习</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
+
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+    <div class="valine-container comments-container content-padding--primary soft-size--large soft-style--box">
+      <div id="valine_thread" class="valine-thread"></div>
+    </div>
+    <script type="text/javascript" src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script type="text/javascript" src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <script type="text/javascript">
+      new Valine({
+        el: "#valine_thread",
+        appId: "zPxT1BH5qC6JYqXmizvClRGk-gzGzoHsz",
+        appKey: "kU1QKKjUJco1Gyjj0Usl4bwM",
+        avatar: "ChenZehong",
+        placeholder: "随便说点什么叭～",
+        notify: true,
+        visitor: true,
+        pageSize: 10,
+      });
+    </script>
+  
+
+  
+  
+
+
+      </section>
+    </div>
+    <div class="widget-info">
+      <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-body">
+    
+      <img src="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202007/f9c696aa27edaddf87257e5e70d1eb62--1437661584.jpg" class="soft-size--round soft-style--box" alt="ChenZehong">
+    
+    
+      <h2>ChenZehong</h2>
+    
+    
+      <p>贵在坚持</p>
+    
+
+    <div class="count-box">
+      <div class="count-box--item">
+        <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
+</svg>
+        <span>86</span>
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+        19
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+        0
+      </div>
+    </div>
+  </div>
+</section>
+
+      
+
+      
+
+      <section class="widget-categorys widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+    <span>CATEGORYS</span>
+  </div>
+  <div class="widget-body">
+    <ul class="categorys-list">
+      
+        <li class="categorys-list-item">
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/JAVA%E5%90%8E%E7%AB%AF/">
+            JAVA后端 (5)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            前端学习笔记 (5)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+            面试准备 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%A4%A7%E5%8E%82%E7%AC%94%E8%AF%95%E9%A2%98/">
+            大厂笔试题 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/npm-script/">
+            npm script (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AFCSS%E7%AC%94%E8%AE%B0/">
+            前端CSS笔记 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/node/">
+            node (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            react学习笔记 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Vue%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">
+            Vue源码解析 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Javascript%E7%AC%94%E8%AE%B0/">
+            Javascript笔记 (6)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/three%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            three学习笔记 (7)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">
+            前端工程化 (11)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
+            实习相关 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E6%8F%90%E5%8D%87/">
+            前端提升 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            设计模式 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            Vue3学习笔记 (5)
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+</section>
+
+      <section class="widget-tags widget-item  layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+    <span>TAGS</span>
+  </div>
+  <div class="widget-body">
+    <div class="tags-cloud">
+      
+    </div>
+  </div>
+</section>
+    </div>
+  </article>
+</div>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+    
+    <div class="social-icons">
+      
+        
+      
+        
+      
+        
+      
+        
+          <a href="https://github.com/Web200OK" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-github" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M64.6 512c0 195.6 125.4 361.9 300.1 422.9 23.5 5.9 19.9-10.8 19.9-22.2v-77.6c-135.8 15.9-141.3-74-150.5-89-18.5-31.5-61.9-39.5-49-54.5 31-15.9 62.5 4 98.9 58 26.4 39.1 77.9 32.5 104.1 26 5.7-23.5 17.9-44.5 34.7-60.9-140.7-25.2-199.4-111.1-199.4-213.3 0-49.5 16.4-95.1 48.4-131.8-20.4-60.6 1.9-112.4 4.9-120.1 58.2-5.2 118.5 41.6 123.3 45.3 33.1-8.9 70.8-13.7 112.9-13.7 42.4 0 80.3 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.4-43.9 2.9 7.7 24.7 58.3 5.5 118.1 32.5 36.8 49 82.8 49 132.4 0 102.3-59 188.3-200.2 213.2 23.5 23.3 38.1 55.5 38.1 91.1v112.7c0.8 9 0 17.9 15.1 17.9C832.7 877 960.4 709.4 960.4 512.1c0-247.5-200.6-447.9-447.9-447.9C265 64.1 64.6 264.5 64.6 512z"></path>
+</svg>
+          </a>
+        
+      
+        
+      
+    </div>
+     
+    <p>&copy; 2024 <a href="/" target="_blank">ChenZehong</a></p>
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+
+    <p>
+      <a href="javascript:;" id="theme-light">🌞 浅色</a>
+      <a href="javascript:;" id="theme-dark">🌛 深色</a>
+      <a href="javascript:;" id="theme-auto">🤖️ 自动</a>
+    </p>
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed soft-size--round soft-style--box">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+      <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+      <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+    </svg>
+  </div>
+
+  
+  <!-- aplayer -->
+
+
+<!-- dplayer -->
+
+
+
+
+  
+
+
+  
+
+
+  <!-- Baidu Analytics START -->
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      if (window.location.hostname === "localhost" || window.location.hostname.startsWith("192.168")) {
+        return console.log("本地调试");
+      }
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8a923e14e6dbf862c2b287e6c1266764";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  <!-- Baidu Analytics End -->
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+</body>
+</html>

@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+  
+  <meta name="generator" content="Hexo 5.4.0">
+
+  
+
+  
+
+  
+    <meta name="author" content="ChenZehong">
+  
+
+  
+
+  
+
+  <title>Spring学习 | 好好学习，天天向上</title>
+
+  
+
+  
+    <link rel="shortcut icon" href="/happy.ico">
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@1.1.3/index.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/monokai.css">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+  <div class="root-container">
+    
+<!-- header container -->
+<header class="header-container post">
+  
+    <div class="post-image" style="background-image: url(https://s1.ax1x.com/2022/11/07/xvhcYd.jpg)"></div>
+  
+
+  <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          好好学习，天天向上
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+          <li class="navbar-list-item"><a href="/">首页</a></li>
+        
+          <li class="navbar-list-item"><a href="/links">友链</a></li>
+        
+          <li class="navbar-list-item"><a href="/about">关于</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">Spring学习</h1>
+          <h2 class="title-sub-wrap">
+            <strong>ChenZehong</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2024-04-26T02:01:26.776Z" itemprop="datePublished">2024-04-26</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/JAVA%E5%90%8E%E7%AB%AF/">📒 JAVA后端</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+</ul>
+        </div>
+      </div>
+    </div>
+  
+
+  
+  
+  
+</header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+<div class="body-container">
+  <article class="content-container layout-block post-container">
+    <div class="article-info">
+      
+      
+      
+      
+      <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
+        <h1 id="Spring-IoC-原理"><a href="#Spring-IoC-原理" class="headerlink" title="Spring IoC 原理"></a><a target="_blank" rel="noopener" href="https://duhouan.github.io/Java/#/Spring/2_SpringIoC%E5%8E%9F%E7%90%86?id=spring-ioc-%E5%8E%9F%E7%90%86">Spring IoC 原理</a></h1><h2 id="IoC-Inverse-of-Control）"><a href="#IoC-Inverse-of-Control）" class="headerlink" title="IoC (Inverse of Control）"></a><a target="_blank" rel="noopener" href="https://duhouan.github.io/Java/#/Spring/2_SpringIoC%E5%8E%9F%E7%90%86?id=ioc-inverse-of-control%EF%BC%89">IoC (Inverse of Control）</a></h2><p>IOC，即控制反转（Inverse of Control）是一种<strong>设计思想</strong>，并不是一个具体的技术实现。</p>
+<ul>
+<li>控制：控制对象的创建及销毁(生命周期)。</li>
+<li>反转：将对象的控制权交给 IoC 容器。</li>
+</ul>
+<p><strong>所有类的创建、销毁都由 Spring 来控制，也就是说控制对象生命周期的不是引用它的对象，而是 Spring</strong>。对于某个具体对象而言，以前是它控制其他对象，现在所有对象都被 Spring 控制。</p>
+<h2 id="依赖注入-Dependency-Injection"><a href="#依赖注入-Dependency-Injection" class="headerlink" title="依赖注入 (Dependency Injection)"></a><a target="_blank" rel="noopener" href="https://duhouan.github.io/Java/#/Spring/2_SpringIoC%E5%8E%9F%E7%90%86?id=%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5-dependency-injection">依赖注入 (Dependency Injection)</a></h2><p>依赖注入就是<strong>将底层类作为参数传递给上层类，实现上层对下层的控制</strong>，<strong>依赖注入实现控制反转</strong>。</p>
+<p>举例说明依赖注入：以生产行李箱为例。</p>
+<p><strong>传统设计思路</strong>：先设计轮子，然后根据轮子 size 来设计底盘，再根据底盘来设计箱体，最后设计好行李箱。</p>
+<p>可这样表示：</p>
+<p><img src="https://github.com/DuHouAn/ImagePro/raw/master/java-notes/spring/ioc_1.png" alt="img"></p>
+<p>相应代码代码：</p>
+<p><img src="https://github.com/DuHouAn/ImagePro/raw/master/java-notes/spring/ioc_2.png" alt="img"></p>
+<p>size 是固定值，可以进行相应的改进：</p>
+<p><img src="https://github.com/DuHouAn/ImagePro/raw/master/java-notes/spring/ioc_3.png" alt="img"></p>
+<p><strong>依赖注入设计思路</strong>：</p>
+<p>先设计行李箱的大概样子，再根据行李箱的样子设计箱体，根据箱体去设计底盘，然后去设计轮子。</p>
+<p><img src="https://github.com/DuHouAn/ImagePro/raw/master/java-notes/spring/ioc_4.png" alt="img"></p>
+<p>相应代码如下：</p>
+<p><img src="https://github.com/DuHouAn/ImagePro/raw/master/java-notes/spring/ioc_5.png" alt="img"></p>
+<p>不难理解，依赖注入就是<strong>将底层类作为参数传递给上层类，实现上层对下层的控制</strong>。</p>
+<p>Spring 支持 4 种依赖注入：setter 注入、构造器注入、注解注入和接口注入。</p>
+<h3 id="setter-注入"><a href="#setter-注入" class="headerlink" title="setter 注入"></a><a target="_blank" rel="noopener" href="https://duhouan.github.io/Java/#/Spring/2_SpringIoC%E5%8E%9F%E7%90%86?id=setter-%E6%B3%A8%E5%85%A5">setter 注入</a></h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;exampleBean&quot;</span> <span class="attr">class</span>=<span class="string">&quot;examples.ExampleBean&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- setter injection using the nested ref element --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;beanOne&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">ref</span> <span class="attr">bean</span>=<span class="string">&quot;anotherExampleBean&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- setter injection using the neater ref attribute --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;beanTwo&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;yetAnotherBean&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;integerProperty&quot;</span> <span class="attr">value</span>=<span class="string">&quot;1&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;anotherExampleBean&quot;</span> <span class="attr">class</span>=<span class="string">&quot;examples.AnotherBean&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;yetAnotherBean&quot;</span> <span class="attr">class</span>=<span class="string">&quot;examples.YetAnotherBean&quot;</span>/&gt;</span> </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExampleBean</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> AnotherBean beanOne;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> YetAnotherBean beanTwo;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> i;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBeanOne</span><span class="params">(AnotherBean beanOne)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.beanOne = beanOne;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBeanTwo</span><span class="params">(YetAnotherBean beanTwo)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.beanTwo = beanTwo;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setIntegerProperty</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.i = i;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="构造器注入"><a href="#构造器注入" class="headerlink" title="构造器注入"></a><a target="_blank" rel="noopener" href="https://duhouan.github.io/Java/#/Spring/2_SpringIoC%E5%8E%9F%E7%90%86?id=%E6%9E%84%E9%80%A0%E5%99%A8%E6%B3%A8%E5%85%A5">构造器注入</a></h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;exampleBean&quot;</span> <span class="attr">class</span>=<span class="string">&quot;examples.ExampleBean&quot;</span> <span class="attr">factory-method</span>=<span class="string">&quot;createInstance&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">ref</span>=<span class="string">&quot;anotherExampleBean&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">ref</span>=<span class="string">&quot;yetAnotherBean&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">value</span>=<span class="string">&quot;1&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;anotherExampleBean&quot;</span> <span class="attr">class</span>=<span class="string">&quot;examples.AnotherBean&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;yetAnotherBean&quot;</span> <span class="attr">class</span>=<span class="string">&quot;examples.YetAnotherBean&quot;</span>/&gt;</span> </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExampleBean</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> AnotherBean beanOne;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> YetAnotherBean beanTwo;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> i;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ExampleBean</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">        AnotherBean anotherBean, YetAnotherBean yetAnotherBean, <span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.beanOne = anotherBean;</span><br><span class="line">        <span class="keyword">this</span>.beanTwo = yetAnotherBean;</span><br><span class="line">        <span class="keyword">this</span>.i = i;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="注解注入"><a href="#注解注入" class="headerlink" title="注解注入"></a><a target="_blank" rel="noopener" href="https://duhouan.github.io/Java/#/Spring/2_SpringIoC%E5%8E%9F%E7%90%86?id=%E6%B3%A8%E8%A7%A3%E6%B3%A8%E5%85%A5">注解注入</a></h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExampleBean</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="meta">@Qualifier(&quot;anotherExampleBean&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> AnotherBean beanOne;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="meta">@Qualifier(&quot;yetAnotherBean&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> YetAnotherBean beanTwo;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Value(&quot;1&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="IoC-容器"><a href="#IoC-容器" class="headerlink" title="IoC 容器"></a><a target="_blank" rel="noopener" href="https://duhouan.github.io/Java/#/Spring/2_SpringIoC%E5%8E%9F%E7%90%86?id=ioc-%E5%AE%B9%E5%99%A8">IoC 容器</a></h2><p>IoC 容器指具有依赖注入功能的容器。</p>
+<p>IoC 容器负责创建对象，将对象连接在一起，配置这些对象，并从创建中处理这些对象的整个生命周期，直到它们被完全销毁。</p>
+<p>Spring 通过<strong>配置文件</strong>描述 IoC 容器管理的对象。Spring IoC 容器通过读取配置文件中的配置元数据，通过元数据对应用中的各个对象进行实例化及装配。一般使用基于 xml 配置文件进行配置元数据，而且 Spring 与配置文件完全解耦的，可以使用其他任何可能的方式进行配置元数据，比如注解、基于 Java 文件的、基于属性文件的配置都可以。</p>
+<p>Spring IoC 容器的代表就是 <code>org.springframework.beans</code> 包下的 <strong>BeanFactory</strong> 接口：</p>
+<ul>
+<li>IoC 容器要实现的最基础的接口</li>
+<li>采用<strong>延迟初始化策略</strong>（容器初始化完成后并不会创建 Bean 对象，只有当收到初始化请求时才进行初始化）</li>
+<li>由于是延迟初始化策略，因此启动速度较快，占用资源较少</li>
+</ul>
+<p><code>org.springframework.context</code> 包下的 <strong>ApplicationContext</strong> 接口扩展了 BeanFactory：</p>
+<ul>
+<li>在 BeanFactory 基础上，增加了更为高级的特性：事件发布、国际化等。</li>
+<li>在容器启动时，完成所有 Bean 的创建</li>
+<li>启动时间较长，占用资源较多</li>
+</ul>
+<h3 id="IoC-容器初始化过程"><a href="#IoC-容器初始化过程" class="headerlink" title="IoC 容器初始化过程"></a><a target="_blank" rel="noopener" href="https://duhouan.github.io/Java/#/Spring/2_SpringIoC%E5%8E%9F%E7%90%86?id=ioc-%E5%AE%B9%E5%99%A8%E5%88%9D%E5%A7%8B%E5%8C%96%E8%BF%87%E7%A8%8B">IoC 容器初始化过程</a></h3><p><img src="https://github.com/DuHouAn/ImagePro/raw/master/java-notes/spring/01_1.png" alt="img"></p>
+<ul>
+<li>Resource 定位：即 BeanDefinition 的资源定位，Resource 为各种形式的 BeanDefinition 的使用都提供了统一的接口</li>
+<li>BeanDefinition 的载入</li>
+<li>向 IoC 容器中注册 BeanDefinition：实际上 IoC 容器内部维护一个 HashMap，注册过程就是将 BeanDefinition 添加至 HashMap 中。</li>
+</ul>
+<h3 id="Spring-Bean-的装配流程"><a href="#Spring-Bean-的装配流程" class="headerlink" title="Spring Bean 的装配流程"></a><a target="_blank" rel="noopener" href="https://duhouan.github.io/Java/#/Spring/2_SpringIoC%E5%8E%9F%E7%90%86?id=spring-bean-%E7%9A%84%E8%A3%85%E9%85%8D%E6%B5%81%E7%A8%8B">Spring Bean 的装配流程</a></h3><p><img src="https://github.com/DuHouAn/ImagePro/raw/master/java-notes/spring/ioc_11.png" alt="img"></p>
+<p>IoC 容器其实就是一个大工厂，它用来管理我们所有的对象以及依赖关系：</p>
+<ul>
+<li>Spring 在启动时会从 xml 配置文件/注解中读取应用程序提供的 Bean 配置信息，并在 Spring 容器中生成一份相应的 Bean 定义注册表</li>
+<li>根据注册表实例化 Bean，装配好 Bean 之间的依赖关系</li>
+<li>将 Bean 实例放入 Spring IoC 容器中，等待应用程序调用</li>
+</ul>
+<h2 id="Spring-中-Bean-的生命周期"><a href="#Spring-中-Bean-的生命周期" class="headerlink" title="Spring 中 Bean 的生命周期"></a><a target="_blank" rel="noopener" href="https://duhouan.github.io/Java/#/Spring/2_SpringIoC%E5%8E%9F%E7%90%86?id=spring-%E4%B8%AD-bean-%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F">Spring 中 Bean 的生命周期</a></h2><p>Spring bean 的生命周期执行如下图：</p>
+<p><img src="https://github.com/DuHouAn/ImagePro/raw/master/java-notes/spring/spring_1.png" alt="img"></p>
+<p>1、Spring 对 Bean 进行实例化。</p>
+<p>2、Spring 将值和 Bean 的引用注入到 Bean 对应的属性中。</p>
+<p>3、如果 Bean 实现了 BeanNameAware 接口，则会调用其实现的 setBeanName() 方法，Spring 会将 bean 的 id 传递给 setBeanName() 接口方法。</p>
+<p>4、如果 Bean 实现了 BeanFactoryAware 接口，则会调用其实现的 setBeanFactory() 方法，将 BeanFactory 容器实例作为传入参数。</p>
+<p>5、如果 Bean 实现了 ApplicationContextAware 接口，则会调用其实现的 setApplicationContext() 方法，将应用上下文的引用作为传入参数。</p>
+<p>6、如果 Bean 实现了 BeanPostProcessor 接口，Spring 将调用 postProcessBeforeInitialization() 接口方法。</p>
+<p>7、如果 Bean 实现了InitializingBean 接口，Spring 将调用 afterPropertiesSet() 接口方法。</p>
+<p>8、如果Bean 实现了 init-method 声明了初始化方法，该方法也会被调用。</p>
+<p>9、如果 Bean 实现了 BeanPostProcessor 接口，Spring 将调用 postProcessAfterInitialization() 接口方法。</p>
+<p>10、此时 Bean 已经准备就绪，可以被应用程序使用了，他们将会一直驻留在应用上下文中，一直到该应用上下文被销毁。</p>
+<p>11、如果 Bean 实现了 DisposableBean 接口，Spring 将调用它的 destroy() 接口方法。</p>
+<p>12、如果 Bean 使用 destroy-method 声明了销毁方法，方法也会被调用。</p>
+<h1 id="Spring-事务-–-Transactional的使用"><a href="#Spring-事务-–-Transactional的使用" class="headerlink" title="Spring 事务 – @Transactional的使用"></a>Spring 事务 – @Transactional的使用</h1><h1 id="一、事务简单介绍"><a href="#一、事务简单介绍" class="headerlink" title="一、事务简单介绍"></a>一、事务简单介绍</h1><p>​    事务指逻辑上的一组操作，组成这组操作的各个单元，要不全部成功，要不全部不成功。</p>
+<h2 id="1-1-事务基本要素"><a href="#1-1-事务基本要素" class="headerlink" title="1.1 事务基本要素"></a>1.1 事务基本要素</h2><ul>
+<li>原子性(Atomicity): 事务开始后所有操作，要么全部做完，要么全部不做，不可能停滞在中间环节。事务执行过程中出错，会回滚到事务开始前的状态，所有的操作就像没有发生一样。也就是说事务是一个不可分割的整体，就像化学中学过的原子，是物质构成的基本单位。</li>
+<li>一致性(Consistency): 事务开始前和结束后，数据库的完整性约束没有被破坏。比如A向B转账，不可能A扣了钱，B却没收到。</li>
+<li>隔离性(Isolation): 同一时间，只允许一个事务请求同一数据，不同的事务之间彼此没有任何干扰。比如A正在从一张银行卡中取钱，在A取钱的过程结束前，B不能向这张卡转账。</li>
+<li>持久性(Durability): 事务完成后，事务对数据库的所有更新将被保存到数据库，不能回滚。</li>
+</ul>
+<h2 id="1-2-Spring事务属性"><a href="#1-2-Spring事务属性" class="headerlink" title="1.2 Spring事务属性"></a>1.2 Spring事务属性</h2><blockquote>
+<p>Spring事务属性对应TransactionDefinition类里面的各个方法。TransactionDefinition类方法如下所示:</p>
+</blockquote>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">TransactionDefinition</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 返回事务传播行为</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="built_in">int</span> <span class="title">getPropagationBehavior</span>(<span class="params"></span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 返回事务的隔离级别，事务管理器根据它来控制另外一个事务可以看到本事务内的哪些数据</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="built_in">int</span> <span class="title">getIsolationLevel</span>(<span class="params"></span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 事务超时时间，事务必须在多少秒之内完成</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="built_in">int</span> <span class="title">getTimeout</span>(<span class="params"></span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 事务是否只读，事务管理器能够根据这个返回值进行优化，确保事务是只读的</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">boolean <span class="title">isReadOnly</span>(<span class="params"></span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 事务名字</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    @Nullable</span><br><span class="line">    <span class="function">String <span class="title">getName</span>(<span class="params"></span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    事务属性可以理解成事务的一些基本配置，描述了事务策略如何应用到方法上。事务属性包含了5个方面：传播行为、隔离规则、回滚规则、事务超时、是否只读。</p>
+<blockquote>
+<p>事务的产生需要依赖这些事务属性。包括我们下面要讲到的@Transactional注解的属性其实就是在设置这些值。</p>
+</blockquote>
+<h3 id="1-2-1-传播行为"><a href="#1-2-1-传播行为" class="headerlink" title="1.2.1 传播行为"></a>1.2.1 传播行为</h3><p>​    当事务方法被另一个事务方法调用时，必须指定事务应该如何传播。例如：方法可能继续在现有事务中运行，也可能开启一个新事务，并在自己的事务中运行。Spring定义了七种传播行为：</p>
+<table>
+<thead>
+<tr>
+<th>传播行为</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TransactionDefinition.PROPAGATION_REQUIRED</td>
+<td>如果当前没有事务，就新建一个事务，如果已经存在一个事务，则加入到这个事务中。这是最常见的选择。</td>
+</tr>
+<tr>
+<td>TransactionDefinition.PROPAGATION_SUPPORTS</td>
+<td>支持当前事务，如果当前没有事务，就以非事务方式执行。</td>
+</tr>
+<tr>
+<td>TransactionDefinition.PROPAGATION_MANDATORY</td>
+<td>表示该方法必须在事务中运行，如果当前事务不存在，则会抛出一个异常</td>
+</tr>
+<tr>
+<td>TransactionDefinition.PROPAGATION_REQUIRED_NEW</td>
+<td>表示当前方法必须运行在它自己的事务中。一个新的事务将被启动。如果存在当前事务，在该方法执行期间，当前事务会被挂起。</td>
+</tr>
+<tr>
+<td>TransactionDefinition.PROPAGATION_NOT_SUPPORTED</td>
+<td>表示该方法不应该运行在事务中。如果当前存在事务，就把当前事务挂起。</td>
+</tr>
+<tr>
+<td>TransactionDefinition.PROPAGATION_NEVER</td>
+<td>表示当前方法不应该运行在事务上下文中。如果当前正有一个事务在运行，则会抛出异常</td>
+</tr>
+<tr>
+<td>TransactionDefinition.PROPAGATION_NESTED</td>
+<td>如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则执行与PROPAGATION_REQUIRED类似的操作。</td>
+</tr>
+</tbody></table>
+<h3 id="1-2-2-隔离规则"><a href="#1-2-2-隔离规则" class="headerlink" title="1.2.2 隔离规则"></a>1.2.2 隔离规则</h3><p>​    隔离级别定义了一个事务可能受其他并发事务影响的程度。</p>
+<p>​    在实际开发过程中，我们绝大部分的事务都是有并发情况。下多个事务并发运行，经常会操作相同的数据来完成各自的任务。在这种情况下可能会导致以下的问题:</p>
+<ul>
+<li>脏读（Dirty reads）—— 事务A读取了事务B更新的数据，然后B回滚操作，那么A读取到的数据是脏数据。</li>
+<li>不可重复读（Nonrepeatable read）—— 事务 A 多次读取同一数据，事务 B 在事务A多次读取的过程中，对数据作了更新并提交，导致事务A多次读取同一数据时，结果不一致。</li>
+<li>幻读（Phantom read）—— 系统管理员A将数据库中所有学生的成绩从具体分数改为ABCDE等级，但是系统管理员B就在这个时候插入了一条具体分数的记录，当系统管理员A改结束后发现还有一条记录没有改过来，就好像发生了幻觉一样，这就叫幻读。</li>
+</ul>
+<blockquote>
+<p>不可重复读的和幻读很容易混淆，不可重复读侧重于修改，幻读侧重于新增或删除。解决不可重复读的问题只需锁住满足条件的行，解决幻读需要锁表</p>
+</blockquote>
+<p>​    咱们已经知道了在并发状态下可能产生:　脏读、不可重复读、幻读的情况。因此我们需要将事务与事务之间隔离。根据隔离的方式来避免事务并发状态下脏读、不可重复读、幻读的产生。Spring中定义了五种隔离规则:</p>
+<table>
+<thead>
+<tr>
+<th>隔离级别</th>
+<th>含义</th>
+<th>脏读</th>
+<th>不可重复读</th>
+<th>幻读</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TransactionDefinition.ISOLATION_DEFAULT</td>
+<td>使用后端数据库默认的隔离级别</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>TransactionDefinition.ISOLATION_READ_UNCOMMITTED</td>
+<td>允许读取尚未提交的数据变更(最低的隔离级别)</td>
+<td>是</td>
+<td>是</td>
+<td>是</td>
+</tr>
+<tr>
+<td>TransactionDefinition.ISOLATION_READ_COMMITTED</td>
+<td>允许读取并发事务已经提交的数据</td>
+<td>否</td>
+<td>是</td>
+<td>是</td>
+</tr>
+<tr>
+<td>TransactionDefinition.ISOLATION_REPEATABLE_READ</td>
+<td>对同一字段的多次读取结果都是一致的，除非数据是被本身事务自己所修改</td>
+<td>否</td>
+<td>否</td>
+<td>是</td>
+</tr>
+<tr>
+<td>TransactionDefinition.ISOLATION_SERIALIZABLE</td>
+<td>最高的隔离级别，完全服从ACID的隔离级别，也是最慢的事务隔离级别，因为它通常是通过完全锁定事务相关的数据库表来实现的</td>
+<td>否</td>
+<td>否</td>
+<td>否</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>​    ISOLATION_SERIALIZABLE 隔离规则类型在开发中很少用到。举个很简单的例子。咱们使用了ISOLATION_SERIALIZABLE规则。A,B两个事务操作同一个数据表并发过来了。A先执行。A事务这个时候会把表给锁住，B事务执行的时候直接报错。</p>
+</blockquote>
+<p>​    <strong>补充:</strong></p>
+<ul>
+<li>事务隔离级别为ISOLATION_READ_UNCOMMITTED时，写数据只会锁住相应的行。</li>
+<li>事务隔离级别为可ISOLATION_REPEATABLE_READ时，如果检索条件有索引(包括主键索引)的时候，默认加锁方式是next-key锁；如果检索条件没有索引，更新数据时会锁住整张表。一个间隙被事务加了锁，其他事务是不能在这个间隙插入记录的，这样可以防止幻读。</li>
+<li>事务隔离级别为ISOLATION_SERIALIZABLE时，读写数据都会锁住整张表。</li>
+<li>隔离级别越高，越能保证数据的完整性和一致性，但是对并发性能的影响也就越大。</li>
+</ul>
+<h3 id="1-2-3-回滚规则"><a href="#1-2-3-回滚规则" class="headerlink" title="1.2.3 回滚规则"></a>1.2.3 回滚规则</h3><p>​    事务回滚规则定义了哪些异常会导致事务回滚而哪些不会。默认情况下，只有未检查异常(RuntimeException和Error类型的异常)会导致事务回滚。而在遇到检查型异常时不会回滚。 但是你可以声明事务在遇到特定的检查型异常时像遇到运行期异常那样回滚。同样，你还可以声明事务遇到特定的异常不回滚，即使这些异常是运行期异常。</p>
+<h3 id="1-2-4-事务超时"><a href="#1-2-4-事务超时" class="headerlink" title="1.2.4 事务超时"></a>1.2.4 事务超时</h3><p>​    为了使应用程序很好地运行，事务不能运行太长的时间。因为事务可能涉及对后端数据库的锁定，也会占用数据库资源。事务超时就是事务的一个定时器，在特定时间内事务如果没有执行完毕，那么就会自动回滚，而不是一直等待其结束。</p>
+<h3 id="1-2-5-是否只读"><a href="#1-2-5-是否只读" class="headerlink" title="1.2.5 是否只读"></a>1.2.5 是否只读</h3><p>​    如果在一个事务中所有关于数据库的操作都是只读的，也就是说，这些操作只读取数据库中的数据，而并不更新数据,　这个时候我们应该给该事务设置只读属性，这样可以帮助数据库引擎优化事务。提升效率。</p>
+<h1 id="二、-Transactional使用"><a href="#二、-Transactional使用" class="headerlink" title="二、@Transactional使用"></a>二、@Transactional使用</h1><p>​    Spring 为事务管理提供了丰富的功能支持。Spring 事务管理分为编码式和声明式的两种方式:</p>
+<ul>
+<li>编程式事务:允许用户在代码中精确定义事务的边界。编程式事务管理使用TransactionTemplate或者直接使用底层的PlatformTransactionManager。对于编程式事务管理，spring推荐使用TransactionTemplate。</li>
+<li>声明式事务: 基于AOP,有助于用户将操作与事务规则进行解耦。其本质是对方法前后进行拦截，然后在目标方法开始之前创建或者加入一个事务，在执行完目标方法之后根据执行情况提交或者回滚事务。声明式事务管理也有两种常用的方式，一种是在配置文件(xml)中做相关的事务规则声明，另一种是基于@Transactional注解的方式。显然基于注解的方式更简单易用，更清爽。@Transactional注解的使用也是我们本文着重要理解的部分。</li>
+</ul>
+<blockquote>
+<p>​    显然声明式事务管理要优于编程式事务管理，这正是spring倡导的非侵入式的开发方式。声明式事务管理使业务代码不受污染，一个普通的POJO对象，只要加上注解就可以获得完全的事务支持。和编程式事务相比，声明式事务唯一不足地方是，后者的最细粒度只能作用到方法级别，无法做到像编程式事务那样可以作用到代码块级别。但是即便有这样的需求，也存在很多变通的方法，比如，可以将需要进行事务管理的代码块独立为方法等等。</p>
+</blockquote>
+<h2 id="2-1-Transactional介绍"><a href="#2-1-Transactional介绍" class="headerlink" title="2.1 @Transactional介绍"></a>2.1 @Transactional介绍</h2><p>​    @Transactional注解 可以作用于接口、接口方法、类以及类方法上。当作用于类上时，该类的所有 public 方法将都具有该类型的事务属性，同时，我们也可以在方法级别使用该标注来覆盖类级别的定义。</p>
+<p>​    虽然@Transactional 注解可以作用于接口、接口方法、类以及类方法上，但是 Spring 建议不要在接口或者接口方法上使用该注解，因为这只有在使用基于接口的代理时它才会生效。另外， @Transactional注解应该只被应用到 public 方法上，这是由Spring AOP的本质决定的。如果你在 protected、private 或者默认可见性的方法上使用 @Transactional 注解，这将被忽略，也不会抛出任何异常。</p>
+<p>​    默认情况下，只有来自外部的方法调用才会被AOP代理捕获，也就是，类内部方法调用本类内部的其他方法并不会引起事务行为，即使被调用方法使用@Transactional注解进行修饰。</p>
+<h2 id="2-2-Transactional注解属性"><a href="#2-2-Transactional注解属性" class="headerlink" title="2.2 @Transactional注解属性"></a>2.2 @Transactional注解属性</h2><p>​    @Transactional注解里面的各个属性和咱们在上面讲的事务属性里面是一一对应的。用来设置事务的传播行为、隔离规则、回滚规则、事务超时、是否只读。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">@Target(&#123;ElementType.METHOD, ElementType.TYPE&#125;)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Inherited</span><br><span class="line">@Documented</span><br><span class="line">public @interface Transactional &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 当在配置文件中有多个 TransactionManager , 可以用该属性指定选择哪个事务管理器。</span><br><span class="line">     */</span><br><span class="line">    @AliasFor(&quot;transactionManager&quot;)</span><br><span class="line">    String value() default &quot;&quot;;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 同上。</span><br><span class="line">     */</span><br><span class="line">    @AliasFor(&quot;value&quot;)</span><br><span class="line">    String transactionManager() default &quot;&quot;;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 事务的传播行为，默认值为 REQUIRED。</span><br><span class="line">     */</span><br><span class="line">    Propagation propagation() default Propagation.REQUIRED;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 事务的隔离规则，默认值采用 DEFAULT。</span><br><span class="line">     */</span><br><span class="line">    Isolation isolation() default Isolation.DEFAULT;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 事务超时时间。</span><br><span class="line">     */</span><br><span class="line">    int timeout() default TransactionDefinition.TIMEOUT_DEFAULT;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 是否只读事务</span><br><span class="line">     */</span><br><span class="line">    boolean readOnly() default false;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 用于指定能够触发事务回滚的异常类型。</span><br><span class="line">     */</span><br><span class="line">    Class&lt;? extends Throwable&gt;[] rollbackFor() default &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 同上，指定类名。</span><br><span class="line">     */</span><br><span class="line">    String[] rollbackForClassName() default &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 用于指定不会触发事务回滚的异常类型</span><br><span class="line">     */</span><br><span class="line">    Class&lt;? extends Throwable&gt;[] noRollbackFor() default &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 同上，指定类名</span><br><span class="line">     */</span><br><span class="line">    String[] noRollbackForClassName() default &#123;&#125;;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-1-value、transactionManager属性"><a href="#2-2-1-value、transactionManager属性" class="headerlink" title="2.2.1 value、transactionManager属性"></a>2.2.1 value、transactionManager属性</h3><p>​    它们两个是一样的意思。当配置了多个事务管理器时，可以使用该属性指定选择哪个事务管理器。大多数项目只需要一个事务管理器。然而，有些项目为了提高效率、或者有多个完全不同又不相干的数据源，从而使用了多个事务管理器。机智的Spring的Transactional管理已经考虑到了这一点，首先定义多个transactional manager，并为qualifier属性指定不同的值；然后在需要使用@Transactional注解的时候指定TransactionManager的qualifier属性值或者直接使用bean名称。配置和代码使用的例子：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tx:annotation-driven</span>/&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;transactionManager1&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;datasource1&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">qualifier</span> <span class="attr">value</span>=<span class="string">&quot;datasource1Tx&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;transactionManager2&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;datasource2&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">qualifier</span> <span class="attr">value</span>=<span class="string">&quot;datasource2Tx&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TransactionalService</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="meta">@Transactional(&quot;datasource1Tx&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSomethingInDatasource1</span><span class="params">()</span> </span>&#123; ... &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="meta">@Transactional(&quot;datasource2Tx&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomethingInDatasource2</span><span class="params">()</span> </span>&#123; ... &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-2-propagation属性"><a href="#2-2-2-propagation属性" class="headerlink" title="2.2.2 propagation属性"></a>2.2.2 propagation属性</h3><p>​    propagation用于指定事务的传播行为，默认值为 REQUIRED。propagation有七种类型，就是我们在上文中讲到的事务属性传播行为的七种方式，如下所示:</p>
+<table>
+<thead>
+<tr>
+<th>propagation属性</th>
+<th>事务属性-传播行为</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>REQUIRED</td>
+<td>TransactionDefinition.PROPAGATION_REQUIRED</td>
+<td>如果当前没有事务，就新建一个事务，如果已经存在一个事务，则加入到这个事务中。这是最常见的选择。</td>
+</tr>
+<tr>
+<td>SUPPORTS</td>
+<td>TransactionDefinition.PROPAGATION_SUPPORTS</td>
+<td>支持当前事务，如果当前没有事务，就以非事务方式执行。</td>
+</tr>
+<tr>
+<td>MANDATORY</td>
+<td>TransactionDefinition.PROPAGATION_MANDATORY</td>
+<td>表示该方法必须在事务中运行，如果当前事务不存在，则会抛出一个异常。</td>
+</tr>
+<tr>
+<td>REQUIRES_NEW</td>
+<td>TransactionDefinition.PROPAGATION_REQUIRES_NEW</td>
+<td>表示当前方法必须运行在它自己的事务中。一个新的事务将被启动。如果存在当前事务，在该方法执行期间，当前事务会被挂起。</td>
+</tr>
+<tr>
+<td>NOT_SUPPORTED</td>
+<td>TransactionDefinition.PROPAGATION_NOT_SUPPORTED</td>
+<td>表示该方法不应该运行在事务中。如果当前存在事务，就把当前事务挂起。</td>
+</tr>
+<tr>
+<td>NEVER</td>
+<td>TransactionDefinition.PROPAGATION_NEVER</td>
+<td>表示当前方法不应该运行在事务上下文中。如果当前正有一个事务在运行，则会抛出异常。</td>
+</tr>
+<tr>
+<td>NESTED</td>
+<td>TransactionDefinition.PROPAGATION_NESTED</td>
+<td>如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则执行与PROPAGATION_REQUIRED类似的操作。</td>
+</tr>
+</tbody></table>
+<h3 id="2-2-3-isolation属性"><a href="#2-2-3-isolation属性" class="headerlink" title="2.2.3 isolation属性"></a>2.2.3 isolation属性</h3><p>​    isolation用于指定事务的隔离规则，默认值为DEFAULT。@Transactional的隔离规则和上文事务属性里面的隔离规则也是一一对应的。总共五种隔离规则，如下所示:</p>
+<table>
+<thead>
+<tr>
+<th>@isolation属性</th>
+<th>事务属性-隔离规则</th>
+<th>含义</th>
+<th>脏读</th>
+<th>不可重复读</th>
+<th>幻读</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DEFAULT</td>
+<td>TransactionDefinition.ISOLATION_DEFAULT</td>
+<td>使用后端数据库默认的隔离级别</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>READ_UNCOMMITTED</td>
+<td>TransactionDefinition.ISOLATION_READ_UNCOMMITTED</td>
+<td>允许读取尚未提交的数据变更(最低的隔离级别)</td>
+<td>是</td>
+<td>是</td>
+<td>是</td>
+</tr>
+<tr>
+<td>READ_COMMITTED</td>
+<td>TransactionDefinition.ISOLATION_READ_COMMITTED</td>
+<td>允许读取并发事务已经提交的数据</td>
+<td>否</td>
+<td>是</td>
+<td>是</td>
+</tr>
+<tr>
+<td>REPEATABLE_READ</td>
+<td>TransactionDefinition.ISOLATION_REPEATABLE_READ</td>
+<td>对同一字段的多次读取结果都是一致的，除非数据是被本身事务自己所修改</td>
+<td>否</td>
+<td>否</td>
+<td>是</td>
+</tr>
+<tr>
+<td>SERIALIZABLE</td>
+<td>TransactionDefinition.ISOLATION_SERIALIZABLE</td>
+<td>最高的隔离级别，完全服从ACID的隔离级别，也是最慢的事务隔离级别，因为它通常是通过完全锁定事务相关的数据库表来实现的</td>
+<td>否</td>
+<td>否</td>
+<td>否</td>
+</tr>
+</tbody></table>
+<h3 id="2-2-4-timeout"><a href="#2-2-4-timeout" class="headerlink" title="2.2.4 timeout"></a>2.2.4 timeout</h3><p>​    timeout用于设置事务的超时属性。</p>
+<h3 id="2-2-5-readOnly"><a href="#2-2-5-readOnly" class="headerlink" title="2.2.5 readOnly"></a>2.2.5 readOnly</h3><p>​    readOnly用于设置事务是否只读属性。</p>
+<h3 id="2-2-6-rollbackFor、rollbackForClassName、noRollbackFor、noRollbackForClassName"><a href="#2-2-6-rollbackFor、rollbackForClassName、noRollbackFor、noRollbackForClassName" class="headerlink" title="2.2.6 rollbackFor、rollbackForClassName、noRollbackFor、noRollbackForClassName"></a>2.2.6 rollbackFor、rollbackForClassName、noRollbackFor、noRollbackForClassName</h3><p>​    rollbackFor、rollbackForClassName用于设置那些异常需要回滚；noRollbackFor、noRollbackForClassName用于设置那些异常不需要回滚。他们就是在设置事务的回滚规则。</p>
+<h2 id="2-3-Transactional注解的使用"><a href="#2-3-Transactional注解的使用" class="headerlink" title="2.3 @Transactional注解的使用"></a>2.3 @Transactional注解的使用</h2><p>​    @Transactional注解的使用关键点在理解@Transactional注解里面各个参数的含义。这个咱们在上面已经对@Transactional注解参数的各个含义做了一个简单的介绍。接下来，咱们着重讲一讲@Transactional注解使用过程中一些注意的点。</p>
+<p>​    @Transactional注解内部实现依赖于Spring AOP编程。而AOP在默认情况下，只有来自外部的方法调用才会被AOP代理捕获，也就是，类内部方法调用本类内部的其他方法并不会引起事务行为。</p>
+<h3 id="2-3-1-Transactional-注解尽量直接加在方法上"><a href="#2-3-1-Transactional-注解尽量直接加在方法上" class="headerlink" title="2.3.1 @Transactional 注解尽量直接加在方法上"></a>2.3.1 @Transactional 注解尽量直接加在方法上</h3><p>​    为什么：因为@Transactional直接加在类或者接口上，@Transactional注解会对类或者接口里面所有的public方法都有效(相当于所有的public方法都加上了@Transactional注解，而且注解带的参数都是一样的)。第一影响性能，可能有些方法我不需要@Transactional注解，第二方法不同可能@Transactional注解需要配置的参数也不同，比如有一个方法只是做查询操作，那咱们可能需要配置Transactional注解的readOnly参数。所以强烈建议@Transactional注解直接添加的需要的方法上。</p>
+<h3 id="2-3-2-Transactional-注解必须添加在public方法上，private、protected方法上是无效的"><a href="#2-3-2-Transactional-注解必须添加在public方法上，private、protected方法上是无效的" class="headerlink" title="2.3.2 @Transactional 注解必须添加在public方法上，private、protected方法上是无效的"></a>2.3.2 @Transactional 注解必须添加在public方法上，private、protected方法上是无效的</h3><p>​    在使用@Transactional 的时候一定要记住，在private,protected方法上添加@Transactional 注解不会有任何效果。相当于没加一样。即使外部能调到protected的方法也无效。和没有添加@Transactional一样。</p>
+<h3 id="2-3-3-函数之间相互调用"><a href="#2-3-3-函数之间相互调用" class="headerlink" title="2.3.3 函数之间相互调用"></a>2.3.3 函数之间相互调用</h3><p>​    关于有@Transactional的函数之间调用，会产生什么情况。这里咱们通过几个例子来说明。</p>
+<h4 id="2-3-3-1-同一个类中函数相互调用"><a href="#2-3-3-1-同一个类中函数相互调用" class="headerlink" title="2.3.3.1 同一个类中函数相互调用"></a>2.3.3.1 同一个类中函数相互调用</h4><p>​    同一个类AClass中，有两个函数aFunction、aInnerFunction。aFunction调用aInnerFunction。而且aFunction函数会被外部调用。</p>
+<blockquote>
+<p>情况0: aFunction添加了@Transactional注解，aInnerFunction函数没有添加。aInnerFunction抛异常。</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AClass</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    @<span class="built_in">Transactional</span>(rollbackFor = Exception.class)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">aFunction</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//todo: 数据库操作A(增，删，该)</span></span><br><span class="line">        <span class="built_in">aInnerFunction</span>(); <span class="comment">// 调用内部没有添加@Transactional注解的函数</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">aInnerFunction</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//todo: 操作数据B(做了增，删，改 操作)</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">RuntimeException</span>(<span class="string">&quot;函数执行有异常!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    结果：两个函数操作的数据都会回滚。</p>
+<blockquote>
+<p>情况1：两个函数都添加了@Transactional注解。aInnerFunction抛异常。</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AClass</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    @<span class="built_in">Transactional</span>(rollbackFor = Exception.class)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">aFunction</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//todo: 数据库操作A(增，删，该)</span></span><br><span class="line">        <span class="built_in">aInnerFunction</span>(); <span class="comment">// 调用内部没有添加@Transactional注解的函数</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @<span class="built_in">Transactional</span>(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">aInnerFunction</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//todo: 操作数据B(做了增，删，改 操作)</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">RuntimeException</span>(<span class="string">&quot;函数执行有异常!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    结果：同第一种情况一样，两个函数对数据库操作都会回滚。因为同一个类中函数相互调用的时候，内部函数添加@Transactional注解无效。@Transactional注解只有外部调用才有效。</p>
+<blockquote>
+<p>情况2: aFunction不添加注解，aInnerFunction添加注解。aInnerFunction抛异常。</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AClass</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">aFunction</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//todo: 数据库操作A(增，删，该)</span></span><br><span class="line">        <span class="built_in">aInnerFunction</span>(); <span class="comment">// 调用内部没有添加@Transactional注解的函数</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @<span class="built_in">Transactional</span>(rollbackFor = Exception.class)</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">aInnerFunction</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//todo: 操作数据B(做了增，删，改 操作)</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">RuntimeException</span>(<span class="string">&quot;函数执行有异常!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    结果：两个函数对数据库的操作都不会回滚。因为内部函数@Transactional注解添加和没添加一样。</p>
+<blockquote>
+<p>情况3：aFunction添加了@Transactional注解，aInnerFunction函数没有添加。aInnerFunction抛异常，不过在aFunction里面把异常抓出来了。</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AClass</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    @<span class="built_in">Transactional</span>(rollbackFor = Exception.class)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">aFunction</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//todo: 数据库操作A(增，删，该)</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="built_in">aInnerFunction</span>(); <span class="comment">// 调用内部没有添加@Transactional注解的函数</span></span><br><span class="line">        &#125; <span class="built_in"><span class="keyword">catch</span></span> (Exception e) &#123;</span><br><span class="line">            e.<span class="built_in">printStackTrace</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">aInnerFunction</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//todo: 操作数据B(做了增，删，改 操作)</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">RuntimeException</span>(<span class="string">&quot;函数执行有异常!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    结果：两个函数里面的数据库操作都成功。事务回滚的动作发生在当有@Transactional注解函数有对应异常抛出时才会回滚。(当然了要看你添加的@Transactional注解有没有效)。</p>
+<h4 id="2-3-3-1-不同类中函数相互调用"><a href="#2-3-3-1-不同类中函数相互调用" class="headerlink" title="2.3.3.1. 不同类中函数相互调用"></a>2.3.3.1. 不同类中函数相互调用</h4><p>​    两个类AClass、BClass。AClass类有aFunction、BClass类有bFunction。AClass类aFunction调用BClass类bFunction。最终会在外部调用AClass类的aFunction。</p>
+<blockquote>
+<p>情况0：aFunction添加注解，bFunction不添加注解。bFunction抛异常。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service()</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AClass</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> BClass bClass;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setbClass</span><span class="params">(BClass bClass)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.bClass = bClass;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Transactional(rollbackFor = Exception.class)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">aFunction</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//todo: 数据库操作A(增，删，该)</span></span><br><span class="line">        bClass.bFunction();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Service()</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BClass</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bFunction</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//todo: 数据库操作A(增，删，该)</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;函数执行有异常!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    结果：两个函数对数据库的操作都回滚了。</p>
+<blockquote>
+<p>情况1：aFunction、bFunction两个函数都添加注解，bFunction抛异常。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service()</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AClass</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> BClass bClass;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setbClass</span><span class="params">(BClass bClass)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.bClass = bClass;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Transactional(rollbackFor = Exception.class)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">aFunction</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//todo: 数据库操作A(增，删，该)</span></span><br><span class="line">        bClass.bFunction();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Service()</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BClass</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Transactional(rollbackFor = Exception.class)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bFunction</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//todo: 数据库操作A(增，删，该)</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;函数执行有异常!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    结果：两个函数对数据库的操作都回滚了。两个函数里面用的还是同一个事务。这种情况下，你可以认为事务rollback了两次。两个函数都有异常。</p>
+<blockquote>
+<p>情况2：aFunction、bFunction两个函数都添加注解，bFunction抛异常。aFunction抓出异常。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service()</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AClass</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> BClass bClass;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setbClass</span><span class="params">(BClass bClass)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.bClass = bClass;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Transactional(rollbackFor = Exception.class)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">aFunction</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//todo: 数据库操作A(增，删，该)</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            bClass.bFunction();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Service()</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BClass</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Transactional(rollbackFor = Exception.class)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bFunction</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//todo: 数据库操作A(增，删，该)</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;函数执行有异常!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    结果：两个函数数据库操作都没成功。而且还抛异常了。org.springframework.transaction.UnexpectedRollbackException: Transaction rolled back because it has been marked as rollback-only。看打印出来的解释也很好理解把。咱们也可以这么理解，两个函数用的是同一个事务。bFunction函数抛了异常，调了事务的rollback函数。事务被标记了只能rollback了。程序继续执行，aFunction函数里面把异常给抓出来了，这个时候aFunction函数没有抛出异常，既然你没有异常那事务就需要提交，会调事务的commit函数。而之前已经标记了事务只能rollback-only(以为是同一个事务)。直接就抛异常了，不让调了。</p>
+<blockquote>
+<p>情况3：aFunction、bFunction两个函数都添加注解，bFunction抛异常。aFunction抓出异常。这里要注意bFunction函数@Transactional注解我们是有变化的，加了一个参数propagation = Propagation.REQUIRES_NEW，控制事务的传播行为。表明是一个新的事务。其实咱们情况3就是来解决情况2的问题的。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service()</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AClass</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> BClass bClass;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setbClass</span><span class="params">(BClass bClass)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.bClass = bClass;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Transactional(rollbackFor = Exception.class)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">aFunction</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//todo: 数据库操作A(增，删，该)</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            bClass.bFunction();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Service()</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BClass</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bFunction</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//todo: 数据库操作A(增，删，该)</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;函数执行有异常!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    结果：bFunction函数里面的操作回滚了，aFunction里面的操作成功了。有了前面情况2的理解。这种情况也很好解释。两个函数不是同一个事务了。</p>
+<hr>
+<p>​    关于@Transactional注解的使用，就说这么些。最后做几点总结：</p>
+<ol>
+<li>要知道@Transactional注解里面每个属性的含义。@Transactional注解属性就是来控制事务属性的。通过这些属性来生成事务。</li>
+<li>要明确我们添加的@Transactional注解会不会起作用。@Transactional注解在外部调用的函数上才有效果，内部调用的函数添加无效，要切记。这是由AOP的特性决定的。</li>
+<li>要明确事务的作用范围，有@Transactional的函数调用有@Transactional的函数的时候，进入第二个函数的时候是新的事务，还是沿用之前的事务。稍不注意就会抛UnexpectedRollbackException异常。</li>
+</ol>
+
+      </section>
+
+      
+      
+        <nav class="article-nav">
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+    <div class="card-text">
+      
+        <a href="/2024/04/26/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/Angular%E6%A1%86%E6%9E%B6%E5%AD%A6%E4%B9%A0/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">(no title)</h2>
+        </a>
+      
+      <div class="card-text--row">Newer</div>
+    </div>
+  </article>
+</div>
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://s1.ax1x.com/2022/11/07/xvhcYd.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2024/04/18/%E5%90%8E%E7%AB%AF%E7%AC%94%E8%AE%B0/%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83Apollo%E5%AD%A6%E4%B9%A0/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">配置中心Apollo学习</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
+
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+    <div class="valine-container comments-container content-padding--primary soft-size--large soft-style--box">
+      <div id="valine_thread" class="valine-thread"></div>
+    </div>
+    <script type="text/javascript" src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script type="text/javascript" src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <script type="text/javascript">
+      new Valine({
+        el: "#valine_thread",
+        appId: "zPxT1BH5qC6JYqXmizvClRGk-gzGzoHsz",
+        appKey: "kU1QKKjUJco1Gyjj0Usl4bwM",
+        avatar: "ChenZehong",
+        placeholder: "随便说点什么叭～",
+        notify: true,
+        visitor: true,
+        pageSize: 10,
+      });
+    </script>
+  
+
+  
+  
+
+
+      </section>
+    </div>
+    <div class="widget-info">
+      <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-body">
+    
+      <img src="http://cdn-ali-img-shstaticbz.shanhutech.cn/bizhi/staticwp/202007/f9c696aa27edaddf87257e5e70d1eb62--1437661584.jpg" class="soft-size--round soft-style--box" alt="ChenZehong">
+    
+    
+      <h2>ChenZehong</h2>
+    
+    
+      <p>贵在坚持</p>
+    
+
+    <div class="count-box">
+      <div class="count-box--item">
+        <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
+</svg>
+        <span>86</span>
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+        19
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+        0
+      </div>
+    </div>
+  </div>
+</section>
+
+      
+
+      
+
+      <section class="widget-categorys widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+    <span>CATEGORYS</span>
+  </div>
+  <div class="widget-body">
+    <ul class="categorys-list">
+      
+        <li class="categorys-list-item">
+          <a href="/categories/TensorFlow-js/">
+            TensorFlow.js (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/JAVA%E5%90%8E%E7%AB%AF/">
+            JAVA后端 (5)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            前端学习笔记 (5)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E6%97%A5%E6%8A%A5/">
+            日报 (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E7%AE%97%E6%B3%95/">
+            算法 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+            面试准备 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%A4%A7%E5%8E%82%E7%AC%94%E8%AF%95%E9%A2%98/">
+            大厂笔试题 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/npm-script/">
+            npm script (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AFCSS%E7%AC%94%E8%AE%B0/">
+            前端CSS笔记 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/node/">
+            node (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            react学习笔记 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Vue%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">
+            Vue源码解析 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Javascript%E7%AC%94%E8%AE%B0/">
+            Javascript笔记 (6)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/three%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            three学习笔记 (7)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">
+            前端工程化 (11)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%AE%9E%E4%B9%A0%E7%9B%B8%E5%85%B3/">
+            实习相关 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E6%8F%90%E5%8D%87/">
+            前端提升 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+            设计模式 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            Vue3学习笔记 (5)
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+</section>
+
+      <section class="widget-tags widget-item  layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+    <span>TAGS</span>
+  </div>
+  <div class="widget-body">
+    <div class="tags-cloud">
+      
+    </div>
+  </div>
+</section>
+    </div>
+  </article>
+</div>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+    
+    <div class="social-icons">
+      
+        
+      
+        
+      
+        
+      
+        
+          <a href="https://github.com/Web200OK" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-github" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M64.6 512c0 195.6 125.4 361.9 300.1 422.9 23.5 5.9 19.9-10.8 19.9-22.2v-77.6c-135.8 15.9-141.3-74-150.5-89-18.5-31.5-61.9-39.5-49-54.5 31-15.9 62.5 4 98.9 58 26.4 39.1 77.9 32.5 104.1 26 5.7-23.5 17.9-44.5 34.7-60.9-140.7-25.2-199.4-111.1-199.4-213.3 0-49.5 16.4-95.1 48.4-131.8-20.4-60.6 1.9-112.4 4.9-120.1 58.2-5.2 118.5 41.6 123.3 45.3 33.1-8.9 70.8-13.7 112.9-13.7 42.4 0 80.3 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.4-43.9 2.9 7.7 24.7 58.3 5.5 118.1 32.5 36.8 49 82.8 49 132.4 0 102.3-59 188.3-200.2 213.2 23.5 23.3 38.1 55.5 38.1 91.1v112.7c0.8 9 0 17.9 15.1 17.9C832.7 877 960.4 709.4 960.4 512.1c0-247.5-200.6-447.9-447.9-447.9C265 64.1 64.6 264.5 64.6 512z"></path>
+</svg>
+          </a>
+        
+      
+        
+      
+    </div>
+     
+    <p>&copy; 2024 <a href="/" target="_blank">ChenZehong</a></p>
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+
+    <p>
+      <a href="javascript:;" id="theme-light">🌞 浅色</a>
+      <a href="javascript:;" id="theme-dark">🌛 深色</a>
+      <a href="javascript:;" id="theme-auto">🤖️ 自动</a>
+    </p>
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed soft-size--round soft-style--box">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+      <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+      <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+    </svg>
+  </div>
+
+  
+  <!-- aplayer -->
+
+
+<!-- dplayer -->
+
+
+
+
+  
+
+
+  
+
+
+  <!-- Baidu Analytics START -->
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      if (window.location.hostname === "localhost" || window.location.hostname.startsWith("192.168")) {
+        return console.log("本地调试");
+      }
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?8a923e14e6dbf862c2b287e6c1266764";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  <!-- Baidu Analytics End -->
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+</body>
+</html>
